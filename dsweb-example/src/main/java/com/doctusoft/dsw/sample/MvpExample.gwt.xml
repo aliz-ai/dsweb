@@ -17,6 +17,10 @@
 	<source path="shared" />
 	<entry-point class="com.doctusoft.dsw.sample.client.MvpExampleEntryPoint" />
 	
+	<replace-with class="com.doctusoft.dsw.sample.client.custom.CustomRendererFactoryImpl">
+		<when-type-assignable class="com.doctusoft.dsw.client.RendererFactory"/>
+	</replace-with>
+
 	<!-- ClientFactory --> 
 	<replace-with class="com.doctusoft.dsw.sample.client.ClientFactoryImpl">
 		<when-type-is class="com.doctusoft.dsw.sample.client.ClientFactory"/>

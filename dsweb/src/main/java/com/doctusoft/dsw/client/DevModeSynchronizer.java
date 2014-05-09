@@ -20,6 +20,7 @@ import com.doctusoft.synchronic.core.message.FullSyncMessage;
 import com.doctusoft.synchronic.core.message.MessageFactory;
 import com.doctusoft.synchronic.json.JsonParser;
 import com.doctusoft.synchronic.json.JsonWriter;
+import com.doctusoft.synchronic.serialization.ObjectModelFactory;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gwt.core.shared.GWT;
@@ -41,9 +42,12 @@ public abstract class DevModeSynchronizer {
 	 */
 	public abstract void appendContainer(JQuery renderedContainer);
 
-	public DevModeSynchronizer() {
+	/**
+	 * @param uiObjectFactory - this should normally be {@link UIObjectFactory}, but you can extend it if you have specific component models 
+	 */
+	public DevModeSynchronizer(ObjectModelFactory uiObjectFactory) {
 		container = new ContainerModel();
-		synchronizer = new ClientModelSynchronizer(new UIObjectFactory(), new ClientLogger() {
+		synchronizer = new ClientModelSynchronizer(uiObjectFactory, new ClientLogger() {
 			@Override
 			public void info(String msg) {
 				GWT.log(msg);

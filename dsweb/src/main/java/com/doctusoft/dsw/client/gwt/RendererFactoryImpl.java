@@ -1,5 +1,6 @@
 package com.doctusoft.dsw.client.gwt;
 
+import com.doctusoft.dsw.client.AbstractRendererFactory;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.ButtonModel;
 import com.doctusoft.dsw.client.comp.model.ContainerModel;
@@ -10,9 +11,10 @@ import com.doctusoft.dsw.client.comp.model.LinkModel;
 import com.doctusoft.dsw.client.comp.model.ModalDialogModel;
 import com.doctusoft.dsw.client.comp.model.SelectModel;
 
-public class RendererFactory {
+public class RendererFactoryImpl extends AbstractRendererFactory {
 	
-	public static Renderer getRenderer(BaseComponentModel baseWidget) {
+	@Override
+	public Renderer resolveRenderer(BaseComponentModel baseWidget) {
 		if (baseWidget instanceof LabelModel) {
 			return new LabelRenderer((LabelModel) baseWidget);
 		}
@@ -34,7 +36,7 @@ public class RendererFactory {
 			return new HistoryHandlerRenderer((HistoryHandlerModel) baseWidget);
 		if (baseWidget instanceof ModalDialogModel)
 			return new ModalDialogRenderer((ModalDialogModel) baseWidget);
-		throw new RuntimeException("No renderer for widget: " + baseWidget);
+		return null;
 	}
-
+	
 }
