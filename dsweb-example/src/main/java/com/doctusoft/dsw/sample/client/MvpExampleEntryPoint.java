@@ -1,0 +1,52 @@
+package com.doctusoft.dsw.sample.client;
+
+import com.doctusoft.dsw.client.comp.Container;
+import com.doctusoft.dsw.client.comp.IsComponent;
+import com.doctusoft.dsw.client.gwt.ContainerRenderer;
+import com.doctusoft.dsw.sample.client.person.PersonListPlace;
+import com.doctusoft.gwt.light.mvp.GwtPlaceControllerWrapper;
+import com.doctusoft.gwt.light.mvp.IPlaceController;
+import com.google.gwt.activity.shared.ActivityManager;
+import com.google.gwt.activity.shared.ActivityMapper;
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.shared.GWT;
+import com.google.gwt.place.shared.PlaceHistoryHandler;
+import com.google.gwt.place.shared.PlaceHistoryMapper;
+import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.xedge.jquery.client.JQuery;
+
+public class MvpExampleEntryPoint implements EntryPoint {
+	
+	private ClientFactory clientFactory;
+
+	public void onModuleLoad() {
+		final Container container = new Container();
+		ContainerRenderer rootRenderer = new ContainerRenderer(container);
+		JQuery.select("#content").append(rootRenderer.getWidget());
+
+		clientFactory = GWT.create(ClientFactory.class);
+		final IPlaceController placeController = clientFactory.getPlaceController();
+		final ActivityMapper activityMapper = new PocActivityMapper(clientFactory);
+		final ActivityManager activityManager = new ActivityManager(activityMapper, clientFactory.getEventBus());
+		activityManager.setDisplay(new AcceptsOneWidget() {
+			@Override
+			public void setWidget(IsWidget w) {
+				container.getChildren().clear();
+				if (w != null) {
+					// BaseComponent is hacked through standard GWT interfaces 
+					container.add(((IsComponent) w).asComponent());
+				}
+			}
+		});
+		
+		final PlaceHistoryMapper historyMapper = GWT.create(PocPlaceHistoryMapper.class);
+		final PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(historyMapper);
+		
+		historyHandler.register(((GwtPlaceControllerWrapper)placeController).getPlaceController(), clientFactory.getEventBus(), new PersonListPlace());
+		
+		historyHandler.handleCurrentHistory();
+		
+	}
+
+}
