@@ -1,28 +1,17 @@
 package com.doctusoft.dsw.client.comp;
 
-import lombok.Getter;
+import com.doctusoft.dsw.client.comp.model.LinkModel;
 
-import com.doctusoft.ObservableProperty;
-
-public class Link extends BaseComponent<Link> {
-	
-	@Override
-	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
-		return Link_._observableProperties;
-	}
-	
-	@ObservableProperty @Getter
-	private String text;
-	
-	@ObservableProperty @Getter
-	private String href;
+public class Link extends BaseComponent<Link, LinkModel> {
 	
 	public Link() {
+		super(new LinkModel());
 	}
 	
 	public Link(String text, String href) {
-		setText(text);
-		setHref(href);
+		this();
+		model.setText(text);
+		model.setHref(href);
 	}
 	
 }

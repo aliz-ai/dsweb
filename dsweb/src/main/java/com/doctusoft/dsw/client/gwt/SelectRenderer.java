@@ -5,9 +5,9 @@ import java.util.List;
 import com.doctusoft.bean.ObservableProperty;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ObservableList;
-import com.doctusoft.dsw.client.comp.Select;
 import com.doctusoft.dsw.client.comp.SelectItemModel;
-import com.doctusoft.dsw.client.comp.Select_;
+import com.doctusoft.dsw.client.comp.model.SelectModel;
+import com.doctusoft.dsw.client.comp.model.SelectModel_;
 import com.doctusoft.dsw.client.util.ListBindingListener;
 import com.google.common.collect.Lists;
 import com.xedge.jquery.client.JQEvent;
@@ -18,9 +18,9 @@ public class SelectRenderer extends BaseComponentRenderer {
 	
 	private List<JQuery> options = Lists.newArrayList();
 	
-	public SelectRenderer(final Select select) {
+	public SelectRenderer(final SelectModel select) {
 		super(JQuery.select("<select/>"), select);
-		new ListBindingListener<SelectItemModel>(Bindings.obs(select).get((ObservableProperty) Select_._selectItemsModel)) {
+		new ListBindingListener<SelectItemModel>(Bindings.obs(select).get((ObservableProperty) SelectModel_._selectItemsModel)) {
 			@Override
 			public void inserted(ObservableList<SelectItemModel> list, int index, SelectItemModel element) {
 				JQuery option = JQuery.select("<option/>");

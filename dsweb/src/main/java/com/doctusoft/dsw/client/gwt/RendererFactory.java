@@ -1,39 +1,39 @@
 package com.doctusoft.dsw.client.gwt;
 
-import com.doctusoft.dsw.client.comp.BaseComponent;
-import com.doctusoft.dsw.client.comp.Button;
-import com.doctusoft.dsw.client.comp.Container;
-import com.doctusoft.dsw.client.comp.HistoryHandler;
-import com.doctusoft.dsw.client.comp.InputText;
-import com.doctusoft.dsw.client.comp.Label;
-import com.doctusoft.dsw.client.comp.Link;
-import com.doctusoft.dsw.client.comp.ModalDialog;
-import com.doctusoft.dsw.client.comp.Select;
+import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
+import com.doctusoft.dsw.client.comp.model.ButtonModel;
+import com.doctusoft.dsw.client.comp.model.ContainerModel;
+import com.doctusoft.dsw.client.comp.model.HistoryHandlerModel;
+import com.doctusoft.dsw.client.comp.model.InputTextModel;
+import com.doctusoft.dsw.client.comp.model.LabelModel;
+import com.doctusoft.dsw.client.comp.model.LinkModel;
+import com.doctusoft.dsw.client.comp.model.ModalDialogModel;
+import com.doctusoft.dsw.client.comp.model.SelectModel;
 
 public class RendererFactory {
 	
-	public static Renderer getRenderer(BaseComponent<?> baseWidget) {
-		if (baseWidget instanceof Label) {
-			return new LabelRenderer((Label) baseWidget);
+	public static Renderer getRenderer(BaseComponentModel baseWidget) {
+		if (baseWidget instanceof LabelModel) {
+			return new LabelRenderer((LabelModel) baseWidget);
 		}
-		if (baseWidget instanceof Button) {
-			return new ButtonRenderer((Button) baseWidget);
+		if (baseWidget instanceof ButtonModel) {
+			return new ButtonRenderer((ButtonModel) baseWidget);
 		}
-		if (baseWidget instanceof InputText) {
-			return new InputTextRenderer((InputText) baseWidget); 
+		if (baseWidget instanceof InputTextModel) {
+			return new InputTextRenderer((InputTextModel) baseWidget); 
 		}
-		if (baseWidget instanceof Container) {
-			return new ContainerRenderer((Container) baseWidget);
+		if (baseWidget instanceof ContainerModel) {
+			return new ContainerRenderer((ContainerModel) baseWidget);
 		}
-		if (baseWidget instanceof Select) {
-			return new SelectRenderer((Select) baseWidget);
+		if (baseWidget instanceof SelectModel) {
+			return new SelectRenderer((SelectModel) baseWidget);
 		}
-		if (baseWidget instanceof Link)
-			return new LinkRenderer((Link) baseWidget);
-		if (baseWidget instanceof HistoryHandler)
-			return new HistoryHandlerRenderer((HistoryHandler) baseWidget);
-		if (baseWidget instanceof ModalDialog)
-			return new ModalDialogRenderer((ModalDialog) baseWidget);
+		if (baseWidget instanceof LinkModel)
+			return new LinkRenderer((LinkModel) baseWidget);
+		if (baseWidget instanceof HistoryHandlerModel)
+			return new HistoryHandlerRenderer((HistoryHandlerModel) baseWidget);
+		if (baseWidget instanceof ModalDialogModel)
+			return new ModalDialogRenderer((ModalDialogModel) baseWidget);
 		throw new RuntimeException("No renderer for widget: " + baseWidget);
 	}
 

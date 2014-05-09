@@ -13,8 +13,8 @@ import org.slf4j.LoggerFactory;
 import com.doctusoft.Property;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.ValueBinding;
-import com.doctusoft.dsw.client.comp.Container;
 import com.doctusoft.dsw.client.comp.UIObjectFactory;
+import com.doctusoft.dsw.client.comp.model.ContainerModel;
 import com.doctusoft.dsw.client.devmode.SyncRemoteService;
 import com.doctusoft.synchronic.core.AsyncCallback;
 import com.doctusoft.synchronic.core.ClientLogger;
@@ -39,27 +39,22 @@ public abstract class AbstractDevModeSyncRPC extends RemoteServiceServlet implem
 	SimpleServer simpleServer = new SimpleServer();
 
 	@Property @Getter @Setter
-	private com.doctusoft.dsw.client.comp.Container container;
+	private ContainerModel container;
 
-	@Property @Getter @Setter
-	private com.doctusoft.dsw.client.comp.Container otherContainer;
-	
 	@Override
 	public void init() throws ServletException {
 		super.init();
-		container = new Container();
+		container = new ContainerModel();
 		// this client is on the server side mirror of the model
 		SimpleClient localClient = new SimpleClient(simpleServer, Bindings.on(this).get(AbstractDevModeSyncRPC_._container));
-		otherContainer = new Container();
 		log.info("dev sync server loaded");
 		initApplication(container);
 		log.info("application initialized");
 		log.info("othercontainer: " + container.getChildren());
-		log.info("othercontainer: " + otherContainer.getChildren());
 		log.info("local client id: " + localClient.synchronizer.getClientId());
 	}
 	
-	public abstract void initApplication(Container container);
+	public abstract void initApplication(ContainerModel container);
 	
 	/**
 	 * It's important to synchronize these calls. The synchronization framework is not thread-safe

@@ -2,16 +2,16 @@ package com.doctusoft.dsw.client.gwt;
 
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
-import com.doctusoft.dsw.client.comp.Label;
-import com.doctusoft.dsw.client.comp.Label_;
+import com.doctusoft.dsw.client.comp.model.LabelModel;
+import com.doctusoft.dsw.client.comp.model.LabelModel_;
 import com.xedge.jquery.client.JQuery;
 
 public class LabelRenderer extends BaseComponentRenderer {
 	
-	public LabelRenderer(Label label) {
+	public LabelRenderer(LabelModel label) {
 		super(JQuery.select("<span/>"), label);
 		widget.text(label.getLabel());
-		Bindings.obs(label).get(Label_._label).addValueChangeListener(new ValueChangeListener<String>() {
+		Bindings.obs(label).get(LabelModel_._label).addValueChangeListener(new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
 				widget.text(newValue);

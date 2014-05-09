@@ -5,28 +5,28 @@ import java.util.Map;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.bean.binding.observable.ObservableValueBinding;
-import com.doctusoft.dsw.client.comp.BaseComponent;
-import com.doctusoft.dsw.client.comp.Container;
-import com.doctusoft.dsw.client.comp.Container_;
+import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
+import com.doctusoft.dsw.client.comp.model.ContainerModel;
+import com.doctusoft.dsw.client.comp.model.ContainerModel_;
 import com.doctusoft.dsw.client.util.ListBindingListener;
 import com.google.common.collect.Maps;
 import com.xedge.jquery.client.JQuery;
 
 public class ContainerRenderer extends BaseComponentRenderer {
 
-	private Map<BaseComponent, JQuery> renderedWidgets = Maps.newHashMap();
+	private Map<BaseComponentModel, JQuery> renderedWidgets = Maps.newHashMap();
 	
-	public ContainerRenderer(Container container) {
+	public ContainerRenderer(ContainerModel container) {
 		super(JQuery.select("<div/>"), container);
-		new ListBindingListener<BaseComponent>((ObservableValueBinding) Bindings.obs(container).get(Container_._children)) {
+		new ListBindingListener<BaseComponentModel>((ObservableValueBinding) Bindings.obs(container).get(ContainerModel_._children)) {
 			@Override
-			public void inserted(ObservableList<BaseComponent> list, int index,
-					BaseComponent element) {
+			public void inserted(ObservableList<BaseComponentModel> list, int index,
+					BaseComponentModel element) {
 				widgetAdded(element);
 			}
 			@Override
-			public void removed(ObservableList<BaseComponent> list, int index,
-					BaseComponent element) {
+			public void removed(ObservableList<BaseComponentModel> list, int index,
+					BaseComponentModel element) {
 				// remove the rendered JQuery element
 				renderedWidgets.get(element).remove();
 				// remove the handle from the map
@@ -35,7 +35,7 @@ public class ContainerRenderer extends BaseComponentRenderer {
 		};
 	}
 
-	protected void widgetAdded(BaseComponent baseWidget) {
+	protected void widgetAdded(BaseComponentModel baseWidget) {
 		JQuery rendered = RendererFactory.getRenderer(baseWidget).getWidget();
 		widget.append(rendered);
 		renderedWidgets.put(baseWidget, rendered);

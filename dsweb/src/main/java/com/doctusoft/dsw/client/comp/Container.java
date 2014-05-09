@@ -2,27 +2,17 @@ package com.doctusoft.dsw.client.comp;
 
 import lombok.Getter;
 
-import com.doctusoft.bean.ObservableProperty;
-import com.doctusoft.bean.binding.observable.ObservableList;
+import com.doctusoft.dsw.client.comp.model.ContainerModel;
 
 @Getter
-public class Container extends BaseComponent<Container> implements IsContainer {
+public class Container extends BaseComponent<Container, ContainerModel> implements IsContainer {
 	
-	@Override
-	public Iterable<ObservableProperty<?, ?>> getObservableProperties() {
-		return Container_._observableProperties;
+	public Container() {
+		super(new ContainerModel());
 	}
 	
-	@com.doctusoft.ObservableProperty
-	private ObservableList<BaseComponent<?>> children = new ObservableList<BaseComponent<?>>();
-	
 	@Override
-	public void add(BaseComponent<?> component) {
-		children.add(component);
-	}
-
-	@Override
-	public void add(IsComponent component) {
-		children.add(component.asComponent());
+	public void add(HasComponentModel component) {
+		model.getChildren().add(component.getComponentModel());
 	}
 }

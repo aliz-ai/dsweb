@@ -7,8 +7,8 @@ import lombok.Setter;
 
 import com.doctusoft.Property;
 import com.doctusoft.bean.binding.Bindings;
-import com.doctusoft.dsw.client.comp.Container;
 import com.doctusoft.dsw.client.comp.UIObjectFactory;
+import com.doctusoft.dsw.client.comp.model.ContainerModel;
 import com.doctusoft.dsw.client.devmode.SyncRemoteService;
 import com.doctusoft.dsw.client.devmode.SyncRemoteServiceAsync;
 import com.doctusoft.dsw.client.gwt.ContainerRenderer;
@@ -33,7 +33,7 @@ public abstract class DevModeSynchronizer {
 	private ClientModelSynchronizer synchronizer;
 
 	@Property @Getter @Setter
-	private com.doctusoft.dsw.client.comp.Container container;
+	private ContainerModel container;
 	
 	/**
 	 * This method is invoked when the container content is fetched initially from the sync server
@@ -42,7 +42,7 @@ public abstract class DevModeSynchronizer {
 	public abstract void appendContainer(JQuery renderedContainer);
 
 	public DevModeSynchronizer() {
-		container = new Container();
+		container = new ContainerModel();
 		synchronizer = new ClientModelSynchronizer(new UIObjectFactory(), new ClientLogger() {
 			@Override
 			public void info(String msg) {

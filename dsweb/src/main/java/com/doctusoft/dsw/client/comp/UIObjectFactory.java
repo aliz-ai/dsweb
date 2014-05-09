@@ -1,30 +1,38 @@
 package com.doctusoft.dsw.client.comp;
 
 import com.doctusoft.bean.ModelObject;
+import com.doctusoft.dsw.client.comp.model.ButtonModel;
+import com.doctusoft.dsw.client.comp.model.ContainerModel;
+import com.doctusoft.dsw.client.comp.model.HistoryHandlerModel;
+import com.doctusoft.dsw.client.comp.model.InputTextModel;
+import com.doctusoft.dsw.client.comp.model.LabelModel;
+import com.doctusoft.dsw.client.comp.model.LinkModel;
+import com.doctusoft.dsw.client.comp.model.ModalDialogModel;
+import com.doctusoft.dsw.client.comp.model.SelectModel;
 import com.doctusoft.synchronic.serialization.ObjectModelFactory;
 
 public class UIObjectFactory implements ObjectModelFactory {
 
 	@Override
 	public ModelObject createModelObject(String className) {
-		if (Button.class.getName().equals(className))
-			return new Button();
-		if (Label.class.getName().equals(className))
-			return new Label();
-		if (Container.class.getName().equals(className))
-			return new Container();
-		if (InputText.class.getName().equals(className))
-			return new InputText();
-		if (Select.class.getName().equals(className))
-			return new Select();
+		if (ButtonModel.class.getName().equals(className))
+			return new ButtonModel();
+		if (LabelModel.class.getName().equals(className))
+			return new LabelModel();
+		if (ContainerModel.class.getName().equals(className))
+			return new ContainerModel();
+		if (InputTextModel.class.getName().equals(className))
+			return new InputTextModel();
+		if (SelectModel.class.getName().equals(className))
+			return new SelectModel();
 		if (SelectItemModel.class.getName().equals(className))
 			return new SelectItemModel();
-		if (Link.class.getName().equals(className))
-			return new Link();
-		if (HistoryHandler.class.getName().equals(className))
-			return new HistoryHandler();
-		if (ModalDialog.class.getName().equals(className))
-			return new ModalDialog();
+		if (LinkModel.class.getName().equals(className))
+			return new LinkModel();
+		if (HistoryHandlerModel.class.getName().equals(className))
+			return new HistoryHandlerModel();
+		if (ModalDialogModel.class.getName().equals(className))
+			return new ModalDialogModel();
 		return null;
 	}
 

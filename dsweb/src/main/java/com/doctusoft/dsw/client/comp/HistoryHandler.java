@@ -1,20 +1,15 @@
 package com.doctusoft.dsw.client.comp;
 
-import lombok.Getter;
-
-import com.doctusoft.ObservableProperty;
+import com.doctusoft.dsw.client.comp.model.HistoryHandlerModel;
 
 /**
  * Not a real UI component 
  */
-public class HistoryHandler extends BaseComponent<HistoryHandler> {
-	
-	@Override
-	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
-		return HistoryHandler_._observableProperties;
+public class HistoryHandler extends BaseComponent<HistoryHandler, HistoryHandlerModel> {
+
+	public HistoryHandler() {
+		super(new HistoryHandlerModel());
 	}
 	
-	@ObservableProperty @Getter
-	private String historyToken;
 	
 }

@@ -1,41 +1,28 @@
 package com.doctusoft.dsw.client.comp;
 
+import com.doctusoft.dsw.client.comp.model.ModalDialogModel;
 
-
-public class ModalDialog extends BaseComponent<ModalDialog> {
+public class ModalDialog extends BaseComponent<ModalDialog, ModalDialogModel> {
 	
-	@Override
-	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
-		return ModalDialog_._observableProperties;
+	public ModalDialog() {
+		super(new ModalDialogModel());
 	}
 	
-	@com.doctusoft.ObservableProperty
-	private String heading = "";
-	
-	@com.doctusoft.ObservableProperty
-	private boolean dialogVisible = false;
-	
-	@com.doctusoft.ObservableProperty
-	private Container footerContainer = new Container();
-	
-	@com.doctusoft.ObservableProperty
-	private Container contentContainer = new  Container();
-
-	public ModalDialog addFooter(IsComponent component) {
-		footerContainer.add(component.asComponent());
+	public ModalDialog addFooter(HasComponentModel component) {
+		model.getFooterContainer().getChildren().add(component.getComponentModel());
 		return this;
 	}
 
-	public ModalDialog addContent(IsComponent component) {
-		contentContainer.add(component.asComponent());
+	public ModalDialog addContent(HasComponentModel component) {
+		model.getContentContainer().getChildren().add(component.getComponentModel());
 		return this;
 	}
 	
 	public void show() {
-		setDialogVisible(true);
+		model.setDialogVisible(true);
 	}
 	
 	public void hide() {
-		setDialogVisible(false);
+		model.setDialogVisible(false);
 	}
 }

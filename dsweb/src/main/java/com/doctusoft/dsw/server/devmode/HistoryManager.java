@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.dsw.client.comp.HistoryHandler;
-import com.doctusoft.dsw.client.comp.HistoryHandler_;
+import com.doctusoft.dsw.client.comp.model.HistoryHandlerModel_;
 import com.doctusoft.gwt.light.mvp.IPlaceController;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceHistoryMapper;
@@ -34,7 +34,7 @@ public class HistoryManager {
 				throw new RuntimeException("could not instantiate Tokenizer: " + cls, e);
 			}
 		}
-		HistoryHandler_._historyToken.addChangeListener(historyHandler, new ValueChangeListener<String>() {
+		HistoryHandlerModel_._historyToken.addChangeListener(historyHandler.getModel(), new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
 				Place place = parsePlace(newValue);

@@ -7,14 +7,14 @@ import com.doctusoft.bean.ParametricClassMethodReferences.ClassMethodReference0;
 import com.doctusoft.bean.ParametricClassMethodReferences.ClassMethodReference1;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ObservableChainedValueBindingBuilder;
-import com.doctusoft.dsw.client.comp.BaseComponent;
 import com.doctusoft.dsw.client.comp.Container;
 import com.doctusoft.dsw.client.comp.EmptyEventHandler;
-import com.doctusoft.dsw.client.comp.IsComponent;
+import com.doctusoft.dsw.client.comp.HasComponentModel;
+import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.gwt.light.mvp.ViewOf;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ContainerWithPresenter<Presenter> implements ViewOf<Presenter>, IsComponent {
+public class ContainerWithPresenter<Presenter> implements ViewOf<Presenter>, HasComponentModel {
 	
 	@ObservableProperty @Getter
 	private Presenter presenter;
@@ -27,8 +27,8 @@ public class ContainerWithPresenter<Presenter> implements ViewOf<Presenter>, IsC
 	}
 	
 	@Override
-	public BaseComponent<?> asComponent() {
-		return container;
+	public BaseComponentModel getComponentModel() {
+		return container.getComponentModel();
 	}
 	
 	

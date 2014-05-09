@@ -2,23 +2,20 @@ package com.doctusoft.dsw.client.comp;
 
 import lombok.Getter;
 
-import com.doctusoft.bean.ModelObject;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.ValueBinding;
+import com.doctusoft.dsw.client.comp.model.InputTextModel;
+import com.doctusoft.dsw.client.comp.model.InputTextModel_;
 
 @Getter
-public class InputText extends BaseComponent<InputText> implements ModelObject {
+public class InputText extends BaseComponent<InputText, InputTextModel> {
 	
-	@Override
-	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
-		return InputText_._observableProperties;
+	public InputText() {
+		super(new InputTextModel());
 	}
-
-	@com.doctusoft.ObservableProperty
-	private String value = "";
 	
 	public InputText bind(final ValueBinding<String> valueBinding) {
-		Bindings.bind(valueBinding, Bindings.obs(this).get(InputText_._value));
+		Bindings.bind(valueBinding, Bindings.obs(model).get(InputTextModel_._value));
 		return this;
 	}
 	

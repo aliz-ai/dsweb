@@ -1,7 +1,7 @@
 package com.doctusoft.dsw.sample.client;
 
-import com.doctusoft.dsw.client.comp.Container;
-import com.doctusoft.dsw.client.comp.IsComponent;
+import com.doctusoft.dsw.client.comp.HasComponentModel;
+import com.doctusoft.dsw.client.comp.model.ContainerModel;
 import com.doctusoft.dsw.client.gwt.ContainerRenderer;
 import com.doctusoft.dsw.sample.client.person.PersonListPlace;
 import com.doctusoft.gwt.light.mvp.GwtPlaceControllerWrapper;
@@ -21,7 +21,7 @@ public class MvpExampleEntryPoint implements EntryPoint {
 	private ClientFactory clientFactory;
 
 	public void onModuleLoad() {
-		final Container container = new Container();
+		final ContainerModel container = new ContainerModel();
 		ContainerRenderer rootRenderer = new ContainerRenderer(container);
 		JQuery.select("#content").append(rootRenderer.getWidget());
 
@@ -35,7 +35,7 @@ public class MvpExampleEntryPoint implements EntryPoint {
 				container.getChildren().clear();
 				if (w != null) {
 					// BaseComponent is hacked through standard GWT interfaces 
-					container.add(((IsComponent) w).asComponent());
+					container.getChildren().add(((HasComponentModel) w).getComponentModel());
 				}
 			}
 		});

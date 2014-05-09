@@ -1,69 +1,37 @@
 package com.doctusoft.dsw.client.comp;
 
-import java.util.Arrays;
-import java.util.List;
-
 import lombok.Getter;
 
-import com.doctusoft.bean.ModelObject;
 import com.doctusoft.bean.ObservableProperty;
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.ValueBinding;
-import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.bean.binding.observable.ObservableValueBinding;
-import com.google.common.collect.Lists;
+import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
+import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
 
 @Getter
-public abstract class BaseComponent<Actual> implements ModelObject, IsComponent {
+public abstract class BaseComponent<Actual, Model extends BaseComponentModel> implements HasComponentModel {
 	
-	@com.doctusoft.ObservableProperty
-	private boolean visible = true;
+	protected Model model;
 	
-	
-	@com.doctusoft.ObservableProperty
-	private ObservableList<String> styleClasses = new ObservableList<String>();
-	
-	@com.doctusoft.ObservableProperty
-	private boolean hover;
-	
-	protected ObservableProperty<?, ?>[] extend(ObservableProperty<?, ?> [] superProperties, ObservableProperty<?, ?> ... additionals) {
-		if (superProperties == null)
-			return additionals;
-		// nb: this causes a compilation error with GWT
-//		return ObjectArrays.concat((ObservableProperty []) superProperties, (ObservableProperty []) additionals, ObservableProperty.class);
-		List<ObservableProperty> result = Lists.newArrayList();
-		result.addAll(Arrays.asList(superProperties));
-		result.addAll(Arrays.asList(additionals));
-		return result.toArray(new ObservableProperty [] {});
+	public BaseComponent(Model model) {
+		this.model = model;
 	}
 	
-	
 	public Actual bindVisible(final ValueBinding<Boolean> visibleBinding) {
-		Bindings.bind(visibleBinding, Bindings.obs(this).get(BaseComponent_._visible));
+		Bindings.bind(visibleBinding, Bindings.obs(model).get(BaseComponentModel_._visible));
 		return (Actual) this;
 	}
 	
 	public void addStyleClass(String styleClass) {
-		if (!styleClasses.contains(styleClass)) {
-			styleClasses.add(styleClass);
+		if (!model.getStyleClasses().contains(styleClass)) {
+			model.getStyleClasses().add(styleClass);
 		}
 	}
 	
 	public void removeStyleClass(String styleClass) {
-		styleClasses.remove(styleClass);
-	}
-	
-	public Actual onHover(final EmptyEventHandler handler) {
-		BaseComponent_._hover.addChangeListener(this, new ValueChangeListener<Boolean>() {
-			@Override
-			public void valueChanged(Boolean newValue) {
-				if (newValue == true) {
-					handler.handle();
-				}
-			}
-		});
-		return (Actual) this;
+		model.getStyleClasses().remove(styleClass);
 	}
 	
 	public Actual bindStyleClassPresent(final String styleClass, final ObservableValueBinding<Boolean> presentBinding) {
@@ -85,7 +53,18 @@ public abstract class BaseComponent<Actual> implements ModelObject, IsComponent 
 	}
 	
 	@Override
-	public BaseComponent<?> asComponent() {
-		return this;
+	public BaseComponentModel getComponentModel() {
+		return model;
+	}
+	
+	protected void bindEvent(ObservableProperty<? super Model, Boolean> eventProperty, final EmptyEventHandler handler) {
+		eventProperty.addChangeListener(model, new ValueChangeListener<Boolean>() {
+			@Override
+			public void valueChanged(Boolean newValue) {
+				if (newValue == true) {
+					handler.handle();
+				}
+			}
+		});
 	}
 }
