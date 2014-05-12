@@ -170,9 +170,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.doctusoft.gwt</groupId>
-			<artifactId>gwt-light-mvp</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
+			<groupId>com.doctusoft</groupId>
+			<artifactId>dsweb-mvp</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
