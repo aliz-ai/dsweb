@@ -238,12 +238,6 @@
 		
 		<dependency>
 			<groupId>com.doctusoft</groupId>
-			<artifactId>synchronic</artifactId>
-			<version>0.2.1-SNAPSHOT</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.doctusoft</groupId>
 			<artifactId>dsweb</artifactId>
 			<version>${project.version}</version>
 		</dependency>
