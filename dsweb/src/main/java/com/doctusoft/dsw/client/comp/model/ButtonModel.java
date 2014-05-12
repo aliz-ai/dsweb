@@ -11,7 +11,7 @@ public class ButtonModel extends BaseComponentModel {
 	 * temporal hack until the events get properly supported on models
 	 */
 	@com.doctusoft.ObservableProperty
-	private boolean clicked;
+	private ComponentEvent clicked;
 
 	@Override
 	public Iterable<ObservableProperty<?, ?>> getObservableProperties() {

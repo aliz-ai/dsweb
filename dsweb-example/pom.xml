@@ -3,7 +3,7 @@
 	<parent>
 	 	<groupId>com.doctusoft</groupId>
 	 	<artifactId>dsweb-parent</artifactId>
-		<version>0.0.2-SNAPSHOT</version>
+		<version>0.0.3-SNAPSHOT</version>
 	</parent>
 	<artifactId>dsweb-example</artifactId>
 	<name>dsweb-example</name>
@@ -240,18 +240,6 @@
 			<groupId>com.doctusoft</groupId>
 			<artifactId>synchronic</artifactId>
 			<version>0.2.2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.doctusoft</groupId>
-			<artifactId>dsweb</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.doctusoft.gwt</groupId>
-			<artifactId>gwt-light-mvp</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>

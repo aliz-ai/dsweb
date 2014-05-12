@@ -10,7 +10,6 @@ public class BaseComponentModel implements ModelObject, HasComponentModel {
 	@com.doctusoft.ObservableProperty
 	private boolean visible = true;
 	
-	
 	@com.doctusoft.ObservableProperty
 	private ObservableList<String> styleClasses = new ObservableList<String>();
 

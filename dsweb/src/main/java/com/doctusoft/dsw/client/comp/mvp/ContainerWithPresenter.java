@@ -8,10 +8,10 @@ import com.doctusoft.bean.ParametricClassMethodReferences.ClassMethodReference1;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ObservableChainedValueBindingBuilder;
 import com.doctusoft.dsw.client.comp.Container;
-import com.doctusoft.dsw.client.comp.EmptyEventHandler;
 import com.doctusoft.dsw.client.comp.HasComponentModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
-import com.doctusoft.gwt.light.mvp.ViewOf;
+import com.doctusoft.dsw.client.comp.model.EmptyEventHandler;
+import com.doctusoft.dsw.mvp.ViewOf;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ContainerWithPresenter<Presenter> implements ViewOf<Presenter>, HasComponentModel {

@@ -1,5 +1,8 @@
 package com.doctusoft.dsw.sample.server.devmode;
 
+import com.doctusoft.dsw.mvp.AbstractIntegartionClientFactory;
+import com.doctusoft.dsw.mvp.IntegrationServiceFactory;
+import com.doctusoft.dsw.mvp.ViewOf;
 import com.doctusoft.dsw.sample.client.ClientFactory;
 import com.doctusoft.dsw.sample.client.PocActivityMapper;
 import com.doctusoft.dsw.sample.client.person.PersonDetailActivity;
@@ -8,9 +11,6 @@ import com.doctusoft.dsw.sample.client.person.PersonListActivity;
 import com.doctusoft.dsw.sample.client.person.PersonListView;
 import com.doctusoft.dsw.sample.client.person.PersonRemoteServiceAsync;
 import com.doctusoft.dsw.sample.server.person.PersonRPC;
-import com.doctusoft.gwt.light.mvp.AbstractIntegartionClientFactory;
-import com.doctusoft.gwt.light.mvp.IntegrationServiceFactory;
-import com.doctusoft.gwt.light.mvp.ViewOf;
 import com.google.gwt.activity.shared.ActivityMapper;
 
 public class JvmClientFactoryImpl extends AbstractIntegartionClientFactory implements ClientFactory {
