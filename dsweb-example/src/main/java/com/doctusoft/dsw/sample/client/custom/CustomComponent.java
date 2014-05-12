@@ -15,5 +15,5 @@ public class CustomComponent extends BaseComponent<CustomComponent, CustomCompon
 		Bindings.bind(labelBinding, Bindings.on(model).get(CustomComponentModel_._label));
 		return this;
 	}
-
+	
 }

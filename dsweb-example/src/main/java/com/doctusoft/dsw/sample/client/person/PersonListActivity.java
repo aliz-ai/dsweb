@@ -2,6 +2,8 @@ package com.doctusoft.dsw.sample.client.person;
 
 import java.util.List;
 
+import javax.validation.OverridesAttribute;
+
 import lombok.Getter;
 
 import com.doctusoft.MethodRef;
@@ -17,13 +19,22 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 public class PersonListActivity extends AbstractActivity {
 	
 	private ClientFactory clientFactory;
-
+	
 	public PersonListActivity(ClientFactory clientFactory) {
 		this.clientFactory = clientFactory;
 	}
 	
 	@ObservableProperty @Getter
 	private ObservableList<PersonDto> personList = new ObservableList<PersonDto>();
+	
+	@ObservableProperty @Getter
+	private boolean checked = false;
+	
+	@ObservableProperty
+	private String password;
+	
+	@ObservableProperty
+	private String checkboxLabel = "Check it!";
 	
 	@Override
 	public void start(AcceptsOneWidget panel, EventBus eventBus) {
@@ -40,6 +51,12 @@ public class PersonListActivity extends AbstractActivity {
 				personList.addAll(result);
 			};
 		});
+	}
+	
+	@MethodRef
+	public void checkBindings() {
+		System.out.println(checked);
+		System.out.println(password);
 	}
 	
 	@MethodRef

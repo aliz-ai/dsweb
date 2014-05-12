@@ -239,7 +239,7 @@
 		<dependency>
 			<groupId>com.doctusoft</groupId>
 			<artifactId>synchronic</artifactId>
-			<version>0.2.1-SNAPSHOT</version>
+			<version>0.2.2</version>
 		</dependency>
 
 		<dependency>

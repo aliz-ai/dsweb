@@ -7,7 +7,7 @@ public class CustomComponentModel extends BaseComponentModel {
 
 	@ObservableProperty
 	private String label;
-
+	
 	@Override
 	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
 		return CustomComponentModel_._observableProperties;
