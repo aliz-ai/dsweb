@@ -1,4 +1,4 @@
-package com.doctusoft.dsw.client.comp;
+package com.doctusoft.dsw.client.comp.model;
 
 import com.doctusoft.bean.GenericListeners;
 

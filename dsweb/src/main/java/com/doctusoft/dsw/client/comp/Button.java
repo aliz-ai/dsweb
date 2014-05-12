@@ -6,6 +6,7 @@ import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.ValueBinding;
 import com.doctusoft.dsw.client.comp.model.ButtonModel;
 import com.doctusoft.dsw.client.comp.model.ButtonModel_;
+import com.doctusoft.dsw.client.comp.model.EmptyEventHandler;
 
 @Getter
 public class Button extends BaseComponent<Button, ButtonModel> {

@@ -23,8 +23,7 @@ public class ButtonRenderer extends BaseComponentRenderer {
 		widget.click(new EventHandler() {
 			@Override
 			public void eventComplete(JQEvent event, JQuery currentJQuery) {
-				button.setClicked(true);
-				button.setClicked(false);
+				button.getClicked().fire();
 			}
 		});
 	}

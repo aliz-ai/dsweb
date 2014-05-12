@@ -7,27 +7,26 @@ import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.ValueBinding;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.bean.binding.observable.ObservableValueBinding;
-import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
+import com.doctusoft.dsw.client.comp.model.ContainerModel;
 import com.doctusoft.dsw.client.util.ListBindingListener;
 
-public abstract class Repeat<T> implements HasComponentModel {
+public abstract class Repeat<T> extends BaseComponent<Repeat<T>, ContainerModel> {
 	
 	@com.doctusoft.ObservableProperty @Getter @Setter
 	private ObservableList<T> items = new ObservableList<>();
 	
-	private Container container = new Container();
-
 	public Repeat() {
+		super(new ContainerModel());
 		new ListBindingListener<T>((ObservableValueBinding) Bindings.obs(this).get(Repeat_._items)) {
 			@Override
 			public void inserted(ObservableList<T> list, int index, T element) {
 				Container newRow = new Container();
 				renderItem(element, newRow, index);
-				container.getModel().getChildren().add(index, newRow.getComponentModel());
+				model.getChildren().add(index, newRow.getComponentModel());
 			}
 			@Override
 			public void removed(ObservableList<T> list, int index, T element) {
-				container.getModel().getChildren().remove(index);
+				model.getChildren().remove(index);
 			}
 		};
 	}
@@ -39,8 +38,4 @@ public abstract class Repeat<T> implements HasComponentModel {
 		return this;
 	}
 	
-	@Override
-	public BaseComponentModel getComponentModel() {
-		return container.getComponentModel();
-	}
 }
