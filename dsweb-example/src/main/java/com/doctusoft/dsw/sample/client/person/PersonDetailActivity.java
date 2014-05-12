@@ -3,9 +3,9 @@ package com.doctusoft.dsw.sample.client.person;
 import lombok.Getter;
 
 import com.doctusoft.ObservableProperty;
+import com.doctusoft.dsw.mvp.ViewOf;
 import com.doctusoft.dsw.sample.client.AbstractCallback;
 import com.doctusoft.dsw.sample.client.ClientFactory;
-import com.doctusoft.gwt.light.mvp.ViewOf;
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;

@@ -10,7 +10,7 @@
 	<inherits name="com.doctusoft.Bean" />
 	<inherits name='com.xedge.jquery.GWTJQuery'/>
 	<inherits name="com.doctusoft.synchronic.Synchronization" />
-	<inherits name="com.doctusoft.gwt.light.Mvp" />
+	<inherits name="com.doctusoft.dsw.Mvp" />
 	<inherits name="com.doctusoft.dsw.Dsw" />
 	
 	<source path="client" />

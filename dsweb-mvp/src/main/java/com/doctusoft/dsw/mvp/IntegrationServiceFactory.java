@@ -1,4 +1,4 @@
-package com.doctusoft.dsweb.mvp;
+package com.doctusoft.dsw.mvp;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

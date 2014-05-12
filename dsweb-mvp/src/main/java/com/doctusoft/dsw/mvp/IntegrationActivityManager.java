@@ -1,4 +1,4 @@
-package com.doctusoft.dsweb.mvp;
+package com.doctusoft.dsw.mvp;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

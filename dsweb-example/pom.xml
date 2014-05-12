@@ -249,12 +249,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.doctusoft.gwt</groupId>
-			<artifactId>gwt-light-mvp</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
-		</dependency>
-
-		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 		</dependency>
