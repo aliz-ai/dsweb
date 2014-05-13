@@ -3,6 +3,7 @@ package com.doctusoft.dsw.client.gwt;
 import com.doctusoft.dsw.client.AbstractRendererFactory;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.ButtonModel;
+import com.doctusoft.dsw.client.comp.model.CheckboxModel;
 import com.doctusoft.dsw.client.comp.model.ContainerModel;
 import com.doctusoft.dsw.client.comp.model.HistoryHandlerModel;
 import com.doctusoft.dsw.client.comp.model.InputTextModel;
@@ -36,6 +37,8 @@ public class RendererFactoryImpl extends AbstractRendererFactory {
 			return new HistoryHandlerRenderer((HistoryHandlerModel) baseWidget);
 		if (baseWidget instanceof ModalDialogModel)
 			return new ModalDialogRenderer((ModalDialogModel) baseWidget);
+		if (baseWidget instanceof CheckboxModel)
+			return new CheckboxRenderer((CheckboxModel) baseWidget);
 		return null;
 	}
 	

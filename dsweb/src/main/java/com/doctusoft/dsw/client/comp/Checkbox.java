@@ -1,8 +1,9 @@
-package com.doctusoft.dsw.sample.client.checkbox;
+package com.doctusoft.dsw.client.comp;
 
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.ValueBinding;
-import com.doctusoft.dsw.client.comp.BaseComponent;
+import com.doctusoft.dsw.client.comp.model.CheckboxModel;
+import com.doctusoft.dsw.client.comp.model.CheckboxModel_;
 
 public class Checkbox extends BaseComponent<Checkbox, CheckboxModel> {
 	

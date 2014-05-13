@@ -1,15 +1,15 @@
 package com.doctusoft.dsw.sample.client.person;
 
 import com.doctusoft.dsw.client.comp.Button;
+import com.doctusoft.dsw.client.comp.Checkbox;
 import com.doctusoft.dsw.client.comp.Container;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.Link;
 import com.doctusoft.dsw.client.comp.ModalDialog;
+import com.doctusoft.dsw.client.comp.PasswordField;
 import com.doctusoft.dsw.client.comp.Repeat;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
-import com.doctusoft.dsw.sample.client.checkbox.Checkbox;
 import com.doctusoft.dsw.sample.client.custom.CustomComponent;
-import com.doctusoft.dsw.sample.client.passwordfield.PasswordField;
 
 public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 	
@@ -40,8 +40,8 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 		checkbox.bindChecked(bindOnPresenter().get(PersonListActivity_._checked));
 		container.add(checkbox);
 		
-		PasswordField passwordField = new PasswordField("lofasz");
-		passwordField.bindPassword(bindOnPresenter().get(PersonListActivity_._password));
+		PasswordField passwordField = new PasswordField();
+		passwordField.bind(bindOnPresenter().get(PersonListActivity_._password));
 		
 		container.add(passwordField);
 		

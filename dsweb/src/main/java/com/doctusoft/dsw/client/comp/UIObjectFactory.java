@@ -2,6 +2,7 @@ package com.doctusoft.dsw.client.comp;
 
 import com.doctusoft.bean.ModelObject;
 import com.doctusoft.dsw.client.comp.model.ButtonModel;
+import com.doctusoft.dsw.client.comp.model.CheckboxModel;
 import com.doctusoft.dsw.client.comp.model.ContainerModel;
 import com.doctusoft.dsw.client.comp.model.HistoryHandlerModel;
 import com.doctusoft.dsw.client.comp.model.InputTextModel;
@@ -34,6 +35,8 @@ public class UIObjectFactory implements ObjectModelFactory {
 			return new HistoryHandlerModel();
 		if (ModalDialogModel.class.getName().equals(className))
 			return new ModalDialogModel();
+		if (CheckboxModel.class.getName().equals(className))
+			return new CheckboxModel();
 		return null;
 	}
 

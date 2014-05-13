@@ -1,7 +1,6 @@
-package com.doctusoft.dsw.sample.client.checkbox;
+package com.doctusoft.dsw.client.comp.model;
 
 import com.doctusoft.ObservableProperty;
-import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 
 public class CheckboxModel extends BaseComponentModel {
 	

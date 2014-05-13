@@ -1,7 +1,8 @@
-package com.doctusoft.dsw.sample.client.checkbox;
+package com.doctusoft.dsw.client.gwt;
 
 import com.doctusoft.bean.ValueChangeListener;
-import com.doctusoft.dsw.client.gwt.BaseComponentRenderer;
+import com.doctusoft.dsw.client.comp.model.CheckboxModel;
+import com.doctusoft.dsw.client.comp.model.CheckboxModel_;
 import com.doctusoft.dsw.client.util.Booleans;
 import com.xedge.jquery.client.JQuery;
 
