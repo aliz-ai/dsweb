@@ -212,6 +212,11 @@
 	
 	<dependencies>
 		<dependency>
+			<groupId>com.doctusoft</groupId>
+			<artifactId>dsweb</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+ 		<dependency>
 			<groupId>com.googlecode.objectify</groupId>
 			<artifactId>objectify</artifactId>
 			<version>4.1.3</version>
@@ -226,7 +231,6 @@
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
-			<version>${gwt.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
