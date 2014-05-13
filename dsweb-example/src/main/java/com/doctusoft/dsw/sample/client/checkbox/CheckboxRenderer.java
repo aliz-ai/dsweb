@@ -2,6 +2,7 @@ package com.doctusoft.dsw.sample.client.checkbox;
 
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.dsw.client.gwt.BaseComponentRenderer;
+import com.doctusoft.dsw.client.util.Booleans;
 import com.xedge.jquery.client.JQuery;
 
 public class CheckboxRenderer extends BaseComponentRenderer {
@@ -14,7 +15,7 @@ public class CheckboxRenderer extends BaseComponentRenderer {
 		CheckboxModel_._checked.addChangeListener(model, new ValueChangeListener<Boolean>() {
 			@Override
 			public void valueChanged(Boolean newValue) {
-				input.attr("checked", newValue.toString());
+				input.attr("checked", Booleans.toString(newValue));
 			}
 		});
 		

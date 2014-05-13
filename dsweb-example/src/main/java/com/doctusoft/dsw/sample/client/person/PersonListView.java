@@ -37,7 +37,7 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 		
 		Checkbox checkbox = new Checkbox();
 		checkbox.bindLabel(bindOnPresenter().get(PersonListActivity_._checkboxLabel));
-//		checkbox.bindChecked(bindOnPresenter().get(PersonListActivity_._checked));
+		checkbox.bindChecked(bindOnPresenter().get(PersonListActivity_._checked));
 		container.add(checkbox);
 		
 		PasswordField passwordField = new PasswordField("lofasz");

@@ -7,6 +7,7 @@ import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
+import com.doctusoft.dsw.client.util.Booleans;
 import com.doctusoft.dsw.client.util.ListBindingListener;
 import com.xedge.jquery.client.JQuery;
 
@@ -20,7 +21,7 @@ public class BaseComponentRenderer implements Renderer {
 		BaseComponentModel_._visible.addChangeListener(component, new ValueChangeListener<Boolean>() {
 			@Override
 			public void valueChanged(Boolean newValue) {
-				if (newValue) {
+				if (Booleans.isTrue(newValue)) {
 					widget.show();
 				} else {
 					widget.hide();

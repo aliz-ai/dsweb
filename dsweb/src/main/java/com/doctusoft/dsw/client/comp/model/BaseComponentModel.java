@@ -8,7 +8,7 @@ import com.doctusoft.dsw.client.comp.HasComponentModel;
 public class BaseComponentModel implements ModelObject, HasComponentModel {
 	
 	@com.doctusoft.ObservableProperty
-	private boolean visible = true;
+	private Boolean visible = true;
 	
 	@com.doctusoft.ObservableProperty
 	private ObservableList<String> styleClasses = new ObservableList<String>();
@@ -22,5 +22,6 @@ public class BaseComponentModel implements ModelObject, HasComponentModel {
 	public Iterable<ObservableProperty<?, ?>> getObservableProperties() {
 		return BaseComponentModel_._observableProperties;
 	}
+	
 
 }
