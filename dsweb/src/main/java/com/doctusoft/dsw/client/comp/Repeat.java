@@ -1,5 +1,7 @@
 package com.doctusoft.dsw.client.comp;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,9 +35,12 @@ public abstract class Repeat<T> extends BaseComponent<Repeat<T>, ContainerModel>
 
 	protected abstract void renderItem(T item, Container row, int rowNum);
 	
-	public Repeat<T> bind(ValueBinding<ObservableList<T>> valueBinding) {
+	/**
+	 * If an observablelist is bound, it's insert and remove events will also propagate 
+	 */
+	public Repeat<T> bind(ValueBinding<? extends List<T>> valueBinding) {
 		Bindings.bind(valueBinding, (ValueBinding) Bindings.on(this).get(Repeat_._items));
 		return this;
 	}
-	
+
 }

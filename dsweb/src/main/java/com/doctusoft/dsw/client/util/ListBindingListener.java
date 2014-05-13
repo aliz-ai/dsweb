@@ -1,5 +1,7 @@
 package com.doctusoft.dsw.client.util;
 
+import java.util.List;
+
 import com.doctusoft.bean.ListenerRegistration;
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
@@ -18,20 +20,20 @@ public abstract class ListBindingListener<T> {
 	
 	private ObservableList<T> shadowList = new ObservableList<T>();
 	
-	public ListBindingListener(ObservableValueBinding<ObservableList<T>> listBinding) {
-		ObservableList<T> items = listBinding.getValue();
+	public ListBindingListener(ObservableValueBinding<? extends List<T>> listBinding) {
+		List<T> items = listBinding.getValue();
 		if (items != null) {
 			valueChanged(items);
 		}
-		listBinding.addValueChangeListener(new ValueChangeListener<ObservableList<T>>() {
+		listBinding.addValueChangeListener((ValueChangeListener) new ValueChangeListener<List<T>>() {
 			@Override
-			public void valueChanged(ObservableList<T> newValue) {
+			public void valueChanged(List<T> newValue) {
 				ListBindingListener.this.valueChanged(newValue);
 			}
 		});
 	}
 	
-	protected void valueChanged(ObservableList<T> items) {
+	protected void valueChanged(List<T> items) {
 		while (shadowList.size() > 0) {
 			removed(shadowList, 0, shadowList.remove(0));
 		}
@@ -45,23 +47,24 @@ public abstract class ListBindingListener<T> {
 		bindListListeners(items);
 	}
 
-	protected void bindListListeners(ObservableList<T> items) {
+	protected void bindListListeners(List<T> items) {
 		if (insertListener != null) {
 			insertListener.removeHandler();
 		}
 		if (deleteListener != null) {
 			deleteListener.removeHandler();
 		}
-		if (items != null) {
+		if (items != null && items instanceof ObservableList<?>) {
+			ObservableList<T> observableList = (ObservableList<T>) items;
 			// TODO make this reusable in ds-bean-binding
-			insertListener = items.addInsertListener(new ListElementInsertedListener<T>() {
+			insertListener = observableList.addInsertListener(new ListElementInsertedListener<T>() {
 				@Override
 				public void inserted(ObservableList<T> list, int index, T element) {
 					shadowList.add(index, element);
 					ListBindingListener.this.inserted(shadowList, index, element);
 				}
 			});
-			deleteListener = items.addDeleteListener(new ListElementRemovedListener<T>() {
+			deleteListener = observableList.addDeleteListener(new ListElementRemovedListener<T>() {
 				@Override
 				public void removed(ObservableList<T> list, int index, T element) {
 					shadowList.remove(index);
