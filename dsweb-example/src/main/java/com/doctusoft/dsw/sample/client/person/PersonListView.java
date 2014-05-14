@@ -3,6 +3,7 @@ package com.doctusoft.dsw.sample.client.person;
 import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.Checkbox;
 import com.doctusoft.dsw.client.comp.Container;
+import com.doctusoft.dsw.client.comp.InplaceText;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.Link;
 import com.doctusoft.dsw.client.comp.ModalDialog;
@@ -55,13 +56,16 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 		textarea.bind(bindOnPresenter().get(PersonListActivity_._textareaText));
 		container.add(textarea);
 		
+		InplaceText inplaceText = new InplaceText();
+		inplaceText.bind(bindOnPresenter().get(PersonListActivity_._inplaceTextLabel));
+		container.add(inplaceText);
+		
 		dialog.getModel().setHeading("dialog heading");
 		dialog.addContent(new Label("hello world"));
 		
-		CustomComponent asd = new CustomComponent("asd");
-		
 		dialog.addContent(new CustomComponent("custom component"));
 		dialog.addFooter(new Button("Close"));
+		
 	}
 
 }

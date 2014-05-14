@@ -40,6 +40,8 @@ public class UIObjectFactory implements ObjectModelFactory {
 			return new CheckboxModel();
 		if (TextareaModel.class.getName().equals(className))
 			return new TextareaModel();
+		if (InplaceText.class.getName().equals(className))
+			return new ContainerModel();
 		return null;
 	}
 

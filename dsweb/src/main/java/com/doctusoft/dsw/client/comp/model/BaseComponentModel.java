@@ -12,6 +12,9 @@ public class BaseComponentModel implements ModelObject, HasComponentModel {
 	
 	@com.doctusoft.ObservableProperty
 	private ObservableList<String> styleClasses = new ObservableList<String>();
+	
+	@com.doctusoft.ObservableProperty
+	private EmptyEventHandler clickHandler;
 
 	@Override
 	public BaseComponentModel getComponentModel() {

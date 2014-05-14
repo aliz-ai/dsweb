@@ -35,6 +35,9 @@ public class PersonListActivity extends AbstractActivity {
 	private String checkboxLabel = "Check it!";
 	
 	@ObservableProperty
+	private String inplaceTextLabel = "Inplace";
+	
+	@ObservableProperty
 	private String textareaText = "Lorem ipsum textareasum blipblupqweasd";
 	
 	@Override

@@ -9,7 +9,9 @@ import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
 import com.doctusoft.dsw.client.util.Booleans;
 import com.doctusoft.dsw.client.util.ListBindingListener;
+import com.xedge.jquery.client.JQEvent;
 import com.xedge.jquery.client.JQuery;
+import com.xedge.jquery.client.handlers.EventHandler;
 
 public class BaseComponentRenderer implements Renderer {
 	
@@ -18,6 +20,9 @@ public class BaseComponentRenderer implements Renderer {
 
 	public BaseComponentRenderer(final JQuery widget, final BaseComponentModel component) {
 		this.widget = widget;
+		if (component.getVisible().booleanValue() == false) {
+			widget.hide();
+		}
 		BaseComponentModel_._visible.addChangeListener(component, new ValueChangeListener<Boolean>() {
 			@Override
 			public void valueChanged(Boolean newValue) {
@@ -40,6 +45,15 @@ public class BaseComponentRenderer implements Renderer {
 				widget.removeClass(element);
 			}
 		};
+		
+		widget.click(new EventHandler() {
+			@Override
+			public void eventComplete(JQEvent event, JQuery currentJQuery) {
+				if (component.getClickHandler() != null) {
+					component.getClickHandler().handle();
+				}
+			}
+		});
 	}
 
 }
