@@ -22,7 +22,7 @@ public class Checkbox extends BaseComponent<Checkbox, CheckboxModel> {
 	}
 	
 	public Checkbox bindChecked(ValueBinding<Boolean> checkedBinding) {
-		Bindings.bind(checkedBinding, Bindings.on(model).get(CheckboxModel_._checked));
+		Bindings.bind(checkedBinding, Bindings.obs(model).get(CheckboxModel_._checked));
 		return this;
 	}
 

@@ -11,6 +11,7 @@ import com.doctusoft.dsw.client.comp.model.LinkModel;
 import com.doctusoft.dsw.client.comp.model.ModalDialogModel;
 import com.doctusoft.dsw.client.comp.model.SelectItemModel;
 import com.doctusoft.dsw.client.comp.model.SelectModel;
+import com.doctusoft.dsw.client.comp.model.TextareaModel;
 import com.doctusoft.synchronic.serialization.ObjectModelFactory;
 
 public class UIObjectFactory implements ObjectModelFactory {
@@ -37,6 +38,8 @@ public class UIObjectFactory implements ObjectModelFactory {
 			return new ModalDialogModel();
 		if (CheckboxModel.class.getName().equals(className))
 			return new CheckboxModel();
+		if (TextareaModel.class.getName().equals(className))
+			return new TextareaModel();
 		return null;
 	}
 

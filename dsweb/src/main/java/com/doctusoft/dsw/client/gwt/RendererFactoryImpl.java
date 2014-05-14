@@ -11,6 +11,7 @@ import com.doctusoft.dsw.client.comp.model.LabelModel;
 import com.doctusoft.dsw.client.comp.model.LinkModel;
 import com.doctusoft.dsw.client.comp.model.ModalDialogModel;
 import com.doctusoft.dsw.client.comp.model.SelectModel;
+import com.doctusoft.dsw.client.comp.model.TextareaModel;
 
 public class RendererFactoryImpl extends AbstractRendererFactory {
 	
@@ -39,6 +40,8 @@ public class RendererFactoryImpl extends AbstractRendererFactory {
 			return new ModalDialogRenderer((ModalDialogModel) baseWidget);
 		if (baseWidget instanceof CheckboxModel)
 			return new CheckboxRenderer((CheckboxModel) baseWidget);
+		if (baseWidget instanceof TextareaModel)
+			return new TextareaRenderer((TextareaModel) baseWidget);
 		return null;
 	}
 	

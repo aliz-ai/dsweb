@@ -2,8 +2,6 @@ package com.doctusoft.dsw.sample.client.person;
 
 import java.util.List;
 
-import javax.validation.OverridesAttribute;
-
 import lombok.Getter;
 
 import com.doctusoft.MethodRef;
@@ -27,14 +25,17 @@ public class PersonListActivity extends AbstractActivity {
 	@ObservableProperty @Getter
 	private ObservableList<PersonDto> personList = new ObservableList<PersonDto>();
 	
-	@ObservableProperty @Getter
-	private boolean checked = false;
+	@ObservableProperty
+	private Boolean checked = true;
 	
 	@ObservableProperty
 	private String password;
 	
 	@ObservableProperty
 	private String checkboxLabel = "Check it!";
+	
+	@ObservableProperty
+	private String textareaText = "Lorem ipsum textareasum blipblupqweasd";
 	
 	@Override
 	public void start(AcceptsOneWidget panel, EventBus eventBus) {
@@ -55,8 +56,9 @@ public class PersonListActivity extends AbstractActivity {
 	
 	@MethodRef
 	public void checkBindings() {
-		System.out.println(checked);
-		System.out.println(password);
+		System.out.println("\nCheckbox: " + checked);
+		System.out.println("Textarea: " + textareaText);
+		System.out.println("Password: " + password);
 	}
 	
 	@MethodRef

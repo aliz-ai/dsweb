@@ -8,6 +8,7 @@ import com.doctusoft.dsw.client.comp.Link;
 import com.doctusoft.dsw.client.comp.ModalDialog;
 import com.doctusoft.dsw.client.comp.PasswordField;
 import com.doctusoft.dsw.client.comp.Repeat;
+import com.doctusoft.dsw.client.comp.Textarea;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 import com.doctusoft.dsw.sample.client.custom.CustomComponent;
 
@@ -32,7 +33,8 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 		button.addStyleClass("btn-primary");
 		container.add(button);
 		ModalDialog dialog = new ModalDialog();
-//		dialog.bindVisible(bindOnPresenter().get(PersonListActivity_._checked));
+		dialog.bindVisible(bindOnPresenter().get(PersonListActivity_._checked));
+		
 		container.add(dialog);
 		
 		Checkbox checkbox = new Checkbox();
@@ -49,6 +51,10 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 		checkButton.click(presenterMethod(PersonListActivity_.__checkBindings));
 		container.add(checkButton);
 		
+		Textarea textarea = new Textarea(6);
+		textarea.bind(bindOnPresenter().get(PersonListActivity_._textareaText));
+		container.add(textarea);
+		
 		dialog.getModel().setHeading("dialog heading");
 		dialog.addContent(new Label("hello world"));
 		
@@ -56,7 +62,6 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 		
 		dialog.addContent(new CustomComponent("custom component"));
 		dialog.addFooter(new Button("Close"));
-		dialog.show();
 	}
 
 }
