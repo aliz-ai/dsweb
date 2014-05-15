@@ -1,5 +1,6 @@
 package com.doctusoft.dsw.sample.client.person;
 
+import com.doctusoft.dsw.client.comp.BaseComponent;
 import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.Checkbox;
 import com.doctusoft.dsw.client.comp.Container;
@@ -21,10 +22,12 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 		container.add(label);
 		Repeat<PersonDto> repeat = new Repeat<PersonDto>() {
 			@Override
-			protected void renderItem(PersonDto item, Container row, int rowNum) {
+			protected BaseComponent renderItem(PersonDto item,  int rowNum) {
+				Container row = new Container();
 				row.add(new Label("" + item.getId()));
 				row.add(new Link(item.getName(), "#PersonDetailPlace:" + item.getId()));
 				row.add(new Button("Delete").click(presenterMethod(PersonListActivity_.__deletePerson, item)));
+				return row;
 			}
 		}.bind(bindOnPresenter().get(PersonListActivity_._personList));
 		container.add(repeat);
