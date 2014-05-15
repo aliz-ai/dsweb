@@ -22,7 +22,6 @@ public class ContainerRenderer extends BaseComponentRenderer {
 	
 	public ContainerRenderer(ContainerModel container) {
 		super(JQuery.select("<div/>"), container);
-        widget.addClass(BootstrapStyleClasses.CONTAINER);
 		new ListBindingListener<BaseComponentModel>((ObservableValueBinding) Bindings.obs(container).get(AbstractContainerModel_._children)) {
 			@Override
 			public void inserted(ObservableList<BaseComponentModel> list, int index,
