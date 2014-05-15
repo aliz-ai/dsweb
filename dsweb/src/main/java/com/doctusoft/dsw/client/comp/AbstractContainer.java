@@ -1,16 +1,22 @@
 package com.doctusoft.dsw.client.comp;
 
-import com.doctusoft.dsw.client.comp.model.ContainerModel;
+import com.doctusoft.bean.binding.observable.ObservableList;
+import com.doctusoft.dsw.client.comp.model.AbstractContainerModel;
+import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 
-public abstract class AbstractContainer<Actual> extends BaseComponent<Actual, ContainerModel> implements IsContainer {
+public abstract class AbstractContainer<Actual, Model extends AbstractContainerModel<? extends BaseComponentModel>> extends BaseComponent<Actual, Model> implements IsContainer {
 	
-	public AbstractContainer() {
-		super(new ContainerModel());
+	public AbstractContainer(Model model) {
+		super(model);
 	}
-
+	
 	@Override
 	public void add(HasComponentModel component) {
-		model.getChildren().add(component.getComponentModel());
+		addWithWildCardCapture(model.getChildren(), component.getComponentModel());
 	}
-
+	
+	private <T> void addWithWildCardCapture(ObservableList<T> list, BaseComponentModel model) {
+		list.add((T) model);
+	}
+	
 }

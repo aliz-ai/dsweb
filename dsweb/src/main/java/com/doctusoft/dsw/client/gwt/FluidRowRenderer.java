@@ -1,6 +1,10 @@
-package com.doctusoft.dsw.client.gwt;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
-import java.util.Map;
+package com.doctusoft.dsw.client.gwt;
 
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ObservableList;
@@ -13,17 +17,22 @@ import com.doctusoft.dsw.client.util.ListBindingListener;
 import com.google.common.collect.Maps;
 import com.google.gwt.core.client.GWT;
 import com.xedge.jquery.client.JQuery;
+import java.util.Map;
 
-public class ContainerRenderer extends BaseComponentRenderer {
+/**
+ *
+ * @author dipacs
+ */
+public class FluidRowRenderer extends BaseComponentRenderer {
 	
 	public static RendererFactory rendererFactory = GWT.create(RendererFactory.class);
 	
 	private Map<BaseComponentModel, JQuery> renderedWidgets = Maps.newHashMap();
 	
-	public ContainerRenderer(ContainerModel container) {
-		super(JQuery.select("<div/>"), container);
-        widget.addClass(BootstrapStyleClasses.CONTAINER);
-		new ListBindingListener<BaseComponentModel>((ObservableValueBinding) Bindings.obs(container).get(AbstractContainerModel_._children)) {
+	public FluidRowRenderer(ContainerModel model) {
+		super(JQuery.select("<div/>"), model);
+        widget.addClass(BootstrapStyleClasses.ROW_FLUID);
+		new ListBindingListener<BaseComponentModel>((ObservableValueBinding) Bindings.obs(model).get(AbstractContainerModel_._children)) {
 			@Override
 			public void inserted(ObservableList<BaseComponentModel> list, int index,
 					BaseComponentModel element) {
@@ -46,4 +55,5 @@ public class ContainerRenderer extends BaseComponentRenderer {
 		widget.append(rendered);
 		renderedWidgets.put(baseWidget, rendered);
 	}
+    
 }

@@ -1,13 +1,10 @@
 package com.doctusoft.dsw.client.comp;
 
-import lombok.Getter;
-
 import com.doctusoft.dsw.client.comp.model.ContainerModel;
 
-@Getter
-public class Container extends AbstractContainer<Container, ContainerModel> {
+public class FluidRow extends AbstractContainer<FluidRow, ContainerModel> {
 	
-	public Container() {
+	public FluidRow() {
 		super(new ContainerModel());
 	}
 	

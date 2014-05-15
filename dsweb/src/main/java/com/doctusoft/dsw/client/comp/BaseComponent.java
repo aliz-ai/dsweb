@@ -61,7 +61,7 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 	}
 	
 	@Override
-	public BaseComponentModel getComponentModel() {
+	public Model getComponentModel() {
 		return model;
 	}
 	
