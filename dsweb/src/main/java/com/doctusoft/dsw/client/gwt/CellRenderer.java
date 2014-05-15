@@ -6,6 +6,8 @@
 
 package com.doctusoft.dsw.client.gwt;
 
+import java.util.Map;
+
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ObservableList;
@@ -19,7 +21,6 @@ import com.doctusoft.dsw.client.util.ListBindingListener;
 import com.google.common.collect.Maps;
 import com.google.gwt.core.client.GWT;
 import com.xedge.jquery.client.JQuery;
-import java.util.Map;
 
 /**
  *
@@ -27,7 +28,7 @@ import java.util.Map;
  */
 public class CellRenderer extends BaseComponentRenderer {
 	
-	public static RendererFactory rendererFactory = GWT.create(RendererFactory.class);
+	public static RendererFactory<JQuery> rendererFactory = GWT.create(RendererFactory.class);
 	
 	private Map<BaseComponentModel, JQuery> renderedWidgets = Maps.newHashMap();
     

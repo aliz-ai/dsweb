@@ -16,7 +16,7 @@ import com.xedge.jquery.client.JQuery;
 
 public class ContainerRenderer extends BaseComponentRenderer {
 	
-	public static RendererFactory rendererFactory = GWT.create(RendererFactory.class);
+	public static RendererFactory<JQuery> rendererFactory = GWT.create(RendererFactory.class);
 	
 	private Map<BaseComponentModel, JQuery> renderedWidgets = Maps.newHashMap();
 	

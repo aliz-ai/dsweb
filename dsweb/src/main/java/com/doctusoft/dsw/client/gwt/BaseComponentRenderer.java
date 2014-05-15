@@ -5,6 +5,7 @@ import lombok.Getter;
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ObservableList;
+import com.doctusoft.dsw.client.Renderer;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
 import com.doctusoft.dsw.client.util.Booleans;
@@ -13,7 +14,7 @@ import com.xedge.jquery.client.JQEvent;
 import com.xedge.jquery.client.JQuery;
 import com.xedge.jquery.client.handlers.EventHandler;
 
-public class BaseComponentRenderer implements Renderer {
+public class BaseComponentRenderer implements Renderer<JQuery> {
 	
 	@Getter
 	protected JQuery widget;

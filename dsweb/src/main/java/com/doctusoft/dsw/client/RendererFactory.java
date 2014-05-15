@@ -1,19 +1,18 @@
 package com.doctusoft.dsw.client;
 
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
-import com.doctusoft.dsw.client.gwt.Renderer;
 
-public interface RendererFactory {
+public interface RendererFactory<ActualBaseComponent> {
 
 	/**
 	 * 
 	 * @return null if no renderer was ounf
 	 */
-	public Renderer resolveRenderer(BaseComponentModel baseWidget);
+	public Renderer<ActualBaseComponent> resolveRenderer(BaseComponentModel baseWidget);
 
 	/**
 	 * 
 	 * @throws RuntimeException if no renderer was found
 	 */
-	public Renderer getRenderer(BaseComponentModel baseWidget);
+	public Renderer<ActualBaseComponent> getRenderer(BaseComponentModel baseWidget);
 }

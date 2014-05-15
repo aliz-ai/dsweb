@@ -10,6 +10,8 @@
 		<module>dsweb</module>
 		<module>dsweb-example</module>
 		<module>dsweb-mvp</module>
+		<module>dsweb-jsf</module>
+		<module>dsweb-jsf-example</module>
 	</modules>
 
 	<properties>
