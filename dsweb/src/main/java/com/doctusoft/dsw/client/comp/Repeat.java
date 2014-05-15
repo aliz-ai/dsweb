@@ -14,7 +14,9 @@ import com.doctusoft.dsw.client.util.ListBindingListener;
 
 public abstract class Repeat<T> extends BaseComponent<Repeat<T>, ContainerModel> {
 	
-	@com.doctusoft.ObservableProperty @Getter @Setter
+	@com.doctusoft.ObservableProperty
+	@Getter
+	@Setter
 	private ObservableList<T> items = new ObservableList<>();
 	
 	public Repeat() {
@@ -22,25 +24,25 @@ public abstract class Repeat<T> extends BaseComponent<Repeat<T>, ContainerModel>
 		new ListBindingListener<T>((ObservableValueBinding) Bindings.obs(this).get(Repeat_._items)) {
 			@Override
 			public void inserted(ObservableList<T> list, int index, T element) {
-				Container newRow = new Container();
-				renderItem(element, newRow, index);
+				BaseComponent<?, ?> newRow = renderItem(element, index);
 				model.getChildren().add(index, newRow.getComponentModel());
 			}
+			
 			@Override
 			public void removed(ObservableList<T> list, int index, T element) {
 				model.getChildren().remove(index);
 			}
 		};
 	}
-
-	protected abstract void renderItem(T item, Container row, int rowNum);
+	
+	protected abstract BaseComponent<?, ?> renderItem(T item, int rowNum);
 	
 	/**
-	 * If an observablelist is bound, it's insert and remove events will also propagate 
+	 * If an observablelist is bound, it's insert and remove events will also propagate
 	 */
 	public Repeat<T> bind(ValueBinding<? extends List<T>> valueBinding) {
 		Bindings.bind(valueBinding, (ValueBinding) Bindings.on(this).get(Repeat_._items));
 		return this;
 	}
-
+	
 }
