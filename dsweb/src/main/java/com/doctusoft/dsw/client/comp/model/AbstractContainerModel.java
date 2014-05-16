@@ -6,7 +6,7 @@ import com.doctusoft.bean.binding.observable.ObservableList;
 public abstract class AbstractContainerModel<Model extends BaseComponentModel> extends BaseComponentModel {
 	
 	@com.doctusoft.ObservableProperty
-	private ObservableList<Model> children = new ObservableList<>();
+	private ObservableList<Model> children = new ObservableList<Model>();
 	
 	@Override
 	public Iterable<ObservableProperty<?, ?>> getObservableProperties() {

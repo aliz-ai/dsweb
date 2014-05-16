@@ -17,7 +17,7 @@ public abstract class Repeat<T> extends BaseComponent<Repeat<T>, ContainerModel>
 	@com.doctusoft.ObservableProperty
 	@Getter
 	@Setter
-	private ObservableList<T> items = new ObservableList<>();
+	private ObservableList<T> items = new ObservableList<T>();
 	
 	public Repeat() {
 		super(new ContainerModel());

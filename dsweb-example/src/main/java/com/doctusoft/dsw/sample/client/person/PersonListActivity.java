@@ -22,7 +22,8 @@ public class PersonListActivity extends AbstractActivity {
 		this.clientFactory = clientFactory;
 	}
 	
-	@ObservableProperty @Getter
+	@ObservableProperty
+	@Getter
 	private ObservableList<PersonDto> personList = new ObservableList<PersonDto>();
 	
 	@ObservableProperty
@@ -50,6 +51,7 @@ public class PersonListActivity extends AbstractActivity {
 	
 	private void loadList() {
 		clientFactory.getPersonRemoteServiceAsync().getPersonDtos(new AbstractCallback<List<PersonDto>>(clientFactory) {
+			@Override
 			public void onSuccess(List<PersonDto> result) {
 				personList.clear();
 				personList.addAll(result);
@@ -86,5 +88,5 @@ public class PersonListActivity extends AbstractActivity {
 			}
 		});
 	}
-
+	
 }
