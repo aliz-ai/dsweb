@@ -8,6 +8,9 @@ import com.doctusoft.dsw.client.comp.HasComponentModel;
 public class BaseComponentModel implements ModelObject, HasComponentModel {
 	
 	@com.doctusoft.ObservableProperty
+	private String id = null;
+	
+	@com.doctusoft.ObservableProperty
 	private Boolean visible = true;
 	
 	@com.doctusoft.ObservableProperty

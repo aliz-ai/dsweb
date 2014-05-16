@@ -21,11 +21,6 @@
 			</resource>
 		</resources>
 		<plugins>
-			<plugin>
-				<groupId>com.google.appengine</groupId>
-				<artifactId>appengine-maven-plugin</artifactId>
-				<version>1.9.3</version>
-			</plugin>
 			<!-- Google Plugin for Eclipse (GPE) won't see the source generated above
 				by requestfactory-apt unless it is exposed as an additional source dir -->
 			<plugin>
@@ -175,11 +170,6 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava-gwt</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.google.appengine</groupId>
-			<artifactId>appengine-api-1.0-sdk</artifactId>
-			<version>${gae.version}</version>
 		</dependency>
 	</dependencies>
 
