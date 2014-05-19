@@ -17,17 +17,19 @@ public class BaseComponentModel implements ModelObject, HasComponentModel {
 	private ObservableList<String> styleClasses = new ObservableList<String>();
 	
 	@com.doctusoft.ObservableProperty
+	private String style = "";
+	
+	@com.doctusoft.ObservableProperty
 	private EmptyEventHandler clickHandler;
-
+	
 	@Override
 	public BaseComponentModel getComponentModel() {
 		return this;
 	}
-
+	
 	@Override
 	public Iterable<ObservableProperty<?, ?>> getObservableProperties() {
 		return BaseComponentModel_._observableProperties;
 	}
 	
-
 }

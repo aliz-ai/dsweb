@@ -56,6 +56,27 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 		return (Actual) this;
 	}
 	
+	public void setStyle(String style) {
+		model.setStyle(style);
+	}
+	
+	public Actual withStyle(String style) {
+		setStyle(style);
+		return (Actual) this;
+	}
+	
+	public Actual bindStyle(final ObservableValueBinding<String> styleBinding) {
+		styleBinding.addValueChangeListener(new ValueChangeListener<String>() {
+			
+			@Override
+			public void valueChanged(String newValue) {
+				setStyle(styleBinding.getValue());
+				
+			}
+		});
+		return (Actual) this;
+	}
+	
 	public void appendTo(IsContainer container) {
 		container.add(this);
 	}

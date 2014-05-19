@@ -18,7 +18,7 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 	
 	@Getter
 	protected JQuery widget;
-
+	
 	public BaseComponentRenderer(final JQuery widget, final BaseComponentModel component) {
 		this.widget = widget;
 		if (component.getVisible().booleanValue() == false) {
@@ -40,12 +40,20 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 					String element) {
 				widget.addClass(element);
 			}
+			
 			@Override
 			public void removed(ObservableList<String> list, int index,
 					String element) {
 				widget.removeClass(element);
 			}
 		};
+		BaseComponentModel_._style.addChangeListener(component, new ValueChangeListener<String>() {
+			
+			@Override
+			public void valueChanged(String newValue) {
+				widget.attr("style", newValue);
+			}
+		});
 		
 		widget.click(new EventHandler() {
 			@Override
@@ -56,5 +64,5 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 			}
 		});
 	}
-
+	
 }
