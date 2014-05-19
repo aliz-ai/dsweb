@@ -3,6 +3,7 @@ package com.doctusoft.dsw.client.comp.model;
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.ListenerRegistration;
 import com.doctusoft.bean.ValueChangeListener;
+import com.doctusoft.bean.binding.EmptyEventHandler;
 
 /**
  * This is a temporal 'hack' class to make parameterless events go through the observation based synchronization layer.

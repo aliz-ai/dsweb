@@ -2,6 +2,7 @@ package com.doctusoft.dsw.client.comp.model;
 
 import com.doctusoft.bean.ModelObject;
 import com.doctusoft.bean.ObservableProperty;
+import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.comp.HasComponentModel;
 

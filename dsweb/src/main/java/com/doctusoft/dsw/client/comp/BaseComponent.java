@@ -5,13 +5,13 @@ import lombok.Getter;
 import com.doctusoft.bean.ObservableProperty;
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
+import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.bean.binding.ValueBinding;
 import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent_;
-import com.doctusoft.dsw.client.comp.model.EmptyEventHandler;
 
 @Getter
 public abstract class BaseComponent<Actual, Model extends BaseComponentModel> implements HasComponentModel {

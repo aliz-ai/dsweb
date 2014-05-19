@@ -6,11 +6,11 @@ import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.ParametricClassMethodReferences.ClassMethodReference0;
 import com.doctusoft.bean.ParametricClassMethodReferences.ClassMethodReference1;
 import com.doctusoft.bean.binding.Bindings;
+import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.bean.binding.observable.ObservableChainedValueBindingBuilder;
 import com.doctusoft.dsw.client.comp.Container;
 import com.doctusoft.dsw.client.comp.HasComponentModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
-import com.doctusoft.dsw.client.comp.model.EmptyEventHandler;
 import com.doctusoft.dsw.mvp.ViewOf;
 import com.google.gwt.user.client.ui.Widget;
 

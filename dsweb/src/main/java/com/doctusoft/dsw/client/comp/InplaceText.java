@@ -3,8 +3,8 @@ package com.doctusoft.dsw.client.comp;
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
+import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.bean.binding.ValueBinding;
-import com.doctusoft.dsw.client.comp.model.EmptyEventHandler;
 import com.doctusoft.dsw.client.comp.model.InputTextModel_;
 
 public class InplaceText extends Container {
