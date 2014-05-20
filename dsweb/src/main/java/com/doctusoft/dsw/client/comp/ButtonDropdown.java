@@ -5,13 +5,13 @@ import com.doctusoft.dsw.client.comp.model.ButtonDropdownModel;
 
 public class ButtonDropdown extends AbstractContainer<ButtonDropdown, ButtonDropdownModel> {
 	
-	Button dropdownButton;
-	BaseContainer itemContainer;
+	private Link dropdownButton;
+	private BaseContainer itemContainer;
 	
 	public ButtonDropdown(String buttonLabel) {
 		super(new ButtonDropdownModel());
 		this.addStyleClass("dropdown");
-		dropdownButton = new Button(buttonLabel + " ");
+		dropdownButton = new Link(buttonLabel + " ","#");
 		dropdownButton.addStyleClass("dropdown-toggle");
 		itemContainer = new BaseContainer("ul");
 		

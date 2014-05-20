@@ -17,7 +17,7 @@ import com.doctusoft.dsw.client.comp.model.TextareaModel;
 import com.doctusoft.synchronic.serialization.ObjectModelFactory;
 
 public class UIObjectFactory implements ObjectModelFactory {
-	
+
 	@Override
 	public ModelObject createModelObject(String className) {
 		if (ButtonModel.class.getName().equals(className)) {
@@ -62,7 +62,17 @@ public class UIObjectFactory implements ObjectModelFactory {
 		if (ButtonDropdownModel.class.getName().equals(className)) {
 			return new ButtonDropdownModel();
 		}
+		if (Navs.class.getName().equals(className)) {
+			return new ContainerModel();
+		}
+		if (Navbar.class.getName().equals(className)) {
+			return new ContainerModel();
+		}
+		if (ButtonGroup.class.getName().equals(className)) {
+			return new ContainerModel();
+		}
+
 		return null;
 	}
-	
+
 }

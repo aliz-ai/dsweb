@@ -4,12 +4,15 @@ import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.dsw.client.comp.BaseComponent;
 import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.ButtonDropdown;
+import com.doctusoft.dsw.client.comp.ButtonGroup;
 import com.doctusoft.dsw.client.comp.Checkbox;
 import com.doctusoft.dsw.client.comp.Container;
 import com.doctusoft.dsw.client.comp.InplaceText;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.Link;
 import com.doctusoft.dsw.client.comp.ModalDialog;
+import com.doctusoft.dsw.client.comp.Navbar;
+import com.doctusoft.dsw.client.comp.Navs;
 import com.doctusoft.dsw.client.comp.PasswordField;
 import com.doctusoft.dsw.client.comp.Repeat;
 import com.doctusoft.dsw.client.comp.Textarea;
@@ -79,7 +82,35 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 						System.out.println("blup");
 					}
 				}));
+		
+		ButtonDropdown menuDropdown = new ButtonDropdown("Button Dropdown").
+				addLink(new Link("asd","http://www.tehcute.com/pics/201201/Pug-wants-cookie.jpg"))
+				.addLink(new Link("blup", new EmptyEventHandler() {
+					@Override
+					public void handle() {
+						System.out.println("blup");
+					}
+				}));
+		
 		container.add(buttonDropdown);
+		
+		container.add(new Navs()
+			.addMenuItem(new Link("Dirr","#"))
+			.addMenuItem(new Link("Durr","#"))
+			.addDropdownItem(menuDropdown)
+		);
+		
+		container.add(new Navbar("Title")
+			.addMenuItem(new Link("Blip","#"))
+			.addMenuItem(new Link("Blup","#"))
+			.addDropdownItem(menuDropdown)
+		);
+		
+		container.add(new ButtonGroup()
+			.addButton(new Button("^_^"))
+			.addButton(new Button("\\o/"))
+			.addButton(new Button(",,(O_O),,"))
+		);
 		
 	}
 
