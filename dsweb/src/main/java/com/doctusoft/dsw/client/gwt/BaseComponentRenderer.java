@@ -65,9 +65,7 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 		widget.click(new EventHandler() {
 			@Override
 			public void eventComplete(JQEvent event, JQuery currentJQuery) {
-				if (component.getClickHandler() != null) {
-					component.getClickHandler().handle();
-				}
+				component.getClicked().fire();
 			}
 		});
 	}

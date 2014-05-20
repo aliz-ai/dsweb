@@ -22,7 +22,7 @@ public class InplaceText extends Container {
 		label = new Label().bindVisible(Bindings.obs(this).get(InplaceText_._labelVisible));
 		inputText = new InputText().bindVisible(Bindings.obs(this).get(InplaceText_._inputTextVisible));;
 		
-		label.getModel().setClickHandler(new EmptyEventHandler() {
+		label.click(new EmptyEventHandler() {
 			@Override
 			public void handle() {
 				setLabelVisible(false);

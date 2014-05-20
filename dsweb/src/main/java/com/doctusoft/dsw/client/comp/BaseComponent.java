@@ -22,6 +22,11 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 		this.model = model;
 	}
 	
+	public Actual click(final EmptyEventHandler handler) {
+		bindEvent(BaseComponentModel_._clicked, handler);
+		return (Actual) this;
+	}
+	
 	public Actual bindVisible(final ValueBinding<Boolean> visibleBinding) {
 		Bindings.bind(visibleBinding, Bindings.obs(model).get(BaseComponentModel_._visible));
 		return (Actual) this;
