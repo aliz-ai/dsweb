@@ -2,6 +2,7 @@ package com.doctusoft.dsw.client.gwt;
 
 import lombok.Getter;
 
+import com.doctusoft.bean.ObservableProperty;
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ObservableList;
@@ -16,15 +17,18 @@ import com.xedge.jquery.client.handlers.EventHandler;
 
 public class BaseComponentRenderer implements Renderer<JQuery> {
 	
+	private static <T, K> void addChangeListener(ObservableProperty<K, T> property, BaseComponentModel model, ValueChangeListener<T> listener) {
+		property.addChangeListener((K) model, listener);
+		listener.valueChanged(property.getValue((K) model));
+	}
+	
 	@Getter
 	protected JQuery widget;
 	
 	public BaseComponentRenderer(final JQuery widget, final BaseComponentModel component) {
 		this.widget = widget;
-		if (component.getVisible().booleanValue() == false) {
-			widget.hide();
-		}
-		BaseComponentModel_._visible.addChangeListener(component, new ValueChangeListener<Boolean>() {
+		
+		addChangeListener(BaseComponentModel_._visible, component, new ValueChangeListener<Boolean>() {
 			@Override
 			public void valueChanged(Boolean newValue) {
 				if (Booleans.isTrue(newValue)) {
@@ -47,10 +51,13 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 				widget.removeClass(element);
 			}
 		};
-		BaseComponentModel_._style.addChangeListener(component, new ValueChangeListener<String>() {
+		addChangeListener(BaseComponentModel_._style, component, new ValueChangeListener<String>() {
 			
 			@Override
 			public void valueChanged(String newValue) {
+				if (newValue == null) {
+					newValue = "";
+				}
 				widget.attr("style", newValue);
 			}
 		});
