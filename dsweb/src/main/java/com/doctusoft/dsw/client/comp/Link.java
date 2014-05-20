@@ -1,6 +1,7 @@
 package com.doctusoft.dsw.client.comp;
 
 import com.doctusoft.bean.binding.Bindings;
+import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.bean.binding.ValueBinding;
 import com.doctusoft.dsw.client.comp.model.LinkModel;
 import com.doctusoft.dsw.client.comp.model.LinkModel_;
@@ -15,6 +16,12 @@ public class Link extends BaseComponent<Link, LinkModel> {
 		this();
 		model.setText(text);
 		model.setHref(href);
+	}
+	
+	public Link(String text, EmptyEventHandler actionListener) {
+		this();
+		model.setText(text);
+		model.setActionListener(actionListener);
 	}
 	
 	public Link bindText(ValueBinding<String> textBinding) {

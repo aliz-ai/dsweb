@@ -21,7 +21,7 @@ public class ContainerRenderer extends BaseComponentRenderer {
 	private Map<BaseComponentModel, JQuery> renderedWidgets = Maps.newHashMap();
 	
 	public ContainerRenderer(ContainerModel container) {
-		super(JQuery.select("<div/>"), container);
+		super(JQuery.select("<" + container.getElementType() + "/>"), container);
 		new ListBindingListener<BaseComponentModel>((ObservableValueBinding) Bindings.obs(container).get(AbstractContainerModel_._children)) {
 			@Override
 			public void inserted(ObservableList<BaseComponentModel> list, int index,

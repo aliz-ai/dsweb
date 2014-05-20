@@ -1,6 +1,7 @@
 package com.doctusoft.dsw.client.comp;
 
 import com.doctusoft.bean.ModelObject;
+import com.doctusoft.dsw.client.comp.model.ButtonDropdownModel;
 import com.doctusoft.dsw.client.comp.model.ButtonModel;
 import com.doctusoft.dsw.client.comp.model.CellModel;
 import com.doctusoft.dsw.client.comp.model.CheckboxModel;
@@ -57,6 +58,9 @@ public class UIObjectFactory implements ObjectModelFactory {
 		}
 		if (CellModel.class.getName().equals(className)) {
 			return new CellModel();
+		}
+		if (ButtonDropdownModel.class.getName().equals(className)) {
+			return new ButtonDropdownModel();
 		}
 		return null;
 	}

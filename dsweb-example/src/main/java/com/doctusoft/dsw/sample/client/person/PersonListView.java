@@ -1,7 +1,9 @@
 package com.doctusoft.dsw.sample.client.person;
 
+import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.dsw.client.comp.BaseComponent;
 import com.doctusoft.dsw.client.comp.Button;
+import com.doctusoft.dsw.client.comp.ButtonDropdown;
 import com.doctusoft.dsw.client.comp.Checkbox;
 import com.doctusoft.dsw.client.comp.Container;
 import com.doctusoft.dsw.client.comp.InplaceText;
@@ -68,6 +70,16 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 		
 		dialog.addContent(new CustomComponent("custom component"));
 		dialog.addFooter(new Button("Close"));
+		
+		ButtonDropdown buttonDropdown = new ButtonDropdown("Button Dropdown").
+				addLink(new Link("asd","http://www.tehcute.com/pics/201201/Pug-wants-cookie.jpg"))
+				.addLink(new Link("blup", new EmptyEventHandler() {
+					@Override
+					public void handle() {
+						System.out.println("blup");
+					}
+				}));
+		container.add(buttonDropdown);
 		
 	}
 
