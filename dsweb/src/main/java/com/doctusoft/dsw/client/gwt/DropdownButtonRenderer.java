@@ -8,11 +8,7 @@ public class DropdownButtonRenderer extends ContainerRenderer {
 	public DropdownButtonRenderer(DropdownButtonModel container) {
 		super(container);
 		JQuery.select(widget.children().get(0)).append("<span class=\"caret\"></span>");
-		dropdown(JQuery.select(widget.children().get(0))); 
+		JQuery.select(widget.children().get(0)).attr("data-toggle", "dropdown"); 
 	}
-	
-	private native void dropdown(JQuery toggle) /*-{
-		toggle.dropdown();
-	}-*/;
 	
 }

@@ -31,11 +31,7 @@ public class AlertRenderer extends ContainerRenderer {
 				widget.clone(false).children().remove().end().text(newValue);
 			}
 		});
-		alert(JQuery.select(".alert"));
+		widget.attr("data-dismiss", "alert");
 	}
-	
-	private native void alert(JQuery widget) /*-{
-		widget.alert();
-	}-*/;
 	
 }
