@@ -1,10 +1,13 @@
 package com.doctusoft.dsw.client.comp;
 
+import lombok.Getter;
+
 import com.doctusoft.dsw.client.comp.model.ButtonDropdownModel;
 
 
 public class ButtonDropdown extends AbstractContainer<ButtonDropdown, ButtonDropdownModel> {
 	
+	@Getter
 	private Link dropdownButton;
 	private BaseContainer itemContainer;
 	
@@ -12,7 +15,7 @@ public class ButtonDropdown extends AbstractContainer<ButtonDropdown, ButtonDrop
 		super(new ButtonDropdownModel());
 		this.addStyleClass("dropdown");
 		dropdownButton = new Link(buttonLabel + " ","#");
-		dropdownButton.addStyleClass("dropdown-toggle");
+		dropdownButton.addStyleClass("btn dropdown-toggle");
 		itemContainer = new BaseContainer("ul");
 		
 		itemContainer.removeStyleClass("container");
@@ -28,4 +31,5 @@ public class ButtonDropdown extends AbstractContainer<ButtonDropdown, ButtonDrop
 		itemContainer.add(linkContainer);
 		return this;
 	}
+	
 }
