@@ -11,8 +11,10 @@ import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 
 /**
  * Normally delegates inserted and removed events to the methods you implement, but if the entire list instance changes
- * it translates the change to series of inserted and removed events 
+ * it translates the change to series of inserted and removed events
+ * @deprecated moved to ds-bean as of 0.2.6 
  */
+@Deprecated
 public abstract class ListBindingListener<T> {
 	
 	private ListenerRegistration insertListener;
