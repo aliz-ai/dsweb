@@ -4,7 +4,8 @@ public class Navs extends BaseContainer {
 	
 	public Navs() {
 		model.setElementType("ul");
-		addStyleClass("nav nav-tabs");
+		addStyleClass("nav");
+		addStyleClass("nav-tabs");
 	}
 	
 	public Navs addMenuItem(Link menuItem) {

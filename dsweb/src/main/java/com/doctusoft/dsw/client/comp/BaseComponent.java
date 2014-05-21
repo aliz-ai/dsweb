@@ -12,6 +12,7 @@ import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent_;
+import com.google.common.base.Preconditions;
 
 @Getter
 public abstract class BaseComponent<Actual, Model extends BaseComponentModel> implements HasComponentModel {
@@ -33,6 +34,7 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 	}
 	
 	public void addStyleClass(String styleClass) {
+		Preconditions.checkArgument(styleClass.split(" ").length == 1, "Only one style class allowed to be added at a time");
 		if (!model.getStyleClasses().contains(styleClass)) {
 			model.getStyleClasses().add(styleClass);
 		}
