@@ -1,7 +1,5 @@
 package com.doctusoft.dsw.client.comp;
 
-
-
 public class DropdownButton extends DropdownLink {
 	
 	public DropdownButton(String buttonLabel) {

@@ -39,6 +39,9 @@ public class PersonListActivity extends AbstractActivity {
 	private String inplaceTextLabel = "Inplace";
 	
 	@ObservableProperty
+	private int progress = 30;
+	
+	@ObservableProperty
 	private String textareaText = "Lorem ipsum textareasum blipblupqweasd";
 	
 	@Override

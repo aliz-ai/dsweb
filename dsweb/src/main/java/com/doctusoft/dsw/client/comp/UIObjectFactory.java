@@ -1,11 +1,11 @@
 package com.doctusoft.dsw.client.comp;
 
 import com.doctusoft.bean.ModelObject;
-import com.doctusoft.dsw.client.comp.model.DropdownButtonModel;
 import com.doctusoft.dsw.client.comp.model.ButtonModel;
 import com.doctusoft.dsw.client.comp.model.CellModel;
 import com.doctusoft.dsw.client.comp.model.CheckboxModel;
 import com.doctusoft.dsw.client.comp.model.ContainerModel;
+import com.doctusoft.dsw.client.comp.model.DropdownButtonModel;
 import com.doctusoft.dsw.client.comp.model.HistoryHandlerModel;
 import com.doctusoft.dsw.client.comp.model.InputTextModel;
 import com.doctusoft.dsw.client.comp.model.LabelModel;
@@ -69,6 +69,12 @@ public class UIObjectFactory implements ObjectModelFactory {
 			return new ContainerModel();
 		}
 		if (ButtonGroup.class.getName().equals(className)) {
+			return new ContainerModel();
+		}
+		if (Alert.class.getName().equals(className)) {
+			return new ContainerModel();
+		}
+		if (ProgressBar.class.getName().equals(className)) {
 			return new ContainerModel();
 		}
 

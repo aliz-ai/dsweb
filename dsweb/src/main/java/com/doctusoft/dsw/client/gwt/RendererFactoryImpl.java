@@ -2,6 +2,7 @@ package com.doctusoft.dsw.client.gwt;
 
 import com.doctusoft.dsw.client.AbstractRendererFactory;
 import com.doctusoft.dsw.client.Renderer;
+import com.doctusoft.dsw.client.comp.model.AlertModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.ButtonModel;
 import com.doctusoft.dsw.client.comp.model.CellModel;
@@ -32,6 +33,9 @@ public class RendererFactoryImpl extends AbstractRendererFactory<JQuery> {
 		}
 		if (baseWidget instanceof DropdownButtonModel) {
 			return new DropdownButtonRenderer((DropdownButtonModel) baseWidget);
+		}
+		if (baseWidget instanceof AlertModel) {
+			return new AlertRenderer((AlertModel) baseWidget);
 		}
 		if (baseWidget instanceof ContainerModel) {
 			return new ContainerRenderer((ContainerModel) baseWidget);

@@ -1,6 +1,9 @@
 package com.doctusoft.dsw.sample.client.person;
 
 import com.doctusoft.bean.binding.EmptyEventHandler;
+import com.doctusoft.dsw.client.comp.Alert;
+import com.doctusoft.dsw.client.comp.Alert.AlertDisplayType;
+import com.doctusoft.dsw.client.comp.Alert.AlertType;
 import com.doctusoft.dsw.client.comp.BaseComponent;
 import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.ButtonGroup;
@@ -15,6 +18,8 @@ import com.doctusoft.dsw.client.comp.ModalDialog;
 import com.doctusoft.dsw.client.comp.Navbar;
 import com.doctusoft.dsw.client.comp.Navs;
 import com.doctusoft.dsw.client.comp.PasswordField;
+import com.doctusoft.dsw.client.comp.ProgressBar;
+import com.doctusoft.dsw.client.comp.ProgressBar.ProgressBarType;
 import com.doctusoft.dsw.client.comp.Repeat;
 import com.doctusoft.dsw.client.comp.Textarea;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
@@ -112,6 +117,16 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 			.addButton(new Button("\\o/"))
 			.addButton(new Button(",,(O_O),,"))
 		);
+		
+		container.add(new Alert("Hádevigyázzá!"));
+		
+		container.add(new Alert("Többsoros is megy!","Achtung tesó!").setDisplayType(AlertDisplayType.TwoLine).setAlertType(AlertType.Success));
+		
+		container.add(new ProgressBar());
+		
+		ProgressBar boundBar = new ProgressBar().setType(ProgressBarType.StripedActive);
+		boundBar.bind(bindOnPresenter().get(PersonListActivity_._progress));
+		container.add(boundBar);
 		
 	}
 
