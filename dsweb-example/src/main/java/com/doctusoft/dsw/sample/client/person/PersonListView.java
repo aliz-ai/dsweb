@@ -129,7 +129,7 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 		);
 		
 		container.add(new Alert("Hádevigyázzá!"));
-//		
+		
 //		container.add(new Alert("Többsoros is megy!","Achtung tesó!").setDisplayType(AlertDisplayType.TwoLine).setAlertType(AlertType.Success));
 		
 		container.add(new ProgressBar());
