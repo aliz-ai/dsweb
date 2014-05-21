@@ -19,8 +19,8 @@ public class Pagination extends BaseContainer {
 		addStyleClass("pagination");
 		Link previous = new Link("\u226a", "#");
 		Link next = new Link("\u226b", "#");
-		links.add(addElement(mainContainer, previous));
 		links.add(addElement(mainContainer, next));
+		links.add(addElement(mainContainer, previous));
 		addElement(mainContainer, next);
 		add(mainContainer);
 	}
@@ -53,7 +53,6 @@ public class Pagination extends BaseContainer {
 					}
 				}
 			});
-			
 			
 			PaginationItem_._disabled.addChangeListener(paginationItem, new ValueChangeListener<Boolean>() {
 				@Override

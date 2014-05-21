@@ -1,9 +1,9 @@
 package com.doctusoft.dsw.sample.client.person;
 
+import java.util.List;
+
 import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.dsw.client.comp.Alert;
-import com.doctusoft.dsw.client.comp.Alert.AlertDisplayType;
-import com.doctusoft.dsw.client.comp.Alert.AlertType;
 import com.doctusoft.dsw.client.comp.BaseComponent;
 import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.ButtonGroup;
@@ -18,7 +18,7 @@ import com.doctusoft.dsw.client.comp.ModalDialog;
 import com.doctusoft.dsw.client.comp.Navbar;
 import com.doctusoft.dsw.client.comp.Navs;
 import com.doctusoft.dsw.client.comp.Navs.NavsItemType;
-import com.doctusoft.dsw.client.comp.Pagination;
+import com.doctusoft.dsw.client.comp.PaginationItem;
 import com.doctusoft.dsw.client.comp.PasswordField;
 import com.doctusoft.dsw.client.comp.ProgressBar;
 import com.doctusoft.dsw.client.comp.ProgressBar.ProgressBarType;
@@ -129,8 +129,8 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 		);
 		
 		container.add(new Alert("Hádevigyázzá!"));
-		
-		container.add(new Alert("Többsoros is megy!","Achtung tesó!").setDisplayType(AlertDisplayType.TwoLine).setAlertType(AlertType.Success));
+//		
+//		container.add(new Alert("Többsoros is megy!","Achtung tesó!").setDisplayType(AlertDisplayType.TwoLine).setAlertType(AlertType.Success));
 		
 		container.add(new ProgressBar());
 		
@@ -138,8 +138,25 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 		boundBar.bind(bindOnPresenter().get(PersonListActivity_._progress));
 		container.add(boundBar);
 		
-		container.add(new Pagination());
+//		container.add(new Pagination().setPaginationItems(generatePaginationItems()));
 		
+	}
+	
+	private List<PaginationItem> generatePaginationItems() {
+		List<PaginationItem> paginationItems = com.google.common.collect.Lists.newArrayList();
+		PaginationItem paginationItem = new PaginationItem();
+		paginationItem.setSeq(1);
+		paginationItems.add(paginationItem);
+		paginationItem = new PaginationItem();
+		paginationItem.setSeq(2);
+		paginationItems.add(paginationItem);
+		paginationItem = new PaginationItem();
+		paginationItem.setSeq(3);
+		paginationItems.add(paginationItem);
+		paginationItem = new PaginationItem();
+		paginationItem.setSeq(4);
+		paginationItems.add(paginationItem);
+		return paginationItems;
 	}
 
 }

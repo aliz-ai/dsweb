@@ -23,7 +23,7 @@ public class AlertModel extends ContainerModel {
 	
 	@Override
 	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
-		return CheckboxModel_._observableProperties;
+		return AlertModel_._observableProperties;
 	}
 	
 	public String getAlertDisplayType() {
