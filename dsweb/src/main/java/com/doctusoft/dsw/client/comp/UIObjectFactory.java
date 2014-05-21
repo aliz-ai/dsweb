@@ -77,6 +77,9 @@ public class UIObjectFactory implements ObjectModelFactory {
 		if (ProgressBar.class.getName().equals(className)) {
 			return new ContainerModel();
 		}
+		if (Pagination.class.getName().equals(className)) {
+			return new ContainerModel();
+		}
 
 		return null;
 	}

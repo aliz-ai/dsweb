@@ -17,6 +17,8 @@ import com.doctusoft.dsw.client.comp.Link;
 import com.doctusoft.dsw.client.comp.ModalDialog;
 import com.doctusoft.dsw.client.comp.Navbar;
 import com.doctusoft.dsw.client.comp.Navs;
+import com.doctusoft.dsw.client.comp.Navs.NavsItemType;
+import com.doctusoft.dsw.client.comp.Pagination;
 import com.doctusoft.dsw.client.comp.PasswordField;
 import com.doctusoft.dsw.client.comp.ProgressBar;
 import com.doctusoft.dsw.client.comp.ProgressBar.ProgressBarType;
@@ -104,6 +106,14 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 			.addMenuItem(new Link("Dirr","#"))
 			.addMenuItem(new Link("Durr","#"))
 			.addDropdownItem(menuDropdown)
+			.setType(NavsItemType.Pills)
+		);
+		
+		container.add(new Navs(true)
+			.addMenuItem(new Link("Dirr","#"))
+			.addMenuItem(new Link("Durr","#"))
+			.addDropdownItem(menuDropdown)
+			.setType(NavsItemType.Pills)
 		);
 		
 		container.add(new Navbar("Title")
@@ -127,6 +137,8 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 		ProgressBar boundBar = new ProgressBar().setType(ProgressBarType.StripedActive);
 		boundBar.bind(bindOnPresenter().get(PersonListActivity_._progress));
 		container.add(boundBar);
+		
+		container.add(new Pagination());
 		
 	}
 
