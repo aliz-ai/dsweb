@@ -32,9 +32,8 @@ public class Navbar extends BaseContainer {
 		return this;
 	}
 	
-	public Navbar addDropdownItem(ButtonDropdown dropdownItem) {
+	public Navbar addDropdownItem(DropdownLink dropdownItem) {
 		dropdownItem.getModel().setElementType("li");
-		dropdownItem.getDropdownButton().removeStyleClass("btn");
 		menuItemContainer.add(dropdownItem);
 		return this;
 	}

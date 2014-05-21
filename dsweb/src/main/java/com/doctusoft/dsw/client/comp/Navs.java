@@ -17,9 +17,8 @@ public class Navs extends BaseContainer {
 		return this;
 	}
 	
-	public Navs addDropdownItem(ButtonDropdown dropdownItem) {
+	public Navs addDropdownItem(DropdownLink dropdownItem) {
 		dropdownItem.getModel().setElementType("li");
-		dropdownItem.getDropdownButton().removeStyleClass("btn");
 		add(dropdownItem);
 		return this;
 	}

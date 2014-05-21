@@ -3,10 +3,11 @@ package com.doctusoft.dsw.sample.client.person;
 import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.dsw.client.comp.BaseComponent;
 import com.doctusoft.dsw.client.comp.Button;
-import com.doctusoft.dsw.client.comp.ButtonDropdown;
 import com.doctusoft.dsw.client.comp.ButtonGroup;
 import com.doctusoft.dsw.client.comp.Checkbox;
 import com.doctusoft.dsw.client.comp.Container;
+import com.doctusoft.dsw.client.comp.DropdownButton;
+import com.doctusoft.dsw.client.comp.DropdownLink;
 import com.doctusoft.dsw.client.comp.InplaceText;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.Link;
@@ -74,7 +75,7 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 		dialog.addContent(new CustomComponent("custom component"));
 		dialog.addFooter(new Button("Close"));
 		
-		ButtonDropdown buttonDropdown = new ButtonDropdown("Button Dropdown").
+		DropdownButton buttonDropdown = new DropdownButton("Button Dropdown").
 				addLink(new Link("asd","http://www.tehcute.com/pics/201201/Pug-wants-cookie.jpg"))
 				.addLink(new Link("blup", new EmptyEventHandler() {
 					@Override
@@ -83,7 +84,7 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 					}
 				}));
 		
-		ButtonDropdown menuDropdown = new ButtonDropdown("Button Dropdown").
+		DropdownLink menuDropdown = new DropdownLink("Button Dropdown").
 				addLink(new Link("asd","http://www.tehcute.com/pics/201201/Pug-wants-cookie.jpg"))
 				.addLink(new Link("blup", new EmptyEventHandler() {
 					@Override

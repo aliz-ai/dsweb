@@ -3,11 +3,11 @@ package com.doctusoft.dsw.client.gwt;
 import com.doctusoft.dsw.client.AbstractRendererFactory;
 import com.doctusoft.dsw.client.Renderer;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
-import com.doctusoft.dsw.client.comp.model.ButtonDropdownModel;
 import com.doctusoft.dsw.client.comp.model.ButtonModel;
 import com.doctusoft.dsw.client.comp.model.CellModel;
 import com.doctusoft.dsw.client.comp.model.CheckboxModel;
 import com.doctusoft.dsw.client.comp.model.ContainerModel;
+import com.doctusoft.dsw.client.comp.model.DropdownButtonModel;
 import com.doctusoft.dsw.client.comp.model.HistoryHandlerModel;
 import com.doctusoft.dsw.client.comp.model.InputTextModel;
 import com.doctusoft.dsw.client.comp.model.LabelModel;
@@ -30,8 +30,8 @@ public class RendererFactoryImpl extends AbstractRendererFactory<JQuery> {
 		if (baseWidget instanceof InputTextModel) {
 			return new InputTextRenderer((InputTextModel) baseWidget);
 		}
-		if (baseWidget instanceof ButtonDropdownModel) {
-			return new ButtonDropdownRenderer((ButtonDropdownModel) baseWidget);
+		if (baseWidget instanceof DropdownButtonModel) {
+			return new DropdownButtonRenderer((DropdownButtonModel) baseWidget);
 		}
 		if (baseWidget instanceof ContainerModel) {
 			return new ContainerRenderer((ContainerModel) baseWidget);
