@@ -31,7 +31,7 @@ public class AlertRenderer extends ContainerRenderer {
 				widget.clone(false).children().remove().end().text(newValue);
 			}
 		});
-		JQuery.select(widget.children().get(0)).attr("data-dismiss", "alert");
+		widget.find(".close").attr("data-dismiss", "alert");
 	}
 	
 }
