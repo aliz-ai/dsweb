@@ -24,30 +24,13 @@ public class ClientFactoryImpl implements ClientFactory {
 	@Getter
 	private final IPlaceController placeController = new GwtPlaceControllerWrapper(new PlaceController(eventBus));
 	
-	private ViewOf<PersonListActivity> personListView = null;
+	@Getter(lazy=true)
+	private final ViewOf<PersonListActivity> personListView = new PersonListView();
 	
-	public ViewOf<PersonListActivity> getPersonListView() {
-		if (personListView == null) {
-			personListView = new PersonListView();
-		}
-		return personListView;
-	}
+	@Getter(lazy=true)
+	private final ViewOf<PersonDetailActivity> personDetailView = new PersonDetailView();
 
-	private ViewOf<PersonDetailActivity> personDetailView = null;
-
-	public ViewOf<PersonDetailActivity> getPersonDetailView() {
-		if (personDetailView == null) {
-			personDetailView = new PersonDetailView();
-		}
-		return personDetailView;
-	}
-
-	private PersonRemoteServiceAsync personRemoteServiceAsync = null;
+	@Getter(lazy=true)
+	private final PersonRemoteServiceAsync personRemoteServiceAsync = GWT.create(PersonRemoteService.class);
 	
-	public PersonRemoteServiceAsync getPersonRemoteServiceAsync() {
-		if (personRemoteServiceAsync == null) {
-			personRemoteServiceAsync = GWT.create(PersonRemoteService.class);
-		}
-		return personRemoteServiceAsync;
-	}
 }

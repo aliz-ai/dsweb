@@ -1,0 +1,4 @@
+<!--
+  The AtomicInteger implementation taken from reactiv4java is needed to make lombok generated lazy getters work
+ -->
+<module><super-source path="gwt"/></module>

@@ -19,6 +19,9 @@
 			<resource>
 			    <directory>${basedir}/src/main/java</directory>
 			</resource>
+			<resource>
+			    <directory>${basedir}/src/main/resources</directory>
+			</resource>
 		</resources>
 		<plugins>
 			<!-- Google Plugin for Eclipse (GPE) won't see the source generated above
