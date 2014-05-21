@@ -17,15 +17,19 @@ public class Pagination extends BaseContainer {
 	public Pagination() {
 		mainContainer = new BaseContainer("ul");
 		addStyleClass("pagination");
-		addElement(mainContainer, new Link("\u226a", "#"));
-		addElement(mainContainer, new Link("\u226b", "#"));
+		Link previous = new Link("\u226a", "#");
+		Link next = new Link("\u226b", "#");
+		links.add(addElement(mainContainer, previous));
+		links.add(addElement(mainContainer, next));
+		addElement(mainContainer, next);
 		add(mainContainer);
 	}
 	
-	private void addElement(BaseContainer container, HasComponentModel component) {
+	private BaseContainer addElement(BaseContainer container, HasComponentModel component) {
 		BaseContainer componentContainer = new BaseContainer("li");
 		componentContainer.add(component);
 		container.add(componentContainer);
+		return componentContainer;
 	}
 	
 	public Pagination setPaginationItems(List<PaginationItem> paginationItems) {
@@ -49,6 +53,7 @@ public class Pagination extends BaseContainer {
 					}
 				}
 			});
+			
 			
 			PaginationItem_._disabled.addChangeListener(paginationItem, new ValueChangeListener<Boolean>() {
 				@Override
