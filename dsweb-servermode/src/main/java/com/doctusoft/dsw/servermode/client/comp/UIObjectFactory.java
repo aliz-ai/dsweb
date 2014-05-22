@@ -1,6 +1,13 @@
-package com.doctusoft.dsw.client.comp;
+package com.doctusoft.dsw.servermode.client.comp;
 
 import com.doctusoft.bean.ModelObject;
+import com.doctusoft.dsw.client.comp.Alert;
+import com.doctusoft.dsw.client.comp.ButtonGroup;
+import com.doctusoft.dsw.client.comp.InplaceText;
+import com.doctusoft.dsw.client.comp.Navbar;
+import com.doctusoft.dsw.client.comp.Navs;
+import com.doctusoft.dsw.client.comp.Pagination;
+import com.doctusoft.dsw.client.comp.ProgressBar;
 import com.doctusoft.dsw.client.comp.model.ButtonModel;
 import com.doctusoft.dsw.client.comp.model.CellModel;
 import com.doctusoft.dsw.client.comp.model.CheckboxModel;

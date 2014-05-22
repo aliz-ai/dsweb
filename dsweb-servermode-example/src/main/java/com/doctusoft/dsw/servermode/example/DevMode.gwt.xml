@@ -15,9 +15,9 @@
 	
 	<source path="client" />
 	<source path="shared" />
-	<entry-point class="com.doctusoft.dsw.sample.client.DevModeEntryPoint" />
+	<entry-point class="com.doctusoft.dsw.servermode.example.client.DevModeEntryPoint" />
 	
-	<replace-with class="com.doctusoft.dsw.sample.client.custom.CustomRendererFactoryImpl">
+	<replace-with class="com.doctusoft.dsw.servermode.example.client.custom.CustomRendererFactoryImpl">
 		<when-type-assignable class="com.doctusoft.dsw.client.RendererFactory"/>
 	</replace-with>
 </module>

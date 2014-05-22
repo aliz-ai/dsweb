@@ -1,7 +1,7 @@
-package com.doctusoft.dsw.sample.client;
+package com.doctusoft.dsw.servermode.example.client;
 
-import com.doctusoft.dsw.client.DevModeSynchronizer;
-import com.doctusoft.dsw.sample.client.custom.CustomModelObjectFactory;
+import com.doctusoft.dsw.servermode.client.util.DevModeSynchronizer;
+import com.doctusoft.dsw.servermode.example.client.custom.CustomModelObjectFactory;
 import com.google.gwt.core.client.EntryPoint;
 import com.xedge.jquery.client.JQuery;
 
