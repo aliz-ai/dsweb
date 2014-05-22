@@ -11,8 +11,9 @@ public abstract class AbstractContainer<Actual, Model extends AbstractContainerM
 	}
 	
 	@Override
-	public void add(HasComponentModel component) {
+	public Actual add(HasComponentModel component) {
 		addWithWildCardCapture(model.getChildren(), component.getComponentModel());
+		return (Actual) this;
 	}
 	
 	private <T> void addWithWildCardCapture(ObservableList<T> list, BaseComponentModel model) {
