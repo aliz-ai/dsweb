@@ -24,6 +24,16 @@ public class Link extends BaseComponent<Link, LinkModel> {
 		model.setActionListener(actionListener);
 	}
 	
+	public Link withText(String text) {
+		model.setText(text);
+		return this;
+	}
+	
+	public Link withHref(String href) {
+		model.setHref(href);
+		return this;
+	}
+	
 	public Link bindText(ValueBinding<String> textBinding) {
 		Bindings.bind(textBinding, Bindings.obs(model).get(LinkModel_._text));
 		return this;
