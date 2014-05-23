@@ -10,6 +10,7 @@ import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.dsw.client.comp.model.ImageModel;
 import com.doctusoft.dsw.client.comp.model.ImageModel_;
+import com.google.common.base.Preconditions;
 import com.xedge.jquery.client.JQuery;
 
 /**
@@ -24,28 +25,25 @@ public class ImageRenderer extends BaseComponentRenderer {
 
             @Override
             public void valueChanged(String newValue) {
-                setSrc(newValue);
+                setAttribute("src", newValue);
             }
         });
-        setSrc(model.getSrc());
+        setAttribute("src", model.getSrc());
         
         Bindings.obs(model).get(ImageModel_._alt).addValueChangeListener(new ValueChangeListener<String>() {
 
             @Override
             public void valueChanged(String newValue) {
-                setAlt(newValue);
+                setAttribute("alt", newValue);
             }
         });
-        setAlt(model.getAlt());
+        setAttribute("alt", model.getAlt());
         
     }
     
-    private void setSrc(String src) {
-        widget.attr("src", src == null ? "" : src);
-    }
-    
-    private void setAlt(String alt) {
-        widget.attr("alt", alt == null ? "" : alt);
+    private void setAttribute(String name, String value) {
+        Preconditions.checkNotNull(name);
+        widget.attr(name, value == null ? "" : value);
     }
     
 }
