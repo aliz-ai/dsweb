@@ -169,6 +169,16 @@
 			<url>http://pubrepo.doctusoft.com/nexus/content/repositories/snapshots</url>
 		</repository>
 		<repository>
+			<id>ds-thirdparty-public</id>
+			<url>http://pubrepo.doctusoft.com/nexus/content/repositories/thirdparty</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+		<repository>
 			<id>sonatype</id>
 			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
 			<snapshots>
