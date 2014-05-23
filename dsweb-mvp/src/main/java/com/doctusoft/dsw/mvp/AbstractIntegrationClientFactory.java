@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 
-public abstract class AbstractIntegartionClientFactory {
+public abstract class AbstractIntegrationClientFactory {
 
 	@Getter
 	private EventBus eventBus = new SimpleEventBus();
@@ -27,7 +27,7 @@ public abstract class AbstractIntegartionClientFactory {
 	
 	protected abstract ActivityMapper createActivityMapper();
 	
-	public AbstractIntegartionClientFactory() {
+	public AbstractIntegrationClientFactory() {
 		final ActivityMapper activityMapper = createActivityMapper();
 		activityManager = new IntegrationActivityManager(activityMapper, eventBus);
 		activityManager.setDisplay(new AcceptsOneWidget() {
