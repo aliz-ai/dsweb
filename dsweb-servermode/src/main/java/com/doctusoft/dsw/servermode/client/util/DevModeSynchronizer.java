@@ -1,17 +1,12 @@
-package com.doctusoft.dsw.client;
-
-import java.util.List;
-
-import lombok.Getter;
-import lombok.Setter;
+package com.doctusoft.dsw.servermode.client.util;
 
 import com.doctusoft.Property;
 import com.doctusoft.bean.binding.Bindings;
-import com.doctusoft.dsw.client.comp.UIObjectFactory;
 import com.doctusoft.dsw.client.comp.model.ContainerModel;
 import com.doctusoft.dsw.client.devmode.SyncRemoteService;
 import com.doctusoft.dsw.client.devmode.SyncRemoteServiceAsync;
 import com.doctusoft.dsw.client.gwt.ContainerRenderer;
+import com.doctusoft.dsw.servermode.client.comp.UIObjectFactory;
 import com.doctusoft.synchronic.core.ClientLogger;
 import com.doctusoft.synchronic.core.ClientModelSynchronizer;
 import com.doctusoft.synchronic.core.SynchronizationServerForClients;
@@ -26,6 +21,9 @@ import com.google.common.collect.Lists;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.xedge.jquery.client.JQuery;
+import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
 public abstract class DevModeSynchronizer {
 	

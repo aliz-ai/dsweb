@@ -1,11 +1,10 @@
 package com.doctusoft.dsw.client.comp;
 
-import java.util.List;
-import java.util.Map;
-
 import com.doctusoft.bean.ValueChangeListener;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import java.util.List;
+import java.util.Map;
 
 public class Pagination extends BaseContainer {
 	

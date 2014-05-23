@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -5,13 +6,9 @@
         <artifactId>dsweb-parent</artifactId>
         <version>0.0.3-SNAPSHOT</version>
     </parent>
-    <artifactId>dsweb-example</artifactId>
-    <name>dsweb-example</name>
+    <artifactId>dsweb-servermode-example</artifactId>
     <packaging>war</packaging>
-
-    <properties>
-    </properties>
-
+    
     <build>
 
         <finalName>${project.artifactId}</finalName>
@@ -20,36 +17,8 @@
                 <directory>${basedir}/src/main/java</directory>
             </resource>
         </resources>
-        <plugins>
-            
         
-            <plugin>
-                <artifactId>maven-resources-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-resources</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${basedir}/target/classes</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>${basedir}/target/generated-sources/annotations</directory>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.1.1</version>
-                <configuration>
-                    <attachClasses>true</attachClasses>
-                </configuration>
-            </plugin>
+        <plugins>
             <plugin>
                 <groupId>com.google.appengine</groupId>
                 <artifactId>appengine-maven-plugin</artifactId>
@@ -91,6 +60,7 @@
                     <!-- This must point to your GWT modules! -->
                     <modules>
                         <module>com.doctusoft.dsw.sample.MvpExample</module>
+                        <module>com.doctusoft.dsw.servermode.example.DevMode</module>
                     </modules>
 
                     <!-- this specify where to put the non servable files -->
@@ -256,6 +226,12 @@
             <artifactId>gwt-jquery</artifactId>
             <version>1.1</version>
         </dependency>
+		
+        <dependency>
+            <groupId>com.doctusoft</groupId>
+            <artifactId>synchronic</artifactId>
+            <version>0.2.2</version>
+        </dependency>
 
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -273,6 +249,17 @@
             <groupId>com.google.appengine</groupId>
             <artifactId>appengine-api-1.0-sdk</artifactId>
             <version>${gae.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>dsweb-servermode</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>dsweb-example</artifactId>
+            <version>${project.version}</version>
+            <classifier>classes</classifier>
         </dependency>
     </dependencies>
 

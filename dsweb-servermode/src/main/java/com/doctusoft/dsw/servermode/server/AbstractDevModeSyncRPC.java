@@ -1,14 +1,4 @@
-package com.doctusoft.dsw.server.devmode;
-
-import java.util.List;
-
-import javax.servlet.ServletException;
-
-import lombok.Getter;
-import lombok.Setter;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package com.doctusoft.dsw.servermode.server;
 
 import com.doctusoft.Property;
 import com.doctusoft.bean.binding.Bindings;
@@ -29,6 +19,12 @@ import com.doctusoft.synchronic.json.JsonWriter;
 import com.doctusoft.synchronic.serialization.ObjectModelFactory;
 import com.google.common.collect.Lists;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import java.util.List;
+import javax.servlet.ServletException;
+import lombok.Getter;
+import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractDevModeSyncRPC extends RemoteServiceServlet implements SyncRemoteService {
 	

@@ -10,6 +10,8 @@
 		<module>dsweb</module>
 		<module>dsweb-example</module>
 		<module>dsweb-mvp</module>
+	 <module>dsweb-servermode</module>
+	 <module>dsweb-servermode-example</module>
 	</modules>
 
 	<properties>
