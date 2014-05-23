@@ -45,6 +45,13 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 		return (Actual) this;
 	}
 	
+	public Actual withStyleClasses(String ... styleClasses) {
+		for (String styleClass : styleClasses) {
+			addStyleClass(styleClass);
+		}
+		return (Actual) this;
+	}
+
 	public void removeStyleClass(String styleClass) {
 		model.getStyleClasses().remove(styleClass);
 	}
