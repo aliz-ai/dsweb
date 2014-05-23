@@ -125,7 +125,15 @@
         <pluginManagement>
             <plugins>
 
-                <plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>${version.maven.deploy.plugin}</version>
+					<configuration>
+						<skip>true</skip>
+					</configuration>
+				</plugin>
+				<plugin>
                     <artifactId>maven-source-plugin</artifactId>
                     <version>${version.maven.source.plugin}</version>
                     <executions>

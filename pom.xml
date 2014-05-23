@@ -10,8 +10,6 @@
 		<module>dsweb</module>
 		<module>dsweb-example</module>
 		<module>dsweb-mvp</module>
-	 <module>dsweb-servermode</module>
-	 <module>dsweb-servermode-example</module>
 	</modules>
 
 	<properties>
@@ -29,6 +27,7 @@
 		<version.maven.compiler.plugin>3.0</version.maven.compiler.plugin>
 		<version.maven.jar.plugin>2.4</version.maven.jar.plugin>
 		<version.maven.war.plugin>2.4</version.maven.war.plugin>
+		<version.maven.deploy.plugin>2.4</version.maven.deploy.plugin>
 
 		<!-- maven-compiler-plugin -->
 		<maven.compiler.source>1.6</maven.compiler.source>
@@ -170,26 +169,6 @@
 			<url>http://pubrepo.doctusoft.com/nexus/content/repositories/snapshots</url>
 		</repository>
 		<repository>
-			<id>ds-thirdparty</id>
-			<url>http://repo.doctusoft.com/nexus/content/repositories/thirdparty</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-		<repository>
-			<id>ds-releases</id>
-			<url>http://repo.doctusoft.com/nexus/content/repositories/releases</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-		<repository>
 			<id>sonatype</id>
 			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
 			<snapshots>
@@ -203,17 +182,17 @@
 
 	<distributionManagement>
 		<repository>
-			<id>doctusoft.releases</id>
-			<url>http://repo.doctusoft.com/nexus/content/repositories/releases</url>
+			<id>doctusoft.releases.public</id>
+			<url>http://pubrepo.doctusoft.com/nexus/content/repositories/releases</url>
 		</repository>
 		<snapshotRepository>
-			<id>doctusoft.snapshots</id>
-			<url>http://repo.doctusoft.com/nexus/content/repositories/snapshots</url>
+			<id>doctusoft.snapshots.public</id>
+			<url>http://pubrepo.doctusoft.com/nexus/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 
 	<scm>
 		<connection>scm:git:https://github.com/Doctusoft/dsweb</connection>
-    <tag>HEAD</tag>
+    	<tag>HEAD</tag>
   </scm>
 </project>
