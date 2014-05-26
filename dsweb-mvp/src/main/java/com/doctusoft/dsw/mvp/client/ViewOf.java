@@ -1,4 +1,4 @@
-package com.doctusoft.dsw.mvp;
+package com.doctusoft.dsw.mvp.client;
 
 import com.google.gwt.user.client.ui.IsWidget;
 

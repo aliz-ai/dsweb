@@ -11,9 +11,9 @@ import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 import com.doctusoft.dsw.client.comp.model.SelectItemModel;
 import com.doctusoft.dsw.client.comp.model.SelectModel;
 import com.doctusoft.dsw.client.comp.model.SelectModel_;
+import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.gwt.thirdparty.guava.common.base.Objects;
 
 /**
  * TODO: support binding and {@link ObservableList} of {@link SelectItem}s 

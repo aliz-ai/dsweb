@@ -2,6 +2,7 @@ package com.doctusoft.dsw.mvp;
 
 import lombok.Getter;
 
+import com.doctusoft.dsw.mvp.client.IPlaceController;
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.place.shared.Place;

@@ -3,7 +3,7 @@ package com.doctusoft.dsw.sample.client.person;
 import lombok.Getter;
 
 import com.doctusoft.ObservableProperty;
-import com.doctusoft.dsw.mvp.ViewOf;
+import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.AbstractCallback;
 import com.doctusoft.dsw.sample.client.ClientFactory;
 import com.google.gwt.activity.shared.AbstractActivity;

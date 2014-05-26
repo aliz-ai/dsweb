@@ -2,9 +2,9 @@ package com.doctusoft.dsw.sample.client;
 
 import lombok.Getter;
 
-import com.doctusoft.dsw.mvp.GwtPlaceControllerWrapper;
-import com.doctusoft.dsw.mvp.IPlaceController;
-import com.doctusoft.dsw.mvp.ViewOf;
+import com.doctusoft.dsw.mvp.client.GwtPlaceControllerWrapper;
+import com.doctusoft.dsw.mvp.client.IPlaceController;
+import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.person.PersonDetailActivity;
 import com.doctusoft.dsw.sample.client.person.PersonDetailView;
 import com.doctusoft.dsw.sample.client.person.PersonListActivity;

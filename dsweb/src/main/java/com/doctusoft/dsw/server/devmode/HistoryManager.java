@@ -5,7 +5,7 @@ import java.util.Map;
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.dsw.client.comp.HistoryHandler;
 import com.doctusoft.dsw.client.comp.model.HistoryHandlerModel_;
-import com.doctusoft.dsw.mvp.IPlaceController;
+import com.doctusoft.dsw.mvp.client.IPlaceController;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceHistoryMapper;
 import com.google.gwt.place.shared.PlaceTokenizer;

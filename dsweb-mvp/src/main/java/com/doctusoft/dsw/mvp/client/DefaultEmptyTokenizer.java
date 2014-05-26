@@ -1,4 +1,4 @@
-package com.doctusoft.dsw.mvp;
+package com.doctusoft.dsw.mvp.client;
 
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceTokenizer;

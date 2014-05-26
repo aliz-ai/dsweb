@@ -1,4 +1,4 @@
-package com.doctusoft.dsw.mvp;
+package com.doctusoft.dsw.mvp.client;
 
 import lombok.Getter;
 import lombok.Setter;

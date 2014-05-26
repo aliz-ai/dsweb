@@ -11,7 +11,7 @@ import com.doctusoft.bean.binding.observable.ObservableChainedValueBindingBuilde
 import com.doctusoft.dsw.client.comp.Container;
 import com.doctusoft.dsw.client.comp.HasComponentModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
-import com.doctusoft.dsw.mvp.ViewOf;
+import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ContainerWithPresenter<Presenter> implements ViewOf<Presenter>, HasComponentModel {
