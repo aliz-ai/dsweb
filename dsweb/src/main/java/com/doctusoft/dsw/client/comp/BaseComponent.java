@@ -91,8 +91,9 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 		return (Actual) this;
 	}
 	
-	public void appendTo(IsContainer container) {
+	public Actual appendTo(IsContainer container) {
 		container.add(this);
+		return (Actual) this;
 	}
 	
 	@Override

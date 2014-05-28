@@ -2,6 +2,7 @@ package com.doctusoft.dsw.client.comp.model;
 
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.ListenerRegistration;
+import com.doctusoft.bean.ModelObject;
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.EmptyEventHandler;
 
@@ -9,7 +10,7 @@ import com.doctusoft.bean.binding.EmptyEventHandler;
  * This is a temporal 'hack' class to make parameterless events go through the observation based synchronization layer.
  * TODO make a part this into ds-bean and make it through the binder interfaces
  */
-public class ComponentEvent {
+public class ComponentEvent implements ModelObject {
 	
 	@ObservableProperty
 	private boolean fired = false;
@@ -30,4 +31,8 @@ public class ComponentEvent {
 		});
 	}
 	
+	@Override
+	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
+		return ComponentEvent_._observableProperties;
+	}
 }

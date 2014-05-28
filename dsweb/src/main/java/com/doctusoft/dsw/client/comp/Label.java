@@ -19,6 +19,11 @@ public class Label extends BaseComponent<Label, LabelModel> {
 		model.setLabel(label);
 	}
 	
+	public Label withLabel(String label) {
+		model.setLabel(label);
+		return this;
+	}
+	
 	public Label bind(final ValueBinding<String> labelBinding) {
 		Bindings.bind(labelBinding, Bindings.obs(model).get(LabelModel_._label));
 		return this;
