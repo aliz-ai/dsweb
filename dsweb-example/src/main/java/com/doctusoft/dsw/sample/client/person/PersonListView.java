@@ -146,6 +146,14 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 		
 		container.add(inputTags);
 		
+		Button removeTagButton = new Button("bliptelenítés");
+		removeTagButton.click(presenterMethod(PersonListActivity_.__removeBlip));
+		container.add(removeTagButton);
+		
+		Button addTagButton = new Button("sfnsdfiusítés");
+		addTagButton.click(presenterMethod(PersonListActivity_.__addSfnsdfiu));
+		container.add(addTagButton);
+		
 	}
 	
 	private List<PaginationItem> generatePaginationItems() {

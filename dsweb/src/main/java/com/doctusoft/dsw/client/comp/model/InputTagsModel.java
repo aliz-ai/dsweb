@@ -4,9 +4,12 @@ import com.doctusoft.bean.ObservableProperty;
 
 public class InputTagsModel extends ContainerModel {
 	
+	@com.doctusoft.ObservableProperty
+	private String inputText = "";
+	
 	@Override
 	public Iterable<ObservableProperty<?, ?>> getObservableProperties() {
-		return InputTextModel_._observableProperties;
+		return InputTagsModel_._observableProperties;
 	}
 
 }

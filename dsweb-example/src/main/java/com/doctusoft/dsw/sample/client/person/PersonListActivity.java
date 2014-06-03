@@ -39,7 +39,7 @@ public class PersonListActivity extends AbstractActivity {
 	private String inplaceTextLabel = "Inplace";
 	
 	@ObservableProperty
-	private String tags = "asd,blip,lofasz";
+	private ObservableList<String> tags = new ObservableList<String>();
 	
 	@ObservableProperty
 	private int progress = 30;
@@ -51,6 +51,9 @@ public class PersonListActivity extends AbstractActivity {
 	public void start(AcceptsOneWidget panel, EventBus eventBus) {
 		ViewOf<PersonListActivity> view = clientFactory.getPersonListView();
 		view.setPresenter(this);
+		tags.add("asd");
+		tags.add("blip");
+		tags.add("lofasz");
 		panel.setWidget(view);
 		loadList();
 	}
@@ -71,6 +74,16 @@ public class PersonListActivity extends AbstractActivity {
 		System.out.println("Textarea: " + textareaText);
 		System.out.println("Password: " + password);
 		System.out.println("Tags: " + tags);
+	}
+	
+	@MethodRef
+	public void removeBlip() {
+		tags.remove("blip");
+	}
+	
+	@MethodRef
+	public void addSfnsdfiu() {
+		tags.add("sfnsdfiu");
 	}
 	
 	@MethodRef
