@@ -1,11 +1,13 @@
 package com.doctusoft.dsw.client.comp.model;
 
+import java.io.Serializable;
+
 import com.doctusoft.bean.ModelObject;
 import com.doctusoft.bean.ObservableProperty;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.comp.HasComponentModel;
 
-public class BaseComponentModel implements ModelObject, HasComponentModel {
+public class BaseComponentModel implements ModelObject, HasComponentModel, Serializable {
 	
 	@com.doctusoft.ObservableProperty
 	private String id = null;

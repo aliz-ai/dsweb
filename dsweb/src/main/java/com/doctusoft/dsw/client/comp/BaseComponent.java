@@ -1,5 +1,7 @@
 package com.doctusoft.dsw.client.comp;
 
+import java.io.Serializable;
+
 import lombok.Getter;
 
 import com.doctusoft.bean.ObservableProperty;
@@ -15,7 +17,7 @@ import com.doctusoft.dsw.client.comp.model.ComponentEvent_;
 import com.google.common.base.Preconditions;
 
 @Getter
-public abstract class BaseComponent<Actual, Model extends BaseComponentModel> implements HasComponentModel {
+public abstract class BaseComponent<Actual, Model extends BaseComponentModel> implements HasComponentModel, Serializable {
 	
 	protected Model model;
 	
@@ -102,6 +104,7 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 	}
 	
 	protected void bindEvent(ObservableProperty<? super Model, ComponentEvent> eventProperty, final EmptyEventHandler handler) {
+		eventProperty.getValue(model).setHasListeners(true);
 		Bindings.obs(model).get(eventProperty).get(ComponentEvent_._fired).addValueChangeListener(new ValueChangeListener<Boolean>() {
 			@Override
 			public void valueChanged(Boolean newValue) {

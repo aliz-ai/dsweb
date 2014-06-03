@@ -1,5 +1,7 @@
 package com.doctusoft.dsw.client.comp.mvp;
 
+import java.io.Serializable;
+
 import lombok.Getter;
 
 import com.doctusoft.ObservableProperty;
@@ -14,7 +16,7 @@ import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ContainerWithPresenter<Presenter> implements ViewOf<Presenter>, HasComponentModel {
+public class ContainerWithPresenter<Presenter> implements ViewOf<Presenter>, HasComponentModel, Serializable {
 	
 	@ObservableProperty @Getter
 	private Presenter presenter;

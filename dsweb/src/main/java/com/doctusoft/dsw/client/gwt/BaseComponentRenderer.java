@@ -9,10 +9,13 @@ import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.Renderer;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
+import com.doctusoft.dsw.client.comp.model.ComponentEvent;
+import com.doctusoft.dsw.client.comp.model.ComponentEvent_;
 import com.doctusoft.dsw.client.util.Booleans;
 import com.doctusoft.dsw.client.util.ListBindingListener;
 import com.xedge.jquery.client.JQEvent;
 import com.xedge.jquery.client.JQuery;
+import com.xedge.jquery.client.JQuery.EventType;
 import com.xedge.jquery.client.handlers.EventHandler;
 
 public class BaseComponentRenderer implements Renderer<JQuery> {
@@ -61,11 +64,29 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 				widget.attr("style", newValue);
 			}
 		});
-		
-		widget.click(new EventHandler() {
+		bindEvent(EventType.click, component.getClicked());
+	}
+	
+	protected void bindEvent(final EventType eventType, final ComponentEvent event) {
+		// if we already know that this event has handlers in the UI code
+		if (event.isHasListeners()) {
+			doBindEventInner(eventType, event);
+		} else {
+			// if not yet, we add a listener por si acaso later one will be attached
+			ComponentEvent_._hasListeners.addChangeListener(event, new ValueChangeListener<Boolean>() {
+				@Override
+				public void valueChanged(Boolean newValue) {
+					doBindEventInner(eventType, event);
+				}
+			});
+		}
+	}
+	
+	protected void doBindEventInner(EventType eventType, final ComponentEvent event) {
+		widget.bind(eventType, new EventHandler() {
 			@Override
-			public void eventComplete(JQEvent event, JQuery currentJQuery) {
-				component.getClicked().fire();
+			public void eventComplete(JQEvent jqEvent, JQuery currentJQuery) {
+				event.fire();
 			}
 		});
 	}
