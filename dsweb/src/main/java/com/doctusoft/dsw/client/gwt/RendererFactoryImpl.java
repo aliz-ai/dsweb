@@ -10,6 +10,7 @@ import com.doctusoft.dsw.client.comp.model.CheckboxModel;
 import com.doctusoft.dsw.client.comp.model.ContainerModel;
 import com.doctusoft.dsw.client.comp.model.DropdownButtonModel;
 import com.doctusoft.dsw.client.comp.model.HistoryHandlerModel;
+import com.doctusoft.dsw.client.comp.model.InputTagsModel;
 import com.doctusoft.dsw.client.comp.model.InputTextModel;
 import com.doctusoft.dsw.client.comp.model.LabelModel;
 import com.doctusoft.dsw.client.comp.model.LinkModel;
@@ -22,6 +23,9 @@ public class RendererFactoryImpl extends AbstractRendererFactory<JQuery> {
 	
 	@Override
 	public Renderer<JQuery> resolveRenderer(BaseComponentModel baseWidget) {
+		if (baseWidget instanceof InputTagsModel) {
+			return new InputTagsRenderer((InputTagsModel) baseWidget);
+		}
 		if (baseWidget instanceof LabelModel) {
 			return new LabelRenderer((LabelModel) baseWidget);
 		}

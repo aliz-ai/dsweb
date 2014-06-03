@@ -39,6 +39,9 @@ public class PersonListActivity extends AbstractActivity {
 	private String inplaceTextLabel = "Inplace";
 	
 	@ObservableProperty
+	private String tags = "asd,blip,lofasz";
+	
+	@ObservableProperty
 	private int progress = 30;
 	
 	@ObservableProperty
@@ -67,6 +70,7 @@ public class PersonListActivity extends AbstractActivity {
 		System.out.println("\nCheckbox: " + checked);
 		System.out.println("Textarea: " + textareaText);
 		System.out.println("Password: " + password);
+		System.out.println("Tags: " + tags);
 	}
 	
 	@MethodRef

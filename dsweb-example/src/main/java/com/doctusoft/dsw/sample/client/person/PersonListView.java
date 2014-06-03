@@ -12,6 +12,7 @@ import com.doctusoft.dsw.client.comp.Container;
 import com.doctusoft.dsw.client.comp.DropdownButton;
 import com.doctusoft.dsw.client.comp.DropdownLink;
 import com.doctusoft.dsw.client.comp.InplaceText;
+import com.doctusoft.dsw.client.comp.InputTags;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.Link;
 import com.doctusoft.dsw.client.comp.ModalDialog;
@@ -139,6 +140,11 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 		container.add(boundBar);
 		
 //		container.add(new Pagination().setPaginationItems(generatePaginationItems()));
+		
+		InputTags inputTags = new InputTags();
+		inputTags.bind(bindOnPresenter().get(PersonListActivity_._tags));
+		
+		container.add(inputTags);
 		
 	}
 	
