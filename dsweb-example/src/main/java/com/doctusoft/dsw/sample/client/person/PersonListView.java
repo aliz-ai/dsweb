@@ -11,6 +11,7 @@ import com.doctusoft.dsw.client.comp.Checkbox;
 import com.doctusoft.dsw.client.comp.Container;
 import com.doctusoft.dsw.client.comp.DropdownButton;
 import com.doctusoft.dsw.client.comp.DropdownLink;
+import com.doctusoft.dsw.client.comp.Icon;
 import com.doctusoft.dsw.client.comp.InplaceText;
 import com.doctusoft.dsw.client.comp.InputTags;
 import com.doctusoft.dsw.client.comp.Label;
@@ -26,6 +27,7 @@ import com.doctusoft.dsw.client.comp.ProgressBar.ProgressBarType;
 import com.doctusoft.dsw.client.comp.Repeat;
 import com.doctusoft.dsw.client.comp.Textarea;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
+import com.doctusoft.dsw.client.gwt.BootstrapIcon;
 import com.doctusoft.dsw.sample.client.custom.CustomComponent;
 
 public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
@@ -154,6 +156,7 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 		addTagButton.click(presenterMethod(PersonListActivity_.__addSfnsdfiu));
 		container.add(addTagButton);
 		
+		new Icon(BootstrapIcon.ICON_REMOVE).appendTo(container);
 	}
 	
 	private List<PaginationItem> generatePaginationItems() {

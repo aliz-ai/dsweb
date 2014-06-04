@@ -10,6 +10,7 @@ import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.dsw.client.comp.model.IconModel;
 import com.doctusoft.dsw.client.comp.model.IconModel_;
+import com.google.common.base.Objects;
 import com.xedge.jquery.client.JQuery;
 
 /**
@@ -56,7 +57,7 @@ public class IconRenderer extends BaseComponentRenderer {
         if (previousWhite != null) {
             widget.removeClass(BootstrapStyleClasses.ICON_WHITE);
         }
-        if (white != null) {
+        if (Objects.firstNonNull(white, false)) {
             widget.addClass(BootstrapStyleClasses.ICON_WHITE);
         }
         previousWhite = white;

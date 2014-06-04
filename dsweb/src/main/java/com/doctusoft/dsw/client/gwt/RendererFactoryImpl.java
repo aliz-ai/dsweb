@@ -10,6 +10,7 @@ import com.doctusoft.dsw.client.comp.model.CheckboxModel;
 import com.doctusoft.dsw.client.comp.model.ContainerModel;
 import com.doctusoft.dsw.client.comp.model.DropdownButtonModel;
 import com.doctusoft.dsw.client.comp.model.HistoryHandlerModel;
+import com.doctusoft.dsw.client.comp.model.IconModel;
 import com.doctusoft.dsw.client.comp.model.InputTagsModel;
 import com.doctusoft.dsw.client.comp.model.InputTextModel;
 import com.doctusoft.dsw.client.comp.model.LabelModel;
@@ -64,6 +65,9 @@ public class RendererFactoryImpl extends AbstractRendererFactory<JQuery> {
 		}
 		if (baseWidget instanceof CellModel) {
 			return new CellRenderer((CellModel) baseWidget);
+		}
+		if (baseWidget instanceof IconModel) {
+			return new IconRenderer((IconModel) baseWidget);
 		}
 		
 		return null;
