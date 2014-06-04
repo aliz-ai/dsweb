@@ -4,11 +4,11 @@ import java.util.List;
 
 import com.doctusoft.bean.ObservableProperty;
 import com.doctusoft.bean.binding.Bindings;
+import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.comp.model.SelectItemModel;
 import com.doctusoft.dsw.client.comp.model.SelectModel;
 import com.doctusoft.dsw.client.comp.model.SelectModel_;
-import com.doctusoft.dsw.client.util.ListBindingListener;
 import com.google.common.collect.Lists;
 import com.xedge.jquery.client.JQEvent;
 import com.xedge.jquery.client.JQuery;

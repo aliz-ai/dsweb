@@ -7,10 +7,10 @@ import lombok.Setter;
 
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.ValueBinding;
+import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 import com.doctusoft.dsw.client.comp.model.ContainerModel;
-import com.doctusoft.dsw.client.util.ListBindingListener;
 
 public abstract class Repeat<T> extends BaseComponent<Repeat<T>, ContainerModel> {
 	

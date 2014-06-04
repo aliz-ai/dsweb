@@ -3,13 +3,13 @@ package com.doctusoft.dsw.client.gwt;
 import java.util.Map;
 
 import com.doctusoft.bean.binding.Bindings;
+import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 import com.doctusoft.dsw.client.RendererFactory;
 import com.doctusoft.dsw.client.comp.model.AbstractContainerModel_;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.ContainerModel;
-import com.doctusoft.dsw.client.util.ListBindingListener;
 import com.google.common.collect.Maps;
 import com.google.gwt.core.client.GWT;
 import com.xedge.jquery.client.JQuery;
