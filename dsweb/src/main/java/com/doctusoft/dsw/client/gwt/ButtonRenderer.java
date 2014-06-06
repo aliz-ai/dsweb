@@ -4,9 +4,7 @@ import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.dsw.client.comp.model.ButtonModel;
 import com.doctusoft.dsw.client.comp.model.ButtonModel_;
-import com.xedge.jquery.client.JQEvent;
 import com.xedge.jquery.client.JQuery;
-import com.xedge.jquery.client.handlers.EventHandler;
 
 public class ButtonRenderer extends BaseComponentRenderer {
 	
@@ -18,12 +16,6 @@ public class ButtonRenderer extends BaseComponentRenderer {
 			@Override
 			public void valueChanged(String newValue) {
 				widget.text(newValue);
-			}
-		});
-		widget.click(new EventHandler() {
-			@Override
-			public void eventComplete(JQEvent event, JQuery currentJQuery) {
-				button.getClicked().fire();
 			}
 		});
 	}
