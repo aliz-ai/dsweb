@@ -45,6 +45,9 @@ public class PersonListActivity extends AbstractActivity {
 	private int progress = 30;
 	
 	@ObservableProperty
+	private Long selectValue = (long) 0;
+	
+	@ObservableProperty
 	private String textareaText = "Lorem ipsum textareasum blipblupqweasd";
 	
 	@Override
@@ -53,7 +56,7 @@ public class PersonListActivity extends AbstractActivity {
 		view.setPresenter(this);
 		tags.add("asd");
 		tags.add("blip");
-		tags.add("lofasz");
+		tags.add("nope");
 		panel.setWidget(view);
 		loadList();
 	}
@@ -74,6 +77,7 @@ public class PersonListActivity extends AbstractActivity {
 		System.out.println("Textarea: " + textareaText);
 		System.out.println("Password: " + password);
 		System.out.println("Tags: " + tags);
+		System.out.println("Select value: " + selectValue);
 	}
 	
 	@MethodRef
