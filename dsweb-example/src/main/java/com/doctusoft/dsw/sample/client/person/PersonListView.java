@@ -47,7 +47,7 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 		selectItem3.setCaption("blip");
 		selectItem3.setValue(new Long(44));
 		
-		Typeahead<Long> selectWithTypeahead = new Typeahead<Long>();
+		Typeahead<Long> selectWithTypeahead = new Typeahead<Long>(true);
 		selectWithTypeahead.setSelectItems(Lists.newArrayList(selectItem, selectItem2, selectItem3));
 		selectWithTypeahead.bind(bindOnPresenter().get(PersonListActivity_._selectValue));
 		container.add(selectWithTypeahead);

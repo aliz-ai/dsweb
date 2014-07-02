@@ -5,13 +5,17 @@ import java.util.List;
 import javax.swing.plaf.metal.OceanTheme;
 
 import com.doctusoft.bean.ObservableProperty;
+import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
+import com.doctusoft.dsw.client.comp.model.CheckboxModel_;
 import com.doctusoft.dsw.client.comp.model.SelectItemModel;
 import com.doctusoft.dsw.client.comp.model.SelectModel_;
 import com.doctusoft.dsw.client.comp.model.TypeaheadModel;
+import com.doctusoft.dsw.client.comp.model.TypeaheadModel_;
 import com.google.common.collect.Lists;
+import com.google.gwt.user.client.ui.Widget;
 import com.xedge.jquery.client.JQEvent;
 import com.xedge.jquery.client.JQuery;
 import com.xedge.jquery.client.handlers.EventHandler;
@@ -23,9 +27,14 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 	static TypeaheadModel typeaheadModel;
 	
 	public TypeaheadRenderer(final TypeaheadModel select) {
-		super(JQuery.select("<input tpye=\"text\" data-provide=\"typeahead\" id=\"a\">"), select);
+		super(JQuery.select("<input type=\"text\" data-provide=\"typeahead\">"), select);
 		init(widget);
 		typeaheadModel = select;
+		
+		if (select.isAllVisibleOnFocus()) {
+			setShowAllOnFocus(widget);
+		}
+		
 		new ListBindingListener<SelectItemModel>(Bindings.obs(select).get((ObservableProperty) SelectModel_._selectItemsModel)) {
 			@Override
 			public void inserted(ObservableList<SelectItemModel> list, int index, SelectItemModel element) {
@@ -36,6 +45,13 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 				updateOptions(widget, itemsToString(list));
 			} 
 		};
+		
+		widget.change(new EventHandler() {
+			@Override
+			public void eventComplete(JQEvent event, JQuery currentJQuery) {
+				widget.val(typeaheadModel.getSelectItemsModel().get(typeaheadModel.getSelectedIndex()).getCaption());				
+			}
+		});
 	}
 	
 	private static void itemSelected(String item) {
@@ -45,31 +61,36 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 	
 	private native void init(JQuery widget) /*-{
 		widget.typeahead({
-			minLength: 0,   
-			matcher: function(item) {
+			updater: function(item) {
+				$entry(@com.doctusoft.dsw.client.gwt.TypeaheadRenderer::itemSelected(Ljava/lang/String;)(item));
+			}
+		});
+	}-*/;
+	
+	private native void updateOptions(JQuery widget, String options) /*-{
+		widget.data("typeahead").source = options.split(",");
+	}-*/;
+	
+	/**
+	 * Workaround for functionality of showing all items on focus until it is supported in bootstrap, as seen here:
+	 * http://stackoverflow.com/questions/11745422/twitter-bootstrap-typeahead-to-work-like-dropdown-list-select-tag-with-autocom
+	 */
+	private native void setShowAllOnFocus(JQuery widget) /*-{
+		widget.data("typeahead").matcher = function(item) {
         		if (this.query == '*') {
             		return true;
         		} else {
             		return item.indexOf(this.query) >= 0;
         		}
-    		},
-		    //avoid highlightning of "*"
-		    highlighter: function(item) {
+    		};
+    	widget.data("typeahead").highlighter = function(item) {
 		        return "<div>" + item + "</div>"
-		    },
-			updater: function(item) {
-				$entry(@com.doctusoft.dsw.client.gwt.TypeaheadRenderer::itemSelected(Ljava/lang/String;)(item));
-			}
-		});
+		    };
 		widget.click(function(event) {
 			widget.val('*');
 			widget.typeahead('lookup');
 			widget.val('');
 	 	});
-	}-*/;
-	
-	private native void updateOptions(JQuery widget, String options) /*-{
-		widget.data("typeahead").source = options.split(",");
 	}-*/;
 	
 	private String itemsToString(List<SelectItemModel> items) {
