@@ -1,9 +1,15 @@
 package com.doctusoft.dsw.client.comp.model;
 
-import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ObservableProperty;
 
 public class TypeaheadModel extends SelectModel {
-	@ObservableProperty
+	
+	@com.doctusoft.ObservableProperty
 	private boolean allVisibleOnFocus = false;
 
+	@Override
+	public Iterable<ObservableProperty<?, ?>> getObservableProperties() {
+		return TypeaheadModel_._observableProperties;
+	}
+	
 }

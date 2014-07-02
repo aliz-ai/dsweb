@@ -27,7 +27,7 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 	static TypeaheadModel typeaheadModel;
 	
 	public TypeaheadRenderer(final TypeaheadModel select) {
-		super(JQuery.select("<input type=\"text\" data-provide=\"typeahead\">"), select);
+		super(JQuery.select("<input type=\"text\" data-provide=\"typeahead\"/>"), select);
 		init(widget);
 		typeaheadModel = select;
 		
@@ -80,7 +80,7 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
         		if (this.query == '*') {
             		return true;
         		} else {
-            		return item.indexOf(this.query) >= 0;
+            		return item.toLowerCase().indexOf(this.query.trim().toLowerCase()) >= 0;
         		}
     		};
     	widget.data("typeahead").highlighter = function(item) {

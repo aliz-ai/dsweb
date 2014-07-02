@@ -46,11 +46,18 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 		SelectItem<Long> selectItem3 = new SelectItem<Long>();
 		selectItem3.setCaption("blip");
 		selectItem3.setValue(new Long(44));
+		SelectItem<Long> selectItem4 = new SelectItem<Long>();
+		selectItem4.setCaption("Nagybetá");
+		selectItem4.setValue(new Long(45));
 		
-		Typeahead<Long> selectWithTypeahead = new Typeahead<Long>(true);
-		selectWithTypeahead.setSelectItems(Lists.newArrayList(selectItem, selectItem2, selectItem3));
-		selectWithTypeahead.bind(bindOnPresenter().get(PersonListActivity_._selectValue));
-		container.add(selectWithTypeahead);
+		
+//		Select<Long> s = new Select<Long>();
+//		container.add(s);
+		
+		Typeahead<Long> typeahead = new Typeahead<Long>(true);
+		typeahead.setSelectItems(Lists.newArrayList(selectItem, selectItem2, selectItem3, selectItem4));
+		typeahead.bind(bindOnPresenter().get(PersonListActivity_._selectValue));
+		container.add(typeahead);
 		
 		final Label label = new Label("Person list:");
 		label.addStyleClass("heading");

@@ -46,6 +46,9 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 						setValue(null);
 					}
 				} else {
+					if (items.isEmpty()) {
+						return;
+					}
 					SelectItem<T> candidate = items.get(newValue);
 					if (candidate == null) {
 						setValue(null);
