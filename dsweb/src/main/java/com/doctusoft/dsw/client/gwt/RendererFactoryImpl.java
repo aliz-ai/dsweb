@@ -17,6 +17,7 @@ import com.doctusoft.dsw.client.comp.model.LabelModel;
 import com.doctusoft.dsw.client.comp.model.LinkModel;
 import com.doctusoft.dsw.client.comp.model.ModalDialogModel;
 import com.doctusoft.dsw.client.comp.model.SelectModel;
+import com.doctusoft.dsw.client.comp.model.TypeaheadModel;
 import com.doctusoft.dsw.client.comp.model.TextareaModel;
 import com.xedge.jquery.client.JQuery;
 
@@ -24,6 +25,9 @@ public class RendererFactoryImpl extends AbstractRendererFactory<JQuery> {
 	
 	@Override
 	public Renderer<JQuery> resolveRenderer(BaseComponentModel baseWidget) {
+		if (baseWidget instanceof TypeaheadModel) {
+			return new TypeaheadRenderer((TypeaheadModel) baseWidget);
+		}
 		if (baseWidget instanceof InputTagsModel) {
 			return new InputTagsRenderer((InputTagsModel) baseWidget);
 		}

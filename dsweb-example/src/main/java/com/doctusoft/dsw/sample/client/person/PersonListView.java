@@ -27,6 +27,7 @@ import com.doctusoft.dsw.client.comp.ProgressBar.ProgressBarType;
 import com.doctusoft.dsw.client.comp.Repeat;
 import com.doctusoft.dsw.client.comp.Select;
 import com.doctusoft.dsw.client.comp.SelectItem;
+import com.doctusoft.dsw.client.comp.Typeahead;
 import com.doctusoft.dsw.client.comp.Textarea;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 import com.doctusoft.dsw.client.gwt.BootstrapIcon;
@@ -36,6 +37,21 @@ import com.google.common.collect.Lists;
 public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 	
 	public PersonListView() {
+		SelectItem<Long> selectItem = new SelectItem<Long>();
+		selectItem.setCaption("ad");
+		selectItem.setValue(new Long(42));
+		SelectItem<Long> selectItem2 = new SelectItem<Long>();
+		selectItem2.setCaption("asd");
+		selectItem2.setValue(new Long(43));
+		SelectItem<Long> selectItem3 = new SelectItem<Long>();
+		selectItem3.setCaption("blip");
+		selectItem3.setValue(new Long(44));
+		
+		Typeahead<Long> selectWithTypeahead = new Typeahead<Long>();
+		selectWithTypeahead.setSelectItems(Lists.newArrayList(selectItem, selectItem2, selectItem3));
+		selectWithTypeahead.bind(bindOnPresenter().get(PersonListActivity_._selectValue));
+		container.add(selectWithTypeahead);
+		
 		final Label label = new Label("Person list:");
 		label.addStyleClass("heading");
 		container.add(label);
@@ -107,12 +123,6 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 				}));
 		
 		Select<Long> select = new Select<Long>();
-		SelectItem<Long> selectItem = new SelectItem<Long>();
-		selectItem.setCaption("ad");
-		selectItem.setValue(new Long(42));
-		SelectItem<Long> selectItem2 = new SelectItem<Long>();
-		selectItem2.setCaption("asd");
-		selectItem2.setValue(new Long(43));
 		select.setSelectItems(Lists.newArrayList(selectItem, selectItem2));
 		select.bind(bindOnPresenter().get(PersonListActivity_._selectValue));
 		container.add(select);

@@ -1,9 +1,11 @@
 package com.doctusoft.dsw.client.comp;
 
+import java.io.Serializable;
+
 import lombok.Data;
 
 @Data
-public class SelectItem<T> {
+public class SelectItem<T> implements Serializable {
 	
 	/**
 	 * This id will be rendered as name attribute of the option element.
