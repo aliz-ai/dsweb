@@ -68,7 +68,7 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 		return (Actual) this;
 	}
 	
-	public Actual bind(final ObservableValueBinding<T> valueBinding) {
+	public Actual bind(final ValueBinding<T> valueBinding) {
 		Bindings.bind(valueBinding, (ObservableValueBinding) Bindings.obs(this).get(AbstractSelect_._value));
 		return (Actual) this;
 	}
