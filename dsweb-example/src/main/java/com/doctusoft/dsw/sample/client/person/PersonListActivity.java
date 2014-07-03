@@ -45,7 +45,7 @@ public class PersonListActivity extends AbstractActivity {
 	private int progress = 30;
 	
 	@ObservableProperty
-	private Long selectValue = (long) 0;
+	private Long selectValue = new Long(43);
 	
 	@ObservableProperty
 	private String textareaText = "Lorem ipsum textareasum blipblupqweasd";

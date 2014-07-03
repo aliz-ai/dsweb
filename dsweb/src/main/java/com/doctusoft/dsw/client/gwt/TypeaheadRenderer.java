@@ -30,7 +30,7 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 		super(JQuery.select("<input type=\"text\" data-provide=\"typeahead\"/>"), select);
 		init(widget);
 		typeaheadModel = select;
-		
+		widget.val(select.getSelectItemsModel().get(select.getSelectedIndex()).getCaption());
 		if (select.isAllVisibleOnFocus()) {
 			setShowAllOnFocus(widget);
 		}

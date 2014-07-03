@@ -175,8 +175,7 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 //		container.add(new Pagination().setPaginationItems(generatePaginationItems()));
 		
 		InputTags inputTags = new InputTags();
-		inputTags.bind(bindOnPresenter().get(PersonListActivity_._tags));
-		
+//		inputTags.bind(bindOnPresenter().get(PersonListActivity_._tags));
 		container.add(inputTags);
 		
 		Button removeTagButton = new Button("bliptelenítés");
