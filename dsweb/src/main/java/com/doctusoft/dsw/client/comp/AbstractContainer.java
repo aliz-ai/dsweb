@@ -11,6 +11,13 @@ public abstract class AbstractContainer<Actual, Model extends AbstractContainerM
 		super(model);
 	}
 	
+	/**
+	 * Removes all child components 
+	 */
+	public void clear() {
+		getModel().getChildren().clear();
+	}
+	
 	@Override
 	public Actual add(HasComponentModel component) {
 		addWithWildCardCapture(model.getChildren(), component.getComponentModel());

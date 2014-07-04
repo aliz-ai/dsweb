@@ -13,6 +13,9 @@ public class LinkModel extends BaseComponentModel {
 	
 	@ObservableProperty
 	private EmptyEventHandler actionListener;
+	
+	@ObservableProperty
+	private String target;
 
 	@Override
 	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {

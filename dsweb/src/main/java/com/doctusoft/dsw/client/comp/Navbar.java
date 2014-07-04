@@ -26,9 +26,6 @@ public class Navbar extends BaseContainer {
 		BaseContainer linkContainer = new BaseContainer("li");
 		linkContainer.add(menuItem);
 		menuItemContainer.add(linkContainer);
-		if (menuItemContainer.getModel().getChildren().size() == 1) {
-			linkContainer.addStyleClass("active");
-		}
 		return this;
 	}
 	

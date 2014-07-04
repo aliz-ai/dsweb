@@ -10,6 +10,7 @@ import com.doctusoft.dsw.client.comp.model.CheckboxModel;
 import com.doctusoft.dsw.client.comp.model.ContainerModel;
 import com.doctusoft.dsw.client.comp.model.DropdownButtonModel;
 import com.doctusoft.dsw.client.comp.model.HistoryHandlerModel;
+import com.doctusoft.dsw.client.comp.model.HtmlContentModel;
 import com.doctusoft.dsw.client.comp.model.IconModel;
 import com.doctusoft.dsw.client.comp.model.InputTagsModel;
 import com.doctusoft.dsw.client.comp.model.InputTextModel;
@@ -17,8 +18,8 @@ import com.doctusoft.dsw.client.comp.model.LabelModel;
 import com.doctusoft.dsw.client.comp.model.LinkModel;
 import com.doctusoft.dsw.client.comp.model.ModalDialogModel;
 import com.doctusoft.dsw.client.comp.model.SelectModel;
-import com.doctusoft.dsw.client.comp.model.TypeaheadModel;
 import com.doctusoft.dsw.client.comp.model.TextareaModel;
+import com.doctusoft.dsw.client.comp.model.TypeaheadModel;
 import com.xedge.jquery.client.JQuery;
 
 public class RendererFactoryImpl extends AbstractRendererFactory<JQuery> {
@@ -73,7 +74,10 @@ public class RendererFactoryImpl extends AbstractRendererFactory<JQuery> {
 		if (baseWidget instanceof IconModel) {
 			return new IconRenderer((IconModel) baseWidget);
 		}
-		
+		if (baseWidget instanceof HtmlContentModel) {
+			return new HtmlContentRenderer((HtmlContentModel) baseWidget);
+		}
+
 		return null;
 	}
 	

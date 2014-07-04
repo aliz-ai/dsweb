@@ -34,6 +34,15 @@ public class Link extends BaseComponent<Link, LinkModel> {
 		return this;
 	}
 	
+	public Link withTarget(String target) {
+		model.setTarget(target);
+		return this;
+	}
+	
+	public Link newWindow() {
+		return withTarget("_blank");
+	}
+	
 	public Link bindText(ValueBinding<String> textBinding) {
 		Bindings.bind(textBinding, Bindings.obs(model).get(LinkModel_._text));
 		return this;

@@ -63,6 +63,10 @@ public class BootstrapStyleClasses {
 	public static final String HIDDEN_TABLET = "hidden-tablet";
 	public static final String HIDDEN_DESKTOP = "hidden-desktop";
 	
+	// navbar modifiers
+	public static final String NAVBAR_INVERSE = "navbar-inverse";
+	public static final String NAVBAR_FIXED_TOP = "navbar-fixed-top";
+	
 	private BootstrapStyleClasses() {
 	}
 	

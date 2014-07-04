@@ -4,24 +4,23 @@ import lombok.Getter;
 
 public class Navs extends BaseContainer {
 	
+	NavsItemType itemType = null;
+	
 	public Navs() {
 		model.setElementType("ul");
 		addStyleClass("nav");
-		addStyleClass("nav-tabs");
+		withItemType(NavsItemType.Tabs);
 	}
 	
-	public Navs(boolean stacked) {
-		this();
+	public Navs stacked() {
 		addStyleClass("nav-stacked");
+		return this;
 	}
 	
 	public Navs addMenuItem(Link menuItem) {
 		BaseContainer linkContainer = new BaseContainer("li");
 		linkContainer.add(menuItem);
 		add(linkContainer);
-		if (this.getModel().getChildren().size() == 1) {
-			linkContainer.addStyleClass("active");
-		}
 		return this;
 	}
 	
@@ -31,8 +30,11 @@ public class Navs extends BaseContainer {
 		return this;
 	}
 	
-	public Navs setType(NavsItemType type) {
-		removeStyleClass("nav-tabs");
+	public Navs withItemType(NavsItemType type) {
+		if (itemType != null) {
+			removeStyleClass(itemType.getName());
+		}
+		itemType = type;
 		addStyleClass(type.getName());
 		return this;
 	}

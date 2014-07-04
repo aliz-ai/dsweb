@@ -9,7 +9,7 @@ import com.xedge.jquery.client.JQuery;
 public class LabelRenderer extends BaseComponentRenderer {
 	
 	public LabelRenderer(LabelModel label) {
-		super(JQuery.select("<span/>"), label);
+		super(JQuery.select("<" + label.getElementName() + "/>"), label);
 		widget.text(label.getLabel());
 		Bindings.obs(label).get(LabelModel_._label).addValueChangeListener(new ValueChangeListener<String>() {
 			@Override

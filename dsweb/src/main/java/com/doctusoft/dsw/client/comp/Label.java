@@ -19,6 +19,11 @@ public class Label extends BaseComponent<Label, LabelModel> {
 		model.setLabel(label);
 	}
 	
+	public Label(String label, String elementName) {
+		super(new LabelModel(elementName));
+		model.setLabel(label);
+	}
+
 	public Label withLabel(String label) {
 		model.setLabel(label);
 		return this;

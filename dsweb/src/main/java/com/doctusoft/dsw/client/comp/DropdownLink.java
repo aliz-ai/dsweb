@@ -20,6 +20,11 @@ public class DropdownLink extends AbstractContainer<DropdownLink, DropdownButton
 		add(dropdownButton);
 		add(itemContainer);
 	}
+	
+	public DropdownLink withLabel(String label) {
+		dropdownButton.withText(label);
+		return this;
+	}
 
 	public DropdownLink addLink(Link link) {
 		BaseContainer linkContainer = new BaseContainer("li");

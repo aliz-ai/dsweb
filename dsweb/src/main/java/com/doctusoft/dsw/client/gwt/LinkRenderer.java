@@ -14,6 +14,7 @@ public class LinkRenderer extends BaseComponentRenderer {
 		super(JQuery.select("<a/>"), link);
 		widget.text(link.getText());
 		widget.attr("href", link.getHref());
+		widget.attr("target", link.getTarget());
 		LinkModel_._text.addChangeListener(link, new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
