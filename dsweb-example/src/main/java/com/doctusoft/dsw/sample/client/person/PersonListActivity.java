@@ -7,6 +7,7 @@ import lombok.Getter;
 import com.doctusoft.MethodRef;
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.binding.observable.ObservableList;
+import com.doctusoft.dsw.client.comp.SelectItem;
 import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.AbstractCallback;
 import com.doctusoft.dsw.sample.client.ClientFactory;
@@ -21,6 +22,9 @@ public class PersonListActivity extends AbstractActivity {
 	public PersonListActivity(ClientFactory clientFactory) {
 		this.clientFactory = clientFactory;
 	}
+	
+	@ObservableProperty
+	private ObservableList<SelectItem<Long>> locationItems = new ObservableList<SelectItem<Long>>();
 	
 	@ObservableProperty
 	@Getter
@@ -45,7 +49,7 @@ public class PersonListActivity extends AbstractActivity {
 	private int progress = 30;
 	
 	@ObservableProperty
-	private Long selectValue = new Long(43);
+	private PersonDto person = new PersonDto();
 	
 	@ObservableProperty
 	private String textareaText = "Lorem ipsum textareasum blipblupqweasd";
@@ -54,10 +58,13 @@ public class PersonListActivity extends AbstractActivity {
 	public void start(AcceptsOneWidget panel, EventBus eventBus) {
 		ViewOf<PersonListActivity> view = clientFactory.getPersonListView();
 		view.setPresenter(this);
+		generateData();
+		person.setId(locationItems.get(2).getValue());
 		tags.add("asd");
 		tags.add("blip");
 		tags.add("nope");
 		panel.setWidget(view);
+		view.viewPresented();
 		loadList();
 	}
 	
@@ -71,13 +78,31 @@ public class PersonListActivity extends AbstractActivity {
 		});
 	}
 	
+	private void generateData() {
+		SelectItem<Long> item = new SelectItem<Long>();
+		item.setCaption("Ehun");
+		item.setValue(new Long(42));
+		locationItems.add(item);
+
+		SelectItem<Long> item2 = new SelectItem<Long>();
+		item2.setCaption("Ehelyt");
+		item2.setValue(new Long(43));
+		locationItems.add(item2);
+
+		SelectItem<Long> item3 = new SelectItem<Long>();
+		item3.setCaption("Ahelyt");
+		item3.setValue(new Long(44));
+		locationItems.add(item3);
+	}
+
+	
 	@MethodRef
 	public void checkBindings() {
 		System.out.println("\nCheckbox: " + checked);
 		System.out.println("Textarea: " + textareaText);
 		System.out.println("Password: " + password);
 		System.out.println("Tags: " + tags);
-		System.out.println("Select value: " + selectValue);
+//		System.out.println("Select value: " + selectValue);
 	}
 	
 	@MethodRef

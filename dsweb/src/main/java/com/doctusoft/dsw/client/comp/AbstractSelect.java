@@ -21,6 +21,8 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 	@com.doctusoft.ObservableProperty
 	private T value;
 	
+	private T tempValue;
+	
 	private Map<T, SelectItem<T>> itemsByValue = Maps.newHashMap();
 	private Map<T, SelectItemModel> modelsByValue = Maps.newHashMap();
 	private List<SelectItem<T>> items = Lists.newArrayList();
@@ -77,8 +79,10 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 		if (value == null)
 			return -1;
 		SelectItemModel itemModel = modelsByValue.get(value);
-		if (itemModel == null)
+		if (itemModel == null) {
+			tempValue = value;
 			return -1;
+		}
 		return model.getSelectItemsModel().indexOf(itemModel);
 	}
 	
@@ -93,6 +97,7 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 			modelsByValue.put(item.getValue(), itemModel);
 			items.add(item);
 		}
+		setValue(tempValue);
 	}
 
 }

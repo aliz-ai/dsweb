@@ -30,10 +30,16 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 		super(JQuery.select("<input type=\"text\" data-provide=\"typeahead\"/>"), select);
 		init(widget);
 		typeaheadModel = select;
-		widget.val(select.getSelectItemsModel().get(select.getSelectedIndex()).getCaption());
 		if (select.isAllVisibleOnFocus()) {
 			setShowAllOnFocus(widget);
 		}
+		
+		SelectModel_._selectedIndex.addChangeListener(select, new ValueChangeListener<Integer>() {
+			@Override
+			public void valueChanged(Integer newValue) {
+				widget.val(select.getSelectItemsModel().get(newValue).getCaption());
+			}
+		});
 		
 		new ListBindingListener<SelectItemModel>(Bindings.obs(select).get((ObservableProperty) SelectModel_._selectItemsModel)) {
 			@Override
