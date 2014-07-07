@@ -3,12 +3,21 @@ package com.doctusoft.dsw.client.comp;
 public class Navbar extends BaseContainer {
 	
 	private BaseContainer menuItemContainer;
-	
+
 	public Navbar(String title) {
+		this(title, false);
+	}
+	
+	protected Navbar(String title, boolean includeContainer) {
 		addStyleClass("navbar");
 		
-		BaseContainer innerContainer = new BaseContainer();
+		AbstractContainer innerContainer = new BaseContainer();
 		innerContainer.addStyleClass("navbar-inner");
+		add(innerContainer);
+		
+		if (includeContainer) {
+			innerContainer = new Container().appendTo(innerContainer);
+		}
 		
 		menuItemContainer = new BaseContainer("ul");
 		menuItemContainer.addStyleClass("nav");
@@ -17,8 +26,6 @@ public class Navbar extends BaseContainer {
 		titleItem.addStyleClass("brand");
 		innerContainer.add(titleItem);
 		innerContainer.add(menuItemContainer);
-		
-		add(innerContainer);
 		
 	}
 	

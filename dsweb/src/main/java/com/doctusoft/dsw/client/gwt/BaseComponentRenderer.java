@@ -16,6 +16,7 @@ import com.doctusoft.dsw.client.comp.model.ComponentEvent;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent_;
 import com.doctusoft.dsw.client.util.Booleans;
 import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 import com.xedge.jquery.client.JQEvent;
 import com.xedge.jquery.client.JQuery;
 import com.xedge.jquery.client.JQuery.EventType;
@@ -57,6 +58,7 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 				widget.removeClass(element);
 			}
 		};
+		applyStyle(component.getStyle());
 		addChangeListener(BaseComponentModel_._style, component, new ValueChangeListener<String>() {
 			
 			@Override
@@ -64,10 +66,14 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 				if (newValue == null) {
 					newValue = "";
 				}
-				widget.attr("style", newValue);
+				applyStyle(newValue);
 			}
 		});
 		bindEvent(EventType.click, Bindings.obs(component).get(BaseComponentModel_._clicked));
+	}
+	
+	protected void applyStyle(String style) {
+		widget.attr("style", Strings.isNullOrEmpty(style)?null:style);
 	}
 	
 	protected void bindEvent(final EventType eventType, final ObservableChainedValueBindingBuilder<ComponentEvent> eventBinding) {
