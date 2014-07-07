@@ -2,11 +2,13 @@ package com.doctusoft.dsw.sample.client.person;
 
 import java.io.Serializable;
 
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import com.doctusoft.ObservableProperty;
 
-@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PersonDto implements Serializable {
 	
 	@ObservableProperty

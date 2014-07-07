@@ -23,11 +23,13 @@ public class ShowcaseView extends ContainerWithPresenter<ShowcaseActivity> {
 		new Navs().stacked()
 			.addMenuItem(new Link("Buttons", "#ShowcasePlace:Buttons"))
 			.addMenuItem(new Link("Navs", "#ShowcasePlace:Navs"))
+			.addMenuItem(new Link("Tables", "#ShowcasePlace:Tables"))
 			.appendTo(menuCell);
 		subcontainer = new Container().appendTo(new Cell().withSpan(9).appendTo(row));
 		// a lazy initialization would be nicer, but that's okay for now
 		subitems.put(ShowcaseItem.Buttons, new ShowcaseButtonsView());
 		subitems.put(ShowcaseItem.Navs, new ShowcaseNavsView());
+		subitems.put(ShowcaseItem.Tables, new ShowcaseTableView());
 		bindOnPresenter().get(ShowcaseActivity_._item).addValueChangeListener(new ValueChangeListener<ShowcaseItem>() {
 			@Override
 			public void valueChanged(ShowcaseItem item) {

@@ -13,6 +13,7 @@ public class ShowcaseActivity extends AbstractActivity {
 	private ShowcasePlace place;
 	@ObservableProperty
 	private ShowcaseItem item;
+	
 
 	public ShowcaseActivity(ClientFactory clientFactory, ShowcasePlace place) {
 		this.clientFactory = clientFactory;
