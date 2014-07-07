@@ -7,6 +7,8 @@ import com.xedge.jquery.client.JQuery;
 
 public class HtmlContentRenderer extends BaseComponentRenderer {
 	
+	// TODO: we can render the given html without the enclosing "span" element, if the htmlContent
+	// contains an enclosing element. Replacing it is a bit tricky, but not impossible
 	public HtmlContentRenderer(HtmlContentModel model) {
 		super(JQuery.select("<span/>"), model);
 		widget.html(model.getHtmlContent());

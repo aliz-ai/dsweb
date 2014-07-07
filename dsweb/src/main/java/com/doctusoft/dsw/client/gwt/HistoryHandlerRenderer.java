@@ -11,13 +11,16 @@ import com.xedge.jquery.client.JQuery;
 public class HistoryHandlerRenderer extends BaseComponentRenderer {
 	
 	public HistoryHandlerRenderer(final HistoryHandlerModel historyHandler) {
-		super(JQuery.select("<poan/>"), historyHandler);
+		super(JQuery.select("<span/>"), historyHandler);
 		HistoryHandlerModel_._historyToken.addChangeListener(historyHandler, new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
 				History.newItem(newValue);
 			}
 		});
+		// propagate the initial history token to the applicaiton
+		historyHandler.setHistoryToken(History.getToken());
+		// propagate later user navigations
 		History.addValueChangeHandler(new ValueChangeHandler<String>() {
 			@Override
 			public void onValueChange(ValueChangeEvent<String> event) {

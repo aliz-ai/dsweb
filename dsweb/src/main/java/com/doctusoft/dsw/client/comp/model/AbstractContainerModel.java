@@ -1,8 +1,5 @@
 package com.doctusoft.dsw.client.comp.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import com.doctusoft.bean.ObservableProperty;
 import com.doctusoft.bean.binding.observable.ObservableList;
 
@@ -11,7 +8,7 @@ public abstract class AbstractContainerModel<Model extends BaseComponentModel> e
 	@com.doctusoft.ObservableProperty
 	private ObservableList<Model> children = new ObservableList<Model>();
 	
-	@Getter @Setter
+	@com.doctusoft.ObservableProperty
 	private String elementType = "div";
 	
 	@Override
