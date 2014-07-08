@@ -23,11 +23,12 @@ public class MvpExampleEntryPoint implements EntryPoint {
 	protected ClientFactory clientFactory;
 	
 	public void onModuleLoad() {
-		final ExampleApplication app = new ExampleApplication();
+		clientFactory = GWT.create(ClientFactory.class);
+
+		final ExampleApplication app = new ExampleApplication(clientFactory);
 		applicationFrame = app.createFrameWidgets();
 		JQuery.select("#content").append(rendererFactory.getRenderer(applicationFrame.getComponentModel()).getWidget());
 
-		clientFactory = GWT.create(ClientFactory.class);
 		final IPlaceController placeController = clientFactory.getPlaceController();
 		final ActivityMapper activityMapper = new PocActivityMapper(clientFactory);
 		final ActivityManager activityManager = new ActivityManager(activityMapper, clientFactory.getEventBus());

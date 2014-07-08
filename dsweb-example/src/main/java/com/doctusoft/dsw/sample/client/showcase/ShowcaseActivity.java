@@ -1,31 +1,28 @@
 package com.doctusoft.dsw.sample.client.showcase;
 
+import com.doctusoft.MethodRef;
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.dsw.mvp.client.ViewOf;
+import com.doctusoft.dsw.sample.client.BaseActivity;
 import com.doctusoft.dsw.sample.client.ClientFactory;
-import com.google.gwt.activity.shared.AbstractActivity;
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-public class ShowcaseActivity extends AbstractActivity {
+public class ShowcaseActivity extends BaseActivity<ShowcaseActivity, ShowcasePlace> {
 	
-	private ClientFactory clientFactory;
-	private ShowcasePlace place;
 	@ObservableProperty
 	private ShowcaseItem item;
 	
-
-	public ShowcaseActivity(ClientFactory clientFactory, ShowcasePlace place) {
-		this.clientFactory = clientFactory;
-		this.place = place;
-		item = place.getItem();
+	public ShowcaseActivity(ClientFactory clientFactory, ShowcasePlace showcasePlace) {
+		super(clientFactory, showcasePlace);
+		setItem(place.getItem());
 	}
 	
 	@Override
-	public void start(AcceptsOneWidget panel, EventBus eventBus) {
-		ViewOf<ShowcaseActivity> view = clientFactory.getShowcaseView();
-		view.setPresenter(this);
-		panel.setWidget(view);
+	protected ViewOf<ShowcaseActivity> createView() {
+		return clientFactory.getShowcaseView();
 	}
 
+	@MethodRef
+	public void dangerousMethod() {
+		throw new RuntimeException("unexpected exception");
+	}
 }

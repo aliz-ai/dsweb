@@ -13,6 +13,7 @@ import com.doctusoft.bean.binding.observable.ObservableChainedValueBindingBuilde
 import com.doctusoft.dsw.client.comp.Container;
 import com.doctusoft.dsw.client.comp.HasComponentModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
+import com.doctusoft.dsw.client.exc.ExceptionReporter;
 import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -47,7 +48,15 @@ public class ContainerWithPresenter<Presenter> implements ViewOf<Presenter>, Has
 		return new EmptyEventHandler() {
 			@Override
 			public void handle() {
-				presenterMethod.apply(presenter);
+				try {
+					presenterMethod.apply(presenter);
+				} catch (RuntimeException e) {
+					if (presenter instanceof ExceptionReporter) {
+						((ExceptionReporter) presenter).reportException(e);
+					} else {
+						throw e;
+					}
+				}
 			}
 		};
 	}
@@ -55,7 +64,15 @@ public class ContainerWithPresenter<Presenter> implements ViewOf<Presenter>, Has
 		return new EmptyEventHandler() {
 			@Override
 			public void handle() {
-				presenterMethod.apply(presenter, param);
+				try {
+					presenterMethod.apply(presenter, param);
+				} catch (RuntimeException e) {
+					if (presenter instanceof ExceptionReporter) {
+						((ExceptionReporter) presenter).reportException(e);
+					} else {
+						throw e;
+					}
+				}
 			}
 		};
 	}
