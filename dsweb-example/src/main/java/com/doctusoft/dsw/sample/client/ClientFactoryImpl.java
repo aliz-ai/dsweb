@@ -11,6 +11,8 @@ import com.doctusoft.dsw.sample.client.person.PersonListActivity;
 import com.doctusoft.dsw.sample.client.person.PersonListView;
 import com.doctusoft.dsw.sample.client.person.PersonRemoteService;
 import com.doctusoft.dsw.sample.client.person.PersonRemoteServiceAsync;
+import com.doctusoft.dsw.sample.client.person.SandboxActivity;
+import com.doctusoft.dsw.sample.client.person.SandboxView;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseActivity;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseView;
 import com.google.gwt.core.client.GWT;
@@ -34,6 +36,9 @@ public class ClientFactoryImpl implements ClientFactory {
 	
 	@Getter(lazy=true)
 	private final ViewOf<ShowcaseActivity> showcaseView = new ShowcaseView();
+	
+	@Getter(lazy=true)
+	private final ViewOf<SandboxActivity> sandboxView = new SandboxView();
 
 	@Getter(lazy=true)
 	private final PersonRemoteServiceAsync personRemoteServiceAsync = GWT.create(PersonRemoteService.class);

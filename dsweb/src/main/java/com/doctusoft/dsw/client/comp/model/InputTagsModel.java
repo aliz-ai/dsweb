@@ -5,7 +5,7 @@ import com.doctusoft.bean.ObservableProperty;
 public class InputTagsModel extends ContainerModel {
 	
 	@com.doctusoft.ObservableProperty
-	private String inputText = "";
+	private String inputText ="";
 	
 	@Override
 	public Iterable<ObservableProperty<?, ?>> getObservableProperties() {

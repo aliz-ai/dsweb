@@ -10,11 +10,11 @@ import com.doctusoft.dsw.client.comp.SelectItem;
 import com.doctusoft.dsw.client.comp.Typeahead;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
-public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
+public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 	
 	private Typeahead<Long> typeahead;
 
-	public PersonListView() {
+	public SandboxView() {
 		SelectItem<Long> selectItem = new SelectItem<Long>();
 		selectItem.setCaption("ad");
 		selectItem.setValue(new Long(42));
@@ -37,7 +37,7 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 //		container.add(typeahead);
 		
 		InputTags tags = new InputTags();
-		tags.bind(bindOnPresenter().get(PersonListActivity_._tags));
+		tags.bind(bindOnPresenter().get(SandboxActivity_._tags));
 //		tags.bind(bindOnPresenter().get(PersonListActivity_._person).get(PersonDto_._someList));
 		tags.appendTo(container);
 		
@@ -76,7 +76,7 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 //		container.add(passwordField);
 //		
 		Button checkButton = new Button("check");
-		checkButton.click(presenterMethod(PersonListActivity_.__checkBindings));
+		checkButton.click(presenterMethod(SandboxActivity_.__checkBindings));
 		container.add(checkButton);
 //		
 //		Textarea textarea = new Textarea(6);
@@ -161,11 +161,11 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 //		container.add(inputTags);
 
 		Button removeTagButton = new Button("Remove tag");
-		removeTagButton.click(presenterMethod(PersonListActivity_.__removeTag));
+		removeTagButton.click(presenterMethod(SandboxActivity_.__removeTag));
 		container.add(removeTagButton);
 		
 		Button addTagButton = new Button("Add tag");
-		addTagButton.click(presenterMethod(PersonListActivity_.__addTag));
+		addTagButton.click(presenterMethod(SandboxActivity_.__addTag));
 		container.add(addTagButton);
 //		
 //		new Icon(BootstrapIcon.ICON_REMOVE).appendTo(container);

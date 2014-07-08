@@ -1,7 +1,8 @@
 package com.doctusoft.dsw.client.comp;
 
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
@@ -18,75 +19,96 @@ import com.google.common.collect.Lists;
 public class InputTags extends AbstractContainer<InputTags, InputTagsModel> {
 	
 	private InputText inputText;
+	
+	InputTextModel inputTextModel;
+	
+	private Set<String> tags = new HashSet<String>();
+	
+	private boolean settingValueFromWidget = false;
+	
+	private boolean inserted = false;
 
 	public InputTags() {
 		super(new InputTagsModel());
 		inputText = new InputText();
-		Bindings.bind(Bindings.obs(inputText.getModel()).get(InputTextModel_._value), Bindings.obs(model).get(InputTagsModel_._inputText));
+		inputText.bind(Bindings.obs(model).get(InputTagsModel_._inputText));
+//		Bindings.bind(Bindings.obs(inputText.getModel()).get(InputTextModel_._value), Bindings.obs(model).get(InputTagsModel_._inputText));
 		add(inputText);
 	}
 	
 	
 	
 	public <T> InputTags bind(final ObservableValueBinding<? extends List<T>> listBinding) {
-		final InputTextModel inputTextModel = inputText.getModel();
 		InputTextModel_._value.addChangeListener(inputText.getModel(), new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
+				settingValueFromWidget = true;
+				String[] newTags = newValue.split(",");
 				
-				// to avoid infinite loop
-				int latestInputLength = inputTextModel.getValue().split(",").length;
-				if (listBinding.getValue().size() < latestInputLength) {
-					String[] newTags = newValue.split(",");
-					for (String v : newTags) {
+				Set<String> setHelper = new HashSet<String>();
+				
+				for (String tag : newTags) {
+					if (!Strings.isNullOrEmpty(tag)) {
+						setHelper.add(tag);
+					}
+				}
+				
+				if (setHelper.size() > tags.size()) {
+					tags.addAll(setHelper);
+					for (String v : tags) {
 						if (!listBinding.getValue().contains(v)) {
 							listBinding.getValue().add((T) v);
 						}
 					}
-				} else if (listBinding.getValue().size() > latestInputLength) {
-					String[] newTags = newValue.split(",");
-					List<String> newTagList = Lists.newArrayList(newTags);
-					List<T> helper = listBinding.getValue(); 
+				} else if (setHelper.size() <= tags.size() && !inserted) {
+					tags = setHelper;
+					List<T> helper = Lists.newArrayList(listBinding.getValue()); 
 					for (T v : helper) {
-						if (!newTagList.contains(v.toString())) {
+						if (!tags.contains(v.toString())) {
 							listBinding.getValue().remove(v);
 						}
 					}
 				}
-				
+				settingValueFromWidget = false;
 			}
 		});
 		new ListBindingListener<T>(listBinding) {
 			
 			@Override
 			public void inserted(ObservableList<T> list, int index, T element) {
-				if (Collections.frequency(list, element) > 1) {
-					list.remove(element);
-					return;
-				}
-				
-				// to avoid infinite loop
-				int latestInputLength = inputTextModel.getValue().split(",").length;
-				if (list.size() != latestInputLength || Strings.isNullOrEmpty(inputTextModel.getValue())) {
-					String valueString;
-					if (Strings.isNullOrEmpty(inputTextModel.getValue())) {
-						valueString = inputTextModel.getValue() + element.toString();
-					} else {
-						valueString = inputTextModel.getValue() + "," + element.toString();
+				if (!settingValueFromWidget) {
+					// handling the adding of multiple tags
+					String[] addedTags = element.toString().split(",");
+					for (String tag : addedTags) {
+						tags.add(tag);
 					}
+					
+					String valueString = tagSetToString(tags);
+					inserted = true;
 					inputText.getModel().setValue(valueString);
+					inserted = false;
 				}
 			}
 
 			@Override
 			public void removed(ObservableList<T> list, int index, T element) {
-				int latestInputLength = inputTextModel.getValue().split(",").length;
-				if (list.size() != latestInputLength) {
-					String valueString = list.toString().replaceAll("\\[", "").replaceAll("\\]", "");
-					inputText.getModel().setValue(valueString);
+				if (!settingValueFromWidget) {
+					tags.remove(element);
+					inputText.getModel().setValue(tagSetToString(tags));
 				}
 			}
 		};
 		return this;
+	}
+	
+	private String tagSetToString(Set<String> tagSet) {
+		String tagString = "";
+		for (String tag : tagSet) {
+			tagString = tagString + tag + ",";
+		}
+		if (tagString.length() > 0) {
+			tagString = tagString.substring(0, tagString.length()-1);
+		}
+		return tagString;
 	}
 }

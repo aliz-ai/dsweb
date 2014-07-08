@@ -2,20 +2,15 @@ package com.doctusoft.dsw.client.gwt;
 
 import java.util.List;
 
-import javax.swing.plaf.metal.OceanTheme;
-
 import com.doctusoft.bean.ObservableProperty;
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
-import com.doctusoft.dsw.client.comp.model.CheckboxModel_;
 import com.doctusoft.dsw.client.comp.model.SelectItemModel;
 import com.doctusoft.dsw.client.comp.model.SelectModel_;
 import com.doctusoft.dsw.client.comp.model.TypeaheadModel;
-import com.doctusoft.dsw.client.comp.model.TypeaheadModel_;
 import com.google.common.collect.Lists;
-import com.google.gwt.user.client.ui.Widget;
 import com.xedge.jquery.client.JQEvent;
 import com.xedge.jquery.client.JQuery;
 import com.xedge.jquery.client.handlers.EventHandler;
@@ -34,10 +29,16 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 			setShowAllOnFocus(widget);
 		}
 		
+		if (select.getSelectedIndex() != -1) {
+			widget.val(select.getSelectItemsModel().get(select.getSelectedIndex()).getCaption());
+		}
+		
 		SelectModel_._selectedIndex.addChangeListener(select, new ValueChangeListener<Integer>() {
 			@Override
 			public void valueChanged(Integer newValue) {
-				widget.val(select.getSelectItemsModel().get(newValue).getCaption());
+				if (select.getSelectedIndex() != -1) {
+					widget.val(select.getSelectItemsModel().get(newValue).getCaption());
+				}
 			}
 		});
 		

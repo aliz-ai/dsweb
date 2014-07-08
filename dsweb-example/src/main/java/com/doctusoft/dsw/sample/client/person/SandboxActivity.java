@@ -2,6 +2,8 @@ package com.doctusoft.dsw.sample.client.person;
 
 import java.util.List;
 
+import lombok.Getter;
+
 import com.doctusoft.MethodRef;
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.binding.observable.ObservableList;
@@ -14,11 +16,11 @@ import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-public class PersonListActivity extends AbstractActivity {
+public class SandboxActivity extends AbstractActivity {
 	
 	private ClientFactory clientFactory;
 	
-	public PersonListActivity(ClientFactory clientFactory) {
+	public SandboxActivity(ClientFactory clientFactory) {
 		this.clientFactory = clientFactory;
 	}
 	
@@ -26,6 +28,7 @@ public class PersonListActivity extends AbstractActivity {
 	private ObservableList<SelectItem<Long>> locationItems = new ObservableList<SelectItem<Long>>();
 	
 	@ObservableProperty
+	@Getter
 	private ObservableList<PersonDto> personList = new ObservableList<PersonDto>();
 	
 	@ObservableProperty
@@ -54,7 +57,7 @@ public class PersonListActivity extends AbstractActivity {
 	
 	@Override
 	public void start(AcceptsOneWidget panel, EventBus eventBus) {
-		ViewOf<PersonListActivity> view = clientFactory.getPersonListView();
+		ViewOf<SandboxActivity> view = clientFactory.getSandboxView();
 		view.setPresenter(this);
 		generateData();
 		person.setId(locationItems.get(2).getValue());

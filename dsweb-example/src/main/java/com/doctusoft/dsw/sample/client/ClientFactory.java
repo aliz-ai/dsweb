@@ -5,6 +5,7 @@ import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.person.PersonDetailActivity;
 import com.doctusoft.dsw.sample.client.person.PersonListActivity;
 import com.doctusoft.dsw.sample.client.person.PersonRemoteServiceAsync;
+import com.doctusoft.dsw.sample.client.person.SandboxActivity;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseActivity;
 import com.google.web.bindery.event.shared.EventBus;
 
@@ -19,6 +20,8 @@ public interface ClientFactory {
 	public ViewOf<PersonDetailActivity> getPersonDetailView();
 	
 	public ViewOf<ShowcaseActivity> getShowcaseView();
+	
+	public ViewOf<SandboxActivity> getSandboxView();
 
 	public PersonRemoteServiceAsync getPersonRemoteServiceAsync();
 }
