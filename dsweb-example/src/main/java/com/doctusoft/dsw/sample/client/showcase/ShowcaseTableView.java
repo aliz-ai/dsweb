@@ -26,11 +26,12 @@ public class ShowcaseTableView implements HasComponentModel {
 		personList.add(new PersonDto(3l, "Ibrahim Ferrer", "ibrahim@buena.cu"));
 		new BaseContainer().withStyleClass("page-header").appendTo(container)
 			.add(new HtmlContent("<h1>Tables</h1>"));
-		new DataTable<PersonDto>().appendTo(container)
+		new DataTable<PersonDto>()
 			.addColumn(new PropertyColumn<PersonDto>("Id", PersonDto_._id))
 			.addColumn(new PropertyColumn<PersonDto>("Name", PersonDto_._name))
 			.addColumn(new PropertyColumn<PersonDto>("Email", PersonDto_._email))
-			.bind(Bindings.obs(this).get(ShowcaseTableView_._personList));
+			.bind(Bindings.obs(this).get(ShowcaseTableView_._personList))
+			.appendTo(container);
 		
 	}
 

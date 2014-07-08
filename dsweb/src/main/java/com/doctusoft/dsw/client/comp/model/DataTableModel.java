@@ -10,4 +10,9 @@ public class DataTableModel extends BaseComponentModel {
 	
 	@ObservableProperty
 	private ObservableList<DataTableRowModel> rows = new ObservableList<DataTableRowModel>();
+	
+	@Override
+	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
+		return DataTableModel_._observableProperties;
+	}
 }

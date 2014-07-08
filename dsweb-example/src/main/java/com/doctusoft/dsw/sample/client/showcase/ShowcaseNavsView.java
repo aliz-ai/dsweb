@@ -22,7 +22,7 @@ public class ShowcaseNavsView implements HasComponentModel {
 			.add(new HtmlContent("<h1>Navs</h1>"));
 		menuDropdown = new DropdownLink("Dropdown button").
 				addLink(new Link("External link", "http://www.tehcute.com/pics/201201/Pug-wants-cookie.jpg").newWindow())
-				.addLink(new Link("Link with handler", new EmptyEventHandler() {
+				.addLink(new Link("Link with handler").click(new EmptyEventHandler() {
 					@Override
 					public void handle() {
 						menuDropdown.withLabel("Clicked");

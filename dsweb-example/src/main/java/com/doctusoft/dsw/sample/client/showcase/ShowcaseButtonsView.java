@@ -29,7 +29,7 @@ public class ShowcaseButtonsView implements HasComponentModel {
 		new Label("Dropdown button", "h3").appendTo(container);
 		menuDropdown = new DropdownLink("Dropdown button").
 				addLink(new Link("External link", "http://www.tehcute.com/pics/201201/Pug-wants-cookie.jpg").newWindow())
-				.addLink(new Link("Link with handler", new EmptyEventHandler() {
+				.addLink(new Link("Link with handler").click(new EmptyEventHandler() {
 					@Override
 					public void handle() {
 						container.add(new Alert("Clicked"));

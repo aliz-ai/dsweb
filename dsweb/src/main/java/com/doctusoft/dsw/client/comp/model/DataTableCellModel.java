@@ -10,7 +10,7 @@ public class DataTableCellModel implements ModelObject {
 	
 	@Override
 	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
-		return DataTableColumnModel_._observableProperties;
+		return DataTableCellModel_._observableProperties;
 	}
 
 }

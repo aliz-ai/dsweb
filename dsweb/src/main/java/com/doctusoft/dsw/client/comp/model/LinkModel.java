@@ -1,7 +1,6 @@
 package com.doctusoft.dsw.client.comp.model;
 
 import com.doctusoft.ObservableProperty;
-import com.doctusoft.bean.binding.EmptyEventHandler;
 
 public class LinkModel extends BaseComponentModel {
 
@@ -10,9 +9,6 @@ public class LinkModel extends BaseComponentModel {
 
 	@ObservableProperty
 	private String href;
-	
-	@ObservableProperty
-	private EmptyEventHandler actionListener;
 	
 	@ObservableProperty
 	private String target;

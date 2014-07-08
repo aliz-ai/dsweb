@@ -1,6 +1,5 @@
 package com.doctusoft.dsw.client.gwt;
 
-import com.doctusoft.dsw.client.AbstractRendererFactory;
 import com.doctusoft.dsw.client.Renderer;
 import com.doctusoft.dsw.client.comp.model.AlertModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
@@ -18,12 +17,25 @@ import com.doctusoft.dsw.client.comp.model.InputTextModel;
 import com.doctusoft.dsw.client.comp.model.LabelModel;
 import com.doctusoft.dsw.client.comp.model.LinkModel;
 import com.doctusoft.dsw.client.comp.model.ModalDialogModel;
+import com.doctusoft.dsw.client.comp.model.ResourceLoaderModel;
 import com.doctusoft.dsw.client.comp.model.SelectModel;
 import com.doctusoft.dsw.client.comp.model.TextareaModel;
 import com.doctusoft.dsw.client.comp.model.TypeaheadModel;
 import com.xedge.jquery.client.JQuery;
 
-public class RendererFactoryImpl extends AbstractRendererFactory<JQuery> {
+public class RendererFactoryImpl extends AbstractGwtRendererFactory {
+	
+	public RendererFactoryImpl() {
+		/* not currently used, needs some more clarification
+		loadScript("js/jqery-1.10.2.js");
+		loadScript("js/bootstrap.js");
+		loadStylesheet("css/bootstrap.css");
+		loadScript("bootstrap-tagsinput.js");
+		loadStylesheet("bootstrap-tagsinput.css");
+		loadScript("datatables/js/jquery.dataTables.js");
+		loadStylesheet("jquery.dataTables.css");
+		*/
+	}
 	
 	@Override
 	public Renderer<JQuery> resolveRenderer(BaseComponentModel baseWidget) {
@@ -80,6 +92,9 @@ public class RendererFactoryImpl extends AbstractRendererFactory<JQuery> {
 		}
 		if (baseWidget instanceof DataTableModel) {
 			return new DataTableRenderer((DataTableModel) baseWidget);
+		}
+		if (baseWidget instanceof ResourceLoaderModel) {
+			return new ResourceLoaderRenderer((ResourceLoaderModel) baseWidget);
 		}
 
 		return null;

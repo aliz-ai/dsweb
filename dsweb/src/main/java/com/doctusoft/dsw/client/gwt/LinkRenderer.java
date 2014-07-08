@@ -1,12 +1,13 @@
 package com.doctusoft.dsw.client.gwt;
 
 import com.doctusoft.bean.ValueChangeListener;
-import com.doctusoft.bean.binding.EmptyEventHandler;
+import com.doctusoft.bean.binding.Bindings;
+import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
+import com.doctusoft.dsw.client.comp.model.ComponentEvent_;
 import com.doctusoft.dsw.client.comp.model.LinkModel;
 import com.doctusoft.dsw.client.comp.model.LinkModel_;
-import com.xedge.jquery.client.JQEvent;
+import com.google.common.base.Objects;
 import com.xedge.jquery.client.JQuery;
-import com.xedge.jquery.client.handlers.EventHandler;
 
 public class LinkRenderer extends BaseComponentRenderer {
 	
@@ -27,20 +28,22 @@ public class LinkRenderer extends BaseComponentRenderer {
 				widget.attr("href", newValue);
 			}
 		});
-		LinkModel_._actionListener.addChangeListener(link, new ValueChangeListener<EmptyEventHandler>() {
-			@Override
-			public void valueChanged(EmptyEventHandler newValue) {
-				widget.attr("href","javacsript:;");
-			}
-		});
-		widget.click(new EventHandler() {
-			@Override
-			public void eventComplete(JQEvent event, JQuery currentJQuery) {
-				if (link.getActionListener() != null)  {
-					link.getActionListener().handle();
+		if (link.getClicked().isHasListeners()) {
+			clearHref();
+		} else {
+			Bindings.obs(link).get(BaseComponentModel_._clicked).get(ComponentEvent_._hasListeners).addValueChangeListener(new ValueChangeListener<Boolean>() {
+				@Override
+				public void valueChanged(Boolean newValue) {
+					if (Objects.firstNonNull(newValue, false)) {
+						clearHref();
+					}
 				}
-			}
-		});
+			});
+		}
+	}
+	
+	protected void clearHref() {
+		widget.attr("href","javascript:;");
 	}
 
 }

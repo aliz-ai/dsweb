@@ -36,7 +36,7 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 	
 	protected DataTableRowModel renderRow(final Item item) {
 		DataTableRowModel rowModel = new DataTableRowModel();
-		rowModel.setCells(Lists.transform(columns, new Function<Column<Item>, DataTableCellModel>() {
+		rowModel.getCells().addAll(Lists.transform(columns, new Function<Column<Item>, DataTableCellModel>() {
 			@Override
 			public DataTableCellModel apply(Column<Item> input) {
 				DataTableCellModel cellModel = new DataTableCellModel();
