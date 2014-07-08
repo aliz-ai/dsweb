@@ -9,9 +9,9 @@ public class Typeahead<T> extends AbstractSelect<Typeahead, TypeaheadModel, T> {
 		super(new TypeaheadModel());
 	}
 	
-	public Typeahead(boolean showAllOnFocus) {
-		this();
+	public Typeahead<T> showAllOnFocus() {
 		model.setAllVisibleOnFocus(true);
+		return this;
 	}
 	
 }

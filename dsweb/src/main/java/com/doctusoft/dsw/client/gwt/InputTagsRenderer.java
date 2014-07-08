@@ -89,11 +89,7 @@ public class InputTagsRenderer extends ContainerRenderer {
 	}
 	
 	private native static void initTagsInput(JQuery jQuery) /*-{
-		jQuery.tagsinput({
-			typeahead: {
-				source: ['test'],
-			}
-		});
+		jQuery.tagsinput();
 	}-*/;
 	
 	private native static void addTag(JQuery jQuery, String newTag) /*-{

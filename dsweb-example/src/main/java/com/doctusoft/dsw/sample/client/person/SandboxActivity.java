@@ -101,7 +101,6 @@ public class SandboxActivity extends AbstractActivity {
 		System.out.println("Textarea: " + textareaText);
 		System.out.println("Password: " + password);
 		System.out.println("Tags: " + tags);
-		System.out.println("Tags of person: " + person.getSomeList());
 //		System.out.println("Select value: " + selectValue);
 	}
 	

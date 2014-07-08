@@ -32,7 +32,6 @@ public class InputTags extends AbstractContainer<InputTags, InputTagsModel> {
 		super(new InputTagsModel());
 		inputText = new InputText();
 		inputText.bind(Bindings.obs(model).get(InputTagsModel_._inputText));
-//		Bindings.bind(Bindings.obs(inputText.getModel()).get(InputTextModel_._value), Bindings.obs(model).get(InputTagsModel_._inputText));
 		add(inputText);
 	}
 	
