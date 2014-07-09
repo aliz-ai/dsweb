@@ -1,5 +1,6 @@
 package com.doctusoft.dsw.sample.client.showcase;
 
+import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.HtmlContent;
@@ -12,6 +13,15 @@ public class ShowcaseExceptionsView extends ContainerWithPresenter<ShowcaseActiv
 			.add(new HtmlContent("<h1>Exceptions</h1>"));
 		new Button("Dangerous button")
 			.click(presenterMethod(ShowcaseActivity_.__dangerousMethod))
+			.appendTo(container);
+		new HtmlContent("<hr/>").appendTo(container);
+		new Button("Cause sync error")
+			.click(new EmptyEventHandler() {
+				@Override
+				public void handle() {
+					throw new RuntimeException("sync error caused");
+				}
+			})
 			.appendTo(container);
 	}
 
