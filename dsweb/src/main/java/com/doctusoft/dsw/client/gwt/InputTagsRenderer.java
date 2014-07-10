@@ -34,7 +34,7 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 			public void inserted(ObservableList<String> list, int index, String element) {
 				changedFromModel = true;
 				addTag(widget, element);
-//				changedFromModel = false;
+				changedFromModel = false;
 			}
 
 			@Override
@@ -44,7 +44,7 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 				}
 				changedFromModel = true;
 				removeTag(widget, element);
-//				changedFromModel = false;
+				changedFromModel = false;
 			}
 		};
 		
@@ -52,7 +52,6 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 			@Override
 			public void eventComplete(JQEvent event, JQuery currentJQuery) {
 				if (changedFromModel) {
-					changedFromModel = false;
 					return;
 				}
 				List<String> widgetTags = getWidgetTagList(widget.val());
