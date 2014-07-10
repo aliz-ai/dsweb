@@ -18,11 +18,13 @@ public class ModalDialog extends BaseComponent<ModalDialog, ModalDialogModel> {
 		return this;
 	}
 	
-	public void show() {
+	public ModalDialog show() {
 		model.setDialogVisible(true);
+		return this;
 	}
 	
-	public void hide() {
+	public ModalDialog hide() {
 		model.setDialogVisible(false);
+		return this;
 	}
 }
