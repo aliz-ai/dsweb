@@ -1,130 +1,113 @@
 package com.doctusoft.dsw.client.gwt;
 
-import java.util.Collections;
 import java.util.List;
 
-import lombok.Setter;
-
-import com.doctusoft.bean.ValueChangeListener;
+import com.doctusoft.bean.ObservableProperty;
+import com.doctusoft.bean.binding.Bindings;
+import com.doctusoft.bean.binding.observable.ListBindingListener;
+import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.comp.model.InputTagsModel;
 import com.doctusoft.dsw.client.comp.model.InputTagsModel_;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.xedge.jquery.client.JQEvent;
 import com.xedge.jquery.client.JQuery;
+import com.xedge.jquery.client.handlers.EventHandler;
 
-public class InputTagsRenderer extends ContainerRenderer {
+public class InputTagsRenderer extends BaseComponentRenderer {
 	
-	String lastValue = "";
-
-	private static boolean changedFromThis = false;
-
-	@Setter
-	String removed;
+	private boolean changedFromModel = false;
 	
-	public InputTagsRenderer(final InputTagsModel container) {
-		super(container);
-		final JQuery input = widget.find("input");
-		input.attr("id","this");
-		input.attr("data-role", "tagsinput");
-		input.attr("placeholder", "Add-tags");
+	private boolean changedFromWidget = false;
+	
+	public InputTagsRenderer(final InputTagsModel inputTagsModel) {
+		super(JQuery.select("<input type=\"text\" />"), inputTagsModel);
+		widget.attr("placeholder","Add-tags");
+		widget.attr("data-role", "tagsinput");
 		
-		lastValue = container.getInputText();
-				
-		initTagsInput(input);
-		
-		InputTagsModel_._inputText.addChangeListener(container, new ValueChangeListener<String>() {
-			
-			/*
-			 *  If an item is removed from the list bound to the tags, the 'removeTag' method needs to be called (unlike removing tags via clicking on the UI).
-			 *  However this results in the tagsinput firing change events with the 'newValue' still containing the element to be removed (unlike when clicking on the UI).
-			 *  The big mess below handles this difference between the changes on the UI and the changes on the model. 
-			 * 
-			 */
-			
+		new ListBindingListener<String>(Bindings.obs(inputTagsModel).get((ObservableProperty) InputTagsModel_._tagList)) {
+
+
 			@Override
-			public void valueChanged(String newValue) {
-				setRemoved(getTagToRemove(lastValue, newValue));
-				List<String> newList = Lists.newArrayList(newValue.split(","));
-				List<String> lastList = Lists.newArrayList();
-				for (String s : lastValue.split(",")) {
-					if (!s.equals(removed)) {
-						lastList.add(s);
+			public void inserted(ObservableList<String> list, int index, String element) {
+				changedFromModel = true;
+				addTag(widget, element);
+				changedFromModel = false;
+			}
+
+			@Override
+			public void removed(ObservableList<String> list, int index,	String element) {
+				if (changedFromWidget) {
+					return;
+				}
+				changedFromModel = true;
+				removeTag(widget, element);
+				changedFromModel = false;
+			}
+		};
+		
+		widget.change(new EventHandler() {
+			@Override
+			public void eventComplete(JQEvent event, JQuery currentJQuery) {
+				if (changedFromModel) {
+					return;
+				}
+				List<String> widgetTags = getWidgetTagList(widget.val());
+				ObservableList<String> modelTags = inputTagsModel.getTagList();
+				List<String> tagsToAdd = Lists.newArrayList();
+				List<String> tagsToRemove = Lists.newArrayList();
+				
+				for (String widgetTag : widgetTags) {
+					if (!modelTags.contains(widgetTag)) {
+						tagsToAdd.add(widgetTag);
 					}
 				}
-				
-				Collections.sort(newList);
-				Collections.sort(lastList);
-				if (newList.equals(lastList) && !Lists.newArrayList(input.val().split(",")).contains(removed)) {
-					setRemoved(null);
-				}	
-				
-				if (removed != null) {
-					removeTag(input, removed);
-				} else {
-					String added = getTagToAdd(lastValue, newValue);
-					addTag(input, added);
+				if (!tagsToAdd.isEmpty()) {
+					modelTags.addAll(tagsToAdd);
 				}
-				
-				lastValue = newValue;
+				for (String modelTag : modelTags) {
+					if (!widgetTags.contains(modelTag)) {
+						tagsToRemove.add(modelTag);
+					}
+				}
+				if (!tagsToRemove.isEmpty()) {
+					changedFromWidget = true;
+					modelTags.removeAll(tagsToRemove);
+					changedFromWidget = false;
+				}
 			}
 		});
-	}
-	
-	private void appendTag(String added) {
-		if (JQuery.select("span:contains(" + added + ")").length() != 0) {
-			return;
-		}
-		JQuery tag = JQuery.select("<span class=\"tag label label-info\"/>");
-		tag.text(added);
-		JQuery remove = JQuery.select("<span data-role=\"remove\"></span>");
-		remove.appendTo(tag);
-		tag.insertAfter(widget.find("span.tag:last"));
-	}
-	
-	private static void setChangedFromThis(Boolean value) {
-		changedFromThis = value;
-	}
-	
-	private static void test() {
-		System.out.println(changedFromThis);
-	}
-	
-	private native static void initTagsInput(JQuery jQuery) /*-{
-		jQuery.tagsinput();
-	}-*/;
-	
-	private native static void addTag(JQuery jQuery, String newTag) /*-{
-		jQuery.tagsinput('add', newTag);
-	}-*/;
-
-	private native static void removeTag(JQuery jQuery, String removeTag) /*-{
-		jQuery.tagsinput('remove', removeTag);
-	}-*/;
-	
-	private native static void removeAndReAdd(JQuery jQuery, String tags) /*-{
-		jQuery.tagsinput('removeAll');
-		jQuery.tagsinput('add', tags);
-	}-*/;
-	
-	private String getTagToAdd(String lastTags, String newTags) {
-		List<String> lastTagsList = Lists.newArrayList(lastTags.split(","));
-		for (String tag : newTags.split(",")) {
-			if (!lastTagsList.contains(tag)) {
-				return tag;
-			}
-		}
-		return null;
-	}
-	
-	private String getTagToRemove(String lastTags, String newTags) {
-		List<String> newTagsList = Lists.newArrayList(newTags.split(","));
-		for (String tag : lastTags.split(",")) {
-			if (!newTagsList.contains(tag)) {
-				return tag;
-			}
-		}
-		return null;
 		
 	}
 	
+	private native static void addTag(JQuery element, String newTag) /*-{
+		element.tagsinput('add', newTag);
+	}-*/;
+
+	private native static void removeTag(JQuery element, String removeTag) /*-{
+		element.tagsinput('remove', removeTag);
+	}-*/;
+	
+	List<String> getWidgetTagList(String widgetTags) {
+		List<String> tagList = Lists.newArrayList();
+		for (String s : widgetTags.split(",")) {
+			if (!Strings.isNullOrEmpty(s) && !s.trim().isEmpty()) {
+				tagList.add(s);
+			}
+		}
+		return tagList; 
+	}
+	
+	String tagListToString(List<String> tagList) {
+		String tagString = "";
+		for (String tag : tagList) {
+			tagString = tagString + tag + ",";
+		}
+		if (tagString.length() > 0) {
+			tagString = tagString.substring(0, tagString.length()-1);
+		}
+		return tagString;
+	}
 	
 }
+

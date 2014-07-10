@@ -10,6 +10,7 @@ import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.comp.model.SelectItemModel;
 import com.doctusoft.dsw.client.comp.model.SelectModel_;
 import com.doctusoft.dsw.client.comp.model.TypeaheadModel;
+import com.doctusoft.dsw.client.comp.model.TypeaheadModel_;
 import com.google.common.collect.Lists;
 import com.xedge.jquery.client.JQEvent;
 import com.xedge.jquery.client.JQuery;
@@ -32,6 +33,15 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 		if (select.getSelectedIndex() != -1) {
 			widget.val(select.getSelectItemsModel().get(select.getSelectedIndex()).getCaption());
 		}
+		
+		TypeaheadModel_._allVisibleOnFocus.addChangeListener(select, new ValueChangeListener<Boolean>() {
+			@Override
+			public void valueChanged(Boolean newValue) {
+				if (newValue) {
+					setShowAllOnFocus(widget);
+				}
+			}
+		});
 		
 		SelectModel_._selectedIndex.addChangeListener(select, new ValueChangeListener<Integer>() {
 			@Override

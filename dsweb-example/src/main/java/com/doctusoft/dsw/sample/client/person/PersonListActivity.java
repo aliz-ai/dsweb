@@ -58,7 +58,7 @@ public class PersonListActivity extends AbstractActivity {
 		view.setPresenter(this);
 		generateData();
 		person.setId(locationItems.get(2).getValue());
-		tags.addAll(Lists.newArrayList("egy","ketto","harom"));
+//		tags.addAll(Lists.newArrayList("egy","ketto","harom"));
 		panel.setWidget(view);
 		view.viewPresented();
 		loadList();
@@ -103,13 +103,13 @@ public class PersonListActivity extends AbstractActivity {
 	
 	@MethodRef
 	public void addTag() {
-		tags.addAll(Lists.newArrayList("lofasz","kehely"));
+		tags.addAll(Lists.newArrayList("eglup","kehely"));
 	}
 	
 	@MethodRef
 	public void removeTag() {
-//		tags.remove("blip");
-		tags.clear();
+		tags.remove("blip");
+//		tags.clear();
 	}
 	
 	@MethodRef

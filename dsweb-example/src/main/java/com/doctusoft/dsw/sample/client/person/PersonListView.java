@@ -38,7 +38,6 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 		
 		InputTags tags = new InputTags();
 		tags.bind(bindOnPresenter().get(PersonListActivity_._tags));
-//		tags.bind(bindOnPresenter().get(PersonListActivity_._person).get(PersonDto_._someList));
 		tags.appendTo(container);
 		
 //		final Label label = new Label("Person list:");

@@ -1,11 +1,12 @@
 package com.doctusoft.dsw.client.comp.model;
 
 import com.doctusoft.bean.ObservableProperty;
+import com.doctusoft.bean.binding.observable.ObservableList;
 
-public class InputTagsModel extends ContainerModel {
+public class InputTagsModel extends BaseComponentModel {
 	
 	@com.doctusoft.ObservableProperty
-	private String inputText ="";
+	private ObservableList<String> tagList = new ObservableList<String>();
 	
 	@Override
 	public Iterable<ObservableProperty<?, ?>> getObservableProperties() {
