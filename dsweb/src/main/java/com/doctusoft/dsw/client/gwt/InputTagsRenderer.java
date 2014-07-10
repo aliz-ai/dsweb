@@ -25,6 +25,8 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 		widget.attr("placeholder","Add-tags");
 		widget.attr("data-role", "tagsinput");
 		
+		initTagsInput(widget);
+		
 		new ListBindingListener<String>(Bindings.obs(inputTagsModel).get((ObservableProperty) InputTagsModel_._tagList)) {
 
 
@@ -32,7 +34,7 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 			public void inserted(ObservableList<String> list, int index, String element) {
 				changedFromModel = true;
 				addTag(widget, element);
-				changedFromModel = false;
+//				changedFromModel = false;
 			}
 
 			@Override
@@ -42,7 +44,7 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 				}
 				changedFromModel = true;
 				removeTag(widget, element);
-				changedFromModel = false;
+//				changedFromModel = false;
 			}
 		};
 		
@@ -50,6 +52,7 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 			@Override
 			public void eventComplete(JQEvent event, JQuery currentJQuery) {
 				if (changedFromModel) {
+					changedFromModel = false;
 					return;
 				}
 				List<String> widgetTags = getWidgetTagList(widget.val());
@@ -79,6 +82,10 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 		});
 		
 	}
+	
+	private native static void initTagsInput(JQuery element) /*-{
+		setTimeout(function () { element.tagsinput(); }, 10);
+	}-*/;
 	
 	private native static void addTag(JQuery element, String newTag) /*-{
 		element.tagsinput('add', newTag);

@@ -103,6 +103,7 @@ public class PersonListActivity extends AbstractActivity {
 	
 	@MethodRef
 	public void addTag() {
+		tags.clear();
 		tags.addAll(Lists.newArrayList("eglup","kehely"));
 	}
 	
