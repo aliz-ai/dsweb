@@ -10,7 +10,7 @@ import com.doctusoft.dsw.client.comp.Alert.AlertType;
 public class AlertModel extends ContainerModel {
 	
 	@ObservableProperty
-	private String title = "Warning!";
+	private String title = "";
 	
 	@ObservableProperty
 	private String description;
