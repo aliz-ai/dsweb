@@ -1,6 +1,7 @@
 package com.doctusoft.dsw.sample.client.person;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -19,5 +20,8 @@ public class PersonDto implements Serializable {
 	
 	@ObservableProperty
 	private String email;
+	
+	@ObservableProperty
+	private Date birthDate;
 
 }

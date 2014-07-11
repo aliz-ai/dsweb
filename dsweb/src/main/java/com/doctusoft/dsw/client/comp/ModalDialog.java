@@ -1,6 +1,9 @@
 package com.doctusoft.dsw.client.comp;
 
+import com.doctusoft.bean.binding.Bindings;
+import com.doctusoft.bean.binding.ValueBinding;
 import com.doctusoft.dsw.client.comp.model.ModalDialogModel;
+import com.doctusoft.dsw.client.comp.model.ModalDialogModel_;
 
 public class ModalDialog extends BaseComponent<ModalDialog, ModalDialogModel> {
 	
@@ -18,6 +21,11 @@ public class ModalDialog extends BaseComponent<ModalDialog, ModalDialogModel> {
 		return this;
 	}
 	
+	public ModalDialog bindDialogVisible(final ValueBinding<Boolean> visibleBinding) {
+		Bindings.bind(visibleBinding, Bindings.obs(model).get(ModalDialogModel_._dialogVisible));
+		return this;
+	}
+
 	public ModalDialog show() {
 		model.setDialogVisible(true);
 		return this;

@@ -40,7 +40,14 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 			@Override
 			public DataTableCellModel apply(Column<Item> input) {
 				DataTableCellModel cellModel = new DataTableCellModel();
-				cellModel.setTextContent(input.getStringContent(item));
+				String stringContent = input.getStringContent(item);
+				cellModel.setTextContent(stringContent);
+				if (stringContent == null) {
+					HasComponentModel component = input.getComponent(item);
+					if (component != null) {
+						cellModel.setComponent(component.getComponentModel());
+					}
+				}
 				return cellModel;
 			}
 		}));

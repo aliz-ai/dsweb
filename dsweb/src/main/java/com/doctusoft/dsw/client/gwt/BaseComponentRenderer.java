@@ -24,7 +24,7 @@ import com.xedge.jquery.client.handlers.EventHandler;
 
 public class BaseComponentRenderer implements Renderer<JQuery> {
 	
-	private static <T, K> void addChangeListener(ObservableProperty<K, T> property, BaseComponentModel model, ValueChangeListener<T> listener) {
+	protected static <T, K> void addChangeListener(ObservableProperty<K, T> property, BaseComponentModel model, ValueChangeListener<T> listener) {
 		property.addChangeListener((K) model, listener);
 		listener.valueChanged(property.getValue((K) model));
 	}
@@ -63,9 +63,6 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 			
 			@Override
 			public void valueChanged(String newValue) {
-				if (newValue == null) {
-					newValue = "";
-				}
 				applyStyle(newValue);
 			}
 		});

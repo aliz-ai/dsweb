@@ -6,9 +6,9 @@ public class ModalDialogModel extends BaseComponentModel {
 
 	@com.doctusoft.ObservableProperty
 	private String heading = "";
-
+	
 	@com.doctusoft.ObservableProperty
-	private boolean dialogVisible = false;
+	private Boolean dialogVisible;
 
 	@com.doctusoft.ObservableProperty
 	private ContainerModel footerContainer = new ContainerModel();

@@ -1,14 +1,20 @@
 package com.doctusoft.dsw.client.comp.datatable;
 
 import com.doctusoft.bean.Property;
+import com.doctusoft.bean.binding.Converter;
+import com.doctusoft.dsw.client.comp.HasComponentModel;
 import com.doctusoft.dsw.client.comp.model.DataTableColumnModel;
 
-public class PropertyColumn<Item> implements Column<Item> {
+public class PropertyColumn<Item, Value> implements Column<Item> {
 	
 	private DataTableColumnModel columnModel;
-	private Property<Item, ?> property;
+	private Property<Item, Value> property;
+	private Converter<Value, String> converter = null;
 
-	public PropertyColumn(String title, Property<Item, ?> property) {
+	/**
+	 * You are encouraged to use {@link Columns#from(String, Property)} instead 
+	 */
+	public PropertyColumn(String title, Property<Item, Value> property) {
 		this.property = property;
 		columnModel = new DataTableColumnModel();
 		columnModel.setTitle(title);
@@ -19,13 +25,27 @@ public class PropertyColumn<Item> implements Column<Item> {
 	}
 	
 	@Override
+	public HasComponentModel getComponent(Item item) {
+		return null;
+	}
+	
+	public PropertyColumn<Item, Value> format(Converter<Value, String> converter) {
+		this.converter = converter;
+		return this;
+	}
+	
+	@Override
 	public String getStringContent(Item item) {
 		if (item == null)
 			return "";
-		Object value = property.getValue(item);
-		if (value == null)
-			return "";
-		return value.toString();
+		Value value = property.getValue(item);
+		if (converter == null) {
+			// use the default toString converting
+			if (value == null)
+				return "";
+			return value.toString();
+		} else
+			return converter.convertSource(value);
 	}
 
 }

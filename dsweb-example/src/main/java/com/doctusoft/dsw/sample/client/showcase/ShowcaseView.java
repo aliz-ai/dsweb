@@ -33,7 +33,9 @@ public class ShowcaseView extends ContainerWithPresenter<ShowcaseActivity> {
 		// a lazy initialization would be nicer, but that's okay for now
 		subitems.put(ShowcaseItem.Buttons, new ShowcaseButtonsView());
 		subitems.put(ShowcaseItem.Navs, new ShowcaseNavsView());
-		subitems.put(ShowcaseItem.Tables, new ShowcaseTableView());
+		ShowcaseTableView tableView = new ShowcaseTableView();
+		Bindings.bind(bindOnPresenter(), (ValueBinding) Bindings.obs(tableView).get(ContainerWithPresenter_._presenter));
+		subitems.put(ShowcaseItem.Tables, tableView);
 		ShowcaseExceptionsView exceptionsView = new ShowcaseExceptionsView();
 		Bindings.bind(bindOnPresenter(), (ValueBinding) Bindings.obs(exceptionsView).get(ContainerWithPresenter_._presenter));
 		subitems.put(ShowcaseItem.Exceptions, exceptionsView);

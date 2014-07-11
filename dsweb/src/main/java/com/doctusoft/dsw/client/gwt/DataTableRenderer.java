@@ -5,17 +5,22 @@ import java.util.List;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
+import com.doctusoft.dsw.client.RendererFactory;
+import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.DataTableCellModel;
 import com.doctusoft.dsw.client.comp.model.DataTableColumnModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel_;
 import com.doctusoft.dsw.client.comp.model.DataTableRowModel;
 import com.google.common.collect.Lists;
+import com.google.gwt.core.shared.GWT;
 import com.xedge.jquery.client.JQuery;
 
 public class DataTableRenderer extends BaseComponentRenderer {
 	
 	private List<JQuery> rows = Lists.newArrayList();
+	
+	private RendererFactory<JQuery> rendererFactory = GWT.create(RendererFactory.class);
 	
 	public DataTableRenderer(DataTableModel model) {
 		super(JQuery.select("<table class=\"display\"/>"), model);
@@ -52,7 +57,16 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	protected JQuery renderRow(DataTableRowModel rowModel) {
 		JQuery row = JQuery.select("<tr/>");
 		for (DataTableCellModel cellModel : rowModel.getCells()) {
-			JQuery.select("<td>" + cellModel.getTextContent() + "</td>").appendTo(row);
+			JQuery cell = JQuery.select("<td/>").appendTo(row);
+			String textContent = cellModel.getTextContent();
+			if (textContent != null) {
+				cell.text(textContent);
+			} else {
+				BaseComponentModel component = cellModel.getComponent();
+				if (component != null) {
+					cell.append(rendererFactory.getRenderer(component).getWidget());
+				}
+			}
 		}
 		return row;
 	}
