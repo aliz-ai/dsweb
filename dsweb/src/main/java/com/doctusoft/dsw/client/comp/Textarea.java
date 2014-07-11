@@ -11,9 +11,9 @@ public class Textarea extends BaseComponent<Textarea, TextareaModel> {
 		super(new TextareaModel());
 	}
 	
-	public Textarea(int rows) {
-		super(new TextareaModel());
+	public Textarea setRows(int rows) {
 		model.setRows(rows);
+		return this;
 	}
 	
 	public Textarea bind(ValueBinding<String> valueBinding) {

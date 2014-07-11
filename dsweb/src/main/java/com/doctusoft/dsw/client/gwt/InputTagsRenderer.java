@@ -78,13 +78,13 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 				
 				for (String widgetTag : widgetTags) {
 					if (!modelTags.contains(widgetTag)) {
-						changedFromWidget = true;
 						tagsToAdd.add(widgetTag);
-						changedFromWidget = false;
 					}
 				}
 				if (!tagsToAdd.isEmpty()) {
+					changedFromWidget = true;
 					modelTags.addAll(tagsToAdd);
+					changedFromWidget = false;
 				}
 				for (String modelTag : modelTags) {
 					if (!widgetTags.contains(modelTag)) {
@@ -130,7 +130,7 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 		List<String> tagList = Lists.newArrayList();
 		for (String s : widgetTags.split(",")) {
 			if (!Strings.isNullOrEmpty(s) && !s.trim().isEmpty()) {
-				tagList.add(s);
+				tagList.add(s.replaceAll("^\\s+|\\s+$", ""));
 			}
 		}
 		return tagList; 
@@ -139,7 +139,7 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 	String tagListToString(List<String> tagList) {
 		String tagString = "";
 		for (String tag : tagList) {
-			tagString = tagString + tag + ",";
+			tagString = tagString + tag.replaceAll("^\\s+|\\s+$", "") + ",";
 		}
 		if (tagString.length() > 0) {
 			tagString = tagString.substring(0, tagString.length()-1);
