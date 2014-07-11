@@ -25,6 +25,7 @@ public class ShowcaseView extends ContainerWithPresenter<ShowcaseActivity> {
 		Cell menuCell = new Cell().withSpan(3).appendTo(row);
 		new Navs().stacked()
 			.addMenuItem(new Link("Buttons", "#ShowcasePlace:Buttons"))
+			.addMenuItem(new Link("Select", "#ShowcasePlace:Select"))
 			.addMenuItem(new Link("Navs", "#ShowcasePlace:Navs"))
 			.addMenuItem(new Link("Tables", "#ShowcasePlace:Tables"))
 			.addMenuItem(new Link("Exceptions", "#ShowcasePlace:Exceptions"))
@@ -32,6 +33,7 @@ public class ShowcaseView extends ContainerWithPresenter<ShowcaseActivity> {
 		subcontainer = new Container().appendTo(new Cell().withSpan(9).appendTo(row));
 		// a lazy initialization would be nicer, but that's okay for now
 		subitems.put(ShowcaseItem.Buttons, new ShowcaseButtonsView());
+		subitems.put(ShowcaseItem.Select, new ShowcaseSelectView());
 		subitems.put(ShowcaseItem.Navs, new ShowcaseNavsView());
 		ShowcaseTableView tableView = new ShowcaseTableView();
 		Bindings.bind(bindOnPresenter(), (ValueBinding) Bindings.obs(tableView).get(ContainerWithPresenter_._presenter));
