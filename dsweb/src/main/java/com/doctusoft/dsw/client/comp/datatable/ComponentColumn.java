@@ -6,6 +6,10 @@ public abstract class ComponentColumn<Item> extends CustomColumn<Item> {
 	
 	private HasComponentModel component;
 	
+	public ComponentColumn() {
+		super("");
+	}
+
 	public ComponentColumn(String title) {
 		super(title);
 	}

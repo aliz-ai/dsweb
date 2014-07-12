@@ -44,7 +44,7 @@ public class ContainerWithPresenter<Presenter> implements ViewOf<Presenter>, Has
 		return Bindings.obs(this).get((com.doctusoft.bean.ObservableProperty) ContainerWithPresenter_._presenter);
 	}
 	
-	protected EmptyEventHandler presenterMethod(final ClassMethodReference0<Presenter, Void> presenterMethod) {
+	public EmptyEventHandler presenterMethod(final ClassMethodReference0<Presenter, Void> presenterMethod) {
 		return new EmptyEventHandler() {
 			@Override
 			public void handle() {
@@ -60,7 +60,7 @@ public class ContainerWithPresenter<Presenter> implements ViewOf<Presenter>, Has
 			}
 		};
 	}
-	protected <T> EmptyEventHandler presenterMethod(final ClassMethodReference1<Presenter, Void, T> presenterMethod, final T param) {
+	public <T> EmptyEventHandler presenterMethod(final ClassMethodReference1<Presenter, Void, T> presenterMethod, final T param) {
 		return new EmptyEventHandler() {
 			@Override
 			public void handle() {

@@ -5,7 +5,7 @@ import com.doctusoft.bean.ObservableProperty;
 public class ModalDialogModel extends BaseComponentModel {
 
 	@com.doctusoft.ObservableProperty
-	private String heading = "";
+	private String header = "";
 	
 	@com.doctusoft.ObservableProperty
 	private Boolean dialogVisible;

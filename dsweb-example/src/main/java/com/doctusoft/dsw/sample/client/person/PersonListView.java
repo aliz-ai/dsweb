@@ -35,7 +35,7 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 		container.add(button);
 		ModalDialog dialog = new ModalDialog();
 		container.add(dialog);
-		dialog.getModel().setHeading("dialog heading");
+		dialog.withHeader("dialog heading");
 		dialog.addContent(new Label("hello world"));
 		dialog.addContent(new CustomComponent("custom component"));
 		dialog.addFooter(new Button("Close"));

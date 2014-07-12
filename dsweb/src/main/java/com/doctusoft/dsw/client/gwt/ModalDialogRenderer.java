@@ -19,8 +19,7 @@ public class ModalDialogRenderer extends BaseComponentRenderer {
 				"  </div>");
 		widget.append(header);
 		headerText = header.find("h3");
-		headerText.text(modalDialog.getHeading());
-		ModalDialogModel_._heading.addChangeListener(modalDialog, new ValueChangeListener<String>() {
+		addChangeListener(ModalDialogModel_._header, modalDialog, new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
 				headerText.text(newValue);
