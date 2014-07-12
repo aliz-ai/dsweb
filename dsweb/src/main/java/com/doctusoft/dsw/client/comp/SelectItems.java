@@ -24,4 +24,16 @@ public class SelectItems {
 			}
 		}));
 	}
+	
+	public static <E extends Enum<E>> List<SelectItem<E>> fromEnum(E [] values) {
+		return Lists.newArrayList(Lists.transform(Arrays.asList(values), new Function<E, SelectItem<E>>() {
+			@Override
+			public SelectItem<E> apply(E input) {
+				SelectItem<E> item = new SelectItem<E>();
+				item.setCaption(input.name());
+				item.setValue(input);
+				return item;
+			}
+		}));
+	}
 }

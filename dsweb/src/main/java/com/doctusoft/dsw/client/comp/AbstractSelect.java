@@ -81,6 +81,11 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 		return model.getSelectItemsModel().indexOf(itemModel);
 	}
 	
+	public Actual withSelectItems(List<SelectItem<T>> selectItems) {
+		setSelectItems(selectItems);
+		return (Actual) this;
+	}
+	
 	public void setSelectItems(List<SelectItem<T>> selectItems) {
 		model.getSelectItemsModel().clear();
 		for (SelectItem<T> item : selectItems) {

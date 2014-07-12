@@ -3,6 +3,7 @@ package com.doctusoft.dsw.client.gwt;
 import java.util.List;
 
 import com.doctusoft.bean.ObservableProperty;
+import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
@@ -17,9 +18,11 @@ import com.xedge.jquery.client.handlers.EventHandler;
 public class SelectRenderer extends BaseComponentRenderer {
 	
 	private List<JQuery> options = Lists.newArrayList();
+	private SelectModel select;
 	
 	public SelectRenderer(final SelectModel select) {
 		super(JQuery.select("<select/>"), select);
+		this.select = select;
 		new ListBindingListener<SelectItemModel>(Bindings.obs(select).get((ObservableProperty) SelectModel_._selectItemsModel)) {
 			@Override
 			public void inserted(ObservableList<SelectItemModel> list, int index, SelectItemModel element) {
@@ -42,6 +45,13 @@ public class SelectRenderer extends BaseComponentRenderer {
 				options.remove(index);
 			}
 		};
+		applySelectedIndex();
+		SelectModel_._selectedIndex.addChangeListener(select, new ValueChangeListener<Integer>() {
+			@Override
+			public void valueChanged(Integer newValue) {
+				applySelectedIndex();
+			}
+		});
 		widget.change(new EventHandler() {
 			@Override
 			public void eventComplete(JQEvent event, JQuery currentJQuery) {
@@ -50,5 +60,20 @@ public class SelectRenderer extends BaseComponentRenderer {
 			}
 		});
 	}
-
+	
+	protected void applySelectedIndex() {
+		int index = select.getSelectedIndex();
+		if (index == -1) {
+			// do nothing
+			return;
+		}
+		widget.find("option[selected]").removeAttr("selected");
+		setSelectedNative(options.get(index));
+	}
+	
+	public static native void setSelectedNative(JQuery option) /*-{
+		option.attr('selected', true);
+	}-*/;
+	
+	
 }

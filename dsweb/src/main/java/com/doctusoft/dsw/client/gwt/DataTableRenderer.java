@@ -21,9 +21,12 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	private List<JQuery> rows = Lists.newArrayList();
 	
 	private RendererFactory<JQuery> rendererFactory = GWT.create(RendererFactory.class);
+
+	private DataTableModel model;
 	
 	public DataTableRenderer(DataTableModel model) {
 		super(JQuery.select("<table class=\"display\"/>"), model);
+		this.model = model;
 		// apply columns, no change supported currently
 		JQuery headerRow = JQuery.select("<tr>").appendTo(JQuery.select("<thead>").appendTo(widget));
 		for (DataTableColumnModel columnModel : model.getColumns()) {
@@ -51,6 +54,16 @@ public class DataTableRenderer extends BaseComponentRenderer {
 				rows.remove(index);
 			}
 		};
+		new ListBindingListener<Integer>(Bindings.obs(model).get(DataTableModel_._selectedIndices)) {
+			@Override
+			public void inserted(ObservableList<Integer> list, int index, Integer element) {
+				rows.get(element).addClass("selected");
+			}
+			@Override
+			public void removed(ObservableList<Integer> list, int index, Integer element) {
+				rows.get(element).removeClass("selected");
+			}
+		};
 		install(widget);
 	}
 	
@@ -70,8 +83,40 @@ public class DataTableRenderer extends BaseComponentRenderer {
 		}
 		return row;
 	}
+	
+	protected void rowClicked(JQuery row) {
+		if (model.getSelectionMode() == null)
+			return;
+		switch (model.getSelectionMode()) {
+		case Single: {
+			int rowIndex = row.parent().children().index(row.get(0));
+			ObservableList<Integer> selectedIndices = model.getSelectedIndices();
+			if (selectedIndices.contains(rowIndex)) {
+				selectedIndices.clear();
+			} else {
+				selectedIndices.clear();
+				selectedIndices.add(rowIndex);
+			}
+		} break;
+		case Multiple: {
+			int rowIndex = row.parent().children().index(row.get(0));
+			ObservableList<Integer> selectedIndices = model.getSelectedIndices();
+			if (selectedIndices.contains(rowIndex)) {
+				selectedIndices.remove((Object)rowIndex);	// not by index but by value
+			} else {
+				selectedIndices.add(rowIndex);
+			}
+		} break;
+		default:
+			break;
+		}
+	}
 
-	private static native void install(JQuery target) /*-{
+	private native void install(JQuery target) /*-{
+		var that = this;
 		target.dataTable();
+		target.find("tbody").on("click", "tr", function() {
+			that.@com.doctusoft.dsw.client.gwt.DataTableRenderer::rowClicked(Lcom/xedge/jquery/client/JQuery;)($wnd.jQuery(this));
+		});
 	}-*/;
 }
