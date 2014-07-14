@@ -46,7 +46,11 @@ public class ProgressBar extends BaseContainer {
 	public static enum ProgressBarType {
 		
 		Striped("progress-striped"),
-		StripedActive("progress-striped active");
+		StripedActive("progress-striped active"),
+		Info("progress-info"),
+		Success("progress-success"),
+		Warning("progress-warning"),
+		Danger("progress-danger");
 		
 		@Getter
 		private String name;
