@@ -18,10 +18,18 @@ public class ShowcaseProgressBarView implements HasComponentModel {
 			.add(new HtmlContent("<h1>Progress Bars</h1>"));
 		new Label("Basic", "h3").appendTo(container);
 		new ProgressBar().appendTo(container);
-		new Label("Striped", "h3").appendTo(container);
-		new ProgressBar().setType(ProgressBarType.Striped).appendTo(container);
 		new Label("Animated", "h3").appendTo(container);
 		new ProgressBar().setType(ProgressBarType.StripedActive).appendTo(container);
+		new Label("Colored", "h3").appendTo(container);
+		new ProgressBar().setType(ProgressBarType.Info).appendTo(container);
+		new ProgressBar().setType(ProgressBarType.Success).appendTo(container);
+		new ProgressBar().setType(ProgressBarType.Warning).appendTo(container);
+		new ProgressBar().setType(ProgressBarType.Danger).appendTo(container);
+		new Label("Striped", "h3").appendTo(container);
+		new ProgressBar().setType(ProgressBarType.Info).setType(ProgressBarType.Striped).appendTo(container);
+		new ProgressBar().setType(ProgressBarType.Success).setType(ProgressBarType.Striped).appendTo(container);
+		new ProgressBar().setType(ProgressBarType.Warning).setType(ProgressBarType.StripedActive).appendTo(container);
+		new ProgressBar().setType(ProgressBarType.Danger).setType(ProgressBarType.StripedActive).appendTo(container);
 	}
 	
 	@Override
