@@ -114,7 +114,11 @@ public class DataTableRenderer extends BaseComponentRenderer {
 
 	private native void install(JQuery target) /*-{
 		var that = this;
-		target.dataTable();
+		target.dataTable({
+				ordering: false,
+				paging: false,
+				info: false
+			});
 		target.find("tbody").on("click", "tr", function() {
 			that.@com.doctusoft.dsw.client.gwt.DataTableRenderer::rowClicked(Lcom/xedge/jquery/client/JQuery;)($wnd.jQuery(this));
 		});

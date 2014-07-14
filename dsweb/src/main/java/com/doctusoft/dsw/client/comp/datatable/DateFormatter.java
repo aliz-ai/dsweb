@@ -3,7 +3,7 @@ package com.doctusoft.dsw.client.comp.datatable;
 import java.util.Date;
 
 import com.doctusoft.bean.binding.Converter;
-import com.google.gwt.i18n.shared.DateTimeFormat;
+import com.doctusoft.dsw.client.util.DateTimeFormat;
 
 public class DateFormatter implements Converter<Date, String> {
 	
