@@ -1,5 +1,7 @@
 package com.doctusoft.dsw.client.comp.model;
 
+import java.io.Serializable;
+
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.binding.observable.ObservableList;
 
@@ -22,7 +24,7 @@ public class DataTableModel extends BaseComponentModel {
 		return DataTableModel_._observableProperties;
 	}
 	
-	public static enum SelectionMode {
+	public static enum SelectionMode implements Serializable {
 		None, Single, Multiple
 	}
 }
