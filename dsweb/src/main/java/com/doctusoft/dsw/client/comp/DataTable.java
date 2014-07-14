@@ -13,9 +13,9 @@ import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 import com.doctusoft.dsw.client.comp.datatable.Column;
 import com.doctusoft.dsw.client.comp.model.DataTableCellModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel;
-import com.doctusoft.dsw.client.comp.model.DataTableModel.SelectionMode;
 import com.doctusoft.dsw.client.comp.model.DataTableModel_;
 import com.doctusoft.dsw.client.comp.model.DataTableRowModel;
+import com.doctusoft.dsw.client.comp.model.SelectionMode;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
@@ -26,7 +26,7 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 	
 	public DataTable() {
 		super(new DataTableModel());
-		Bindings.obs(model).get(DataTableModel_._selectionMode).addValueChangeListener(new ValueChangeListener<DataTableModel.SelectionMode>() {
+		Bindings.obs(model).get(DataTableModel_._selectionMode).addValueChangeListener(new ValueChangeListener<SelectionMode>() {
 			@Override
 			public void valueChanged(SelectionMode newValue) {
 				model.getSelectedIndices().clear();

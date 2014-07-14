@@ -9,7 +9,7 @@ import com.doctusoft.bean.Properties;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListChangeListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
-import com.doctusoft.dsw.client.comp.model.DataTableModel.SelectionMode;
+import com.doctusoft.dsw.client.comp.model.SelectionMode;
 import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.BaseActivity;
 import com.doctusoft.dsw.sample.client.ClientFactory;

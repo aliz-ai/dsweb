@@ -35,6 +35,7 @@ public class InplaceText extends Container {
 		InputTextModel_._value.addChangeListener(inputText.getModel(), new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
+				label.withLabel(newValue);
 				setInputTextVisible(false);
 				setLabelVisible(true);
 			}

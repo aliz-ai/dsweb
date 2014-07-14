@@ -5,7 +5,7 @@ import com.doctusoft.bean.ObservableProperty;
 public class LabelModel extends BaseComponentModel {
 
 	@com.doctusoft.ObservableProperty
-	private String label;
+	private String label = "";
 	
 	@com.doctusoft.ObservableProperty
 	private String elementName = "span";

@@ -9,7 +9,7 @@ import com.doctusoft.dsw.client.comp.Select;
 import com.doctusoft.dsw.client.comp.SelectItems;
 import com.doctusoft.dsw.client.comp.datatable.Columns;
 import com.doctusoft.dsw.client.comp.datatable.DateFormatter;
-import com.doctusoft.dsw.client.comp.model.DataTableModel.SelectionMode;
+import com.doctusoft.dsw.client.comp.model.SelectionMode;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 import com.doctusoft.dsw.sample.client.person.PersonDto;
 import com.doctusoft.dsw.sample.client.person.PersonDto_;

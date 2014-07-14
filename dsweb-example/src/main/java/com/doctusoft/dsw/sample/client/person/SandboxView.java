@@ -1,6 +1,7 @@
 package com.doctusoft.dsw.sample.client.person;
 
 import com.doctusoft.dsw.client.comp.Button;
+import com.doctusoft.dsw.client.comp.PasswordField;
 import com.doctusoft.dsw.client.comp.Select;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
@@ -10,9 +11,13 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 
 	public SandboxView() {
 		
-		select = (Select<String>) new Select<String>()
-				.bind(bindOnPresenter().get(SandboxActivity_._test))
-				.appendTo(container); 
+//		select = (Select<String>) new Select<String>()
+//				.bind(bindOnPresenter().get(SandboxActivity_._test))
+//				.appendTo(container); 
+		
+		new PasswordField()
+			.bind(bindOnPresenter().get(SandboxActivity_._test))
+			.appendTo(container);
 		
 		Button checkButton = new Button("check");
 		checkButton.click(presenterMethod(SandboxActivity_.__checkBindings));
@@ -22,7 +27,7 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 	
 	@Override
 	public void viewPresented() {
-		select.setSelectItems(getPresenter().getLocationItems());
+//		select.setSelectItems(getPresenter().getLocationItems());
 	}
 	
 	

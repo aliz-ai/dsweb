@@ -5,6 +5,7 @@ public enum ShowcaseItem {
 	Buttons,
 	Select,
 	Typeahead,
+	Inputs,
 	Navs,
 	Tables,
 	Exceptions;
