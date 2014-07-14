@@ -1,5 +1,6 @@
 package com.doctusoft.dsw.client.comp;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.doctusoft.bean.ValueChangeListener;
@@ -109,7 +110,7 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 		return this;
 	}
 	
-	private class SelectItemToIndexConverter implements Converter<Item, Integer> {
+	private class SelectItemToIndexConverter implements Converter<Item, Integer>, Serializable {
 		@Override
 		public Integer convertSource(Item source) {
 			if (source == null)
