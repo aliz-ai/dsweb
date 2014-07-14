@@ -2,12 +2,10 @@ package com.doctusoft.dsw.sample.client.person;
 
 import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.Select;
-import com.doctusoft.dsw.client.comp.Typeahead;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
 public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 	
-	private Typeahead<Long> typeahead;
 	private Select<String> select;
 
 	public SandboxView() {
