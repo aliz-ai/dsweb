@@ -1,9 +1,11 @@
 package com.doctusoft.dsw.client.comp.datatable;
 
+import java.io.Serializable;
+
 import com.doctusoft.dsw.client.comp.HasComponentModel;
 import com.doctusoft.dsw.client.comp.model.DataTableColumnModel;
 
-public interface Column<Item> {
+public interface Column<Item> extends Serializable {
 	
 	public DataTableColumnModel getHeader();
 	

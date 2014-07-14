@@ -40,6 +40,7 @@ public class SandboxActivity extends AbstractActivity {
 	@MethodRef
 	public void checkBindings() {
 		System.out.println("test: " + test);
+		System.out.println("tags: " + tags);
 	}
 	
 	

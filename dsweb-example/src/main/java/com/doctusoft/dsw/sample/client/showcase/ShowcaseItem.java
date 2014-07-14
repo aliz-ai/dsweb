@@ -8,6 +8,7 @@ public enum ShowcaseItem {
 	Inputs,
 	Navs,
 	Tables,
+	ProgressBars,
 	Exceptions;
 
 }

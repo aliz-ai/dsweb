@@ -30,6 +30,7 @@ public class ShowcaseView extends ContainerWithPresenter<ShowcaseActivity> {
 			.addMenuItem(new Link("Inputs", "#ShowcasePlace:Inputs"))
 			.addMenuItem(new Link("Navs", "#ShowcasePlace:Navs"))
 			.addMenuItem(new Link("Tables", "#ShowcasePlace:Tables"))
+			.addMenuItem(new Link("Progress Bars", "#ShowcasePlace:ProgressBars"))
 			.addMenuItem(new Link("Exceptions", "#ShowcasePlace:Exceptions"))
 			.appendTo(menuCell);
 		subcontainer = new Container().appendTo(new Cell().withSpan(9).appendTo(row));
@@ -39,6 +40,7 @@ public class ShowcaseView extends ContainerWithPresenter<ShowcaseActivity> {
 		subitems.put(ShowcaseItem.Inputs, new ShowcaseInputsView());
 		subitems.put(ShowcaseItem.Typeahead, new ShowcaseTypeaheadView());
 		subitems.put(ShowcaseItem.Navs, new ShowcaseNavsView());
+		subitems.put(ShowcaseItem.ProgressBars, new ShowcaseProgressBarView());
 		ShowcaseTableView tableView = new ShowcaseTableView();
 		Bindings.bind(bindOnPresenter(), (ValueBinding) Bindings.obs(tableView).get(ContainerWithPresenter_._presenter));
 		subitems.put(ShowcaseItem.Tables, tableView);
