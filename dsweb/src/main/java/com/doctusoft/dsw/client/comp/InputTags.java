@@ -14,7 +14,7 @@ public class InputTags extends BaseComponent<InputTags, InputTagsModel> {
 		super(new InputTagsModel());
 	}
 	
-	public InputTags withDefaultTags(List<String> defaultTags) {
+	public InputTags withTagSuggestions(List<String> defaultTags) {
 		model.setDefaultTagList(new ObservableList<String>(defaultTags));
 		return this;
 	}
