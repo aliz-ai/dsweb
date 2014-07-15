@@ -20,7 +20,6 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 			@Override
 			protected BaseComponent<?, ?> renderItem(PersonDto item, int rowNum) {
 				BaseContainer row = new BaseContainer();
-				// TODO Auto-generated method stub
 				row.add(new Label("" + item.getId()));
 				row.add(new Link(item.getName(), "#PersonDetailPlace:" + item.getId()));
 				row.add(new Button("Delete").click(presenterMethod(PersonListActivity_.__deletePerson, item)));
@@ -28,11 +27,10 @@ public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
 			}
 		}.bind(bindOnPresenter().get(PersonListActivity_._personList));
 		container.add(repeat);
-		Button button = new Button();
-		button.getModel().setCaption("Add person");
-		button.click(presenterMethod(PersonListActivity_.__addPerson));
-		button.addStyleClass("btn-primary");
-		container.add(button);
+		new Button("Add person")
+				.click(presenterMethod(PersonListActivity_.__addPerson))
+				.withStyleClass("btn-primary")
+				.appendTo(container);
 		ModalDialog dialog = new ModalDialog();
 		container.add(dialog);
 		dialog.withHeader("dialog heading");

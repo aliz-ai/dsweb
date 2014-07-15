@@ -19,11 +19,4 @@ public abstract class CustomColumn<Item> implements Column<Item> {
 		return columnModel;
 	}
 	
-	@Override
-	public String getStringContent(Item item) {
-		return null;
-	}
-	
-	
-
 }

@@ -58,16 +58,7 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 		rowModel.getCells().addAll(Lists.transform(columns, new Function<Column<Item>, DataTableCellModel>() {
 			@Override
 			public DataTableCellModel apply(Column<Item> input) {
-				DataTableCellModel cellModel = new DataTableCellModel();
-				String stringContent = input.getStringContent(item);
-				cellModel.setTextContent(stringContent);
-				if (stringContent == null) {
-					HasComponentModel component = input.getComponent(item);
-					if (component != null) {
-						cellModel.setComponent(component.getComponentModel());
-					}
-				}
-				return cellModel;
+				return input.getCellModel(item);
 			}
 		}));
 		return rowModel;

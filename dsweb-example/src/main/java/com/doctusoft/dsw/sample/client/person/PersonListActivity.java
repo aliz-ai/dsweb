@@ -2,8 +2,6 @@ package com.doctusoft.dsw.sample.client.person;
 
 import java.util.List;
 
-import lombok.Getter;
-
 import com.doctusoft.MethodRef;
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.binding.observable.ObservableList;
@@ -22,7 +20,7 @@ public class PersonListActivity extends AbstractActivity {
 		this.clientFactory = clientFactory;
 	}
 
-	@ObservableProperty @Getter
+	@ObservableProperty
 	private ObservableList<PersonDto> personList = new ObservableList<PersonDto>();
 
 	@Override

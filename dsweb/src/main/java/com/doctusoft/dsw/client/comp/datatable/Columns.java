@@ -1,5 +1,6 @@
 package com.doctusoft.dsw.client.comp.datatable;
 
+import com.doctusoft.bean.ObservableProperty;
 import com.doctusoft.bean.ParametricClassMethodReferences.ClassMethodReference1;
 import com.doctusoft.bean.Property;
 import com.doctusoft.dsw.client.comp.Button;
@@ -10,6 +11,10 @@ public class Columns {
 	
 	public static <Item, Value> PropertyColumn<Item, Value> from(String title, Property<Item, Value> property) {
 		return new PropertyColumn<Item, Value>(title, property);
+	}
+
+	public static <Item, Value> ObservablePropertyColumn<Item, Value> obs(String title, ObservableProperty<Item, Value> property) {
+		return new ObservablePropertyColumn<Item, Value>(title, property);
 	}
 
 	public static <Presenter, Item> ComponentColumn<Item> actionButton(final ContainerWithPresenter<Presenter> container,

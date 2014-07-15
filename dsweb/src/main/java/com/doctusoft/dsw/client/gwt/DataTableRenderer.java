@@ -2,12 +2,14 @@ package com.doctusoft.dsw.client.gwt;
 
 import java.util.List;
 
+import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.RendererFactory;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.DataTableCellModel;
+import com.doctusoft.dsw.client.comp.model.DataTableCellModel_;
 import com.doctusoft.dsw.client.comp.model.DataTableColumnModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel_;
@@ -70,10 +72,16 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	protected JQuery renderRow(DataTableRowModel rowModel) {
 		JQuery row = JQuery.select("<tr/>");
 		for (DataTableCellModel cellModel : rowModel.getCells()) {
-			JQuery cell = JQuery.select("<td/>").appendTo(row);
+			final JQuery cell = JQuery.select("<td/>").appendTo(row);
 			String textContent = cellModel.getTextContent();
 			if (textContent != null) {
 				cell.text(textContent);
+				DataTableCellModel_._textContent.addChangeListener(cellModel, new ValueChangeListener<String>() {
+					@Override
+					public void valueChanged(String newValue) {
+						cell.text(newValue);
+					}
+				});
 			} else {
 				BaseComponentModel component = cellModel.getComponent();
 				if (component != null) {

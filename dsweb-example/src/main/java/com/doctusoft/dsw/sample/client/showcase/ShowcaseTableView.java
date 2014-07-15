@@ -21,7 +21,7 @@ public class ShowcaseTableView extends ContainerWithPresenter<ShowcaseActivity> 
 			.add(new HtmlContent("<h1>Tables</h1>"));
 		new DataTable<PersonDto>()
 			.addColumn(Columns.from("Id", PersonDto_._id))
-			.addColumn(Columns.from("Name", PersonDto_._name))
+			.addColumn(Columns.obs("Name", PersonDto_._name))
 			.addColumn(Columns.from("Email", PersonDto_._email))
 			.addColumn(Columns.from("Born", PersonDto_._birthDate).format(new DateFormatter("yyyy-MM-dd")))
 			.addColumn(Columns.actionButton(this, ShowcaseActivity_.__personClicked, "View"))

@@ -2,7 +2,7 @@ package com.doctusoft.dsw.client.comp.datatable;
 
 import com.doctusoft.bean.Property;
 import com.doctusoft.bean.binding.Converter;
-import com.doctusoft.dsw.client.comp.HasComponentModel;
+import com.doctusoft.dsw.client.comp.model.DataTableCellModel;
 import com.doctusoft.dsw.client.comp.model.DataTableColumnModel;
 
 public class PropertyColumn<Item, Value> implements Column<Item> {
@@ -24,17 +24,18 @@ public class PropertyColumn<Item, Value> implements Column<Item> {
 		return columnModel; 
 	}
 	
-	@Override
-	public HasComponentModel getComponent(Item item) {
-		return null;
-	}
-	
 	public PropertyColumn<Item, Value> format(Converter<Value, String> converter) {
 		this.converter = converter;
 		return this;
 	}
 	
 	@Override
+	public DataTableCellModel getCellModel(Item item) {
+		DataTableCellModel cellModel = new DataTableCellModel();
+		cellModel.setTextContent(getStringContent(item));
+		return cellModel;
+	}
+	
 	public String getStringContent(Item item) {
 		if (item == null)
 			return "";
