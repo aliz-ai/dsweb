@@ -98,6 +98,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 		switch (model.getSelectionMode()) {
 		case Single: {
 			int rowIndex = row.parent().children().index(row.get(0));
+			model.setClickedRowNumber(rowIndex);
 			ObservableList<Integer> selectedIndices = model.getSelectedIndices();
 			if (selectedIndices.contains(rowIndex)) {
 				selectedIndices.clear();

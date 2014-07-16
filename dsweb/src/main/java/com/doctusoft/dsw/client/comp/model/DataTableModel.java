@@ -1,10 +1,11 @@
+
 package com.doctusoft.dsw.client.comp.model;
 
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.binding.observable.ObservableList;
 
 public class DataTableModel extends BaseComponentModel {
-
+	
 	@ObservableProperty
 	private ObservableList<DataTableColumnModel> columns = new ObservableList<DataTableColumnModel>();
 	
@@ -17,9 +18,15 @@ public class DataTableModel extends BaseComponentModel {
 	@ObservableProperty
 	private ObservableList<Integer> selectedIndices = new ObservableList<Integer>();
 	
+	@ObservableProperty
+	private ComponentEvent rowClickedEvent;
+	
+	@ObservableProperty
+	private Integer clickedRowNumber = -1;
+	
 	@Override
 	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
 		return DataTableModel_._observableProperties;
 	}
-
+	
 }

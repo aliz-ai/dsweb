@@ -3,15 +3,19 @@ package com.doctusoft.dsw.client.comp;
 import java.io.Serializable;
 import java.util.List;
 
+import com.doctusoft.bean.ObservableProperty;
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.Converter;
+import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.bean.binding.ValueBinding;
 import com.doctusoft.bean.binding.observable.BidirectionalConvertingListBinder;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 import com.doctusoft.dsw.client.comp.datatable.Column;
+import com.doctusoft.dsw.client.comp.model.ComponentEvent;
+import com.doctusoft.dsw.client.comp.model.ComponentEvent_;
 import com.doctusoft.dsw.client.comp.model.DataTableCellModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel_;
@@ -115,5 +119,22 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 			return itemsListener.getShadowList().get(target);
 		}
 	}
+	
+	public DataTable<Item> bindSelectedRowNumber(ValueBinding<Integer> valueBinding) {
+		Bindings.bind(valueBinding, Bindings.obs(model).get(DataTableModel_._clickedRowNumber));
+		return this;
+	}
+	
+//	protected void bindEvent(ObservableProperty<? super DataTableModel, ComponentEvent> eventProperty, final EmptyEventHandler handler) {
+//		eventProperty.getValue(model).setHasListeners(true);
+//		Bindings.obs(model).get(eventProperty).get(ComponentEvent_._fired).addValueChangeListener(new ValueChangeListener<Boolean>() {
+//			@Override
+//			public void valueChanged(Boolean newValue) {
+//				if (newValue == true) {
+//					handler.handle();
+//				}
+//			}
+//		});
+//	}
 	
 }

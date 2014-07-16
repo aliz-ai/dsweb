@@ -1,3 +1,4 @@
+
 package com.doctusoft.dsw.sample.client.person;
 
 import com.doctusoft.MethodRef;
@@ -15,11 +16,7 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
 public class SandboxActivity extends AbstractActivity {
 	
-	private ClientFactory clientFactory;
-	
-	public SandboxActivity(ClientFactory clientFactory) {
-		this.clientFactory = clientFactory;
-	}
+	private final ClientFactory clientFactory;
 	
 	@ObservableProperty
 	private ObservableList<SelectItem<String>> locationItems = new ObservableList<SelectItem<String>>();
@@ -42,42 +39,45 @@ public class SandboxActivity extends AbstractActivity {
 	@ObservableProperty
 	private boolean visibility;
 	
-	@Override
-	public void start(AcceptsOneWidget panel, EventBus eventBus) {
-		ViewOf<SandboxActivity> view = clientFactory.getSandboxView();
-		tagSuggestions.clear();
-		tagSuggestions.add("SimaStringes");
-		tagSuggestions.add("21312Stringes");
-		tagSuggestions.add("sdasdStringes");
-		locationItems.addAll(SelectItems.fromStrings("asd","blup","blip"));
-		tagOptionSuggestions.addAll(TagOptions.fromStrings("Ez","Az","mi","sas"));
-		TagOption tagOp = new TagOption();
-		tagOp.setName("Ez már más");
-		tagOp.setStyleClass("label label-warning");
-		TagOption tagOp2 = new TagOption();
-		tagOp2.setName("Ez már megint más");
-		tagOp2.setStyleClass("label label-success");
-		tagOptionSuggestions.add(tagOp2);
-		tagOptionSuggestions.add(tagOp);
-		tags.add("asdas");
-		view.setPresenter(this);
-		panel.setWidget(view);
-		view.viewPresented();
+	public SandboxActivity( ClientFactory clientFactory ) {
+		this.clientFactory = clientFactory;
+	}
+	
+	@MethodRef
+	public void changeVisibility() {
+		setVisibility( !visibility );
 	}
 	
 	@MethodRef
 	public void checkBindings() {
 		tagSuggestions.clear();
-		tagSuggestions.addAll(tags);
-		System.out.println("test: " + test);
-		System.out.println("tags: " + tags);
-		System.out.println("visibility: " + visibility);
+		tagSuggestions.addAll( tags );
+		System.out.println( "test: " + test );
+		System.out.println( "tags: " + tags );
+		System.out.println( "visibility: " + visibility );
 	}
 	
-	@MethodRef
-	public void changeVisibility() {
-		setVisibility(!visibility);
+	@Override
+	public void start( AcceptsOneWidget panel, EventBus eventBus ) {
+		ViewOf<SandboxActivity> view = clientFactory.getSandboxView();
+		tagSuggestions.clear();
+		tagSuggestions.add( "SimaStringes" );
+		tagSuggestions.add( "21312Stringes" );
+		tagSuggestions.add( "sdasdStringes" );
+		locationItems.addAll( SelectItems.fromStrings( "asd", "blup", "blip" ) );
+		tagOptionSuggestions.addAll( TagOptions.fromStrings( "Ez", "Az", "mi", "sas" ) );
+		TagOption tagOp = new TagOption();
+		tagOp.setName( "Ez már más" );
+		tagOp.setStyleClass( "label label-warning" );
+		TagOption tagOp2 = new TagOption();
+		tagOp2.setName( "Ez már megint más" );
+		tagOp2.setStyleClass( "label label-success" );
+		tagOptionSuggestions.add( tagOp2 );
+		tagOptionSuggestions.add( tagOp );
+		tags.add( "asdas" );
+		view.setPresenter( this );
+		panel.setWidget( view );
+		view.viewPresented();
 	}
-	
 	
 }
