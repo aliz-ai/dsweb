@@ -26,6 +26,9 @@ public class SandboxActivity extends AbstractActivity {
 	private ObservableList<String> tags = new ObservableList<String>();
 	
 	@ObservableProperty
+	private ObservableList<String> defaultTags = new ObservableList<String>();
+	
+	@ObservableProperty
 	private String test = "";
 	
 	@Override
@@ -39,6 +42,8 @@ public class SandboxActivity extends AbstractActivity {
 	
 	@MethodRef
 	public void checkBindings() {
+		defaultTags.clear();
+		defaultTags.addAll(tags);
 		System.out.println("test: " + test);
 		System.out.println("tags: " + tags);
 	}

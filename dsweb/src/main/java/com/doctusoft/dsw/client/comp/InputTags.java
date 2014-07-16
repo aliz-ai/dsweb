@@ -19,6 +19,11 @@ public class InputTags extends BaseComponent<InputTags, InputTagsModel> {
 		return this;
 	}
 	
+	public InputTags bindTagSuggestions(final ObservableValueBinding<? extends ObservableList<String>> listBinding) {
+		Bindings.bind((ObservableValueBinding) listBinding, Bindings.obs(model).get(InputTagsModel_._defaultTagList));
+		return this;
+	}
+	
 	public InputTags bind(final ObservableValueBinding<? extends ObservableList<String>> listBinding) {
 		Bindings.bind((ObservableValueBinding) listBinding, Bindings.obs(model).get(InputTagsModel_._tagList));
 		return this;
