@@ -14,13 +14,13 @@ public class InputTags extends BaseComponent<InputTags, InputTagsModel> {
 		super(new InputTagsModel());
 	}
 	
-	public InputTags withTagSuggestions(List<String> defaultTags) {
-		model.setDefaultTagList(new ObservableList<String>(defaultTags));
+	public InputTags withTagSuggestions(List<String> tagSuggestions) {
+		model.setTagSuggestions(new ObservableList<String>(tagSuggestions));
 		return this;
 	}
 	
 	public InputTags bindTagSuggestions(final ObservableValueBinding<? extends ObservableList<String>> listBinding) {
-		Bindings.bind((ObservableValueBinding) listBinding, Bindings.obs(model).get(InputTagsModel_._defaultTagList));
+		Bindings.bind((ObservableValueBinding) listBinding, Bindings.obs(model).get(InputTagsModel_._tagSuggestions));
 		return this;
 	}
 	

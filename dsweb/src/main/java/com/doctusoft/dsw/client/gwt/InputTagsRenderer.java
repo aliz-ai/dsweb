@@ -27,17 +27,17 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 		
 		initTagsInput(widget);
 		
-		new ListBindingListener<String>(Bindings.obs(inputTagsModel).get((ObservableProperty) InputTagsModel_._defaultTagList)) {
+		new ListBindingListener<String>(Bindings.obs(inputTagsModel).get((ObservableProperty) InputTagsModel_._tagSuggestions)) {
 			@Override
 			public void inserted(ObservableList<String> list, int index,
 					String element) {
-				setDefaultTags(widget, tagListToString(list));
+				setTagSuggestions(widget, tagListToString(list));
 			}
 
 			@Override
 			public void removed(ObservableList<String> list, int index,
 					String element) {
-				setDefaultTags(widget, tagListToString(list));				
+				setTagSuggestions(widget, tagListToString(list));				
 			}
 		};
 		
@@ -106,12 +106,12 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 	}-*/;
 	
 	
-	private native static void setDefaultTags(JQuery element, String defaultTags) /*-{
+	private native static void setTagSuggestions(JQuery element, String tagSuggestions) /*-{
 		setTimeout(function () { 
 			element.tagsinput('destroy');
 			element.tagsinput({
 				typeahead: {
-					source: defaultTags.split(","),
+					source: tagSuggestions.split(","),
 					freeInput: true
 				}
 			}); 
