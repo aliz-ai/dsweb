@@ -14,7 +14,7 @@ public class InputTagsModel extends BaseComponentModel {
 	private ObservableList<String> tagList = new ObservableList<String>();
 	
 	@com.doctusoft.ObservableProperty
-	private ObservableList<String> defaultTagList = new ObservableList<String>();
+	private ObservableList<String> tagSuggestions = new ObservableList<String>();
 	
 	@Override
 	public Iterable<ObservableProperty<?, ?>> getObservableProperties() {
