@@ -6,6 +6,7 @@ import com.doctusoft.bean.ObservableProperty;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
+import com.doctusoft.dsw.client.comp.TagOption;
 import com.doctusoft.dsw.client.comp.model.InputTagsModel;
 import com.doctusoft.dsw.client.comp.model.InputTagsModel_;
 import com.google.common.base.Strings;
@@ -26,7 +27,6 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 		widget.attr("data-role", "tagsinput");
 		
 		initTagsInput(widget);
-		
 		new ListBindingListener<String>(Bindings.obs(inputTagsModel).get((ObservableProperty) InputTagsModel_._tagSuggestions)) {
 			@Override
 			public void inserted(ObservableList<String> list, int index,
@@ -64,6 +64,46 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 				changedFromModel = false;
 			}
 		};
+		
+		new ListBindingListener<TagOption>(Bindings.obs(inputTagsModel).get((ObservableProperty) InputTagsModel_._tagOptionSuggestions)) {
+			@Override
+			public void inserted(ObservableList<TagOption> list, int index,
+					TagOption element) {
+				setTagSuggestions(widget, tagOptionListToString(list));
+			}
+
+			@Override
+			public void removed(ObservableList<TagOption> list, int index,
+					TagOption element) {
+				setTagSuggestions(widget, tagOptionListToString(list));	
+				
+			}
+		};
+		
+		new ListBindingListener<TagOption>(Bindings.obs(inputTagsModel).get((ObservableProperty) InputTagsModel_._tagOptionList)) {
+
+
+			@Override
+			public void inserted(ObservableList<TagOption> list, int index, TagOption element) {
+				if (changedFromWidget) {
+					return;
+				}
+				changedFromModel = true;
+				addTag(widget, element);
+				changedFromModel = false;
+			}
+
+			@Override
+			public void removed(ObservableList<TagOption> list, int index,	TagOption element) {
+				if (changedFromWidget) {
+					return;
+				}
+				changedFromModel = true;
+				removeTag(widget, element.getName());
+				changedFromModel = false;
+			}
+		};
+		
 		
 		widget.change(new EventHandler() {
 			@Override
@@ -118,8 +158,18 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 		}, 10);
 	}-*/;
 	
+	private native static void setTagStyleClass(JQuery element, String tagStyleClass) /*-{
+		element.tagsinput({
+					tagClass: tagStyleClass
+			}); 
+	}-*/;
+	
 	private native static void addTag(JQuery element, String newTag) /*-{
 		element.tagsinput('add', newTag);
+	}-*/;
+	
+	private native static void addTag(JQuery element, TagOption newTag) /*-{
+		element.tagsinput('add', { "itemValue": newTag.getName() , "itemText": newTag.getName() , "tagClass": newTag.getStyleClass()});
 	}-*/;
 
 	private native static void removeTag(JQuery element, String removeTag) /*-{
@@ -140,6 +190,17 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 		String tagString = "";
 		for (String tag : tagList) {
 			tagString = tagString + tag.replaceAll("^\\s+|\\s+$", "") + ",";
+		}
+		if (tagString.length() > 0) {
+			tagString = tagString.substring(0, tagString.length()-1);
+		}
+		return tagString;
+	}
+	
+	String tagOptionListToString(List<TagOption> tagList) {
+		String tagString = "";
+		for (TagOption tag : tagList) {
+			tagString = tagString + tag.getName().replaceAll("^\\s+|\\s+$", "") + ",";
 		}
 		if (tagString.length() > 0) {
 			tagString = tagString.substring(0, tagString.length()-1);

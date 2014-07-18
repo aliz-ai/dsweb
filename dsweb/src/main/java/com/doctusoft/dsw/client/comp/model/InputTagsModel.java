@@ -11,6 +11,9 @@ public class InputTagsModel extends BaseComponentModel {
 	private ObservableList<TagOption> tagOptionList = new ObservableList<TagOption>();
 	
 	@com.doctusoft.ObservableProperty
+	private ObservableList<TagOption> tagOptionSuggestions = new ObservableList<TagOption>();
+	
+	@com.doctusoft.ObservableProperty
 	private ObservableList<String> tagList = new ObservableList<String>();
 	
 	@com.doctusoft.ObservableProperty

@@ -19,13 +19,13 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 	public SandboxView() {
 		
 		inputTagsWithOption = new InputTags()
-			.bind(bindOnPresenter().get(SandboxActivity_._tags))
+			.bindTagOption(bindOnPresenter().get(SandboxActivity_._tagOptions))
 			.bindTagOptionSuggestions(bindOnPresenter().get(SandboxActivity_._tagOptionSuggestions))
 			.appendTo(container);
 
 		new InputTags()
 		.bind(bindOnPresenter().get(SandboxActivity_._tags))
-		.bindTagSuggestions(bindOnPresenter().get(SandboxActivity_._defaultTags))
+		.bindTagSuggestions(bindOnPresenter().get(SandboxActivity_._tagSuggestions))
 		.appendTo(container);
 		
 		select = (Select<String>) new Select<String>()

@@ -12,6 +12,6 @@ public class TagOption {
 	private String name;
 	
 	@ObservableProperty
-	private String styleClass = "";
+	private String styleClass = "label label-info";
 
 }

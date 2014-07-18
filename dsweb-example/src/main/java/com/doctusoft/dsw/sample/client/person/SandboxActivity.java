@@ -34,7 +34,7 @@ public class SandboxActivity extends AbstractActivity {
 	private ObservableList<String> tags = new ObservableList<String>();
 	
 	@ObservableProperty
-	private ObservableList<String> defaultTags = new ObservableList<String>();
+	private ObservableList<String> tagSuggestions = new ObservableList<String>();
 	
 	@ObservableProperty
 	private String test = "";
@@ -42,12 +42,17 @@ public class SandboxActivity extends AbstractActivity {
 	@Override
 	public void start(AcceptsOneWidget panel, EventBus eventBus) {
 		ViewOf<SandboxActivity> view = clientFactory.getSandboxView();
-		defaultTags.clear();
-		defaultTags.add("Valami");
-		defaultTags.add("ezs");
-		defaultTags.add("liosa");
+		tagSuggestions.clear();
+		tagSuggestions.add("SimaStringes");
+		tagSuggestions.add("21312Stringes");
+		tagSuggestions.add("sdasdStringes");
 		locationItems.addAll(SelectItems.fromStrings("asd","blup","blip"));
 		tagOptionSuggestions.addAll(TagOptions.fromStrings("Ez","Az","mi","sas"));
+		TagOption tagOp = new TagOption();
+		tagOp.setName("Ez már más");
+		tagOp.setStyleClass("label label-info");
+		tagOptionSuggestions.add(tagOp);
+		tags.add("asdas");
 		System.out.println("test: " + tagOptionSuggestions.get(2).getName());
 		view.setPresenter(this);
 		panel.setWidget(view);
@@ -56,8 +61,8 @@ public class SandboxActivity extends AbstractActivity {
 	
 	@MethodRef
 	public void checkBindings() {
-		defaultTags.clear();
-		defaultTags.addAll(tags);
+		tagSuggestions.clear();
+		tagSuggestions.addAll(tags);
 		System.out.println("test: " + test);
 		System.out.println("tags: " + tags);
 	}
