@@ -1,5 +1,6 @@
 package com.doctusoft.dsw.client.gwt;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.doctusoft.bean.ObservableProperty;
@@ -11,6 +12,8 @@ import com.doctusoft.dsw.client.comp.model.InputTagsModel;
 import com.doctusoft.dsw.client.comp.model.InputTagsModel_;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 import com.xedge.jquery.client.JQEvent;
 import com.xedge.jquery.client.JQuery;
 import com.xedge.jquery.client.handlers.EventHandler;
@@ -158,18 +161,18 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 		}, 10);
 	}-*/;
 	
-	private native static void setTagOptionSuggestions(JQuery element, String tagSuggestions) /*-{
+	private native static void setTagOptionSuggestions(JQuery element, JsArray<Item> tagSuggestions) /*-{
 	setTimeout(function () { 
 		element.tagsinput('destroy');
 		element.tagsinput({
 				itemValue: 'value',
 			  	itemText: 'text',
 			  	typeahead: {
-			    	source: ['Amsterdam', 'Washington', 'Sydney', 'Beijing', 'Cairo']
+			    	source: tagSuggestions
 			  }
 		}); 
-	}, 10);
-}-*/;
+		}, 10);
+	}-*/;
 	
 	private native static void setTagStyleClass(JQuery element, String tagStyleClass) /*-{
 		element.tagsinput({
@@ -182,7 +185,7 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 	}-*/;
 	
 	private native static void addTag(JQuery element, TagOption newTag) /*-{
-		element.tagsinput('add', { "itemValue": newTag.getName() , "itemText": newTag.getName() , "tagClass": newTag.getStyleClass()});
+		element.tagsinput('add', {value : newTag.getName(), text : newTag.getName() , style : newTag.getStyle()});
 	}-*/;
 
 	private native static void removeTag(JQuery element, String removeTag) /*-{
@@ -210,16 +213,49 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 		return tagString;
 	}
 	
-	String tagOptionListToString(List<TagOption> tagList) {
-		String tagString = "";
+	JsArray<Item> tagOptionListToString(List<TagOption> tagList) {
+		JsArray<Item> array= JavaScriptObject.createArray().cast();
 		for (TagOption tag : tagList) {
-			tagString = tagString + tag.getName().replaceAll("^\\s+|\\s+$", "") + ",";
+			Item item = (Item)JavaScriptObject.createObject().cast();
+			item.setValue(tag.getName());
+			item.setText(tag.getName());
+			item.setStyle(tag.getStyleClass());
+			array.push(item);
 		}
-		if (tagString.length() > 0) {
-			tagString = tagString.substring(0, tagString.length()-1);
-		}
-		System.out.println(tagString);
-		return tagString;
+		return array;
+	}
+	
+	/*
+	 * Helper class to build JavascriptObjects from TagOption
+	 */
+	static class Item extends JavaScriptObject
+	{
+	    protected Item(){}
+
+	    public final native String setValue(String value)/*-{ 
+	        this.value = value; 
+	    }-*/;
+
+	    public final native String setStyle(String style)/*-{ 
+	        this.style = style; 
+	    }-*/;
+	    
+	    public final native String setText(String text)/*-{ 
+        	this.text = text; 
+    	}-*/;
+
+		public final native String getValue()/*-{ 
+	        return this.name; 
+	    }-*/;
+
+	    public final native String getStyle()/*-{ 
+	        return this.style; 
+	    }-*/;
+	    
+	    public final native String getText()/*-{ 
+        return this.text; 
+    	}-*/;
+
 	}
 	
 }

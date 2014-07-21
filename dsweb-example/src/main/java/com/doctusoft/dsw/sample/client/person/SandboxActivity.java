@@ -50,10 +50,13 @@ public class SandboxActivity extends AbstractActivity {
 		tagOptionSuggestions.addAll(TagOptions.fromStrings("Ez","Az","mi","sas"));
 		TagOption tagOp = new TagOption();
 		tagOp.setName("Ez már más");
-		tagOp.setStyleClass("label label-info");
+		tagOp.setStyleClass("label label-warning");
+		TagOption tagOp2 = new TagOption();
+		tagOp2.setName("Ez már megint más");
+		tagOp2.setStyleClass("label label-success");
+		tagOptionSuggestions.add(tagOp2);
 		tagOptionSuggestions.add(tagOp);
 		tags.add("asdas");
-		System.out.println("test: " + tagOptionSuggestions.get(2).getName());
 		view.setPresenter(this);
 		panel.setWidget(view);
 		view.viewPresented();

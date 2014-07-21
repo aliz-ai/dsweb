@@ -3,14 +3,13 @@
 
   var defaultOptions = {
     tagClass: function(item) {
-    	alert(item);
-    	return  'label label-important';
+    	return item.style;
     },
     itemValue: function(item) {
       return item ? item.toString() : item;
     },
     itemText: function(item) {
-      return this.itemValue(item);
+      return this.itemValue(item.text);
     },
     freeInput: true,
     maxTags: undefined,
