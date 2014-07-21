@@ -37,7 +37,10 @@ public class SandboxActivity extends AbstractActivity {
 	private ObservableList<String> tagSuggestions = new ObservableList<String>();
 	
 	@ObservableProperty
-	private String test = "";
+	private String test = "2014.12.03";
+	
+	@ObservableProperty
+	private boolean visibility;
 	
 	@Override
 	public void start(AcceptsOneWidget panel, EventBus eventBus) {
@@ -68,6 +71,12 @@ public class SandboxActivity extends AbstractActivity {
 		tagSuggestions.addAll(tags);
 		System.out.println("test: " + test);
 		System.out.println("tags: " + tags);
+		System.out.println("visibility: " + visibility);
+	}
+	
+	@MethodRef
+	public void changeVisibility() {
+		setVisibility(!visibility);
 	}
 	
 	

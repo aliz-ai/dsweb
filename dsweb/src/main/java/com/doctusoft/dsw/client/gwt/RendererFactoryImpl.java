@@ -8,6 +8,7 @@ import com.doctusoft.dsw.client.comp.model.CellModel;
 import com.doctusoft.dsw.client.comp.model.CheckboxModel;
 import com.doctusoft.dsw.client.comp.model.ContainerModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel;
+import com.doctusoft.dsw.client.comp.model.DatepickerModel;
 import com.doctusoft.dsw.client.comp.model.DropdownButtonModel;
 import com.doctusoft.dsw.client.comp.model.HistoryHandlerModel;
 import com.doctusoft.dsw.client.comp.model.HtmlContentModel;
@@ -95,6 +96,9 @@ public class RendererFactoryImpl extends AbstractGwtRendererFactory {
 		}
 		if (baseWidget instanceof ResourceLoaderModel) {
 			return new ResourceLoaderRenderer((ResourceLoaderModel) baseWidget);
+		}
+		if (baseWidget instanceof DatepickerModel) {
+			return new DatepickerRenderer((DatepickerModel) baseWidget);
 		}
 
 		return null;
