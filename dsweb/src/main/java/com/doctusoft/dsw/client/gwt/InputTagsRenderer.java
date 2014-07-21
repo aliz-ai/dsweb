@@ -69,13 +69,13 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 			@Override
 			public void inserted(ObservableList<TagOption> list, int index,
 					TagOption element) {
-				setTagSuggestions(widget, tagOptionListToString(list));
+				setTagOptionSuggestions(widget, tagOptionListToString(list));
 			}
 
 			@Override
 			public void removed(ObservableList<TagOption> list, int index,
 					TagOption element) {
-				setTagSuggestions(widget, tagOptionListToString(list));	
+				setTagOptionSuggestions(widget, tagOptionListToString(list));	
 				
 			}
 		};
@@ -158,6 +158,19 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 		}, 10);
 	}-*/;
 	
+	private native static void setTagOptionSuggestions(JQuery element, String tagSuggestions) /*-{
+	setTimeout(function () { 
+		element.tagsinput('destroy');
+		element.tagsinput({
+				itemValue: 'value',
+			  	itemText: 'text',
+			  	typeahead: {
+			    	source: ['Amsterdam', 'Washington', 'Sydney', 'Beijing', 'Cairo']
+			  }
+		}); 
+	}, 10);
+}-*/;
+	
 	private native static void setTagStyleClass(JQuery element, String tagStyleClass) /*-{
 		element.tagsinput({
 					tagClass: tagStyleClass
@@ -205,6 +218,7 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 		if (tagString.length() > 0) {
 			tagString = tagString.substring(0, tagString.length()-1);
 		}
+		System.out.println(tagString);
 		return tagString;
 	}
 	
