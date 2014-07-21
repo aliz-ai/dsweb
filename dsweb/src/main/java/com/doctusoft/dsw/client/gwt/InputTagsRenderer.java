@@ -165,8 +165,11 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 	setTimeout(function () { 
 		element.tagsinput('destroy');
 		element.tagsinput({
-				itemValue: 'value',
-			  	itemText: 'text',
+				tagClass: function(item) {
+			    		return item.style;
+			    },
+			    itemValue: 'value',
+  				itemText: 'text',
 			  	typeahead: {
 			    	source: tagSuggestions
 			  }
@@ -245,7 +248,7 @@ public class InputTagsRenderer extends BaseComponentRenderer {
     	}-*/;
 
 		public final native String getValue()/*-{ 
-	        return this.name; 
+	        return this.value; 
 	    }-*/;
 
 	    public final native String getStyle()/*-{ 
