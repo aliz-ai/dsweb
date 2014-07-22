@@ -43,11 +43,11 @@ public class DatepickerRenderer extends BaseComponentRenderer {
 	}-*/;
 	
 
-	private native void initDatepickerNative(JQuery widget, String format) /*-{
+	private native void initDatepickerNative(JQuery widget, String datepickerFormat) /*-{
 		widget.datepicker("remove");
 		widget.datepicker({
 			autoclose: true,
-			format: format
+			format: datepickerFormat
 		});
 	}-*/;
 

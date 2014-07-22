@@ -22,7 +22,13 @@ public class BaseComponentModel implements ModelObject, HasComponentModel, Seria
 	private String style = "";
 	
 	@com.doctusoft.ObservableProperty
+	private int tabIndex = 0;
+	
+	@com.doctusoft.ObservableProperty
 	private ComponentEvent clicked = new ComponentEvent();
+	
+	@com.doctusoft.ObservableProperty
+	private ComponentEvent focus = new ComponentEvent();
 	
 	@Override
 	public BaseComponentModel getComponentModel() {

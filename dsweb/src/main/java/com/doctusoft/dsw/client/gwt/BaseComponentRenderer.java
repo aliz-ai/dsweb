@@ -66,11 +66,25 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 				applyStyle(newValue);
 			}
 		});
+		applyTabIndex(component.getTabIndex());
+		BaseComponentModel_._tabIndex.addChangeListener(component, new ValueChangeListener<Integer>() {
+
+			@Override
+			public void valueChanged(Integer newValue) {
+				applyTabIndex(newValue);
+			}
+		});
 		bindEvent(EventType.click, Bindings.obs(component).get(BaseComponentModel_._clicked));
+		
+		bindFocus(component);
 	}
 	
 	protected void applyStyle(String style) {
 		widget.attr("style", Strings.isNullOrEmpty(style)?null:style);
+	}
+	
+	protected void applyTabIndex(int tabIndex) {
+		widget.attr("tabindex", tabIndex == 0 ? null : String.valueOf(tabIndex));
 	}
 	
 	protected void bindEvent(final EventType eventType, final ObservableChainedValueBindingBuilder<ComponentEvent> eventBinding) {
@@ -88,6 +102,17 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 				}
 			});
 		}
+	}
+	
+	protected void bindFocus(final BaseComponentModel model) {
+		Bindings.obs(model).get(BaseComponentModel_._focus).get(ComponentEvent_._fired).addValueChangeListener(new ValueChangeListener<Boolean>() {
+			@Override
+			public void valueChanged(Boolean newValue) {
+				if (newValue == true) {
+					widget.focus();
+				}
+			}
+		});
 	}
 	
 	protected void doBindEventInner(EventType eventType, final ObservableValueBinding<ComponentEvent> eventBinding) {

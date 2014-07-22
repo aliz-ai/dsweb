@@ -8,6 +8,7 @@ import com.doctusoft.dsw.client.comp.SelectItem;
 import com.doctusoft.dsw.client.comp.SelectItems;
 import com.doctusoft.dsw.client.comp.TagOption;
 import com.doctusoft.dsw.client.comp.TagOptions;
+import com.doctusoft.dsw.client.comp.model.ComponentEvent;
 import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.ClientFactory;
 import com.google.gwt.activity.shared.AbstractActivity;
@@ -39,13 +40,11 @@ public class SandboxActivity extends AbstractActivity {
 	@ObservableProperty
 	private boolean visibility;
 	
+	@ObservableProperty
+	private ComponentEvent focus = new ComponentEvent();
+	
 	public SandboxActivity( ClientFactory clientFactory ) {
 		this.clientFactory = clientFactory;
-	}
-	
-	@MethodRef
-	public void changeVisibility() {
-		setVisibility( !visibility );
 	}
 	
 	@MethodRef

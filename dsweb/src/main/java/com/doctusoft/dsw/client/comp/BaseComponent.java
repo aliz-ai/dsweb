@@ -9,6 +9,7 @@ import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.bean.binding.ValueBinding;
+import com.doctusoft.bean.binding.observable.ObservableChainedValueBindingBuilder;
 import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
@@ -27,6 +28,21 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 	
 	public Actual click(final EmptyEventHandler handler) {
 		bindEvent(BaseComponentModel_._clicked, handler);
+		return (Actual) this;
+	}
+	
+	public Actual bindFocus(final ObservableChainedValueBindingBuilder<ComponentEvent> eventBinding) {
+		eventBinding.get(ComponentEvent_._fired).addValueChangeListener(new ValueChangeListener<Boolean>() {
+			@Override
+			public void valueChanged(Boolean newValue) {
+				model.getFocus().fire();
+			}
+		});
+		return (Actual) this;
+	}
+	
+	public Actual focus() {
+		model.getFocus().fire();
 		return (Actual) this;
 	}
 	
@@ -78,6 +94,15 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 	
 	public Actual withStyle(String style) {
 		setStyle(style);
+		return (Actual) this;
+	}
+	
+	public void setTabIndex(int tabIndex) {
+		model.setTabIndex(tabIndex);
+	}
+	
+	public Actual withTabIndex(int tabIndex) {
+		setTabIndex(tabIndex);
 		return (Actual) this;
 	}
 	
