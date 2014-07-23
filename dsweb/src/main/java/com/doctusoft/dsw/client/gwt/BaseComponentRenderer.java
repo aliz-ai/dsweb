@@ -80,7 +80,7 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 		bindEvent(EventType.keypress, Bindings.obs(component).get(BaseComponentModel_._keyPressed), new EventTriggerer<KeyPressedEvent>() {
 			@Override
 			public void triggerEvent(KeyPressedEvent event, JQEvent jqEvent) {
-				event.fire(jqEvent.getKeyCode());
+				event.fire(jqEvent.which());
 			}
 		});
 		
