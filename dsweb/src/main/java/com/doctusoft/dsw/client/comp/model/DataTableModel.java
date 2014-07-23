@@ -19,10 +19,7 @@ public class DataTableModel extends BaseComponentModel {
 	private ObservableList<Integer> selectedIndices = new ObservableList<Integer>();
 	
 	@ObservableProperty
-	private ComponentEvent rowClickedEvent;
-	
-	@ObservableProperty
-	private Integer clickedRowNumber = -1;
+	private RowClickedEvent rowClickedEvent = new RowClickedEvent();
 	
 	@Override
 	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {

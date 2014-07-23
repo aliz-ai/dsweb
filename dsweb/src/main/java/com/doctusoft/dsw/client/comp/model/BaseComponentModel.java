@@ -6,6 +6,7 @@ import com.doctusoft.bean.ModelObject;
 import com.doctusoft.bean.ObservableProperty;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.comp.HasComponentModel;
+import com.doctusoft.dsw.client.comp.model.event.KeyPressedEvent;
 
 public class BaseComponentModel implements ModelObject, HasComponentModel, Serializable {
 	
@@ -29,6 +30,9 @@ public class BaseComponentModel implements ModelObject, HasComponentModel, Seria
 	
 	@com.doctusoft.ObservableProperty
 	private ComponentEvent focus = new ComponentEvent();
+	
+	@com.doctusoft.ObservableProperty
+	private KeyPressedEvent keyPressed = null;
 	
 	@Override
 	public BaseComponentModel getComponentModel() {

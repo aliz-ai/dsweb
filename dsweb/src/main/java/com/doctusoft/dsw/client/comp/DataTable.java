@@ -18,6 +18,7 @@ import com.doctusoft.dsw.client.comp.model.DataTableModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel_;
 import com.doctusoft.dsw.client.comp.model.DataTableRowModel;
 import com.doctusoft.dsw.client.comp.model.SelectionMode;
+import com.doctusoft.dsw.client.comp.model.event.ParametricEventHandler;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
@@ -83,8 +84,13 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 		return this;
 	}
 	
-	public DataTable<Item> bindSelectedRowNumber( ValueBinding<Integer> valueBinding ) {
-		Bindings.bind( Bindings.obs( model ).get( DataTableModel_._clickedRowNumber ), valueBinding );
+	public DataTable<Item> rowClick( final ParametricEventHandler<Item> rowClickHandler ) {
+		bindEvent(DataTableModel_._rowClickedEvent, new ParametricEventHandler<Integer>() {
+			@Override
+			public void handle(Integer parameter) {
+				rowClickHandler.handle(new SelectItemToIndexConverter().convertTarget(parameter));
+			}
+		});
 		return this;
 	}
 	
@@ -131,17 +137,5 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 		model.setSelectionMode( selectionMode );
 		return this;
 	}
-	
-	//	protected void bindEvent(ObservableProperty<? super DataTableModel, ComponentEvent> eventProperty, final EmptyEventHandler handler) {
-	//		eventProperty.getValue(model).setHasListeners(true);
-	//		Bindings.obs(model).get(eventProperty).get(ComponentEvent_._fired).addValueChangeListener(new ValueChangeListener<Boolean>() {
-	//			@Override
-	//			public void valueChanged(Boolean newValue) {
-	//				if (newValue == true) {
-	//					handler.handle();
-	//				}
-	//			}
-	//		});
-	//	}
 	
 }

@@ -15,6 +15,10 @@ import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent_;
+import com.doctusoft.dsw.client.comp.model.event.KeyEvent;
+import com.doctusoft.dsw.client.comp.model.event.KeyPressedEvent;
+import com.doctusoft.dsw.client.comp.model.event.ParametricEvent;
+import com.doctusoft.dsw.client.comp.model.event.ParametricEventHandler;
 import com.google.common.base.Preconditions;
 
 @Getter
@@ -28,6 +32,12 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 	
 	public Actual click(final EmptyEventHandler handler) {
 		bindEvent(BaseComponentModel_._clicked, handler);
+		return (Actual) this;
+	}
+	
+	public Actual keypress(final ParametricEventHandler<KeyEvent> handler) {
+		model.setKeyPressed(new KeyPressedEvent());
+		bindEvent(BaseComponentModel_._keyPressed, handler);
 		return (Actual) this;
 	}
 	
@@ -128,13 +138,25 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 		return model;
 	}
 	
-	protected void bindEvent(ObservableProperty<? super Model, ComponentEvent> eventProperty, final EmptyEventHandler handler) {
+	protected void bindEvent(ObservableProperty<? super Model, ? extends ComponentEvent> eventProperty, final EmptyEventHandler handler) {
 		eventProperty.getValue(model).setHasListeners(true);
 		Bindings.obs(model).get(eventProperty).get(ComponentEvent_._fired).addValueChangeListener(new ValueChangeListener<Boolean>() {
 			@Override
 			public void valueChanged(Boolean newValue) {
 				if (newValue == true) {
 					handler.handle();
+				}
+			}
+		});
+	}
+
+	protected <T, E extends ComponentEvent & ParametricEvent<T>> void bindEvent(final ObservableProperty<? super Model, E> eventProperty, final ParametricEventHandler<T> handler) {
+		eventProperty.getValue(model).setHasListeners(true);
+		Bindings.obs(model).get(eventProperty).get(ComponentEvent_._fired).addValueChangeListener(new ValueChangeListener<Boolean>() {
+			@Override
+			public void valueChanged(Boolean newValue) {
+				if (newValue == true) {
+					handler.handle(eventProperty.getValue(model).getEventParameter());
 				}
 			}
 		});

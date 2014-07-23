@@ -71,4 +71,5 @@ public class ShowcaseActivity extends BaseActivity<ShowcaseActivity, ShowcasePla
 		setModalContent("You selected: " + personDto.getName());
 		setModalVisible(true);
 	}
+	
 }

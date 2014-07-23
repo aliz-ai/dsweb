@@ -13,6 +13,7 @@ import com.doctusoft.bean.binding.observable.ObservableChainedValueBindingBuilde
 import com.doctusoft.dsw.client.comp.Container;
 import com.doctusoft.dsw.client.comp.HasComponentModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
+import com.doctusoft.dsw.client.comp.model.event.ParametricEventHandler;
 import com.doctusoft.dsw.client.exc.ExceptionReporter;
 import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.google.gwt.user.client.ui.Widget;
@@ -60,6 +61,24 @@ public class ContainerWithPresenter<Presenter> implements ViewOf<Presenter>, Has
 			}
 		};
 	}
+	
+	public <T> ParametricEventHandler<T> presenterMethod(final ClassMethodReference1<Presenter, Void, T> presenterMethod) {
+		return new ParametricEventHandler<T>() {
+			@Override
+			public void handle(T parameter) {
+				try {
+					presenterMethod.apply(presenter, parameter);
+				} catch (RuntimeException e) {
+					if (presenter instanceof ExceptionReporter) {
+						((ExceptionReporter) presenter).reportException(e);
+					} else {
+						throw e;
+					}
+				}
+			}
+		};
+	}
+	
 	public <T> EmptyEventHandler presenterMethod(final ClassMethodReference1<Presenter, Void, T> presenterMethod, final T param) {
 		return new EmptyEventHandler() {
 			@Override

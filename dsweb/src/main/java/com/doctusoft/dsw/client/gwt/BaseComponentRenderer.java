@@ -14,6 +14,7 @@ import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent_;
+import com.doctusoft.dsw.client.comp.model.event.KeyPressedEvent;
 import com.doctusoft.dsw.client.util.Booleans;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
@@ -74,7 +75,14 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 				applyTabIndex(newValue);
 			}
 		});
+		
 		bindEvent(EventType.click, Bindings.obs(component).get(BaseComponentModel_._clicked));
+		bindEvent(EventType.keypress, Bindings.obs(component).get(BaseComponentModel_._keyPressed), new EventTriggerer<KeyPressedEvent>() {
+			@Override
+			public void triggerEvent(KeyPressedEvent event, JQEvent jqEvent) {
+				event.fire(jqEvent.getKeyCode());
+			}
+		});
 		
 		bindFocus(component);
 	}
@@ -88,16 +96,26 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 	}
 	
 	protected void bindEvent(final EventType eventType, final ObservableChainedValueBindingBuilder<ComponentEvent> eventBinding) {
+		bindEvent(eventType, eventBinding, new EventTriggerer<ComponentEvent>() {
+			@Override
+			public void triggerEvent(ComponentEvent event, JQEvent jqEvent) {
+				event.fire();
+			}
+		});
+	}
+	
+	protected <T extends ComponentEvent> void bindEvent(final EventType eventType, final ObservableChainedValueBindingBuilder<T> eventBinding, final EventTriggerer<T> triggerer) {
 		// if we already know that this event has handlers in the UI code
-		if (eventBinding.getValue().isHasListeners()) {
-			doBindEventInner(eventType, eventBinding);
+		ComponentEvent currentEventValue = eventBinding.getValue();
+		if (currentEventValue != null && currentEventValue.isHasListeners()) {
+			doBindEventInner(eventType, eventBinding, triggerer);
 		} else {
 			// if not yet, we add a listener por si acaso later one will be attached
 			eventBinding.get(ComponentEvent_._hasListeners).addValueChangeListener(new ValueChangeListener<Boolean>() {
 				@Override
 				public void valueChanged(Boolean newValue) {
 					if (Objects.firstNonNull(newValue, false)) {
-						doBindEventInner(eventType, eventBinding);
+						doBindEventInner(eventType, eventBinding, triggerer);
 					}
 				}
 			});
@@ -115,13 +133,18 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 		});
 	}
 	
-	protected void doBindEventInner(EventType eventType, final ObservableValueBinding<ComponentEvent> eventBinding) {
+	protected <T extends ComponentEvent> void doBindEventInner(EventType eventType, final ObservableValueBinding<T> eventBinding, final EventTriggerer<T> triggerer) {
 		widget.bind(eventType, new EventHandler() {
 			@Override
 			public void eventComplete(JQEvent jqEvent, JQuery currentJQuery) {
-				eventBinding.getValue().fire();
+				triggerer.triggerEvent(eventBinding.getValue(), jqEvent);
 			}
 		});
 	}
+	
+	private interface EventTriggerer<E extends ComponentEvent> {
+		public void triggerEvent(E event, JQEvent jqEvent);
+	}
+	
 	
 }

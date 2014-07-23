@@ -23,8 +23,10 @@ public class ComponentEvent implements ModelObject, Serializable {
 	private boolean hasListeners = false;
 	
 	public void fire() {
-		setFired(true);
-		setFired(false);
+		if (hasListeners) {
+			setFired(true);
+			setFired(false);
+		}
 	}
 	
 	@Override
