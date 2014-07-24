@@ -2,10 +2,10 @@
 package com.doctusoft.dsw.sample.client.person;
 
 import com.doctusoft.dsw.client.comp.Button;
-import com.doctusoft.dsw.client.comp.Datepicker;
 import com.doctusoft.dsw.client.comp.InputTags;
 import com.doctusoft.dsw.client.comp.InputText;
 import com.doctusoft.dsw.client.comp.Select;
+import com.doctusoft.dsw.client.comp.TimeInput;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
 public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
@@ -15,6 +15,8 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 	private InputText focus;
 
 	public SandboxView() {
+		
+		new TimeInput().appendTo(container);
 		
 //		inputTagsWithOption = new InputTags()
 //			.bindTagOption(bindOnPresenter().get(SandboxActivity_._tagOptions))
@@ -40,10 +42,10 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 		//				.bind(bindOnPresenter().get(SandboxActivity_._test))
 		//				.appendTo(container); 
 		
-		new Datepicker()
-			.bind( bindOnPresenter().get( SandboxActivity_._test ) )
-			.withFormat( "yyyy.mm.dd" )
-			.appendTo( container );
+//		new Datepicker()
+//			.bind( bindOnPresenter().get( SandboxActivity_._test ) )
+//			.withFormat( "yyyy.mm.dd" )
+//			.appendTo( container );
 		
 		Button checkButton = new Button("check");
 		checkButton.click(presenterMethod(SandboxActivity_.__checkBindings));
@@ -52,13 +54,13 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 //		new Button("whoosh")
 //			.click(presenterMethod(SandboxActivity_.__changeVisibility))
 //			.appendTo(container);
-		new InputText().bindFocus(bindOnPresenter().get(SandboxActivity_._focus));
-		focus = new InputText().appendTo(container).bindFocus(bindOnPresenter().get(SandboxActivity_._focus));
+//		new InputText().bindFocus(bindOnPresenter().get(SandboxActivity_._focus));
+//		focus = new InputText().appendTo(container).bindFocus(bindOnPresenter().get(SandboxActivity_._focus));
 	}
 	
 	@Override
 	public void viewPresented() {
-		focus.focus();
+//		focus.focus();
 //		select.setSelectItems(getPresenter().getLocationItems());
 	}
 	
