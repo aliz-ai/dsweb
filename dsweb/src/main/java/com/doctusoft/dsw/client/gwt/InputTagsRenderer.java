@@ -1,6 +1,5 @@
 package com.doctusoft.dsw.client.gwt;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.doctusoft.bean.ObservableProperty;
@@ -30,6 +29,8 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 		widget.attr("data-role", "tagsinput");
 		
 		initTagsInput(widget);
+		
+		addTag(widget, inputTagsModel.getTagList().toString());		
 		new ListBindingListener<String>(Bindings.obs(inputTagsModel).get((ObservableProperty) InputTagsModel_._tagSuggestions)) {
 			@Override
 			public void inserted(ObservableList<String> list, int index,
@@ -184,7 +185,9 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 	}-*/;
 	
 	private native static void addTag(JQuery element, String newTag) /*-{
-		element.tagsinput('add', newTag);
+		setTimeout(function () { 
+			element.tagsinput('add', newTag);
+		}, 1);
 	}-*/;
 	
 	private native static void addTag(JQuery element, TagOption newTag) /*-{

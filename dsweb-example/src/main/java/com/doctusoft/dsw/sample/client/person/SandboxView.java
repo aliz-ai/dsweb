@@ -5,7 +5,6 @@ import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.InputTags;
 import com.doctusoft.dsw.client.comp.InputText;
 import com.doctusoft.dsw.client.comp.Select;
-import com.doctusoft.dsw.client.comp.InputTime;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
 public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
@@ -16,11 +15,23 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 
 	public SandboxView() {
 		
-		new InputTime().appendTo(container);
+//		new InputTime().appendTo(container).keypress(new ParametricEventHandler<KeyEvent>() {
+//			@Override
+//			public void handle(KeyEvent parameter) {
+//				if (parameter.getCode().equals(13)) {
+//					presenterMethod(SandboxActivity_.__checkBindings).handle();
+//				}
+//			}
+//		});
 		
-//		inputTagsWithOption = new InputTags()
+//		new InputTags()
 //			.bindTagOption(bindOnPresenter().get(SandboxActivity_._tagOptions))
-//			.bindTagOptionSuggestions(bindOnPresenter().get(SandboxActivity_._tagOptionSuggestions));
+//			.bindTagOptionSuggestions(bindOnPresenter().get(SandboxActivity_._tagOptionSuggestions)).appendTo(container);
+		
+		new InputTags()
+			.bind(bindOnPresenter().get(SandboxActivity_._tags))
+			.appendTo(container);
+		
 //		new Label("Glob")
 //			.bindVisible(bindOnPresenter().get(SandboxActivity_._visibility));
 //

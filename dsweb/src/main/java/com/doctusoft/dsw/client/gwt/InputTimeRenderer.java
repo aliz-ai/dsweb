@@ -12,6 +12,7 @@ public class InputTimeRenderer extends BaseComponentRenderer {
 	public InputTimeRenderer(final InputTimeModel model) {
 		super(JQuery.select("<input type=\"text\" />"), model);
 		
+		widget.val(model.getValue());		
 		InputTimeModel_._value.addChangeListener(model, new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
@@ -24,6 +25,7 @@ public class InputTimeRenderer extends BaseComponentRenderer {
 			public void eventComplete(JQEvent event, JQuery currentJQuery) {
 				String checked = checkAndFormatTime(widget.val());
 				if (checked == null) {
+					widget.val("");
 					widget.focus();
 					return;
 				}
