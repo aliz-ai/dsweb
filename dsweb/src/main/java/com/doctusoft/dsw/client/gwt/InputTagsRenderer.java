@@ -185,9 +185,9 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 	}-*/;
 	
 	private native static void addTag(JQuery element, String newTag) /*-{
-		setTimeout(function () { 
+//		setTimeout(function () { 
 			element.tagsinput('add', newTag);
-		}, 1);
+//		}, 1);
 	}-*/;
 	
 	private native static void addTag(JQuery element, TagOption newTag) /*-{
