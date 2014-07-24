@@ -126,7 +126,7 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 		Bindings.obs(model).get(BaseComponentModel_._focus).get(ComponentEvent_._fired).addValueChangeListener(new ValueChangeListener<Boolean>() {
 			@Override
 			public void valueChanged(Boolean newValue) {
-				if (newValue == true) {
+				if (Objects.firstNonNull(newValue, false)) {
 					widget.focus();
 				}
 			}

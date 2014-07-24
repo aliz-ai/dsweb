@@ -28,7 +28,7 @@ public class LinkRenderer extends BaseComponentRenderer {
 				widget.attr("href", newValue);
 			}
 		});
-		if (link.getClicked().isHasListeners()) {
+		if (link.getClicked() != null && link.getClicked().isHasListeners()) {
 			clearHref();
 		} else {
 			Bindings.obs(link).get(BaseComponentModel_._clicked).get(ComponentEvent_._hasListeners).addValueChangeListener(new ValueChangeListener<Boolean>() {

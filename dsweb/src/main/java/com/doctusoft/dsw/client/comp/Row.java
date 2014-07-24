@@ -7,7 +7,7 @@ public class Row extends AbstractContainer<Row, ContainerModel> {
 	
 	public Row() {
 		super(new ContainerModel());
-		this.model.getStyleClasses().add(BootstrapStyleClasses.ROW);
+		addStyleClass(BootstrapStyleClasses.ROW);
 	}
 	
 }

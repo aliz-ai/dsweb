@@ -7,7 +7,7 @@ public class FluidContainer extends AbstractContainer<FluidContainer, ContainerM
 	
 	public FluidContainer() {
 		super(new ContainerModel());
-		this.model.getStyleClasses().add(BootstrapStyleClasses.CONTAINER_FLUID);
+		addStyleClass(BootstrapStyleClasses.CONTAINER_FLUID);
 	}
 	
 }

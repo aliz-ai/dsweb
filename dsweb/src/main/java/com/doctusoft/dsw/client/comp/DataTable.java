@@ -17,9 +17,11 @@ import com.doctusoft.dsw.client.comp.model.DataTableCellModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel_;
 import com.doctusoft.dsw.client.comp.model.DataTableRowModel;
+import com.doctusoft.dsw.client.comp.model.RowClickedEvent;
 import com.doctusoft.dsw.client.comp.model.SelectionMode;
 import com.doctusoft.dsw.client.comp.model.event.ParametricEventHandler;
 import com.google.common.base.Function;
+import com.google.common.base.Supplier;
 import com.google.common.collect.Lists;
 
 public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableModel> {
@@ -89,6 +91,11 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 			@Override
 			public void handle(Integer parameter) {
 				rowClickHandler.handle(new SelectItemToIndexConverter().convertTarget(parameter));
+			}
+		}, new Supplier<RowClickedEvent>() {
+			@Override
+			public RowClickedEvent get() {
+				return new RowClickedEvent();
 			}
 		});
 		return this;

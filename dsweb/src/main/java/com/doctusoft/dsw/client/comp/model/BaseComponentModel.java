@@ -17,7 +17,7 @@ public class BaseComponentModel implements ModelObject, HasComponentModel, Seria
 	private Boolean visible = true;
 	
 	@com.doctusoft.ObservableProperty
-	private ObservableList<String> styleClasses = new ObservableList<String>();
+	private ObservableList<String> styleClasses = null;
 	
 	@com.doctusoft.ObservableProperty
 	private String style = "";
@@ -26,10 +26,10 @@ public class BaseComponentModel implements ModelObject, HasComponentModel, Seria
 	private int tabIndex = 0;
 	
 	@com.doctusoft.ObservableProperty
-	private ComponentEvent clicked = new ComponentEvent();
+	private ComponentEvent clicked = null;
 	
 	@com.doctusoft.ObservableProperty
-	private ComponentEvent focus = new ComponentEvent();
+	private ComponentEvent focus = null;
 	
 	@com.doctusoft.ObservableProperty
 	private KeyPressedEvent keyPressed = null;

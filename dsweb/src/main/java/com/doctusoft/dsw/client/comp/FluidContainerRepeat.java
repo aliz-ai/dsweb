@@ -5,7 +5,7 @@ import com.doctusoft.dsw.client.gwt.BootstrapStyleClasses;
 public abstract class FluidContainerRepeat<T> extends Repeat<T> {
 	
 	public FluidContainerRepeat() {
-		this.model.getStyleClasses().add(BootstrapStyleClasses.CONTAINER_FLUID);
+		addStyleClass(BootstrapStyleClasses.CONTAINER_FLUID);
 	}
 	
 }

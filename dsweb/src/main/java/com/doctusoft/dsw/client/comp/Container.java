@@ -10,7 +10,7 @@ public class Container extends AbstractContainer<Container, ContainerModel> {
 	
 	public Container() {
 		super(new ContainerModel());
-		this.model.getStyleClasses().add(BootstrapStyleClasses.CONTAINER);
+		addStyleClass(BootstrapStyleClasses.CONTAINER);
 	}
 	
 }

@@ -5,7 +5,7 @@ import com.doctusoft.dsw.client.gwt.BootstrapStyleClasses;
 public abstract class FluidRowRepeat<T> extends Repeat<T> {
 	
 	public FluidRowRepeat() {
-		this.model.getStyleClasses().add(BootstrapStyleClasses.ROW_FLUID);
+		addStyleClass(BootstrapStyleClasses.ROW_FLUID);
 	}
 	
 	@Override

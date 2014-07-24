@@ -5,7 +5,7 @@ import com.doctusoft.dsw.client.gwt.BootstrapStyleClasses;
 public abstract class RowRepeat<T> extends Repeat<T> {
 	
 	public RowRepeat() {
-		this.model.getStyleClasses().add(BootstrapStyleClasses.ROW);
+		addStyleClass(BootstrapStyleClasses.ROW);
 	}
 	
 	@Override

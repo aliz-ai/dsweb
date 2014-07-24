@@ -7,7 +7,7 @@ public class FluidRow extends AbstractContainer<FluidRow, ContainerModel> {
 	
 	public FluidRow() {
 		super(new ContainerModel());
-		this.model.getStyleClasses().add(BootstrapStyleClasses.ROW_FLUID);
+		addStyleClass(BootstrapStyleClasses.ROW_FLUID);
 	}
 	
 }

@@ -10,6 +10,7 @@ import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.bean.binding.ValueBinding;
 import com.doctusoft.bean.binding.observable.ObservableChainedValueBindingBuilder;
+import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
@@ -19,7 +20,9 @@ import com.doctusoft.dsw.client.comp.model.event.KeyEvent;
 import com.doctusoft.dsw.client.comp.model.event.KeyPressedEvent;
 import com.doctusoft.dsw.client.comp.model.event.ParametricEvent;
 import com.doctusoft.dsw.client.comp.model.event.ParametricEventHandler;
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Supplier;
 
 @Getter
 public abstract class BaseComponent<Actual, Model extends BaseComponentModel> implements HasComponentModel, Serializable {
@@ -37,7 +40,12 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 	
 	public Actual keypress(final ParametricEventHandler<KeyEvent> handler) {
 		model.setKeyPressed(new KeyPressedEvent());
-		bindEvent(BaseComponentModel_._keyPressed, handler);
+		bindEvent(BaseComponentModel_._keyPressed, handler, new Supplier<KeyPressedEvent>() {
+			@Override
+			public KeyPressedEvent get() {
+				return new KeyPressedEvent();
+			}
+		});
 		return (Actual) this;
 	}
 	
@@ -45,13 +53,16 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 		eventBinding.get(ComponentEvent_._fired).addValueChangeListener(new ValueChangeListener<Boolean>() {
 			@Override
 			public void valueChanged(Boolean newValue) {
-				model.getFocus().fire();
+				focus();
 			}
 		});
 		return (Actual) this;
 	}
 	
 	public Actual focus() {
+		if (model.getFocus() == null) {
+			model.setFocus(new ComponentEvent());
+		}
 		model.getFocus().fire();
 		return (Actual) this;
 	}
@@ -63,6 +74,9 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 	
 	public void addStyleClass(String styleClass) {
 		Preconditions.checkArgument(styleClass.split(" ").length == 1, "Only one style class allowed to be added at a time");
+		if (model.getStyleClasses() == null) {
+			model.setStyleClasses(new ObservableList<String>());
+		}
 		if (!model.getStyleClasses().contains(styleClass)) {
 			model.getStyleClasses().add(styleClass);
 		}
@@ -81,7 +95,9 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 	}
 
 	public void removeStyleClass(String styleClass) {
-		model.getStyleClasses().remove(styleClass);
+		if (model.getStyleClasses() != null) {
+			model.getStyleClasses().remove(styleClass);
+		}
 	}
 	
 	public Actual bindStyleClassPresent(final String styleClass, final ObservableValueBinding<Boolean> presentBinding) {
@@ -138,27 +154,38 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 		return model;
 	}
 	
-	protected void bindEvent(ObservableProperty<? super Model, ? extends ComponentEvent> eventProperty, final EmptyEventHandler handler) {
-		eventProperty.getValue(model).setHasListeners(true);
+	protected void bindEvent(ObservableProperty<? super Model, ComponentEvent> eventProperty, final EmptyEventHandler handler) {
+		ComponentEvent event = eventProperty.getValue(model);
+		if (event == null) {
+			event = new ComponentEvent();
+			eventProperty.setValue(model, event);
+		}
+		event.setHasListeners(true);
 		Bindings.obs(model).get(eventProperty).get(ComponentEvent_._fired).addValueChangeListener(new ValueChangeListener<Boolean>() {
 			@Override
 			public void valueChanged(Boolean newValue) {
-				if (newValue == true) {
+				if (Objects.firstNonNull(newValue, false)) {
 					handler.handle();
 				}
 			}
 		});
 	}
 
-	protected <T, E extends ComponentEvent & ParametricEvent<T>> void bindEvent(final ObservableProperty<? super Model, E> eventProperty, final ParametricEventHandler<T> handler) {
-		eventProperty.getValue(model).setHasListeners(true);
+	protected <T, E extends ComponentEvent & ParametricEvent<T>> void bindEvent(final ObservableProperty<? super Model, E> eventProperty, final ParametricEventHandler<T> handler, Supplier<E> eventObjectSupplier) {
+		E event = eventProperty.getValue(model);
+		if (event == null) {
+			event = eventObjectSupplier.get();
+			eventProperty.setValue(model, event);
+		}
+		event.setHasListeners(true);
 		Bindings.obs(model).get(eventProperty).get(ComponentEvent_._fired).addValueChangeListener(new ValueChangeListener<Boolean>() {
 			@Override
 			public void valueChanged(Boolean newValue) {
-				if (newValue == true) {
+				if (Objects.firstNonNull(newValue, false)) {
 					handler.handle(eventProperty.getValue(model).getEventParameter());
 				}
 			}
 		});
 	}
+	
 }
