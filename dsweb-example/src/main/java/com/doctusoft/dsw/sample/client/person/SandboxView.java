@@ -5,7 +5,7 @@ import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.InputTags;
 import com.doctusoft.dsw.client.comp.InputText;
 import com.doctusoft.dsw.client.comp.Select;
-import com.doctusoft.dsw.client.comp.TimeInput;
+import com.doctusoft.dsw.client.comp.InputTime;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
 public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
@@ -16,7 +16,7 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 
 	public SandboxView() {
 		
-		new TimeInput().appendTo(container);
+		new InputTime().appendTo(container);
 		
 //		inputTagsWithOption = new InputTags()
 //			.bindTagOption(bindOnPresenter().get(SandboxActivity_._tagOptions))

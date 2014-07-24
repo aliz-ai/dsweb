@@ -21,7 +21,7 @@ import com.doctusoft.dsw.client.comp.model.ModalDialogModel;
 import com.doctusoft.dsw.client.comp.model.ResourceLoaderModel;
 import com.doctusoft.dsw.client.comp.model.SelectModel;
 import com.doctusoft.dsw.client.comp.model.TextareaModel;
-import com.doctusoft.dsw.client.comp.model.TimeInputModel;
+import com.doctusoft.dsw.client.comp.model.InputTimeModel;
 import com.doctusoft.dsw.client.comp.model.TypeaheadModel;
 import com.xedge.jquery.client.JQuery;
 
@@ -41,8 +41,8 @@ public class RendererFactoryImpl extends AbstractGwtRendererFactory {
 	
 	@Override
 	public Renderer<JQuery> resolveRenderer(BaseComponentModel baseWidget) {
-		if (baseWidget instanceof TimeInputModel) {
-			return new TimeInputRenderer((TimeInputModel) baseWidget);
+		if (baseWidget instanceof InputTimeModel) {
+			return new InputTimeRenderer((InputTimeModel) baseWidget);
 		}
 		if (baseWidget instanceof TypeaheadModel) {
 			return new TypeaheadRenderer((TypeaheadModel) baseWidget);

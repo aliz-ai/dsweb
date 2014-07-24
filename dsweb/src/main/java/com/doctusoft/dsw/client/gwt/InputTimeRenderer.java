@@ -1,18 +1,18 @@
 package com.doctusoft.dsw.client.gwt;
 
 import com.doctusoft.bean.ValueChangeListener;
-import com.doctusoft.dsw.client.comp.model.TimeInputModel;
-import com.doctusoft.dsw.client.comp.model.TimeInputModel_;
+import com.doctusoft.dsw.client.comp.model.InputTimeModel;
+import com.doctusoft.dsw.client.comp.model.InputTimeModel_;
 import com.xedge.jquery.client.JQEvent;
 import com.xedge.jquery.client.JQuery;
 import com.xedge.jquery.client.handlers.EventHandler;
 
-public class TimeInputRenderer extends BaseComponentRenderer {
+public class InputTimeRenderer extends BaseComponentRenderer {
 
-	public TimeInputRenderer(final TimeInputModel model) {
+	public InputTimeRenderer(final InputTimeModel model) {
 		super(JQuery.select("<input type=\"text\" />"), model);
 		
-		TimeInputModel_._value.addChangeListener(model, new ValueChangeListener<String>() {
+		InputTimeModel_._value.addChangeListener(model, new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
 				widget.val(newValue);
