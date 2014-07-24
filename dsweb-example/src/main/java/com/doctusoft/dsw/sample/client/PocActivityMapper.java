@@ -1,5 +1,8 @@
+
 package com.doctusoft.dsw.sample.client;
 
+import com.doctusoft.dsw.sample.client.person.ChartActivity;
+import com.doctusoft.dsw.sample.client.person.ChartPlace;
 import com.doctusoft.dsw.sample.client.person.PersonDetailActivity;
 import com.doctusoft.dsw.sample.client.person.PersonDetailPlace;
 import com.doctusoft.dsw.sample.client.person.PersonListActivity;
@@ -12,24 +15,31 @@ import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.place.shared.Place;
 
-public class PocActivityMapper implements ActivityMapper  {
+public class PocActivityMapper implements ActivityMapper {
 	
-	private ClientFactory clientFactory;
-
-	public PocActivityMapper(ClientFactory clientFactory) {
+	private final ClientFactory clientFactory;
+	
+	public PocActivityMapper( ClientFactory clientFactory ) {
 		this.clientFactory = clientFactory;
 	}
-
+	
 	@Override
-	public Activity getActivity(Place place) {
-		if (place instanceof PersonListPlace)
-			return new PersonListActivity(clientFactory);
-		if (place instanceof PersonDetailPlace)
-			return new PersonDetailActivity(clientFactory, ((PersonDetailPlace) place).getPersonId());
-		if (place instanceof ShowcasePlace)
-			return new ShowcaseActivity(clientFactory, (ShowcasePlace) place);
-		if (place instanceof SandboxPlace)
-			return new SandboxActivity(clientFactory);
+	public Activity getActivity( Place place ) {
+		if (place instanceof PersonListPlace) {
+			return new PersonListActivity( clientFactory );
+		}
+		if (place instanceof PersonDetailPlace) {
+			return new PersonDetailActivity( clientFactory, ((PersonDetailPlace) place).getPersonId() );
+		}
+		if (place instanceof ShowcasePlace) {
+			return new ShowcaseActivity( clientFactory, (ShowcasePlace) place );
+		}
+		if (place instanceof SandboxPlace) {
+			return new SandboxActivity( clientFactory );
+		}
+		if (place instanceof ChartPlace) {
+			return new ChartActivity( clientFactory, (ChartPlace) place );
+		}
 		return null;
 	}
 }

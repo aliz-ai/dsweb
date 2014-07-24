@@ -1,3 +1,4 @@
+
 package com.doctusoft.dsw.client.gwt;
 
 import com.doctusoft.dsw.client.Renderer;
@@ -18,6 +19,7 @@ import com.doctusoft.dsw.client.comp.model.InputTextModel;
 import com.doctusoft.dsw.client.comp.model.LabelModel;
 import com.doctusoft.dsw.client.comp.model.LinkModel;
 import com.doctusoft.dsw.client.comp.model.ModalDialogModel;
+import com.doctusoft.dsw.client.comp.model.PieChartModel;
 import com.doctusoft.dsw.client.comp.model.ResourceLoaderModel;
 import com.doctusoft.dsw.client.comp.model.SelectModel;
 import com.doctusoft.dsw.client.comp.model.TextareaModel;
@@ -28,15 +30,16 @@ import com.xedge.jquery.client.JQuery;
 public class RendererFactoryImpl extends AbstractGwtRendererFactory {
 	
 	public RendererFactoryImpl() {
-		/* not currently used, needs some more clarification
-		loadScript("js/jqery-1.10.2.js");
-		loadScript("js/bootstrap.js");
-		loadStylesheet("css/bootstrap.css");
-		loadScript("bootstrap-tagsinput.js");
-		loadStylesheet("bootstrap-tagsinput.css");
-		loadScript("datatables/js/jquery.dataTables.js");
-		loadStylesheet("jquery.dataTables.css");
-		*/
+		/*
+		 * not currently used, needs some more clarification
+		 * loadScript("js/jqery-1.10.2.js");
+		 * loadScript("js/bootstrap.js");
+		 * loadStylesheet("css/bootstrap.css");
+		 * loadScript("bootstrap-tagsinput.js");
+		 * loadStylesheet("bootstrap-tagsinput.css");
+		 * loadScript("datatables/js/jquery.dataTables.js");
+		 * loadStylesheet("jquery.dataTables.css");
+		 */
 	}
 	
 	@Override
@@ -45,66 +48,69 @@ public class RendererFactoryImpl extends AbstractGwtRendererFactory {
 			return new InputTimeRenderer((InputTimeModel) baseWidget);
 		}
 		if (baseWidget instanceof TypeaheadModel) {
-			return new TypeaheadRenderer((TypeaheadModel) baseWidget);
+			return new TypeaheadRenderer( (TypeaheadModel) baseWidget );
 		}
 		if (baseWidget instanceof InputTagsModel) {
-			return new InputTagsRenderer((InputTagsModel) baseWidget);
+			return new InputTagsRenderer( (InputTagsModel) baseWidget );
 		}
 		if (baseWidget instanceof LabelModel) {
-			return new LabelRenderer((LabelModel) baseWidget);
+			return new LabelRenderer( (LabelModel) baseWidget );
 		}
 		if (baseWidget instanceof ButtonModel) {
-			return new ButtonRenderer((ButtonModel) baseWidget);
+			return new ButtonRenderer( (ButtonModel) baseWidget );
 		}
 		if (baseWidget instanceof InputTextModel) {
-			return new InputTextRenderer((InputTextModel) baseWidget);
+			return new InputTextRenderer( (InputTextModel) baseWidget );
 		}
 		if (baseWidget instanceof DropdownButtonModel) {
-			return new DropdownButtonRenderer((DropdownButtonModel) baseWidget);
+			return new DropdownButtonRenderer( (DropdownButtonModel) baseWidget );
 		}
 		if (baseWidget instanceof AlertModel) {
-			return new AlertRenderer((AlertModel) baseWidget);
+			return new AlertRenderer( (AlertModel) baseWidget );
 		}
 		if (baseWidget instanceof ContainerModel) {
-			return new ContainerRenderer((ContainerModel) baseWidget);
+			return new ContainerRenderer( (ContainerModel) baseWidget );
 		}
 		if (baseWidget instanceof SelectModel) {
-			return new SelectRenderer((SelectModel) baseWidget);
+			return new SelectRenderer( (SelectModel) baseWidget );
 		}
 		if (baseWidget instanceof LinkModel) {
-			return new LinkRenderer((LinkModel) baseWidget);
+			return new LinkRenderer( (LinkModel) baseWidget );
 		}
 		if (baseWidget instanceof HistoryHandlerModel) {
-			return new HistoryHandlerRenderer((HistoryHandlerModel) baseWidget);
+			return new HistoryHandlerRenderer( (HistoryHandlerModel) baseWidget );
 		}
 		if (baseWidget instanceof ModalDialogModel) {
-			return new ModalDialogRenderer((ModalDialogModel) baseWidget);
+			return new ModalDialogRenderer( (ModalDialogModel) baseWidget );
 		}
 		if (baseWidget instanceof CheckboxModel) {
-			return new CheckboxRenderer((CheckboxModel) baseWidget);
+			return new CheckboxRenderer( (CheckboxModel) baseWidget );
 		}
 		if (baseWidget instanceof TextareaModel) {
-			return new TextareaRenderer((TextareaModel) baseWidget);
+			return new TextareaRenderer( (TextareaModel) baseWidget );
 		}
 		if (baseWidget instanceof CellModel) {
-			return new CellRenderer((CellModel) baseWidget);
+			return new CellRenderer( (CellModel) baseWidget );
 		}
 		if (baseWidget instanceof IconModel) {
-			return new IconRenderer((IconModel) baseWidget);
+			return new IconRenderer( (IconModel) baseWidget );
 		}
 		if (baseWidget instanceof HtmlContentModel) {
-			return new HtmlContentRenderer((HtmlContentModel) baseWidget);
+			return new HtmlContentRenderer( (HtmlContentModel) baseWidget );
 		}
 		if (baseWidget instanceof DataTableModel) {
-			return new DataTableRenderer((DataTableModel) baseWidget);
+			return new DataTableRenderer( (DataTableModel) baseWidget );
 		}
 		if (baseWidget instanceof ResourceLoaderModel) {
-			return new ResourceLoaderRenderer((ResourceLoaderModel) baseWidget);
+			return new ResourceLoaderRenderer( (ResourceLoaderModel) baseWidget );
 		}
 		if (baseWidget instanceof DatepickerModel) {
-			return new DatepickerRenderer((DatepickerModel) baseWidget);
+			return new DatepickerRenderer( (DatepickerModel) baseWidget );
 		}
-
+		if (baseWidget instanceof PieChartModel) {
+			return new PieChartRenderer( (PieChartModel) baseWidget );
+		}
+		
 		return null;
 	}
 	
