@@ -3,6 +3,7 @@ package com.doctusoft.dsw.client.gwt;
 
 import com.doctusoft.dsw.client.Renderer;
 import com.doctusoft.dsw.client.comp.model.AlertModel;
+import com.doctusoft.dsw.client.comp.model.BarChartModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.ButtonModel;
 import com.doctusoft.dsw.client.comp.model.CellModel;
@@ -16,6 +17,7 @@ import com.doctusoft.dsw.client.comp.model.HtmlContentModel;
 import com.doctusoft.dsw.client.comp.model.IconModel;
 import com.doctusoft.dsw.client.comp.model.InputTagsModel;
 import com.doctusoft.dsw.client.comp.model.InputTextModel;
+import com.doctusoft.dsw.client.comp.model.InputTimeModel;
 import com.doctusoft.dsw.client.comp.model.LabelModel;
 import com.doctusoft.dsw.client.comp.model.LinkModel;
 import com.doctusoft.dsw.client.comp.model.ModalDialogModel;
@@ -23,7 +25,6 @@ import com.doctusoft.dsw.client.comp.model.PieChartModel;
 import com.doctusoft.dsw.client.comp.model.ResourceLoaderModel;
 import com.doctusoft.dsw.client.comp.model.SelectModel;
 import com.doctusoft.dsw.client.comp.model.TextareaModel;
-import com.doctusoft.dsw.client.comp.model.InputTimeModel;
 import com.doctusoft.dsw.client.comp.model.TypeaheadModel;
 import com.xedge.jquery.client.JQuery;
 
@@ -109,6 +110,9 @@ public class RendererFactoryImpl extends AbstractGwtRendererFactory {
 		}
 		if (baseWidget instanceof PieChartModel) {
 			return new PieChartRenderer( (PieChartModel) baseWidget );
+		}
+		if (baseWidget instanceof BarChartModel){
+			return new BarChartRenderer( (BarChartModel) baseWidget );
 		}
 		
 		return null;

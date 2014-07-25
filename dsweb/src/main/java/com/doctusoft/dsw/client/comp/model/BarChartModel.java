@@ -1,18 +1,16 @@
-
 package com.doctusoft.dsw.client.comp.model;
 
 import com.doctusoft.bean.ObservableProperty;
 import com.doctusoft.bean.binding.observable.ObservableList;
 
-public class PieChartModel extends AbstractChartModel {
+
+public class BarChartModel extends AbstractChartModel{
 	
 	@com.doctusoft.ObservableProperty
-	private ObservableList<PieChartItemModel> pieChartItems = new ObservableList<PieChartItemModel>();
+	private ObservableList<BarChartItemModel> barChartItems = new ObservableList<BarChartItemModel>();
 	
 	@Override
 	public Iterable<ObservableProperty<?, ?>> getObservableProperties() {
-		return PieChartModel_._observableProperties;
+		return BarChartModel_._observableProperties;
 	}
-	
-	
 }
