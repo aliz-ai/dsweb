@@ -25,9 +25,11 @@ public class ShowcaseView extends ContainerWithPresenter<ShowcaseActivity> {
 		Cell menuCell = new Cell().withSpan(3).appendTo(row);
 		new Navs().stacked()
 			.addMenuItem(new Link("Buttons", "#ShowcasePlace:Buttons"))
+			.addMenuItem(new Link("Datepicker", "#ShowcasePlace:Datepicker"))
 			.addMenuItem(new Link("Select", "#ShowcasePlace:Select"))
 			.addMenuItem(new Link("Typeahead", "#ShowcasePlace:Typeahead"))
 			.addMenuItem(new Link("Inputs", "#ShowcasePlace:Inputs"))
+			.addMenuItem(new Link("Input Tags", "#ShowcasePlace:InputTags"))
 			.addMenuItem(new Link("Navs", "#ShowcasePlace:Navs"))
 			.addMenuItem(new Link("Tables", "#ShowcasePlace:Tables"))
 			.addMenuItem(new Link("Progress Bars", "#ShowcasePlace:ProgressBars"))
@@ -44,6 +46,15 @@ public class ShowcaseView extends ContainerWithPresenter<ShowcaseActivity> {
 		ShowcaseTableView tableView = new ShowcaseTableView();
 		Bindings.bind(bindOnPresenter(), (ValueBinding) Bindings.obs(tableView).get(ContainerWithPresenter_._presenter));
 		subitems.put(ShowcaseItem.Tables, tableView);
+		
+		ShowcaseInputTagsView inputTagsView = new ShowcaseInputTagsView();
+		Bindings.bind(bindOnPresenter(), (ValueBinding)Bindings.obs(inputTagsView).get(ContainerWithPresenter_._presenter));
+		subitems.put(ShowcaseItem.InputTags, inputTagsView);
+		
+		ShowcaseDatepickerView datepickerView = new ShowcaseDatepickerView();
+		Bindings.bind(bindOnPresenter(), (ValueBinding)Bindings.obs(datepickerView).get(ContainerWithPresenter_._presenter));
+		subitems.put(ShowcaseItem.Datepicker, datepickerView);
+		
 		ShowcaseExceptionsView exceptionsView = new ShowcaseExceptionsView();
 		Bindings.bind(bindOnPresenter(), (ValueBinding) Bindings.obs(exceptionsView).get(ContainerWithPresenter_._presenter));
 		subitems.put(ShowcaseItem.Exceptions, exceptionsView);

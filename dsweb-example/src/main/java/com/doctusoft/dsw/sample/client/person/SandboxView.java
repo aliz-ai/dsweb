@@ -24,13 +24,13 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 //			}
 //		});
 		
-//		new InputTags()
-//			.bindTagOption(bindOnPresenter().get(SandboxActivity_._tagOptions))
-//			.bindTagOptionSuggestions(bindOnPresenter().get(SandboxActivity_._tagOptionSuggestions)).appendTo(container);
-		
 		new InputTags()
+			.bindTagOption(bindOnPresenter().get(SandboxActivity_._tagOptions))
+			.bindTagOptionSuggestions(bindOnPresenter().get(SandboxActivity_._tagOptionSuggestions)).appendTo(container);
+		
+		/*new InputTags()
 			.bind(bindOnPresenter().get(SandboxActivity_._tags))
-			.appendTo(container);
+			.appendTo(container);*/
 		
 //		new Label("Glob")
 //			.bindVisible(bindOnPresenter().get(SandboxActivity_._visibility));

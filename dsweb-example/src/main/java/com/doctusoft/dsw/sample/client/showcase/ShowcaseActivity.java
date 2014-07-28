@@ -9,7 +9,10 @@ import com.doctusoft.bean.Properties;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListChangeListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
+import com.doctusoft.dsw.client.comp.TagOption;
+import com.doctusoft.dsw.client.comp.TagOptions;
 import com.doctusoft.dsw.client.comp.model.SelectionMode;
+import com.doctusoft.dsw.client.util.DateTimeFormat;
 import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.BaseActivity;
 import com.doctusoft.dsw.sample.client.ClientFactory;
@@ -41,6 +44,21 @@ public class ShowcaseActivity extends BaseActivity<ShowcaseActivity, ShowcasePla
 	@ObservableProperty
 	private String selectionString = "";
 	
+	@ObservableProperty
+	private ObservableList<TagOption> tagOptions = new ObservableList<TagOption>();
+	
+	@ObservableProperty
+	private ObservableList<TagOption> tagOptionSuggestions = new ObservableList<TagOption>();
+	
+	@ObservableProperty
+	private ObservableList<String> tags = new ObservableList<String>();
+	
+	@ObservableProperty
+	private ObservableList<String> tagSuggestions = new ObservableList<String>();
+	
+	@ObservableProperty
+	private String timeTest = "2014.12.03";
+	
 	public ShowcaseActivity(ClientFactory clientFactory, ShowcasePlace showcasePlace) {
 		super(clientFactory, showcasePlace);
 		setItem(place.getItem());
@@ -54,6 +72,16 @@ public class ShowcaseActivity extends BaseActivity<ShowcaseActivity, ShowcasePla
 				setSelectionString("Your selection is: " + Joiner.on(", ").join(names));
 			}
 		};
+		tagSuggestions.add("Valami");
+		tagOptionSuggestions.addAll( TagOptions.fromStrings( "Ez", "Az", "mi", "sas" ) );
+		TagOption tagOp = new TagOption();
+		tagOp.setName( "Ez már más" );
+		tagOp.setStyleClass( "label label-warning" );
+		TagOption tagOp2 = new TagOption();
+		tagOp2.setName( "Ez már megint más" );
+		tagOp2.setStyleClass( "label label-success" );
+		tagOptionSuggestions.add( tagOp2 );
+		tagOptionSuggestions.add( tagOp );
 	}
 	
 	@Override

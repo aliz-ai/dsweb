@@ -6,6 +6,8 @@ public enum ShowcaseItem {
 	Select,
 	Typeahead,
 	Inputs,
+	Datepicker,
+	InputTags,
 	Navs,
 	Tables,
 	ProgressBars,
