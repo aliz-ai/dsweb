@@ -3,9 +3,13 @@ package com.doctusoft.dsw.client.gwt;
 
 import java.util.List;
 
+import com.doctusoft.bean.binding.Bindings;
+import com.doctusoft.bean.binding.observable.ListBindingListener;
+import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.comp.model.ChartItemClickParam;
 import com.doctusoft.dsw.client.comp.model.PieChartItemModel;
 import com.doctusoft.dsw.client.comp.model.PieChartModel;
+import com.doctusoft.dsw.client.comp.model.PieChartModel_;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.xedge.jquery.client.JQuery;
@@ -14,11 +18,38 @@ public class PieChartRenderer extends BaseComponentRenderer {
 	
 	private final PieChartModel model;
 	
+	private JQuery lastPlot;
+	
 	public PieChartRenderer( PieChartModel model ) {
 		super( JQuery.select( "<div id=\"" + model.getId() + "\"></div>" ), model );
 		this.model = model;
+		initializePlot();
+		new ListBindingListener<PieChartItemModel>( Bindings.obs( model ).get( PieChartModel_._pieChartItems) ) {
+			
+			@Override
+			public void inserted( ObservableList<PieChartItemModel> list, int index, PieChartItemModel element ) {
+				reInitializePlot();
+			}
+			
+			
+			@Override
+			public void removed( ObservableList<PieChartItemModel> list, int index, PieChartItemModel element ) {
+				reInitializePlot();
+			}
+			
+			private void reInitializePlot() {
+				if (lastPlot != null ) {
+					destroyLastPlot( lastPlot );
+				}
+				initializePlot();
+			}
+			
+		};
+	}
+	
+	private void initializePlot(  ) {
 		JsArray<JavaScriptObject> jsArray = createJsArrayFromItems( model.getPieChartItems() );
-		initPieChartRendererNative(  widget, jsArray, model.getLegendPosition().getAbbreviation(), model.getTitle(), model.isShowTooltip());
+		initPieChartRendererNative(  widget, jsArray, model.getLegendPosition().getAbbreviation(), model.getTitle(), model.isShowTooltip(), model.getId());
 	}
 	
 	private JsArray<JavaScriptObject> createJsArrayFromItems(List<PieChartItemModel> items ){
@@ -34,14 +65,22 @@ public class PieChartRenderer extends BaseComponentRenderer {
 		model.getRowClickedEvent().fire( new ChartItemClickParam( itemIndex, subIndex ) );
 	}
 	
+	private void setLastPlot(JQuery plot){
+		this.lastPlot = plot;
+	}
+	
+	private native void destroyLastPlot(JQuery lastPlot)/*-{
+		lastPlot.destroy();
+	}-*/;
+	
 	private native JsArray<JavaScriptObject> createArrayFromEntry(String name, int value)/*-{
 		return [name, value];
 	}-*/;
 	
-	private native void initPieChartRendererNative(JQuery widget, JsArray<JavaScriptObject> data, String legendOrientation, String title, boolean showTooltip) /*-{
+	private native void initPieChartRendererNative(JQuery widget, JsArray<JavaScriptObject> data, String legendOrientation, String title, boolean showTooltip, String id) /*-{
 		
 		setTimeout(function() {
-			var plot1 = widget.jqplot([ data ], {
+			var plot1 = $wnd.$.jqplot(id, [ data ], {
 				title : title,
 				seriesDefaults : {
 					shadow : false,
@@ -63,6 +102,7 @@ public class PieChartRenderer extends BaseComponentRenderer {
        			  tooltipContentEditor:tooltipContentEditor,
 				}
 			});
+			that.@com.doctusoft.dsw.client.gwt.PieChartRenderer::setLastPlot(Lcom/xedge/jquery/client/JQuery;)(plot1);
 			
 		}, 0);
 		

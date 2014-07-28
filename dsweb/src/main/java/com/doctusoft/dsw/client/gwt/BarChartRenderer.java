@@ -3,9 +3,13 @@ package com.doctusoft.dsw.client.gwt;
 
 import java.util.List;
 
+import com.doctusoft.bean.binding.Bindings;
+import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.comp.model.BarChartItemModel;
 import com.doctusoft.dsw.client.comp.model.BarChartModel;
+import com.doctusoft.dsw.client.comp.model.BarChartModel.BarDirection;
+import com.doctusoft.dsw.client.comp.model.BarChartModel_;
 import com.doctusoft.dsw.client.comp.model.ChartItemClickParam;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -17,16 +21,53 @@ public class BarChartRenderer extends BaseComponentRenderer {
 	
 	private final BarChartModel model;
 	
+	private JQuery lastPlot;
+	
 	public BarChartRenderer( BarChartModel model ) {
 		super( JQuery.select( "<div id=\"" + model.getId() + "\"></div>" ), model );
 		this.model = model;
+		initializeComponent();
+		new ListBindingListener<BarChartItemModel>( Bindings.obs( model ).get( BarChartModel_._barChartItems) ) {
+			
+			@Override
+			public void inserted( ObservableList<BarChartItemModel> list, int index, BarChartItemModel element ) {
+				reInitializePlot();
+			}
+			
+			@Override
+			public void removed( ObservableList<BarChartItemModel> list, int index, BarChartItemModel element ) {
+				reInitializePlot();
+			}
+			
+			private void reInitializePlot() {
+				if (lastPlot != null ) {
+					destroyLastPlot( lastPlot );
+				}
+				initializeComponent();
+			}
+			
+		};
+		
+	}
+	
+	private void initializeComponent( ) {
 		JsArrayString ticks = JavaScriptObject.createArray().cast();
 		ObservableList<BarChartItemModel> barChartItems = model.getBarChartItems();
 		for (BarChartItemModel item : barChartItems) {
 			ticks.push( item.getName() );
 		}
-		JsArray<JavaScriptObject> jsValuesArray = buildValuesArray( barChartItems );
-		initBarChartRendererNative(  widget, ticks, jsValuesArray, model.getTitle(), model.isShowTooltip());
+		JsArray<JavaScriptObject> jsValuesArray;
+		if (BarDirection.HORIZONTAL.equals( model.getBarDirection())){
+			jsValuesArray =  buildValuesArrayHorizontal( barChartItems );
+		} else {
+			jsValuesArray = buildValuesArray( barChartItems );
+		}
+		JsArray<JavaScriptObject> series = JavaScriptObject.createArray().cast();
+		for (String label : model.getSeriesTitles()) {
+			addLabelToArray( series, label );
+		}
+		initBarChartRendererNative(  widget, ticks, jsValuesArray, series, model.getTitle(), BarDirection.HORIZONTAL.equals( model.getBarDirection() ), model.isShowTooltip(), model.getId());
+		
 	}
 	
 	private JsArray<JavaScriptObject> buildValuesArray(List<BarChartItemModel> items){
@@ -64,6 +105,14 @@ public class BarChartRenderer extends BaseComponentRenderer {
 		return outerArray;
 	}
 	
+	private native void addLabelToArray(JsArray<JavaScriptObject> elements, String labelName)/*-{
+		var elementToAdd = {
+			label : labelName
+		}
+		elements.push(elementToAdd);
+		return
+	}-*/;
+	
 	private native JsArrayInteger pushStrToIntegerArray(JsArrayInteger array, String str)/*-{
 		array.push(str);
 		return array;
@@ -73,35 +122,38 @@ public class BarChartRenderer extends BaseComponentRenderer {
 		model.getRowClickedEvent().fire( new ChartItemClickParam( itemIndex, subIndex ) );
 	}
 	
+	private void setLastPlot(JQuery plot){
+		this.lastPlot = plot;
+	}
+	
 	private native JsArray<JavaScriptObject> createArrayFromEntry(String name, int value)/*-{
 		return [name, value];
 	}-*/;
 	
-	private native void initBarChartRendererNative(JQuery widget, JsArrayString tickNames, JsArray<JavaScriptObject> values, String title, boolean showTooltip) /*-{
+	private native void destroyLastPlot(JavaScriptObject lastPlot)/*-{
+		lastPlot.destroy();
+	}-*/;
+	
+	private native void initBarChartRendererNative(JQuery widget, JsArrayString tickNames, JsArray<JavaScriptObject> values, JsArray<JavaScriptObject> seriesTitles,  String title, boolean isHorizontal, boolean showTooltip, String id) /*-{
 		var that = this;
+		
 		setTimeout(function() {
 				// Can specify a custom tick Array.
 		    // Ticks should match up one for each y value (category) in the series.
 		    var ticks = tickNames;
+		    var yAxis = createYAxisObject(isHorizontal);
+		    var xAxis = createXAxis(isHorizontal, tickNames);
+		    var rendererOptions = buildRendererOptions(isHorizontal);
 		     
-		    var plot1 = widget.jqplot(values, {
+		    var plot1 = $wnd.$.jqplot(id, values, {
 				title : title,
 		        // The "seriesDefaults" option is an options object that will
 		        // be applied to all series in the chart.
 		        seriesDefaults:{
 		            renderer:$wnd.$.jqplot.BarRenderer,
-		            rendererOptions: {
-		            	fillToZero: true,
-		            }
+		            rendererOptions: rendererOptions
 		        },
-		        // Custom labels for the series are specified with the "label"
-		        // option on the series option.  Here a series option object
-		        // is specified for each series.
-		        series:[
-		            {label:'Hotel'},
-		            {label:'Event Regristration'},
-		            {label:'Airfare'}
-		        ],
+		        series:seriesTitles,
 		        // Show the legend and put it outside the grid, but inside the
 		        // plot container, shrinking the grid to accomodate the legend.
 		        // A value of "outside" would not shrink the grid and allow
@@ -110,25 +162,42 @@ public class BarChartRenderer extends BaseComponentRenderer {
 		            show: true,
 		            placement: 'outsideGrid'
 		        },
-		        highlighter: {
-					show:showTooltip,
-        			tooltipContentEditor:tooltipContentEditor,
-        			showMarker:false
-				},
 		        axes: {
-		            // Use a category axis on the x axis and use our custom ticks.
-		            xaxis: {
-		                renderer: $wnd.$.jqplot.CategoryAxisRenderer,
-		                ticks: ticks
-		            },
-		            // Pad the y axis just a little so bars can get close to, but
-		            // not touch, the grid boundaries.  1.2 is the default padding.
-		            yaxis: {
-		                pad: 1.05,
-		            }
+		            xaxis: xAxis,
+		            yaxis: yAxis
 		        }
 		    });
+			
+			that.@com.doctusoft.dsw.client.gwt.BarChartRenderer::setLastPlot(Lcom/xedge/jquery/client/JQuery;)(plot1);
+			
 		}, 0);
+		
+		function buildRendererOptions(isHorizontal){
+			var rendererOptions = new Object();
+			rendererOptions.barDirection = isHorizontal ? 'horizontal' : 'vertical';
+			return rendererOptions;
+		}
+		
+		function createXAxis(isHorizontal, ticks){
+			 var xAxis = {};
+			 if (!isHorizontal) {
+			 	xAxis.ticks = ticks;
+			 	xAxis.renderer = $wnd.jQuery.jqplot.CategoryAxisRenderer;
+			 }
+			 return xAxis;
+		}
+		
+		function createYAxisObject(horizontal){
+			var horizontalValue = {
+				renderer: $wnd.$.jqplot.CategoryAxisRenderer
+			};
+			var verticalValue = {};
+			if (horizontal){
+				return horizontalValue;
+			} else {
+				return verticalValue;
+			}
+		}
 		
 		function tooltipContentEditor(str, seriesIndex, pointIndex, plot) {
 		    // display series_label, x-axis_tick, y-axis value
