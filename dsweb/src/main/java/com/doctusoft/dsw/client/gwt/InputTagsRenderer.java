@@ -23,6 +23,8 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 	
 	private boolean changedFromWidget = false;
 	
+	private boolean hasTagSuggestions = false;
+	
 	public InputTagsRenderer(final InputTagsModel inputTagsModel) {
 		super(JQuery.select("<input type=\"text\" />"), inputTagsModel);
 		widget.attr("placeholder","Add-tags");
@@ -35,7 +37,8 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 			@Override
 			public void inserted(ObservableList<String> list, int index,
 					String element) {
-				setTagSuggestions(widget, tagListToString(list));
+					setTagSuggestions(widget, tagListToString(list));
+					hasTagSuggestions = true;
 			}
 
 			@Override
@@ -73,14 +76,14 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 			@Override
 			public void inserted(ObservableList<TagOption> list, int index,
 					TagOption element) {
-				setTagOptionSuggestions(widget, tagOptionListToString(list));
+					setTagOptionSuggestions(widget, tagOptionListToString(list));
+					hasTagSuggestions = true;
 			}
 
 			@Override
 			public void removed(ObservableList<TagOption> list, int index,
 					TagOption element) {
-				setTagOptionSuggestions(widget, tagOptionListToString(list));	
-				
+				setTagOptionSuggestions(widget, tagOptionListToString(list));
 			}
 		};
 		
@@ -108,6 +111,12 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 			}
 		};
 		
+		/*
+		 * we need this if we don't bind on any tag suggestion list
+		 */
+		if (!hasTagSuggestions) {
+			setTagsIpnut(widget);
+		}
 		
 		widget.change(new EventHandler() {
 			@Override
@@ -146,9 +155,21 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 	}
 	
 	private native static void initTagsInput(JQuery element) /*-{
-		setTimeout(function () { element.tagsinput(); }, 10);
+		setTimeout(function () { 
+			element.tagsinput(); 
+		}, 10);
 	}-*/;
 	
+	private native static void setTagsIpnut(JQuery element) /*-{
+		setTimeout(function () { 
+			element.tagsinput('destroy');
+			element.tagsinput({
+				typeahead: {
+					freeInput: true
+				}
+			}); 
+		}, 10);
+	}-*/;
 	
 	private native static void setTagSuggestions(JQuery element, String tagSuggestions) /*-{
 		setTimeout(function () { 
@@ -176,12 +197,6 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 			  }
 		}); 
 		}, 10);
-	}-*/;
-	
-	private native static void setTagStyleClass(JQuery element, String tagStyleClass) /*-{
-		element.tagsinput({
-					tagClass: tagStyleClass
-			}); 
 	}-*/;
 	
 	private native static void addTag(JQuery element, String newTag) /*-{
