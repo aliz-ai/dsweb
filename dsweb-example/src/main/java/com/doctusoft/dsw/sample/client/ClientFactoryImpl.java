@@ -5,8 +5,6 @@ import lombok.Getter;
 import com.doctusoft.dsw.mvp.client.GwtPlaceControllerWrapper;
 import com.doctusoft.dsw.mvp.client.IPlaceController;
 import com.doctusoft.dsw.mvp.client.ViewOf;
-import com.doctusoft.dsw.sample.client.person.ChartActivity;
-import com.doctusoft.dsw.sample.client.person.ChartView;
 import com.doctusoft.dsw.sample.client.person.PersonDetailActivity;
 import com.doctusoft.dsw.sample.client.person.PersonDetailView;
 import com.doctusoft.dsw.sample.client.person.PersonListActivity;
@@ -45,6 +43,4 @@ public class ClientFactoryImpl implements ClientFactory {
 	@Getter
 	private final PersonRemoteServiceAsync personRemoteServiceAsync = GWT.create(PersonRemoteService.class);
 	
-	@Getter
-	private final ViewOf<ChartActivity> chartView = new ChartView();
 }

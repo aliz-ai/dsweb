@@ -113,6 +113,7 @@ public class PieChartRenderer extends BaseComponentRenderer {
 		that = this;
 		
 		// CLICK CODE START
+		widget.unbind('jqplotDataClick');
         widget.bind('jqplotDataClick',
             function (ev, seriesIndex, pointIndex, data) {
            		that.@com.doctusoft.dsw.client.gwt.PieChartRenderer::rowClicked(II)(pointIndex, seriesIndex);

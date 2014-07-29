@@ -15,8 +15,10 @@ import com.doctusoft.dsw.client.comp.model.BarChartItemModel;
 import com.doctusoft.dsw.client.comp.model.BarChartModel.BarDirection;
 import com.doctusoft.dsw.client.comp.model.PieChartItemModel;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseActivity;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseActivity_;
 
-public class ChartView extends ContainerWithPresenter<ChartActivity> {
+public class ChartView extends ContainerWithPresenter<ShowcaseActivity> {
 	
 	@Getter
 	private final BarChart barChart;
@@ -36,7 +38,7 @@ public class ChartView extends ContainerWithPresenter<ChartActivity> {
 		.withLegendPosition( LegendPosition.EAST )
 		.withTitle( "Proba chart" )
 		.withShowToolTip( true )
-		.rowClick( presenterMethod( ChartActivity_.__handleClick ) );
+		.rowClick( presenterMethod( ShowcaseActivity_.__chartClicked ) );
 		
 		List<BarChartItemModel> items2 = new ArrayList<BarChartItemModel>();
 		
@@ -53,9 +55,10 @@ public class ChartView extends ContainerWithPresenter<ChartActivity> {
 		.appendTo( container )
 		.withItems( items2 )
 		.withTitle( "hello" )
-		.rowClick( presenterMethod( ChartActivity_.__handleClick ) )
+		.rowClick( presenterMethod( ShowcaseActivity_.__chartClicked ) )
 		.withBarDirection( BarDirection.HORIZONTAL)
-		.withSeriesTitles( seriesTitles );
+		.withSeriesTitles( seriesTitles )
+		.withId( "hello" );
 		new Button("Add new chart value").appendTo(container).click( new EmptyEventHandler() {
 			
 			@Override

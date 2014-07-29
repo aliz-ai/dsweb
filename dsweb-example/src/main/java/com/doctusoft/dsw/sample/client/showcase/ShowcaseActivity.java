@@ -11,8 +11,8 @@ import com.doctusoft.bean.binding.observable.ListChangeListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.comp.TagOption;
 import com.doctusoft.dsw.client.comp.TagOptions;
+import com.doctusoft.dsw.client.comp.model.ChartItemClickParam;
 import com.doctusoft.dsw.client.comp.model.SelectionMode;
-import com.doctusoft.dsw.client.util.DateTimeFormat;
 import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.BaseActivity;
 import com.doctusoft.dsw.sample.client.ClientFactory;
@@ -34,7 +34,7 @@ public class ShowcaseActivity extends BaseActivity<ShowcaseActivity, ShowcasePla
 	
 	@ObservableProperty
 	private boolean modalVisible;
-
+	
 	@ObservableProperty
 	private SelectionMode selectionMode = SelectionMode.Single;
 	
@@ -88,7 +88,7 @@ public class ShowcaseActivity extends BaseActivity<ShowcaseActivity, ShowcasePla
 	protected ViewOf<ShowcaseActivity> createView() {
 		return clientFactory.getShowcaseView();
 	}
-
+	
 	@MethodRef
 	public void dangerousMethod() {
 		throw new RuntimeException("unexpected exception");
@@ -97,6 +97,13 @@ public class ShowcaseActivity extends BaseActivity<ShowcaseActivity, ShowcasePla
 	@MethodRef
 	public void personClicked(PersonDto personDto) {
 		setModalContent("You selected: " + personDto.getName());
+		setModalVisible(true);
+	}
+	
+	@MethodRef
+	public void chartClicked(ChartItemClickParam param){
+		setModalContent("Selected item: " + param.getItemIndex() + " subindex: " + param.getSubIndex());
+		System.out.println( "Selected item: " + param.getItemIndex() + " subindex: " + param.getSubIndex() );
 		setModalVisible(true);
 	}
 	

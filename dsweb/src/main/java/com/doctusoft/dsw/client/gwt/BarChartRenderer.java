@@ -207,6 +207,7 @@ public class BarChartRenderer extends BaseComponentRenderer {
 		var that = this;
 		
 		// CLICK CODE START
+		widget.unbind('jqplotDataClick');
         widget.bind('jqplotDataClick',
             function (ev, seriesIndex, pointIndex, data) {
                 that.@com.doctusoft.dsw.client.gwt.BarChartRenderer::rowClicked(II)(pointIndex, seriesIndex);

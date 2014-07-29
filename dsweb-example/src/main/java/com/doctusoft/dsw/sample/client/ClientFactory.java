@@ -3,7 +3,6 @@ package com.doctusoft.dsw.sample.client;
 
 import com.doctusoft.dsw.mvp.client.IPlaceController;
 import com.doctusoft.dsw.mvp.client.ViewOf;
-import com.doctusoft.dsw.sample.client.person.ChartActivity;
 import com.doctusoft.dsw.sample.client.person.PersonDetailActivity;
 import com.doctusoft.dsw.sample.client.person.PersonListActivity;
 import com.doctusoft.dsw.sample.client.person.PersonRemoteServiceAsync;
@@ -27,5 +26,4 @@ public interface ClientFactory {
 	
 	public PersonRemoteServiceAsync getPersonRemoteServiceAsync();
 	
-	public ViewOf<ChartActivity> getChartView();
 }

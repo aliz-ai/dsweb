@@ -13,28 +13,30 @@ import com.doctusoft.dsw.client.comp.Navs;
 import com.doctusoft.dsw.client.comp.Row;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter_;
+import com.doctusoft.dsw.sample.client.person.ChartView;
 import com.google.common.collect.Maps;
 
 public class ShowcaseView extends ContainerWithPresenter<ShowcaseActivity> {
 	
-	private Container subcontainer;
-	private Map<ShowcaseItem, HasComponentModel> subitems = Maps.newHashMap();
-
+	private final Container subcontainer;
+	private final Map<ShowcaseItem, HasComponentModel> subitems = Maps.newHashMap();
+	
 	public ShowcaseView() {
 		Row row = new Row().appendTo(container);
 		Cell menuCell = new Cell().withSpan(3).appendTo(row);
 		new Navs().stacked()
-			.addMenuItem(new Link("Buttons", "#ShowcasePlace:Buttons"))
-			.addMenuItem(new Link("Datepicker", "#ShowcasePlace:Datepicker"))
-			.addMenuItem(new Link("Select", "#ShowcasePlace:Select"))
-			.addMenuItem(new Link("Typeahead", "#ShowcasePlace:Typeahead"))
-			.addMenuItem(new Link("Inputs", "#ShowcasePlace:Inputs"))
-			.addMenuItem(new Link("Input Tags", "#ShowcasePlace:InputTags"))
-			.addMenuItem(new Link("Navs", "#ShowcasePlace:Navs"))
-			.addMenuItem(new Link("Tables", "#ShowcasePlace:Tables"))
-			.addMenuItem(new Link("Progress Bars", "#ShowcasePlace:ProgressBars"))
-			.addMenuItem(new Link("Exceptions", "#ShowcasePlace:Exceptions"))
-			.appendTo(menuCell);
+		.addMenuItem(new Link("Buttons", "#ShowcasePlace:Buttons"))
+		.addMenuItem(new Link("Datepicker", "#ShowcasePlace:Datepicker"))
+		.addMenuItem(new Link("Select", "#ShowcasePlace:Select"))
+		.addMenuItem(new Link("Typeahead", "#ShowcasePlace:Typeahead"))
+		.addMenuItem(new Link("Inputs", "#ShowcasePlace:Inputs"))
+		.addMenuItem(new Link("Input Tags", "#ShowcasePlace:InputTags"))
+		.addMenuItem(new Link("Navs", "#ShowcasePlace:Navs"))
+		.addMenuItem(new Link("Tables", "#ShowcasePlace:Tables"))
+		.addMenuItem(new Link("Progress Bars", "#ShowcasePlace:ProgressBars"))
+		.addMenuItem(new Link("Exceptions", "#ShowcasePlace:Exceptions"))
+		.addMenuItem(new Link("Charts", "#ShowcasePlace:Charts"))
+		.appendTo(menuCell);
 		subcontainer = new Container().appendTo(new Cell().withSpan(9).appendTo(row));
 		// a lazy initialization would be nicer, but that's okay for now
 		subitems.put(ShowcaseItem.Buttons, new ShowcaseButtonsView());
@@ -65,6 +67,11 @@ public class ShowcaseView extends ContainerWithPresenter<ShowcaseActivity> {
 				subcontainer.add(subitems.get(item));
 			}
 		});
+		
+		ChartView chartView = new ChartView();
+		Bindings.bind(bindOnPresenter(), (ValueBinding) Bindings.obs(chartView).get(ContainerWithPresenter_._presenter));
+		
+		subitems.put( ShowcaseItem.Charts, chartView );
 	}
-
+	
 }

@@ -1,8 +1,6 @@
 
 package com.doctusoft.dsw.sample.client;
 
-import com.doctusoft.dsw.sample.client.person.ChartActivity;
-import com.doctusoft.dsw.sample.client.person.ChartPlace;
 import com.doctusoft.dsw.sample.client.person.PersonDetailActivity;
 import com.doctusoft.dsw.sample.client.person.PersonDetailPlace;
 import com.doctusoft.dsw.sample.client.person.PersonListActivity;
@@ -36,9 +34,6 @@ public class PocActivityMapper implements ActivityMapper {
 		}
 		if (place instanceof SandboxPlace) {
 			return new SandboxActivity( clientFactory );
-		}
-		if (place instanceof ChartPlace) {
-			return new ChartActivity( clientFactory, (ChartPlace) place );
 		}
 		return null;
 	}

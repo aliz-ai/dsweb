@@ -11,6 +11,7 @@ public enum ShowcaseItem {
 	Navs,
 	Tables,
 	ProgressBars,
-	Exceptions;
-
+	Exceptions,
+	Charts;
+	
 }
