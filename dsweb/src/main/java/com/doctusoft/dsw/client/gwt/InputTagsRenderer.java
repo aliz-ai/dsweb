@@ -30,8 +30,6 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 		widget.attr("placeholder","Add-tags");
 		widget.attr("data-role", "tagsinput");
 		
-		initTagsInput(widget);
-		
 		addTag(widget, inputTagsModel.getTagList().toString());		
 		new ListBindingListener<String>(Bindings.obs(inputTagsModel).get((ObservableProperty) InputTagsModel_._tagSuggestions)) {
 			@Override
@@ -153,13 +151,6 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 		});
 		
 	}
-	
-	private native static void initTagsInput(JQuery element) /*-{
-		setTimeout(function () { 
-			element.tagsinput(); 
-		}, 10);
-	}-*/;
-	
 	private native static void setTagsIpnut(JQuery element) /*-{
 		setTimeout(function () { 
 			element.tagsinput('destroy');

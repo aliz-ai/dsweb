@@ -36,7 +36,6 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 		
 		new InputTags()
 		.bind(bindOnPresenter().get(SandboxActivity_._tags))
-		//.bindTagSuggestions(bindOnPresenter().get(SandboxActivity_._tagSuggestions))
 		.appendTo(container);
 		
 		//.bindTagOption(bindOnPresenter().get(SandboxActivity_._tagOptions)).bindTagOptionSuggestions(bindOnPresenter().get(SandboxActivity_._tagOptionSuggestions))
