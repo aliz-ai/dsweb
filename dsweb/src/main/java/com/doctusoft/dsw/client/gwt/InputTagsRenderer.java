@@ -30,19 +30,19 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 		widget.attr("placeholder","Add-tags");
 		widget.attr("data-role", "tagsinput");
 		
-		addTag(widget, inputTagsModel.getTagList().toString());		
+		if (inputTagsModel.getTagList() != null) {
+			addTag(widget, inputTagsModel.getTagList().toString());
+		}
 		new ListBindingListener<String>(Bindings.obs(inputTagsModel).get((ObservableProperty) InputTagsModel_._tagSuggestions)) {
 			@Override
-			public void inserted(ObservableList<String> list, int index,
-					String element) {
-					setTagSuggestions(widget, tagListToString(list));
-					hasTagSuggestions = true;
+			public void inserted(ObservableList<String> list, int index, String element) {
+				setTagSuggestions(widget, tagListToString(list));
+				hasTagSuggestions = true;
 			}
 
 			@Override
-			public void removed(ObservableList<String> list, int index,
-					String element) {
-				setTagSuggestions(widget, tagListToString(list));				
+			public void removed(ObservableList<String> list, int index, String element) {
+				setTagSuggestions(widget, tagListToString(list));
 			}
 		};
 		
