@@ -5,6 +5,7 @@ import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import com.doctusoft.bean.ModelObject;
 import com.doctusoft.bean.ObservableProperty;
@@ -12,6 +13,7 @@ import com.doctusoft.bean.binding.observable.ObservableList;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 public class BarChartItemModel implements ModelObject, Serializable{
 	
 	@com.doctusoft.ObservableProperty
@@ -26,6 +28,6 @@ public class BarChartItemModel implements ModelObject, Serializable{
 	
 	@Override
 	public Iterable<ObservableProperty<?, ?>> getObservableProperties() {
-		return BarChartModel_._observableProperties;
+		return BarChartItemModel_._observableProperties;
 	}
 }

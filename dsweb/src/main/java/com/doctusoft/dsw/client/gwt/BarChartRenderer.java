@@ -4,7 +4,7 @@ package com.doctusoft.dsw.client.gwt;
 import java.util.List;
 
 import com.doctusoft.bean.binding.Bindings;
-import com.doctusoft.bean.binding.observable.ListBindingListener;
+import com.doctusoft.bean.binding.observable.ListChangeListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.comp.model.BarChartItemModel;
 import com.doctusoft.dsw.client.comp.model.BarChartModel;
@@ -27,19 +27,10 @@ public class BarChartRenderer extends BaseComponentRenderer {
 		super( JQuery.select( "<div id=\"" + model.getId() + "\"></div>" ), model );
 		this.model = model;
 		initializeComponent();
-		new ListBindingListener<BarChartItemModel>( Bindings.obs( model ).get( BarChartModel_._barChartItems) ) {
+		new ListChangeListener( Bindings.obs( model ).get( BarChartModel_._barChartItems) ) {
 			
 			@Override
-			public void inserted( ObservableList<BarChartItemModel> list, int index, BarChartItemModel element ) {
-				reInitializePlot();
-			}
-			
-			@Override
-			public void removed( ObservableList<BarChartItemModel> list, int index, BarChartItemModel element ) {
-				reInitializePlot();
-			}
-			
-			private void reInitializePlot() {
+			protected void changed() {
 				if (lastPlot != null ) {
 					destroyLastPlot( lastPlot );
 				}

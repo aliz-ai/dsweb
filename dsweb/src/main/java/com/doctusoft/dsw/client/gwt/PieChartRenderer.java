@@ -4,8 +4,7 @@ package com.doctusoft.dsw.client.gwt;
 import java.util.List;
 
 import com.doctusoft.bean.binding.Bindings;
-import com.doctusoft.bean.binding.observable.ListBindingListener;
-import com.doctusoft.bean.binding.observable.ObservableList;
+import com.doctusoft.bean.binding.observable.ListChangeListener;
 import com.doctusoft.dsw.client.comp.model.ChartItemClickParam;
 import com.doctusoft.dsw.client.comp.model.PieChartItemModel;
 import com.doctusoft.dsw.client.comp.model.PieChartModel;
@@ -24,20 +23,10 @@ public class PieChartRenderer extends BaseComponentRenderer {
 		super( JQuery.select( "<div id=\"" + model.getId() + "\"></div>" ), model );
 		this.model = model;
 		initializePlot();
-		new ListBindingListener<PieChartItemModel>( Bindings.obs( model ).get( PieChartModel_._pieChartItems) ) {
+		new ListChangeListener( Bindings.obs( model ).get( PieChartModel_._pieChartItems) ) {
 			
 			@Override
-			public void inserted( ObservableList<PieChartItemModel> list, int index, PieChartItemModel element ) {
-				reInitializePlot();
-			}
-			
-			
-			@Override
-			public void removed( ObservableList<PieChartItemModel> list, int index, PieChartItemModel element ) {
-				reInitializePlot();
-			}
-			
-			private void reInitializePlot() {
+			protected void changed() {
 				if (lastPlot != null ) {
 					destroyLastPlot( lastPlot );
 				}
