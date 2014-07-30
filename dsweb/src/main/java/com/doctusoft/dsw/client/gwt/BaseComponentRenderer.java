@@ -15,7 +15,6 @@ import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent_;
 import com.doctusoft.dsw.client.comp.model.event.KeyPressedEvent;
-import com.doctusoft.dsw.client.util.Booleans;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.xedge.jquery.client.JQEvent;
@@ -33,20 +32,17 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 	@Getter
 	protected JQuery widget;
 	
-	public BaseComponentRenderer(final JQuery widget, final BaseComponentModel component) {
+	public BaseComponentRenderer(final JQuery widget, final BaseComponentModel model) {
 		this.widget = widget;
 		
-		addChangeListener(BaseComponentModel_._visible, component, new ValueChangeListener<Boolean>() {
+		applyVisible(model.getVisible());
+		addChangeListener(BaseComponentModel_._visible, model, new ValueChangeListener<Boolean>() {
 			@Override
 			public void valueChanged(Boolean newValue) {
-				if (Booleans.isTrue(newValue)) {
-					widget.show();
-				} else {
-					widget.hide();
-				}
+				applyVisible(newValue);
 			}
 		});
-		new ListBindingListener<String>(Bindings.obs(component).get(BaseComponentModel_._styleClasses)) {
+		new ListBindingListener<String>(Bindings.obs(model).get(BaseComponentModel_._styleClasses)) {
 			@Override
 			public void inserted(ObservableList<String> list, int index,
 					String element) {
@@ -59,16 +55,16 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 				widget.removeClass(element);
 			}
 		};
-		applyStyle(component.getStyle());
-		addChangeListener(BaseComponentModel_._style, component, new ValueChangeListener<String>() {
+		applyStyle(model.getStyle());
+		addChangeListener(BaseComponentModel_._style, model, new ValueChangeListener<String>() {
 			
 			@Override
 			public void valueChanged(String newValue) {
 				applyStyle(newValue);
 			}
 		});
-		applyTabIndex(component.getTabIndex());
-		BaseComponentModel_._tabIndex.addChangeListener(component, new ValueChangeListener<Integer>() {
+		applyTabIndex(model.getTabIndex());
+		BaseComponentModel_._tabIndex.addChangeListener(model, new ValueChangeListener<Integer>() {
 
 			@Override
 			public void valueChanged(Integer newValue) {
@@ -76,15 +72,23 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 			}
 		});
 		
-		bindEvent(EventType.click, Bindings.obs(component).get(BaseComponentModel_._clicked));
-		bindEvent(EventType.keypress, Bindings.obs(component).get(BaseComponentModel_._keyPressed), new EventTriggerer<KeyPressedEvent>() {
+		bindEvent(EventType.click, Bindings.obs(model).get(BaseComponentModel_._clicked));
+		bindEvent(EventType.keypress, Bindings.obs(model).get(BaseComponentModel_._keyPressed), new EventTriggerer<KeyPressedEvent>() {
 			@Override
 			public void triggerEvent(KeyPressedEvent event, JQEvent jqEvent) {
 				event.fire(jqEvent.which());
 			}
 		});
 		
-		bindFocus(component);
+		bindFocus(model);
+	}
+	
+	protected void applyVisible(Boolean visible) {
+		if (Objects.firstNonNull(visible, false)) {
+			widget.show();
+		} else {
+			widget.hide();
+		}
 	}
 	
 	protected void applyStyle(String style) {

@@ -3,6 +3,7 @@ package com.doctusoft.dsw.client.util;
 /**
  * Utility methods that handles null Boolean values as false 
  */
+@Deprecated
 public class Booleans {
 	
 	public static boolean isTrue(Boolean b) {
