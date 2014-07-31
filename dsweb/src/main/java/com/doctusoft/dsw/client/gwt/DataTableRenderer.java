@@ -134,15 +134,27 @@ public class DataTableRenderer extends BaseComponentRenderer {
 		}
 	}
 	
-	private native void install( JQuery target ) /*-{
-													var that = this;
-													target.dataTable({
-													ordering: false,
-													paging: false,
-													info: false
-													});
-													target.find("tbody").on("click", "tr", function() {
-													that.@com.doctusoft.dsw.client.gwt.DataTableRenderer::rowClicked(Lcom/xedge/jquery/client/JQuery;)($wnd.jQuery(this));
-													});
-													}-*/;
+	private native int setPageNum() /*-{
+		
+	}-*/;
+	
+	private native void install(JQuery target) /*-{
+		setTimeout(function () {
+			var that = this;
+			var table = target.DataTable({
+				lengthMenu : [[1, 2, -1], [1, 2, "All"]],
+				lengthChange: true,
+				ordering : false,
+				searching : false
+			 });
+			target.on( 'page.dt',   function () {
+				//alert(table.page.info().page + 1);
+				//alert(table.page.info().recordsTotal);
+			});
+			// row click listener
+			target.find("tbody").on("click", "tr", function() {
+				that.@com.doctusoft.dsw.client.gwt.DataTableRenderer::rowClicked(Lcom/xedge/jquery/client/JQuery;)($wnd.jQuery(this));
+			});
+		}, 1);
+	}-*/;
 }
