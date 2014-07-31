@@ -2,8 +2,10 @@
 package com.doctusoft.dsw.sample.client.person;
 
 import com.doctusoft.dsw.client.comp.Button;
+import com.doctusoft.dsw.client.comp.Cell;
 import com.doctusoft.dsw.client.comp.InputTags;
 import com.doctusoft.dsw.client.comp.InputText;
+import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.Select;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
@@ -23,6 +25,14 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 //				}
 //			}
 //		});
+		
+		Cell cell = new Cell()
+			.bindVisible(bindOnPresenter().get(SandboxActivity_._visibility))
+			.appendTo(container);
+			
+		new Label("Click to hide me")
+			.click(presenterMethod(SandboxActivity_.__hideLabel))
+			.appendTo(cell);
 		
 		new InputTags()
 			.bind(bindOnPresenter().get(SandboxActivity_._tags))

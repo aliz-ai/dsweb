@@ -15,6 +15,7 @@ import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent_;
 import com.doctusoft.dsw.client.comp.model.event.KeyPressedEvent;
+import com.doctusoft.dsw.client.util.Deferred;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.xedge.jquery.client.JQEvent;
@@ -35,7 +36,13 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 	public BaseComponentRenderer(final JQuery widget, final BaseComponentModel model) {
 		this.widget = widget;
 		
-		applyVisible(model.getVisible());
+		Deferred.defer(new Runnable() {
+			@Override
+			public void run() {
+				// applying visibility has to wait for the component to be actually inserted into the DOM
+				applyVisible(model.getVisible());
+			}
+		}); 
 		addChangeListener(BaseComponentModel_._visible, model, new ValueChangeListener<Boolean>() {
 			@Override
 			public void valueChanged(Boolean newValue) {
