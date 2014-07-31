@@ -38,7 +38,7 @@ public class SandboxActivity extends AbstractActivity {
 	private String test = "2014.12.03";
 	
 	@ObservableProperty
-	private boolean visibility;
+	private boolean visibility = true;
 	
 	@ObservableProperty
 	private ComponentEvent focus = new ComponentEvent();
@@ -79,4 +79,8 @@ public class SandboxActivity extends AbstractActivity {
 		view.viewPresented();
 	}
 	
+	@MethodRef
+	public void hideLabel() {
+		setVisibility(false);
+	}
 }
