@@ -85,7 +85,10 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 	}-*/;
 	
 	private native void updateOptions(JQuery widget, String options) /*-{
-		widget.data("typeahead").source = options.split(",");
+		var typeAhead = widget.data("typeahead");
+		if (typeAhead) {
+		    typeAhead.source = options.split(",");
+		}
 	}-*/;
 	
 	/**
