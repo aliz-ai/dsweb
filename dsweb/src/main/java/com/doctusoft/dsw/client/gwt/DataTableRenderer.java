@@ -142,8 +142,8 @@ public class DataTableRenderer extends BaseComponentRenderer {
 		setTimeout(function () {
 			var that = this;
 			var table = target.DataTable({
-				lengthMenu : [[1, 2, -1], [1, 2, "All"]],
-				lengthChange: true,
+				//lengthMenu : [[1, 2, -1], [1, 2, "All"]],
+				//lengthChange: true,
 				ordering : false,
 				searching : false
 			 });
