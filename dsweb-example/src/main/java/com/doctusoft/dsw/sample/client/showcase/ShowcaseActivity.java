@@ -57,7 +57,10 @@ public class ShowcaseActivity extends BaseActivity<ShowcaseActivity, ShowcasePla
 	private ObservableList<String> tagSuggestions = new ObservableList<String>();
 	
 	@ObservableProperty
-	private String timeTest = "2014.12.03";
+	private String timeTest = "";
+	
+	@ObservableProperty
+	private Date dateTimeTest;
 	
 	public ShowcaseActivity(ClientFactory clientFactory, ShowcasePlace showcasePlace) {
 		super(clientFactory, showcasePlace);
@@ -106,5 +109,11 @@ public class ShowcaseActivity extends BaseActivity<ShowcaseActivity, ShowcasePla
 		System.out.println( "Selected item: " + param.getItemIndex() + " subindex: " + param.getSubIndex() );
 		setModalVisible(true);
 	}
-	
+	@MethodRef
+	public void datePickerBindingTest(){
+		if(dateTimeTest != null) {
+			setTimeTest(getDateTimeTest().toString());
+		}
+	}
+		
 }
