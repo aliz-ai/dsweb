@@ -1,10 +1,12 @@
 package com.doctusoft.dsw.client.mvp;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import lombok.Getter;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.Maps;
 
 /**
  * This ties Presenter and Place, as known for the GWT MVP framework. In GWT's solution,
@@ -22,16 +24,23 @@ public abstract class Place<Presenter extends com.doctusoft.dsw.client.mvp.Prese
 	protected String fragment;
 	@Getter
 	private Class<Presenter> presenterClass;
+	protected static Map<Class, String> fragmentRoots = Maps.newHashMap();
 	
 	public void parseFragment(String fragment) {
 		// do nothing by default
 	}
 	
 	public static String getFragmentRoot(Class<? extends Place> placeClass) {
+		/*
 		if (!placeClass.isAnnotationPresent(Fragment.class))
 			throw new RuntimeException("Please specify @Fragment for place: " + placeClass);
 		Fragment fragment = placeClass.getAnnotation(Fragment.class);
 		return fragment.value();
+		*/
+		String fragment = fragmentRoots.get(placeClass);
+		if (fragment == null)
+			throw new RuntimeException("No fragment root registered for place: " + placeClass);
+		return fragment;
 		
 	}
 	
