@@ -33,6 +33,8 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 	@Getter
 	protected JQuery widget;
 	
+	protected boolean visible = true;
+	
 	public BaseComponentRenderer(final JQuery widget, final BaseComponentModel model) {
 		this.widget = widget;
 		
@@ -91,11 +93,14 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 	}
 	
 	protected void applyVisible(Boolean visible) {
-		if (Objects.firstNonNull(visible, false)) {
+		Boolean newVisible = Objects.firstNonNull(visible, false);
+		if (newVisible && !this.visible) {
 			widget.show();
-		} else {
+		}
+		if (!newVisible && this.visible) {
 			widget.hide();
 		}
+		this.visible = newVisible;
 	}
 	
 	protected void applyStyle(String style) {
