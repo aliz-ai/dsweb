@@ -56,7 +56,7 @@ public class NavigationHandler implements Serializable {
 		if (placeClass == null)
 			return defaultPlace;
 		Place<?> place;
-		place = placeFactory.createPlaceForClass(placeClass);
+		place = (Place) placeFactory.createPlaceForClass(placeClass);
 		place.parseFragment(fragment);
 		return place;
 	}
