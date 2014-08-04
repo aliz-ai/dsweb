@@ -18,13 +18,8 @@ public class Datepicker extends BaseComponent<Datepicker, DatepickerModel> {
 		return this;
 	}
 	
-	public Datepicker bind(final ValueBinding<String> valueBinding) {
+	public Datepicker bind(final ValueBinding<Date> valueBinding) {
 		Bindings.bind(valueBinding, Bindings.obs(model).get(DatepickerModel_._value));
-		return this;
-	}
-	
-	public Datepicker bindDate(final ValueBinding<Date> valueBinding) {
-		Bindings.bind(valueBinding, Bindings.obs(model).get(DatepickerModel_._dateValue));
 		return this;
 	}
 }

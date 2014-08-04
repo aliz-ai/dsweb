@@ -7,10 +7,7 @@ import com.doctusoft.bean.ObservableProperty;
 public class DatepickerModel extends BaseComponentModel {
 	
 	@com.doctusoft.ObservableProperty
-	private String value = "";
-	
-	@com.doctusoft.ObservableProperty
-	private Date dateValue = null;
+	private Date value = null;
 	
 	
 	/**

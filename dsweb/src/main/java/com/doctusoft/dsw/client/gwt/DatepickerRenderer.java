@@ -29,13 +29,13 @@ public class DatepickerRenderer extends BaseComponentRenderer {
 		
 		initDatepickerNative(widget, model.getFormat().toLowerCase());
 		
-		if(model.getDateValue() != null) {
-			setDatepickerValueNative(widget, dateTimeFormat.format(model.getDateValue()));
+		if(model.getValue() != null) {
+			setDatepickerValueNative(widget, dateTimeFormat.format(model.getValue()));
 		} else {
 			setDatepickerValueNative(widget, "");
 		}
 			
-		DatepickerModel_._dateValue.addChangeListener(model, new ValueChangeListener<Date>() {
+		DatepickerModel_._value.addChangeListener(model, new ValueChangeListener<Date>() {
 			
 			@Override
 			public void valueChanged(Date newValue) {
@@ -48,19 +48,6 @@ public class DatepickerRenderer extends BaseComponentRenderer {
 			}
 		});
 		
-		DatepickerModel_._value.addChangeListener(model, new ValueChangeListener<String>() {
-			
-			@Override
-			public void valueChanged(String newValue) {
-				if (changedFromWidget) {
-					return;
-				}
-				changedFromModel = true;				
-				setDatepickerValueNative(widget, newValue);
-				changedFromModel = false;
-			}
-		});
-		
 		widget.change(new EventHandler() {
 
 			@Override
@@ -69,7 +56,7 @@ public class DatepickerRenderer extends BaseComponentRenderer {
 					return;
 				}
 				changedFromWidget = true;
-				model.setDateValue(dateTimeFormat.parse(widget.val()));
+				model.setValue(dateTimeFormat.parse(widget.val()));
 				changedFromWidget = false;
 			}
 		});

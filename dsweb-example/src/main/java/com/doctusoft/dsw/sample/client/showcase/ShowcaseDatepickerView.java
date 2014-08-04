@@ -13,7 +13,7 @@ public class ShowcaseDatepickerView extends ContainerWithPresenter<ShowcaseActiv
 		new BaseContainer().withStyleClass("page-header").appendTo(container)
 		.add(new HtmlContent("<h1>Datepicker</h1>"));
 		
-		new Datepicker().bindDate( bindOnPresenter().get(ShowcaseActivity_._dateTimeTest) )
+		new Datepicker().bind( bindOnPresenter().get(ShowcaseActivity_._dateTimeTest) )
 		.withFormat( "yyyy.MM.dd" )
 		.appendTo(container);
 		
