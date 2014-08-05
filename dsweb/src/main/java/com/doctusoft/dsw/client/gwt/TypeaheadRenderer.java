@@ -31,7 +31,10 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 		}
 		
 		if (select.getSelectedIndex() != -1) {
-			widget.val(select.getSelectItemsModel().get(select.getSelectedIndex()).getCaption());
+			int selectedIndex = select.getSelectedIndex();
+			if (selectedIndex >= 0 && selectedIndex < select.getSelectItemsModel().size()) {
+				widget.val(select.getSelectItemsModel().get(select.getSelectedIndex()).getCaption());
+			}
 		}
 		
 		TypeaheadModel_._allVisibleOnFocus.addChangeListener(select, new ValueChangeListener<Boolean>() {
@@ -56,6 +59,10 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 			@Override
 			public void inserted(ObservableList<SelectItemModel> list, int index, SelectItemModel element) {
 				updateOptions(widget, itemsToString(list));
+				if (index == select.getSelectedIndex()) {
+					// the selected value just got inserted
+					widget.val(element.getCaption());
+				}
 			}
 			@Override
 			public void removed(ObservableList<SelectItemModel> list, int index, SelectItemModel element) {
