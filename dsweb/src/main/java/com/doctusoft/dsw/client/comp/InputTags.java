@@ -2,14 +2,11 @@ package com.doctusoft.dsw.client.comp;
 
 import java.util.List;
 
-import javax.swing.text.html.HTML.Tag;
-
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 import com.doctusoft.dsw.client.comp.model.InputTagsModel;
 import com.doctusoft.dsw.client.comp.model.InputTagsModel_;
-import com.doctusoft.dsw.client.comp.model.TypeaheadModel;
 
 public class InputTags extends BaseComponent<InputTags, InputTagsModel>{
 	

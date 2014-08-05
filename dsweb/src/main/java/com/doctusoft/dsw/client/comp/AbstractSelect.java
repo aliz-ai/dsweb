@@ -6,6 +6,8 @@ import java.util.Map;
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.ValueBinding;
+import com.doctusoft.bean.binding.observable.ListBindingListener;
+import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 import com.doctusoft.dsw.client.comp.model.SelectItemModel;
 import com.doctusoft.dsw.client.comp.model.SelectModel;
@@ -86,20 +88,45 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 		return (Actual) this;
 	}
 	
+	protected void registerSelectItem(int index, SelectItem<T> item) {
+		SelectItemModel itemModel = new SelectItemModel();
+		itemModel.setId(item.getId());
+		itemModel.setCaption(item.getCaption());
+		model.getSelectItemsModel().add(index, itemModel);
+		itemsByValue.put(item.getValue(), item);
+		modelsByValue.put(item.getValue(), itemModel);
+		items.add(index, item);
+	}
+	
 	public void setSelectItems(List<SelectItem<T>> selectItems) {
 		model.getSelectItemsModel().clear();
+		itemsByValue.clear();
+		modelsByValue.clear();
+		int index = 0;
 		for (SelectItem<T> item : selectItems) {
-			SelectItemModel itemModel = new SelectItemModel();
-			itemModel.setId(item.getId());
-			itemModel.setCaption(item.getCaption());
-			model.getSelectItemsModel().add(itemModel);
-			itemsByValue.put(item.getValue(), item);
-			modelsByValue.put(item.getValue(), itemModel);
-			items.add(item);
+			registerSelectItem(index ++, item);
 		}
+		// the value might have been set earlier. Now that we have the possible select items, we re-fire the listeners so that the proper value is set
 		if (model.getSelectedIndex() == -1) {
 			setValue(value);
 		}
+	}
+	
+	public Actual bindSelectItems(ObservableValueBinding<? extends List<SelectItem<T>>> selectItemsBinding) {
+		new ListBindingListener<SelectItem<T>>(selectItemsBinding) {
+			@Override
+			public void inserted(ObservableList<SelectItem<T>> list, int index, SelectItem<T> element) {
+				registerSelectItem(index, element);
+			}
+			@Override
+			public void removed(ObservableList<SelectItem<T>> list, int index, SelectItem<T> element) {
+				itemsByValue.remove(element.getValue());
+				modelsByValue.remove(element.getValue());
+				model.getSelectItemsModel().remove(index);
+				items.remove(index);
+			}
+		};
+		return (Actual) this;
 	}
 
 }

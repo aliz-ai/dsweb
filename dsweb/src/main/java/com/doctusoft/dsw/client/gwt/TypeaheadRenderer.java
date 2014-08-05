@@ -18,9 +18,9 @@ import com.xedge.jquery.client.handlers.EventHandler;
 
 public class TypeaheadRenderer extends BaseComponentRenderer {
 	
-	private static List<String> optionCaptions = Lists.newArrayList();
+	private List<String> optionCaptions = Lists.newArrayList();
 	
-	static TypeaheadModel typeaheadModel;
+	private TypeaheadModel typeaheadModel;
 	
 	public TypeaheadRenderer(final TypeaheadModel select) {
 		super(JQuery.select("<input type=\"text\" data-provide=\"typeahead\"/>"), select);
@@ -31,7 +31,10 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 		}
 		
 		if (select.getSelectedIndex() != -1) {
-			widget.val(select.getSelectItemsModel().get(select.getSelectedIndex()).getCaption());
+			int selectedIndex = select.getSelectedIndex();
+			if (selectedIndex >= 0 && selectedIndex < select.getSelectItemsModel().size()) {
+				widget.val(select.getSelectItemsModel().get(select.getSelectedIndex()).getCaption());
+			}
 		}
 		
 		TypeaheadModel_._allVisibleOnFocus.addChangeListener(select, new ValueChangeListener<Boolean>() {
@@ -56,6 +59,10 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 			@Override
 			public void inserted(ObservableList<SelectItemModel> list, int index, SelectItemModel element) {
 				updateOptions(widget, itemsToString(list));
+				if (index == select.getSelectedIndex()) {
+					// the selected value just got inserted
+					widget.val(element.getCaption());
+				}
 			}
 			@Override
 			public void removed(ObservableList<SelectItemModel> list, int index, SelectItemModel element) {
@@ -71,15 +78,16 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 		});
 	}
 	
-	private static void itemSelected(String item) {
+	private void itemSelected(String item) {
 		int index = optionCaptions.indexOf(item);
 		typeaheadModel.setSelectedIndex(index);
 	}
 	
 	private native void init(JQuery widget) /*-{
+		var that = this;
 		widget.typeahead({
 			updater: function(item) {
-				$entry(@com.doctusoft.dsw.client.gwt.TypeaheadRenderer::itemSelected(Ljava/lang/String;)(item));
+				$entry(that.@com.doctusoft.dsw.client.gwt.TypeaheadRenderer::itemSelected(Ljava/lang/String;)(item));
 			}
 		});
 	}-*/;
