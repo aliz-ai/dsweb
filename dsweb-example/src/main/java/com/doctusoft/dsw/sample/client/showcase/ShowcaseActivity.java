@@ -54,6 +54,9 @@ public class ShowcaseActivity extends BaseActivity<ShowcaseActivity, ShowcasePla
 	private ObservableList<String> tags = new ObservableList<String>();
 	
 	@ObservableProperty
+	private String tagsJoined = "";
+	
+	@ObservableProperty
 	private ObservableList<String> tagSuggestions = new ObservableList<String>();
 	
 	@ObservableProperty
@@ -85,6 +88,12 @@ public class ShowcaseActivity extends BaseActivity<ShowcaseActivity, ShowcasePla
 		tagOp2.setStyleClass( "label label-success" );
 		tagOptionSuggestions.add( tagOp2 );
 		tagOptionSuggestions.add( tagOp );
+		new ListChangeListener(Bindings.obs(this).get(ShowcaseActivity_._tags)) {
+			@Override
+			protected void changed() {
+				setTagsJoined("Selected tags: " + Joiner.on(",").join(tags));
+			}
+		};
 	}
 	
 	@Override

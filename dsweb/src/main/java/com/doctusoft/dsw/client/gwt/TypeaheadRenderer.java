@@ -18,9 +18,9 @@ import com.xedge.jquery.client.handlers.EventHandler;
 
 public class TypeaheadRenderer extends BaseComponentRenderer {
 	
-	private static List<String> optionCaptions = Lists.newArrayList();
+	private List<String> optionCaptions = Lists.newArrayList();
 	
-	static TypeaheadModel typeaheadModel;
+	private TypeaheadModel typeaheadModel;
 	
 	public TypeaheadRenderer(final TypeaheadModel select) {
 		super(JQuery.select("<input type=\"text\" data-provide=\"typeahead\"/>"), select);
@@ -71,15 +71,16 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 		});
 	}
 	
-	private static void itemSelected(String item) {
+	private void itemSelected(String item) {
 		int index = optionCaptions.indexOf(item);
 		typeaheadModel.setSelectedIndex(index);
 	}
 	
 	private native void init(JQuery widget) /*-{
+		var that = this;
 		widget.typeahead({
 			updater: function(item) {
-				$entry(@com.doctusoft.dsw.client.gwt.TypeaheadRenderer::itemSelected(Ljava/lang/String;)(item));
+				$entry(that.@com.doctusoft.dsw.client.gwt.TypeaheadRenderer::itemSelected(Ljava/lang/String;)(item));
 			}
 		});
 	}-*/;
