@@ -1,6 +1,8 @@
 package com.doctusoft.dsw.client.mvp;
 
-public class SimplePlaceFactory implements PlaceFactory {
+import java.io.Serializable;
+
+public class SimplePlaceFactory implements PlaceFactory, Serializable {
 	
 	@Override
 	public <P extends Presenter<P>> Place<P> createPlaceForClass(Class<? extends Place<?>> placeClass) {
