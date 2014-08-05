@@ -15,6 +15,7 @@ import com.doctusoft.dsw.client.comp.model.DataTableColumnModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel_;
 import com.doctusoft.dsw.client.comp.model.DataTableRowModel;
+import com.doctusoft.dsw.client.util.Deferred;
 import com.google.common.collect.Lists;
 import com.google.gwt.core.shared.GWT;
 import com.xedge.jquery.client.JQuery;
@@ -53,6 +54,12 @@ public class DataTableRenderer extends BaseComponentRenderer {
 					tbody.insertBefore( rows.get( index ) );
 				}
 				rows.add( index, row );
+				Deferred.defer(DataTableRenderer.this, "reinit", new Runnable() {
+					@Override
+					public void run() {
+						reinit();
+					}
+				});
 			}
 			
 			@Override
@@ -138,8 +145,22 @@ public class DataTableRenderer extends BaseComponentRenderer {
 		
 	}-*/;
 	
+	protected void reinit() {
+		widget.find(".dataTables_empty").parent().remove();
+		JQuery rows = widget.find("tbody tr").appendTo(JQuery.select("<div/>"));
+		destroy(widget);
+		widget.find("tbody").append(rows);
+		install(widget);
+	}
+	
+	private native void destroy(JQuery target) /*-{
+		target.DataTable().destroy();
+	}-*/;
+	
 	private native void install(JQuery target) /*-{
 		setTimeout(function () {
+			if ($wnd.$.fn.dataTable.isDataTable(target))	// already installed
+				return;
 			var that = this;
 			var table = target.DataTable({
 				//lengthMenu : [[1, 2, -1], [1, 2, "All"]],
