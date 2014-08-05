@@ -42,8 +42,12 @@ public class DatepickerRenderer extends BaseComponentRenderer {
 				if (changedFromWidget) {
 					return;
 				}
-				changedFromModel = true;				
-				setDatepickerValueNative(widget, dateTimeFormat.format(newValue));
+				changedFromModel = true;
+				if (newValue != null) {
+					setDatepickerValueNative(widget, dateTimeFormat.format(newValue));
+				} else {
+					setDatepickerValueNative(widget, "");
+				} 
 				changedFromModel = false;
 			}
 		});
