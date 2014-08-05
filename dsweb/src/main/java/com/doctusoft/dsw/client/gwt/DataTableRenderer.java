@@ -15,7 +15,6 @@ import com.doctusoft.dsw.client.comp.model.DataTableColumnModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel_;
 import com.doctusoft.dsw.client.comp.model.DataTableRowModel;
-import com.doctusoft.dsw.client.util.Deferred;
 import com.google.common.collect.Lists;
 import com.google.gwt.core.shared.GWT;
 import com.xedge.jquery.client.JQuery;
@@ -29,7 +28,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	private final DataTableModel model;
 	
 	public DataTableRenderer( DataTableModel model ) {
-		super( JQuery.select( "<table class=\"display\"/>" ), model );
+		super( JQuery.select( "<table class=\"table table-striped table-bordered\"/>" ), model );
 		this.model = model;
 		// apply columns, no change supported currently
 		JQuery headerRow = JQuery.select( "<tr>" ).appendTo( JQuery.select( "<thead>" ).appendTo( widget ) );
@@ -54,12 +53,14 @@ public class DataTableRenderer extends BaseComponentRenderer {
 					tbody.insertBefore( rows.get( index ) );
 				}
 				rows.add( index, row );
+				/*
 				Deferred.defer(DataTableRenderer.this, "reinit", new Runnable() {
 					@Override
 					public void run() {
 						reinit();
 					}
 				});
+				*/
 			}
 			
 			@Override
@@ -147,10 +148,12 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	
 	protected void reinit() {
 		widget.find(".dataTables_empty").parent().remove();
-		JQuery rows = widget.find("tbody tr").appendTo(JQuery.select("<div/>"));
+		JQuery tempContainer = JQuery.select("<div/>").appendTo("body");
+		JQuery rows = widget.find("tbody tr").appendTo(tempContainer);
 		destroy(widget);
-		widget.find("tbody").append(rows);
+		tempContainer.find("tr").first().appendTo(widget.find("tbody"));
 		install(widget);
+		tempContainer.remove();
 	}
 	
 	private native void destroy(JQuery target) /*-{
@@ -158,20 +161,21 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	}-*/;
 	
 	private native void install(JQuery target) /*-{
+		var that = this;
 		setTimeout(function () {
-			if ($wnd.$.fn.dataTable.isDataTable(target))	// already installed
-				return;
-			var that = this;
-			var table = target.DataTable({
-				//lengthMenu : [[1, 2, -1], [1, 2, "All"]],
-				//lengthChange: true,
-				ordering : false,
-				searching : false
-			 });
-			target.on( 'page.dt',   function () {
-				//alert(table.page.info().page + 1);
-				//alert(table.page.info().recordsTotal);
-			});
+//			if ($wnd.$.fn.dataTable.isDataTable(target))	// already installed
+//				return;
+//			var that = this;
+//			var table = target.DataTable({
+//				//lengthMenu : [[1, 2, -1], [1, 2, "All"]],
+//				//lengthChange: true,
+//				ordering : false,
+//				searching : false
+//			 });
+//			target.on( 'page.dt',   function () {
+//				//alert(table.page.info().page + 1);
+//				//alert(table.page.info().recordsTotal);
+//			});
 			// row click listener
 			target.find("tbody").on("click", "tr", function() {
 				that.@com.doctusoft.dsw.client.gwt.DataTableRenderer::rowClicked(Lcom/xedge/jquery/client/JQuery;)($wnd.jQuery(this));

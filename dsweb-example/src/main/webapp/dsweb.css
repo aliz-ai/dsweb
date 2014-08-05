@@ -1,0 +1,4 @@
+.table tr.selected, .table tr.selected td,
+.table-striped tbody > tr.selected:nth-child(2n+1) > td, .table-striped tbody > tr.selected:nth-child(2n+1) {
+	background-color: #0088cc;
+}
