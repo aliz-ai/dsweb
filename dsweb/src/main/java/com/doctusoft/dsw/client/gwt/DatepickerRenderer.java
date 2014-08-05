@@ -56,7 +56,12 @@ public class DatepickerRenderer extends BaseComponentRenderer {
 					return;
 				}
 				changedFromWidget = true;
-				model.setValue(dateTimeFormat.parse(widget.val()));
+				String dateValue = widget.val();
+				if(!dateValue.equals("")) {
+					model.setValue(dateTimeFormat.parse(dateValue));
+				} else {
+					model.setValue(null);
+				}
 				changedFromWidget = false;
 			}
 		});
@@ -77,6 +82,7 @@ public class DatepickerRenderer extends BaseComponentRenderer {
 	private native void initDatepickerNative(JQuery widget, String datepickerFormat) /*-{
 		widget.datepicker("remove");
 		widget.datepicker({
+			clearBtn: true,
 			autoclose: true,
 			format: datepickerFormat
 		});

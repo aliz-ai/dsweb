@@ -113,6 +113,8 @@ public class ShowcaseActivity extends BaseActivity<ShowcaseActivity, ShowcasePla
 	public void datePickerBindingTest(){
 		if(dateTimeTest != null) {
 			setTimeTest(getDateTimeTest().toString());
+		} else {
+			setTimeTest("There's no date selected!");
 		}
 	}
 		
