@@ -55,7 +55,7 @@ public class SelectRenderer extends BaseComponentRenderer {
 		widget.change(new EventHandler() {
 			@Override
 			public void eventComplete(JQEvent event, JQuery currentJQuery) {
-				int index = widget.children().index(widget.select("option:selected").get(0));
+				int index = widget.children().index(widget.find("option:selected").get(0));
 				select.setSelectedIndex(index);
 			}
 		});
