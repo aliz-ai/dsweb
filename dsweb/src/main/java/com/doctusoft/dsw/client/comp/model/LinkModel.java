@@ -2,7 +2,7 @@ package com.doctusoft.dsw.client.comp.model;
 
 import com.doctusoft.ObservableProperty;
 
-public class LinkModel extends BaseComponentModel {
+public class LinkModel extends AbstractContainerModel<BaseComponentModel> {
 
 	@ObservableProperty
 	private String text;

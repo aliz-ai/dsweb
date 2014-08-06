@@ -2,6 +2,8 @@ package com.doctusoft.dsw.client.gwt;
 
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
+import com.doctusoft.bean.binding.observable.ObservableValueBinding;
+import com.doctusoft.dsw.client.comp.model.AbstractContainerModel_;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent_;
 import com.doctusoft.dsw.client.comp.model.LinkModel;
@@ -13,6 +15,7 @@ public class LinkRenderer extends BaseComponentRenderer {
 	
 	public LinkRenderer(final LinkModel link) {
 		super(JQuery.select("<a/>"), link);
+		new ChildrenRenderer(widget, (ObservableValueBinding) Bindings.obs(link).get(AbstractContainerModel_._children));
 		widget.text(link.getText());
 		widget.attr("href", link.getHref());
 		widget.attr("target", link.getTarget());

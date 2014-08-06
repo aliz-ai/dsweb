@@ -5,7 +5,7 @@ import com.doctusoft.bean.binding.ValueBinding;
 import com.doctusoft.dsw.client.comp.model.LinkModel;
 import com.doctusoft.dsw.client.comp.model.LinkModel_;
 
-public class Link extends BaseComponent<Link, LinkModel> {
+public class Link extends AbstractContainer<Link, LinkModel> {
 	
 	public Link() {
 		super(new LinkModel());
