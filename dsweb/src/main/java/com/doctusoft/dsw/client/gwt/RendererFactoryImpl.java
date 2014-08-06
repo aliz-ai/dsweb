@@ -9,6 +9,7 @@ import com.doctusoft.dsw.client.comp.model.ButtonModel;
 import com.doctusoft.dsw.client.comp.model.CellModel;
 import com.doctusoft.dsw.client.comp.model.CheckboxModel;
 import com.doctusoft.dsw.client.comp.model.ContainerModel;
+import com.doctusoft.dsw.client.comp.model.ContextMenuModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel;
 import com.doctusoft.dsw.client.comp.model.DatepickerModel;
 import com.doctusoft.dsw.client.comp.model.DropdownButtonModel;
@@ -113,6 +114,9 @@ public class RendererFactoryImpl extends AbstractGwtRendererFactory {
 		}
 		if (baseWidget instanceof BarChartModel){
 			return new BarChartRenderer( (BarChartModel) baseWidget );
+		}
+		if (baseWidget instanceof ContextMenuModel){
+			return new ContextMenuRenderer( (ContextMenuModel) baseWidget );
 		}
 		
 		return null;

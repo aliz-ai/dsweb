@@ -1,6 +1,8 @@
 
 package com.doctusoft.dsw.sample.client.person;
 
+import java.util.Date;
+
 import com.doctusoft.MethodRef;
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.binding.observable.ObservableList;
@@ -9,6 +11,7 @@ import com.doctusoft.dsw.client.comp.SelectItems;
 import com.doctusoft.dsw.client.comp.TagOption;
 import com.doctusoft.dsw.client.comp.TagOptions;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent;
+import com.doctusoft.dsw.client.comp.model.SelectionMode;
 import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.ClientFactory;
 import com.google.gwt.activity.shared.AbstractActivity;
@@ -23,19 +26,22 @@ public class SandboxActivity extends AbstractActivity {
 	private ObservableList<SelectItem<String>> locationItems = new ObservableList<SelectItem<String>>();
 	
 	@ObservableProperty
-	private ObservableList<TagOption> tagOptions = new ObservableList<TagOption>();
+	private String testSelector = "valami2";
 	
 	@ObservableProperty
-	private ObservableList<TagOption> tagOptionSuggestions = new ObservableList<TagOption>();
+	private String  objectId = "valami";
 	
 	@ObservableProperty
-	private ObservableList<String> tags = new ObservableList<String>();
+	private ObservableList<String> menuItems = new ObservableList<String>();
 	
 	@ObservableProperty
-	private ObservableList<String> tagSuggestions = new ObservableList<String>();
+	private ObservableList<PersonDto> personList = new ObservableList<PersonDto>();
 	
 	@ObservableProperty
-	private String test = "2014.12.03";
+	private SelectionMode selectionMode = SelectionMode.Single;
+	
+	@ObservableProperty
+	private ObservableList<PersonDto> selection = new ObservableList<PersonDto>();
 	
 	@ObservableProperty
 	private boolean visibility = true;
@@ -49,31 +55,26 @@ public class SandboxActivity extends AbstractActivity {
 	
 	@MethodRef
 	public void checkBindings() {
-		tagSuggestions.clear();
-		tagSuggestions.addAll( tags );
-		System.out.println( "test: " + test );
-		System.out.println( "tags: " + tags );
+		System.out.println( "test: " + testSelector );
+		System.out.println( "test: " + objectId );
 		System.out.println( "visibility: " + visibility );
 	}
 	
 	@Override
 	public void start( AcceptsOneWidget panel, EventBus eventBus ) {
 		ViewOf<SandboxActivity> view = clientFactory.getSandboxView();
-		tagSuggestions.clear();
-		tagSuggestions.add( "SimaStringes" );
-		tagSuggestions.add( "21312Stringes" );
-		tagSuggestions.add( "sdasdStringes" );
 		locationItems.addAll( SelectItems.fromStrings( "asd", "blup", "blip" ) );
-		tagOptionSuggestions.addAll( TagOptions.fromStrings( "Ez", "Az", "mi", "sas" ) );
-		TagOption tagOp = new TagOption();
-		tagOp.setName( "Ez már más" );
-		tagOp.setStyleClass( "label label-warning" );
-		TagOption tagOp2 = new TagOption();
-		tagOp2.setName( "Ez már megint más" );
-		tagOp2.setStyleClass( "label label-success" );
-		tagOptionSuggestions.add( tagOp2 );
-		tagOptionSuggestions.add( tagOp );
-		tags.add( "asdas" );
+
+		menuItems.add( "Menu 1" );
+		menuItems.add( "Menu 2" );
+		menuItems.add( "Menu 3" );
+		menuItems.add( "Menu 4" );
+		menuItems.add( "Menu 5" );
+		menuItems.add( "Menu 6" );
+		
+		personList.add(new PersonDto(1l, "Compay Segundo", "compay@buena.cu", new Date(7, 10, 18)));
+		personList.add(new PersonDto(2l, "Omara Portuondo", "omara@buena.cu", new Date(30, 9, 29)));
+		personList.add(new PersonDto(3l, "Ibrahim Ferrer", "ibrahim@buena.cu", new Date(6, 7, 27)));
 		view.setPresenter( this );
 		panel.setWidget( view );
 		view.viewPresented();
@@ -81,6 +82,8 @@ public class SandboxActivity extends AbstractActivity {
 	
 	@MethodRef
 	public void hideLabel() {
-		setVisibility(false);
+		menuItems.add("Új");
+		personList.removeAll(selection);
+		//setVisibility(false);
 	}
 }
