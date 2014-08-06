@@ -16,13 +16,17 @@ public class LinkRenderer extends BaseComponentRenderer {
 	public LinkRenderer(final LinkModel link) {
 		super(JQuery.select("<a/>"), link);
 		new ChildrenRenderer(widget, (ObservableValueBinding) Bindings.obs(link).get(AbstractContainerModel_._children));
-		widget.text(link.getText());
+		if (link.getText() != null) {
+			widget.text(link.getText());
+		}
 		widget.attr("href", link.getHref());
 		widget.attr("target", link.getTarget());
 		LinkModel_._text.addChangeListener(link, new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
-				widget.text(newValue);
+				if (newValue != null) {
+					widget.text(newValue);
+				}
 			}
 		});
 		LinkModel_._href.addChangeListener(link, new ValueChangeListener<String>() {

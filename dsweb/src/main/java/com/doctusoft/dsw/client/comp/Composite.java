@@ -1,8 +1,10 @@
 package com.doctusoft.dsw.client.comp;
 
+import java.io.Serializable;
+
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 
-public class Composite<Root extends BaseComponent> implements HasComponentModel {
+public class Composite<Root extends BaseComponent> implements HasComponentModel, Serializable {
 	
 	protected Root root;
 	
