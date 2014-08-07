@@ -34,7 +34,7 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 		
 		new ContextMenu<Link>()
 		.addMenuItem(new Link("Kijelölt törlése").click(presenterMethod(SandboxActivity_.__hideLabel)))
-		.setConnectedObjectClass("valami")
+		.setConnectedObjectSelector("td")
 		.appendTo(container).addStyleClass("valami2");
 	}
 	

@@ -34,9 +34,9 @@ public class ContextMenuRenderer extends ContainerRenderer {
 		}
 	}
 	
-	private native static void init(String connectedObject, String selector) /*-{
+	private native static void init(String connectedObjectSelector, String selector) /*-{
 		setTimeout(function () { 	
-			$wnd.$('.' + connectedObject).contextMenu({
+			$wnd.$(connectedObjectSelector).contextMenu({
 			    menuSelector: '.' + selector,
 			    menuSelected:	function (invokedOn, selectedMenu) {}
 			});

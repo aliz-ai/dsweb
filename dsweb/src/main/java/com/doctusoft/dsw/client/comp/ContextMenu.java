@@ -11,7 +11,7 @@ public class ContextMenu<Item extends BaseComponent> extends AbstractContainer<C
 		this.setStyle("display:none");
 	}
 	
-	public ContextMenu setConnectedObjectClass(String objectClass) {
+	public ContextMenu setConnectedObjectSelector(String objectClass) {
 		this.getModel().setConnectedObjectId(objectClass);
 		return this;
 	}
