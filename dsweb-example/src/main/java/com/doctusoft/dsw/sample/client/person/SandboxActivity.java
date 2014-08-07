@@ -26,15 +26,6 @@ public class SandboxActivity extends AbstractActivity {
 	private ObservableList<SelectItem<String>> locationItems = new ObservableList<SelectItem<String>>();
 	
 	@ObservableProperty
-	private String testSelector = "valami2";
-	
-	@ObservableProperty
-	private String  objectId = "valami";
-	
-	@ObservableProperty
-	private ObservableList<String> menuItems = new ObservableList<String>();
-	
-	@ObservableProperty
 	private ObservableList<PersonDto> personList = new ObservableList<PersonDto>();
 	
 	@ObservableProperty
@@ -55,8 +46,6 @@ public class SandboxActivity extends AbstractActivity {
 	
 	@MethodRef
 	public void checkBindings() {
-		System.out.println( "test: " + testSelector );
-		System.out.println( "test: " + objectId );
 		System.out.println( "visibility: " + visibility );
 	}
 	
@@ -64,13 +53,6 @@ public class SandboxActivity extends AbstractActivity {
 	public void start( AcceptsOneWidget panel, EventBus eventBus ) {
 		ViewOf<SandboxActivity> view = clientFactory.getSandboxView();
 		locationItems.addAll( SelectItems.fromStrings( "asd", "blup", "blip" ) );
-
-		menuItems.add( "Menu 1" );
-		menuItems.add( "Menu 2" );
-		menuItems.add( "Menu 3" );
-		menuItems.add( "Menu 4" );
-		menuItems.add( "Menu 5" );
-		menuItems.add( "Menu 6" );
 		
 		personList.add(new PersonDto(1l, "Compay Segundo", "compay@buena.cu", new Date(7, 10, 18)));
 		personList.add(new PersonDto(2l, "Omara Portuondo", "omara@buena.cu", new Date(30, 9, 29)));
@@ -82,7 +64,6 @@ public class SandboxActivity extends AbstractActivity {
 	
 	@MethodRef
 	public void hideLabel() {
-		menuItems.add("Új");
 		personList.removeAll(selection);
 		//setVisibility(false);
 	}

@@ -70,6 +70,9 @@ public class RendererFactoryImpl extends AbstractGwtRendererFactory {
 		if (baseWidget instanceof AlertModel) {
 			return new AlertRenderer( (AlertModel) baseWidget );
 		}
+		if (baseWidget instanceof ContextMenuModel){
+			return new ContextMenuRenderer( (ContextMenuModel) baseWidget );
+		}
 		if (baseWidget instanceof ContainerModel) {
 			return new ContainerRenderer( (ContainerModel) baseWidget );
 		}
@@ -115,10 +118,6 @@ public class RendererFactoryImpl extends AbstractGwtRendererFactory {
 		if (baseWidget instanceof BarChartModel){
 			return new BarChartRenderer( (BarChartModel) baseWidget );
 		}
-		if (baseWidget instanceof ContextMenuModel){
-			return new ContextMenuRenderer( (ContextMenuModel) baseWidget );
-		}
-		
 		return null;
 	}
 	
