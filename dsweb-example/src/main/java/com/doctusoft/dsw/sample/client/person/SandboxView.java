@@ -1,10 +1,12 @@
 
 package com.doctusoft.dsw.sample.client.person;
 
+import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.ContextMenu;
 import com.doctusoft.dsw.client.comp.DataTable;
 import com.doctusoft.dsw.client.comp.InputTags;
 import com.doctusoft.dsw.client.comp.InputText;
+import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.Link;
 import com.doctusoft.dsw.client.comp.Select;
 import com.doctusoft.dsw.client.comp.datatable.Columns;
@@ -36,6 +38,9 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 		.addMenuItem(new Link("Kijelölt törlése").click(presenterMethod(SandboxActivity_.__hideLabel)))
 		.setConnectedObjectSelector("td")
 		.appendTo(container).addStyleClass("valami2");
+		
+		new Label("hide me").bindVisible(bindOnPresenter().get(SandboxActivity_._visibility)).appendTo(container);
+		new Button("új").click(presenterMethod(SandboxActivity_.__hideLabel)).appendTo(container);
 	}
 	
 	@Override
