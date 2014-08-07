@@ -25,9 +25,13 @@ import com.xedge.jquery.client.handlers.EventHandler;
 
 public class BaseComponentRenderer implements Renderer<JQuery> {
 	
+	protected static <T, K> void addChangeListenerAndApply(ObservableProperty<K, T> property, BaseComponentModel model, ValueChangeListener<T> listener) {
+		addChangeListener(property, model, listener);
+		listener.valueChanged(property.getValue((K) model));
+	}
+	
 	protected static <T, K> void addChangeListener(ObservableProperty<K, T> property, BaseComponentModel model, ValueChangeListener<T> listener) {
 		property.addChangeListener((K) model, listener);
-		listener.valueChanged(property.getValue((K) model));
 	}
 	
 	@Getter
@@ -64,16 +68,14 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 				widget.removeClass(element);
 			}
 		};
-		applyStyle(model.getStyle());
-		addChangeListener(BaseComponentModel_._style, model, new ValueChangeListener<String>() {
+		addChangeListenerAndApply(BaseComponentModel_._style, model, new ValueChangeListener<String>() {
 			
 			@Override
 			public void valueChanged(String newValue) {
 				applyStyle(newValue);
 			}
 		});
-		applyTabIndex(model.getTabIndex());
-		BaseComponentModel_._tabIndex.addChangeListener(model, new ValueChangeListener<Integer>() {
+		addChangeListenerAndApply(BaseComponentModel_._tabIndex, model, new ValueChangeListener<Integer>() {
 
 			@Override
 			public void valueChanged(Integer newValue) {
@@ -93,7 +95,7 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 	}
 	
 	protected void applyVisible(Boolean visible) {
-		Boolean newVisible = Objects.firstNonNull(visible, false);
+		Boolean newVisible = Objects.firstNonNull(visible, true);
 		if (newVisible && !this.visible) {
 			widget.show();
 		}

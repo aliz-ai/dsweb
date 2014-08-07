@@ -19,7 +19,7 @@ public class ModalDialogRenderer extends BaseComponentRenderer {
 				"  </div>");
 		widget.append(header);
 		headerText = header.find("h3");
-		addChangeListener(ModalDialogModel_._header, modalDialog, new ValueChangeListener<String>() {
+		addChangeListenerAndApply(ModalDialogModel_._header, modalDialog, new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
 				headerText.text(newValue);
@@ -31,7 +31,7 @@ public class ModalDialogRenderer extends BaseComponentRenderer {
 		ContainerRenderer footerRenderer = new ContainerRenderer(modalDialog.getFooterContainer());
 		footerRenderer.getWidget().addClass("modal-footer");
 		widget.append(footerRenderer.getWidget());
-		addChangeListener(ModalDialogModel_._dialogVisible, modalDialog, new ValueChangeListener<Boolean>() {
+		addChangeListenerAndApply(ModalDialogModel_._dialogVisible, modalDialog, new ValueChangeListener<Boolean>() {
 			@Override
 			public void valueChanged(Boolean newValue) {
 				if (Objects.firstNonNull(newValue, false)) {

@@ -8,8 +8,6 @@ import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.comp.SelectItem;
 import com.doctusoft.dsw.client.comp.SelectItems;
-import com.doctusoft.dsw.client.comp.TagOption;
-import com.doctusoft.dsw.client.comp.TagOptions;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent;
 import com.doctusoft.dsw.client.comp.model.SelectionMode;
 import com.doctusoft.dsw.mvp.client.ViewOf;
@@ -35,7 +33,7 @@ public class SandboxActivity extends AbstractActivity {
 	private ObservableList<PersonDto> selection = new ObservableList<PersonDto>();
 	
 	@ObservableProperty
-	private boolean visibility = true;
+	private boolean visibility = false;
 	
 	@ObservableProperty
 	private ComponentEvent focus = new ComponentEvent();
@@ -65,6 +63,6 @@ public class SandboxActivity extends AbstractActivity {
 	@MethodRef
 	public void hideLabel() {
 		personList.removeAll(selection);
-		//setVisibility(false);
+		setVisibility(false);
 	}
 }
