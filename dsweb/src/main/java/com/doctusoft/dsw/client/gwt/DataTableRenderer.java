@@ -177,7 +177,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 //				//alert(table.page.info().recordsTotal);
 //			});
 			// row click listener
-			target.find("tbody").on("click", "tr", function() {
+			target.find("tbody").on("mousedown", "tr", function() {
 				that.@com.doctusoft.dsw.client.gwt.DataTableRenderer::rowClicked(Lcom/xedge/jquery/client/JQuery;)($wnd.jQuery(this));
 			});
 		}, 1);

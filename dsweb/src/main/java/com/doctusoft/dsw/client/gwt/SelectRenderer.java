@@ -72,7 +72,7 @@ public class SelectRenderer extends BaseComponentRenderer {
 	}
 	
 	public static native void setSelectedNative(JQuery option) /*-{
-		option.attr('selected', true);
+		option.prop('selected', true);
 	}-*/;
 	
 	
