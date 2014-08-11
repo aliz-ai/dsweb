@@ -1,23 +1,20 @@
 package com.doctusoft.dsw.client.comp.model;
 
-import com.doctusoft.bean.ObservableProperty;
+import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ModelObject;
 
-public class ModalDialogModel extends BaseComponentModel {
+public class ModalDialogModel extends BaseComponentModel implements ModelObject {
 
-	@com.doctusoft.ObservableProperty
+	@ObservableProperty
 	private String header = "";
 	
-	@com.doctusoft.ObservableProperty
+	@ObservableProperty
 	private Boolean dialogVisible;
 
-	@com.doctusoft.ObservableProperty
+	@ObservableProperty
 	private ContainerModel footerContainer = new ContainerModel();
 
-	@com.doctusoft.ObservableProperty
+	@ObservableProperty
 	private ContainerModel contentContainer = new ContainerModel();
 
-	@Override
-	public Iterable<ObservableProperty<?, ?>> getObservableProperties() {
-		return ModalDialogModel_._observableProperties;
-	}
 }

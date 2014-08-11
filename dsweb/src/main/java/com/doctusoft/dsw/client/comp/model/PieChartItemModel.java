@@ -20,10 +20,4 @@ public class PieChartItemModel  implements ModelObject, Serializable {
 	@ObservableProperty
 	private String name;
 	
-	@Override
-	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
-		return PieChartItemModel_._observableProperties;
-	}
-	
-	
 }

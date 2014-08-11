@@ -29,8 +29,4 @@ public class ComponentEvent implements ModelObject, Serializable {
 		}
 	}
 	
-	@Override
-	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
-		return ComponentEvent_._observableProperties;
-	}
 }

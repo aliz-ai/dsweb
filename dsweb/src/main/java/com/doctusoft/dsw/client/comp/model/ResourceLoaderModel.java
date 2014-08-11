@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ModelObject;
 
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResourceLoaderModel extends BaseComponentModel {
+public class ResourceLoaderModel extends BaseComponentModel implements ModelObject {
 	
 	@ObservableProperty
 	private String resourcePah;
@@ -20,9 +21,4 @@ public class ResourceLoaderModel extends BaseComponentModel {
 		Stylesheet;
 	}
 	
-	@Override
-	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
-		return ResourceLoaderModel_._observableProperties;
-	}
-
 }

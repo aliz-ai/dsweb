@@ -1,13 +1,14 @@
 package com.doctusoft.dsw.client.comp.model;
 
-import com.doctusoft.bean.ObservableProperty;
+import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ModelObject;
 
-public class LabelModel extends BaseComponentModel {
+public class LabelModel extends BaseComponentModel implements ModelObject {
 
-	@com.doctusoft.ObservableProperty
+	@ObservableProperty
 	private String label = "";
 	
-	@com.doctusoft.ObservableProperty
+	@ObservableProperty
 	private String elementName = "span";
 	
 	public LabelModel() {
@@ -17,9 +18,4 @@ public class LabelModel extends BaseComponentModel {
 		this.elementName = elementName;
 	}
 	
-	@Override
-	public Iterable<ObservableProperty<?, ?>> getObservableProperties() {
-		return LabelModel_._observableProperties;
-	}
-
 }

@@ -4,8 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ModelObject;
 
-public class TextareaModel extends BaseComponentModel {
+public class TextareaModel extends BaseComponentModel implements ModelObject {
 	
 	@Getter @Setter
 	private int rows = 1;
@@ -13,9 +14,4 @@ public class TextareaModel extends BaseComponentModel {
 	@ObservableProperty
 	private String value;
 	
-	@Override
-	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
-		return TextareaModel_._observableProperties;
-	}
-
 }

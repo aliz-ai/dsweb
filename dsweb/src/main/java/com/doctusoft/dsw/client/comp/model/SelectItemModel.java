@@ -15,11 +15,6 @@ import com.doctusoft.dsw.client.comp.SelectItem;
 @Getter
 public class SelectItemModel implements ModelObject, Serializable {
 
-	@Override
-	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
-		return SelectItemModel_._observableProperties;
-	}
-
 	@ObservableProperty
 	private String id;
 	

@@ -1,26 +1,23 @@
 
 package com.doctusoft.dsw.client.comp.model;
 
-import com.doctusoft.bean.ObservableProperty;
+import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ModelObject;
 
-public class AbstractChartModel extends BaseComponentModel {
+
+public class AbstractChartModel extends BaseComponentModel implements ModelObject {
 	
-	@com.doctusoft.ObservableProperty
+	@ObservableProperty
 	private LegendPosition legendPosition = LegendPosition.EAST;
 	
-	@com.doctusoft.ObservableProperty
+	@ObservableProperty
 	private String title;
 	
-	@com.doctusoft.ObservableProperty
+	@ObservableProperty
 	private boolean showTooltip = true;
 	
-	@com.doctusoft.ObservableProperty
+	@ObservableProperty
 	private ChartItemClickedEvent rowClickedEvent = new ChartItemClickedEvent();
-	
-	@Override
-	public Iterable<ObservableProperty<?, ?>> getObservableProperties() {
-		return AbstractChartModel_._observableProperties;
-	}
 	
 	public static enum LegendPosition {
 		NORTH,

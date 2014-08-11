@@ -1,19 +1,15 @@
 package com.doctusoft.dsw.client.comp.model;
 
-import com.doctusoft.bean.ObservableProperty;
+import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ModelObject;
 import com.doctusoft.bean.binding.observable.ObservableList;
 
-public class SelectModel extends BaseComponentModel {
+public class SelectModel extends BaseComponentModel implements ModelObject {
 
-	@com.doctusoft.ObservableProperty
+	@ObservableProperty
 	private int selectedIndex;
 
-	@com.doctusoft.ObservableProperty
+	@ObservableProperty
 	private ObservableList<SelectItemModel> selectItemsModel = new ObservableList<SelectItemModel>();
-
-	@Override
-	public Iterable<ObservableProperty<?, ?>> getObservableProperties() {
-		return SelectModel_._observableProperties;
-	}
 
 }

@@ -1,16 +1,11 @@
 package com.doctusoft.dsw.client.comp.model;
 
 import com.doctusoft.ObservableProperty;
-import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
+import com.doctusoft.bean.ModelObject;
 
-public class HtmlContentModel extends BaseComponentModel {
+public class HtmlContentModel extends BaseComponentModel implements ModelObject {
 
 	@ObservableProperty
 	private String htmlContent;
-
-	@Override
-	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
-		return HtmlContentModel_._observableProperties;
-	}
 
 }

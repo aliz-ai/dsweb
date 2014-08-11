@@ -2,11 +2,12 @@ package com.doctusoft.dsw.client.comp.model;
 
 import java.util.Date;
 
-import com.doctusoft.bean.ObservableProperty;
+import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ModelObject;
 
-public class DatepickerModel extends BaseComponentModel {
+public class DatepickerModel extends BaseComponentModel implements ModelObject {
 	
-	@com.doctusoft.ObservableProperty
+	@ObservableProperty
 	private Date value = null;
 	
 	
@@ -14,12 +15,7 @@ public class DatepickerModel extends BaseComponentModel {
 	 * need to use 'MM' in pattern instead of 'mm', beacause lowercase means: minutes
 	 * @see http://www.gwtproject.org/javadoc/latest/com/google/gwt/i18n/client/DateTimeFormat.html
 	 */
-	@com.doctusoft.ObservableProperty
+	@ObservableProperty
 	private String format = "yyyy.MM.dd";
-	
-	@Override
-	public Iterable<ObservableProperty<?, ?>> getObservableProperties() {
-		return DatepickerModel_._observableProperties;
-	}
 
 }
