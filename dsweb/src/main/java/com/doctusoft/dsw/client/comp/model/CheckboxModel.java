@@ -1,8 +1,9 @@
 package com.doctusoft.dsw.client.comp.model;
 
 import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ModelObject;
 
-public class CheckboxModel extends BaseComponentModel {
+public class CheckboxModel extends BaseComponentModel implements ModelObject {
 	
 	@ObservableProperty
 	private String label;
@@ -10,9 +11,4 @@ public class CheckboxModel extends BaseComponentModel {
 	@ObservableProperty
 	private Boolean checked = false;
 	
-	@Override
-	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
-		return CheckboxModel_._observableProperties;
-	}
-
 }

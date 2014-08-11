@@ -1,15 +1,12 @@
 package com.doctusoft.dsw.client.comp.model;
 
-import com.doctusoft.bean.ObservableProperty;
+import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ModelObject;
 
-public class InputTimeModel extends BaseComponentModel {
+public class InputTimeModel extends BaseComponentModel implements ModelObject {
 	
-	@com.doctusoft.ObservableProperty
+	@ObservableProperty
 	private String value = "";
 	
-	@Override
-	public Iterable<ObservableProperty<?, ?>> getObservableProperties() {
-		return InputTimeModel_._observableProperties;
-	}
 
 }

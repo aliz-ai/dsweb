@@ -1,9 +1,10 @@
 package com.doctusoft.dsw.client.comp.model.event;
 
 import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ModelObject;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent;
 
-public class KeyPressedEvent extends ComponentEvent implements ParametricEvent<KeyEvent> {
+public class KeyPressedEvent extends ComponentEvent implements ParametricEvent<KeyEvent>, ModelObject {
 	
 	@ObservableProperty
 	private KeyEvent keyEvent;
@@ -19,8 +20,4 @@ public class KeyPressedEvent extends ComponentEvent implements ParametricEvent<K
 		fire();
 	}
 	
-	@Override
-	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
-		return KeyPressedEvent_._observableProperties;
-	}
 }

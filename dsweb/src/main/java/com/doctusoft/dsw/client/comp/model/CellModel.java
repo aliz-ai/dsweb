@@ -1,18 +1,14 @@
 package com.doctusoft.dsw.client.comp.model;
 
-import com.doctusoft.bean.ObservableProperty;
+import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ModelObject;
 
-public class CellModel extends AbstractContainerModel<BaseComponentModel> {
+public class CellModel extends AbstractContainerModel<BaseComponentModel> implements ModelObject {
 	
-	@com.doctusoft.ObservableProperty
+	@ObservableProperty
 	private int span = 1;
 	
-	@com.doctusoft.ObservableProperty
+	@ObservableProperty
 	private int offset = 0;
-	
-	@Override
-	public Iterable<ObservableProperty<?, ?>> getObservableProperties() {
-		return CellModel_._observableProperties;
-	}
 	
 }

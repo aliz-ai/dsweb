@@ -1,8 +1,9 @@
 package com.doctusoft.dsw.client.comp.model;
 
 import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ModelObject;
 
-public class LinkModel extends AbstractContainerModel<BaseComponentModel> {
+public class LinkModel extends AbstractContainerModel<BaseComponentModel> implements ModelObject {
 
 	@ObservableProperty
 	private String text;
@@ -12,10 +13,5 @@ public class LinkModel extends AbstractContainerModel<BaseComponentModel> {
 	
 	@ObservableProperty
 	private String target;
-
-	@Override
-	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
-		return LinkModel_._observableProperties;
-	}
 
 }

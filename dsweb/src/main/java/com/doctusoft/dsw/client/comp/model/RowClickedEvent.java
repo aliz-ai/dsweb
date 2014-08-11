@@ -1,15 +1,11 @@
 package com.doctusoft.dsw.client.comp.model;
 
 import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ModelObject;
 
-public class RowClickedEvent extends AbstractParametricEvent<Integer> {
+public class RowClickedEvent extends AbstractParametricEvent<Integer> implements ModelObject {
 
 	@ObservableProperty
 	private Integer eventParameter;
-
-	@Override
-	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
-		return RowClickedEvent_._observableProperties;
-	}
 
 }

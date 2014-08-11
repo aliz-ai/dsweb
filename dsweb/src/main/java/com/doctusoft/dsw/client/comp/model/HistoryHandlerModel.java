@@ -1,14 +1,11 @@
 package com.doctusoft.dsw.client.comp.model;
 
 import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ModelObject;
 
-public class HistoryHandlerModel extends BaseComponentModel {
+public class HistoryHandlerModel extends BaseComponentModel implements ModelObject {
 
 	@ObservableProperty
 	private String historyToken;
 
-	@Override
-	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
-		return HistoryHandlerModel_._observableProperties;
-	}
 }

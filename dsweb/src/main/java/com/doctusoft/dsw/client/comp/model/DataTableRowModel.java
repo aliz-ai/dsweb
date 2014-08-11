@@ -11,9 +11,4 @@ public class DataTableRowModel implements ModelObject, Serializable {
 	@ObservableProperty
 	private ObservableList<DataTableCellModel> cells = new ObservableList<DataTableCellModel>();
 	
-	@Override
-	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
-		return DataTableRowModel_._observableProperties;
-	}
-
 }

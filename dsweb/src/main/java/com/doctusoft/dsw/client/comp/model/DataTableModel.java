@@ -2,9 +2,10 @@
 package com.doctusoft.dsw.client.comp.model;
 
 import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ModelObject;
 import com.doctusoft.bean.binding.observable.ObservableList;
 
-public class DataTableModel extends BaseComponentModel {
+public class DataTableModel extends BaseComponentModel implements ModelObject {
 	
 	@ObservableProperty
 	private ObservableList<DataTableColumnModel> columns = new ObservableList<DataTableColumnModel>();
@@ -20,10 +21,5 @@ public class DataTableModel extends BaseComponentModel {
 	
 	@ObservableProperty
 	private RowClickedEvent rowClickedEvent = new RowClickedEvent();
-	
-	@Override
-	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
-		return DataTableModel_._observableProperties;
-	}
 	
 }

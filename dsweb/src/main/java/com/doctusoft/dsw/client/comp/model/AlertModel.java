@@ -3,11 +3,12 @@ package com.doctusoft.dsw.client.comp.model;
 import lombok.Setter;
 
 import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ModelObject;
 import com.doctusoft.dsw.client.comp.Alert.AlertDisplayType;
 import com.doctusoft.dsw.client.comp.Alert.AlertType;
 
 
-public class AlertModel extends ContainerModel {
+public class AlertModel extends ContainerModel implements ModelObject {
 	
 	@ObservableProperty
 	private String title = "";
@@ -20,11 +21,6 @@ public class AlertModel extends ContainerModel {
 	
 	@Setter
 	private AlertType alertType;
-	
-	@Override
-	public Iterable<com.doctusoft.bean.ObservableProperty<?, ?>> getObservableProperties() {
-		return AlertModel_._observableProperties;
-	}
 	
 	public String getAlertDisplayType() {
 		return alertDisplayType.getName();
