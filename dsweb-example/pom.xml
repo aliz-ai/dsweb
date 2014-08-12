@@ -21,7 +21,10 @@
             </resource>
         </resources>
         <plugins>
-            
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+			</plugin>
         
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>

@@ -42,6 +42,21 @@
 			<plugins>
 
 				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>license-maven-plugin</artifactId>
+					<configuration>
+						<canUpdateCopyright>true</canUpdateCopyright>
+						<canUpdateDescription>true</canUpdateDescription>
+						<licenseName>gpl_v3</licenseName>
+						<roots>
+							<root>src</root>
+						</roots>
+						<organizationName>Doctusoft Ltd.</organizationName>
+						<inceptionYear>2014</inceptionYear>
+					</configuration>
+				</plugin>
+
+				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
 					<version>${version.maven.release.plugin}</version>
