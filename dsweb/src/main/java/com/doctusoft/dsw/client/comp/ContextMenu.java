@@ -4,16 +4,17 @@ import com.doctusoft.dsw.client.comp.model.ContextMenuModel;
 
 public class ContextMenu<Item extends BaseComponent> extends AbstractContainer<ContextMenu, ContextMenuModel> {
   
-  public ContextMenu(String objectClass, String selector) {
-    super(new ContextMenuModel());
+  public ContextMenu(String connectedObjectSelector, String contextMenuStyleClass) {
+    super(new ContextMenuModel(connectedObjectSelector, contextMenuStyleClass));
+    model.setConnectedObjectSelector(connectedObjectSelector);
+    model.setContextMenuStyleClass(contextMenuStyleClass);
     model.setElementType("ul id='contextMenu' class='dropdown-menu' role='menu'");
+    addStyleClass(contextMenuStyleClass);
     this.setStyle("display:none");
-    this.setConnectedObjectSelector(objectClass);
-    this.addStyleClass(selector);
   }
   
-  public ContextMenu setConnectedObjectSelector(String objectClass) {
-    this.getModel().setConnectedObjectId(objectClass);
+  public ContextMenu setConnectedObjectSelector(String conectedObjectSelector) {
+    model.setConnectedObjectSelector(conectedObjectSelector);
     return this;
   }
   
@@ -23,11 +24,8 @@ public class ContextMenu<Item extends BaseComponent> extends AbstractContainer<C
   }
   
   @Override public void addStyleClass(String styleClass) {
-    this.getModel().setSelector(styleClass);
+    model.setContextMenuStyleClass(styleClass);
     super.addStyleClass(styleClass);
   }
   
-  @Override public ContextMenu appendTo(IsContainer container) {
-    return super.appendTo(container);
-  }
 }

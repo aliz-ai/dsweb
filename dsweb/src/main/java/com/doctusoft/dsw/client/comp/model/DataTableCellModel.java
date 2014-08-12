@@ -1,14 +1,16 @@
 package com.doctusoft.dsw.client.comp.model;
 
+import java.io.Serializable;
+
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.ModelObject;
 
-public class DataTableCellModel implements ModelObject {
-	
-	@ObservableProperty
-	private String textContent;
-	
-	@ObservableProperty
-	private BaseComponentModel component;
-	
+public class DataTableCellModel implements ModelObject, Serializable {
+  
+  @ObservableProperty
+  private String textContent;
+  
+  @ObservableProperty
+  private BaseComponentModel component;
+  
 }
