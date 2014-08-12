@@ -1,11 +1,12 @@
 package com.doctusoft.dsw.client.comp.datatable;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.doctusoft.bean.binding.Converter;
 import com.doctusoft.dsw.client.util.DateTimeFormat;
 
-public class DateFormatter implements Converter<Date, String> {
+public class DateFormatter implements Converter<Date, String>, Serializable{
 	
 	private DateTimeFormat simpleDateFormat;
 

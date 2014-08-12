@@ -15,6 +15,7 @@
  */
 package com.doctusoft.dsw.client.util;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -391,7 +392,7 @@ import com.google.gwt.i18n.shared.impl.DateRecord;
  * <h3>Example</h3> {@example com.google.gwt.examples.DateTimeFormatExample}
  * 
  */
-public class DateTimeFormat {
+public class DateTimeFormat implements Serializable{
 
   /**
    * Predefined date/time formats -- see {@link CustomDateTimeFormat} if you
