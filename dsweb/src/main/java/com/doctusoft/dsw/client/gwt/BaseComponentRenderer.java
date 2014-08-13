@@ -65,6 +65,9 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 	public BaseComponentRenderer(final JQuery widget, final BaseComponentModel model) {
 		this.widget = widget;
 		
+		if (model.getId() != null) {
+			widget.attr("id", model.getId());
+		}
 		Deferred.defer(new Runnable() {
 			@Override
 			public void run() {

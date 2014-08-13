@@ -172,6 +172,16 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 		return (Actual) this;
 	}
 	
+	public Actual withId(String id) {
+		model.setId(id);
+		return (Actual) this;
+	}
+	
+	public Actual withVisible(boolean visible) {
+		model.setVisible(visible);
+		return (Actual) this;
+	}
+	
 	@Override
 	public Model getComponentModel() {
 		return model;
