@@ -19,6 +19,8 @@
 
 		<gwt.version>2.6.0</gwt.version>
 		<gae.version>1.9.4</gae.version>
+		
+		<version.htmlunit>2.15</version.htmlunit>
 
 		<version.maven.clean.plugin>2.5</version.maven.clean.plugin>
 		<version.maven.install.plugin>2.4</version.maven.install.plugin>
@@ -143,6 +145,12 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>net.sourceforge.htmlunit</groupId>
+				<artifactId>htmlunit</artifactId>
+				<version>${version.htmlunit}</version>
+				<scope>test</scope>
+			</dependency>
 			<dependency>
 				<groupId>com.doctusoft</groupId>
 				<artifactId>lombok-ds</artifactId>
