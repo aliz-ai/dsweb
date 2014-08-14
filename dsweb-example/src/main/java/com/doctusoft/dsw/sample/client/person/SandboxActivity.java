@@ -24,7 +24,9 @@ package com.doctusoft.dsw.sample.client.person;
  */
 
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.doctusoft.MethodRef;
 import com.doctusoft.ObservableProperty;
@@ -44,6 +46,12 @@ public class SandboxActivity extends AbstractActivity {
 	private final ClientFactory clientFactory;
 	
 	@ObservableProperty
+	private Integer activePage = 1;
+	
+	@ObservableProperty
+	private Integer numberOfPages = 1;
+	
+	@ObservableProperty
 	private ObservableList<SelectItem<String>> locationItems = new ObservableList<SelectItem<String>>();
 	
 	@ObservableProperty
@@ -61,6 +69,8 @@ public class SandboxActivity extends AbstractActivity {
 	@ObservableProperty
 	private ComponentEvent focus = new ComponentEvent();
 	
+	List<PersonDto> dummy = new ArrayList<PersonDto>();
+	
 	public SandboxActivity( ClientFactory clientFactory ) {
 		this.clientFactory = clientFactory;
 	}
@@ -75,12 +85,21 @@ public class SandboxActivity extends AbstractActivity {
 		ViewOf<SandboxActivity> view = clientFactory.getSandboxView();
 		locationItems.addAll( SelectItems.fromStrings( "asd", "blup", "blip" ) );
 		
-		personList.add(new PersonDto(1l, "Compay Segundo", "compay@buena.cu", new Date(7, 10, 18)));
-		personList.add(new PersonDto(2l, "Omara Portuondo", "omara@buena.cu", new Date(30, 9, 29)));
-		personList.add(new PersonDto(3l, "Ibrahim Ferrer", "ibrahim@buena.cu", new Date(6, 7, 27)));
+		dummy.add(new PersonDto(1l, "Compay Segundo", "compay@buena.cu", new Date(7, 10, 18)));
+		dummy.add(new PersonDto(2l, "Omara Portuondo", "omara@buena.cu", new Date(30, 9, 29)));
+		dummy.add(new PersonDto(3l, "Ibrahim Ferrer", "ibrahim@buena.cu", new Date(6, 7, 27)));
+		setActivePage(1);
+		setNumberOfPages(dummy.size());
+		pagination();
 		view.setPresenter( this );
 		panel.setWidget( view );
 		view.viewPresented();
+	}
+	
+	@MethodRef
+	public void pagination() {
+		personList.clear();
+		personList.add(dummy.get(activePage-1));
 	}
 	
 	@MethodRef

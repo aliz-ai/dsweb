@@ -30,6 +30,7 @@ import com.doctusoft.dsw.client.comp.InputTags;
 import com.doctusoft.dsw.client.comp.InputText;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.Link;
+import com.doctusoft.dsw.client.comp.Pager;
 import com.doctusoft.dsw.client.comp.Select;
 import com.doctusoft.dsw.client.comp.datatable.Columns;
 import com.doctusoft.dsw.client.comp.datatable.DateFormatter;
@@ -61,6 +62,12 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
     
     new Label("hide me").bindVisible(bindOnPresenter().get(SandboxActivity_._visibility)).appendTo(container);
     new Button("új").click(presenterMethod(SandboxActivity_.__hideLabel)).appendTo(container);
+    
+    new Pager()
+    	.bindActivePage(bindOnPresenter().get(SandboxActivity_._activePage))
+    	.bindNumberOfPages(bindOnPresenter().get(SandboxActivity_._numberOfPages))
+    	.click(presenterMethod(SandboxActivity_.__pagination))
+    	.appendTo(container);
   }
   
   @Override public void viewPresented() {
