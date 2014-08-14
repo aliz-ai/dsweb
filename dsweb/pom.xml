@@ -25,6 +25,30 @@
 		</resources>
 		<plugins>
 			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-surefire-plugin</artifactId>
+			    <version>${version.maven.surefire.plugin}</version>
+			    <configuration>
+			        <additionalClasspathElements>
+			            <additionalClasspathElement>src/main/java</additionalClasspathElement>
+			            <additionalClasspathElement>src/test/java</additionalClasspathElement>
+			            <additionalClasspathElement>target/generated-sources/annotations</additionalClasspathElement>
+			        </additionalClasspathElements>
+			        <useSystemClassLoader>true</useSystemClassLoader>
+			        <useManifestOnlyJar>false</useManifestOnlyJar>
+			        <forkMode>always</forkMode>
+			        <argLine>
+			          -javaagent:${settings.localRepository}/com/doctusoft/lombok-ds/${lombok.ds.version}/lombok-ds-${lombok.ds.version}.jar=ECJ
+			        </argLine>
+			        <systemProperties>
+			            <property>
+			                <name>gwt.args</name>
+			                <value>-out target/www-test</value>
+			            </property>
+			        </systemProperties>
+			    </configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>license-maven-plugin</artifactId>
 			</plugin>
@@ -69,6 +93,13 @@
 		
 		<dependency>
 			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+			<version>${gwt.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
 			<scope>provided</scope>
 		</dependency>
@@ -97,6 +128,7 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava-gwt</artifactId>
 		</dependency>
+		
 	</dependencies>
 
 </project>

@@ -19,7 +19,7 @@
 
 		<gwt.version>2.6.0</gwt.version>
 		<gae.version>1.9.4</gae.version>
-
+		
 		<version.maven.clean.plugin>2.5</version.maven.clean.plugin>
 		<version.maven.install.plugin>2.4</version.maven.install.plugin>
 		<version.maven.release.plugin>2.4</version.maven.release.plugin>
@@ -28,6 +28,7 @@
 		<version.maven.jar.plugin>2.4</version.maven.jar.plugin>
 		<version.maven.war.plugin>2.4</version.maven.war.plugin>
 		<version.maven.deploy.plugin>2.4</version.maven.deploy.plugin>
+		<version.maven.surefire.plugin>2.17</version.maven.surefire.plugin>
 
 		<!-- maven-compiler-plugin -->
 		<maven.compiler.source>1.6</maven.compiler.source>
