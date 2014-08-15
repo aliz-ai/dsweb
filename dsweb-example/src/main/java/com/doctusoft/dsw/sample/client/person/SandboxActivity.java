@@ -52,6 +52,9 @@ public class SandboxActivity extends AbstractActivity {
 	private Integer numberOfPages = 1;
 	
 	@ObservableProperty
+	private String pageInfo = "";
+	
+	@ObservableProperty
 	private ObservableList<SelectItem<String>> locationItems = new ObservableList<SelectItem<String>>();
 	
 	@ObservableProperty
@@ -90,6 +93,7 @@ public class SandboxActivity extends AbstractActivity {
 		dummy.add(new PersonDto(3l, "Ibrahim Ferrer", "ibrahim@buena.cu", new Date(6, 7, 27)));
 		setActivePage(1);
 		setNumberOfPages(dummy.size());
+		setPageInfo(getActivePage() + "/" + getNumberOfPages());
 		pagination();
 		view.setPresenter( this );
 		panel.setWidget( view );
@@ -99,6 +103,7 @@ public class SandboxActivity extends AbstractActivity {
 	@MethodRef
 	public void pagination() {
 		personList.clear();
+		setPageInfo(getActivePage() + "/" + getNumberOfPages());
 		personList.add(dummy.get(activePage-1));
 	}
 	

@@ -31,10 +31,13 @@ import com.doctusoft.dsw.client.util.DateTimeFormat;
 
 public class DateFormatter implements Converter<Date, String>, Serializable{
 	
-	private DateTimeFormat simpleDateFormat;
+	private transient DateTimeFormat simpleDateFormat;
+	
+	private String formatPattern = "";
 
 	public DateFormatter(String pattern) {
 		simpleDateFormat = DateTimeFormat.getFormat(pattern);
+		formatPattern = pattern;
 	}
 	
 	@Override
@@ -42,7 +45,11 @@ public class DateFormatter implements Converter<Date, String>, Serializable{
 		if (source == null) {
 			return "";
 		}
-		return simpleDateFormat.format(source);
+		if (simpleDateFormat != null) {
+			return simpleDateFormat.format(source);
+		} else {
+			return DateTimeFormat.getFormat(formatPattern).format(source);
+		}
 	}
 	
 	public Date convertTarget(String target) {
