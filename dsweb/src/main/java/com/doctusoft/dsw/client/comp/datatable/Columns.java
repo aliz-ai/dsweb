@@ -41,7 +41,7 @@ public class Columns {
 	}
 
 	public static <Presenter, Item> ComponentColumn<Item> actionButton(final ContainerWithPresenter<Presenter> container,
-				final ClassMethodReference1<Presenter, Void, Item> methodRef, final String buttonCaption) {
+				final ClassMethodReference1<? super Presenter, Void, Item> methodRef, final String buttonCaption) {
 		return new ComponentColumn<Item>() {
 			@Override
 			public HasComponentModel getComponent(Item item) {
