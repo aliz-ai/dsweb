@@ -3,9 +3,14 @@ package com.doctusoft.dsw.client;
 import org.junit.Test;
 
 import com.doctusoft.dsw.client.comp.Label;
+import com.doctusoft.dsw.client.comp.model.ComponentEvent;
+import com.doctusoft.dsw.client.comp.model.ComponentEvent_;
 import com.google.gwt.user.client.Timer;
 import com.xedge.jquery.client.JQuery;
 
+/**
+ * TODO focus and keyPressed 
+ */
 public class TestBaseComponentRenderer extends AbstractDswebTest {
 	
 	@Test
@@ -78,5 +83,62 @@ public class TestBaseComponentRenderer extends AbstractDswebTest {
 		label.removeStyleClass("b");
 		assertFalse(JQuery.select("#label").hasClass("b"));
 	}
+	
+	@Test
+	public void testStyle() {
+		Label label = new Label().withId("label").withStyle("width: 150px");
+		registerApp(label);
+		assertEquals("150px", JQuery.select("#label").css("width"));
+		label.withStyle("width: 125px");
+		assertEquals("125px", JQuery.select("#label").css("width"));
+		label.withStyle(null);
+		assertNull(JQuery.select("#label").attr("style"));
+	}
 
+	@Test
+	public void testTabIndex() {
+		Label label = new Label().withId("label").withTabIndex(0);
+		registerApp(label);
+		assertEquals("0", JQuery.select("#label").attr("tabindex"));
+		label.withTabIndex(1);
+		assertEquals("1", JQuery.select("#label").attr("tabindex"));
+	}
+	
+	@Test
+	public void testClick() {
+		EmptyEventHandlerMock clickHandler = new EmptyEventHandlerMock();
+		Label label = new Label().withId("label").click(clickHandler);
+		registerApp(label);
+		JQuery.select("#label").click();
+		clickHandler.assertInvoked();
+	}
+
+	@Test
+	public void testClickAttachedLater() {
+		EmptyEventHandlerMock clickHandler = new EmptyEventHandlerMock();
+		Label label = new Label().withId("label");
+		registerApp(label);
+		JQuery.select("#label").click();
+		label.click(clickHandler);
+		JQuery.select("#label").click();
+		clickHandler.assertInvoked();
+	}
+
+	@Test
+	public void testClickNoListenerAttached() {
+		Label label = new Label().withId("label");
+		registerApp(label);
+		label.getModel().setClicked(new ComponentEvent());
+		// without the haslisteners flag, the click event is not propagated to the model
+		ValueChangeListenerMock<Boolean> clickMock = new ValueChangeListenerMock<Boolean>();
+		ComponentEvent_._fired.addChangeListener(label.getModel().getClicked(), clickMock);
+		JQuery.select("#label").click();
+		clickMock.assertNoValueChanged();
+		//  but when it's set, events get propagated
+		label.getModel().getClicked().setHasListeners(true);
+		JQuery.select("#label").click();
+		clickMock.assertValueChanged(true);
+		clickMock.assertValueChanged(false);
+	}
+	
 }

@@ -135,8 +135,8 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 		widget.attr("style", Strings.isNullOrEmpty(style)?null:style);
 	}
 	
-	protected void applyTabIndex(int tabIndex) {
-		widget.attr("tabindex", tabIndex == 0 ? null : String.valueOf(tabIndex));
+	protected void applyTabIndex(Integer tabIndex) {
+		widget.attr("tabindex", tabIndex == null ? null : String.valueOf(tabIndex));
 	}
 	
 	protected void bindEvent(final EventType eventType, final ObservableChainedValueBindingBuilder<ComponentEvent> eventBinding) {

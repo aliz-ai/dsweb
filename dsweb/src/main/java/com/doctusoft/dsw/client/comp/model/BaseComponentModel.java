@@ -46,7 +46,7 @@ public class BaseComponentModel implements ModelObject, HasComponentModel, Seria
 	private String style = "";
 	
 	@ObservableProperty
-	private int tabIndex = 0;
+	private Integer tabIndex = 0;
 	
 	@ObservableProperty
 	private ComponentEvent clicked = null;

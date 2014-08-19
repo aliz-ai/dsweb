@@ -9,15 +9,23 @@ public class TestLabelRenderer extends AbstractDswebTest {
 	
 	@Test
 	public void testLabelInitialValue() {
-		
+		Label label = new Label("hello world").withId("label");
+		registerApp(label);
+		assertEquals("hello world", JQuery.select("#label").text());
 	}
 	
 	@Test
 	public void testLabelUpdate() {
-		Label label = new Label().withStyleClass("label");
+		Label label = new Label().withId("label");
 		registerApp(label);
 		label.getModel().setLabel("hello world");
-		assertEquals("hello world", JQuery.select(".label").text());
+		assertEquals("hello world", JQuery.select("#label").text());
 	}
   
+	@Test
+	public void testLabelElementName() {
+		Label label = new Label("hello world", "h1").withId("label");
+		registerApp(label);
+		assertEquals("hello world", JQuery.select("h1#label").text());
+	}
 }
