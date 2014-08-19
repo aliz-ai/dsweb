@@ -134,7 +134,9 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	
 	protected void rowClicked( JQuery row ) {
 		int rowIndex = row.parent().children().index( row.get( 0 ) );
-		model.getRowClickedEvent().fire( rowIndex );
+		if (model.getRowClickedEvent().isHasListeners()) {
+			model.getRowClickedEvent().fire( rowIndex );
+		}
 		if (model.getSelectionMode() == null) {
 			return;
 		}

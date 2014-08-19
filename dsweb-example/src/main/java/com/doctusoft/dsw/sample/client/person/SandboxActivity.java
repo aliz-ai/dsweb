@@ -98,6 +98,7 @@ public class SandboxActivity extends AbstractActivity {
 		view.setPresenter( this );
 		panel.setWidget( view );
 		view.viewPresented();
+		
 	}
 	
 	@MethodRef

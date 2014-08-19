@@ -33,7 +33,7 @@ import com.doctusoft.bean.ParametricClassMethodReferences.ClassMethodReference1;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.bean.binding.observable.ObservableChainedValueBindingBuilder;
-import com.doctusoft.dsw.client.comp.Container;
+import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.HasComponentModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.event.ParametricEventHandler;
@@ -46,7 +46,7 @@ public class ContainerWithPresenter<Presenter> implements ViewOf<Presenter>, Has
 	@ObservableProperty @Getter
 	private Presenter presenter;
 	
-	protected Container container = new Container();
+	protected BaseContainer container = new BaseContainer();
 	
 	@Override
 	public Widget asWidget() {

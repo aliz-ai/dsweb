@@ -103,7 +103,7 @@ public class CellRenderer extends BaseComponentRenderer {
     private void refreshOffset(Integer newValue) {
         removeOffsetClass();
         actualOffset = -1;
-        if (newValue != null && newValue >= 0 && newValue < 12) {
+        if (newValue != null && newValue > 0 && newValue < 12) {
             actualOffset = newValue;
             widget.addClass("offset" + actualOffset);
         }

@@ -24,6 +24,7 @@ package com.doctusoft.dsw.sample.client.person;
 
 
 import com.doctusoft.dsw.client.comp.Button;
+import com.doctusoft.dsw.client.comp.Cell;
 import com.doctusoft.dsw.client.comp.ContextMenu;
 import com.doctusoft.dsw.client.comp.DataTable;
 import com.doctusoft.dsw.client.comp.InputTags;
@@ -31,6 +32,7 @@ import com.doctusoft.dsw.client.comp.InputText;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.Link;
 import com.doctusoft.dsw.client.comp.Pager;
+import com.doctusoft.dsw.client.comp.Row;
 import com.doctusoft.dsw.client.comp.Select;
 import com.doctusoft.dsw.client.comp.datatable.Columns;
 import com.doctusoft.dsw.client.comp.datatable.DateFormatter;
@@ -68,7 +70,10 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
     	.bindNumberOfPages(bindOnPresenter().get(SandboxActivity_._numberOfPages))
     	.click(presenterMethod(SandboxActivity_.__pagination))
     	.appendTo(container);
-  }
+
+	Row row = new Row().appendTo(container);
+	Cell cell1 = new Cell().add(new Label("hello world")).appendTo(row);
+}
   
   @Override public void viewPresented() {
 //		focus.focus();
