@@ -65,7 +65,7 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
     new Label("hide me").bindVisible(bindOnPresenter().get(SandboxActivity_._visibility)).appendTo(container);
     new Button("új").click(presenterMethod(SandboxActivity_.__hideLabel)).appendTo(container);
     
-    new Pager()
+    new Pager("ul")
     	.bindActivePage(bindOnPresenter().get(SandboxActivity_._activePage))
     	.bindNumberOfPages(bindOnPresenter().get(SandboxActivity_._numberOfPages))
     	.click(presenterMethod(SandboxActivity_.__pagination))
