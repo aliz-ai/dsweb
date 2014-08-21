@@ -48,6 +48,8 @@ public class ContainerWithPresenter<Presenter> implements ViewOf<Presenter>, Has
 	
 	protected BaseContainer container = new BaseContainer();
 	
+	private ObservableChainedValueBindingBuilder<Presenter> presenterBindingBuilder = null;
+	
 	@Override
 	public Widget asWidget() {
 		throw new UnsupportedOperationException("DSW views are not GWT widgets");
@@ -65,6 +67,10 @@ public class ContainerWithPresenter<Presenter> implements ViewOf<Presenter>, Has
 	}
 	
 	protected ObservableChainedValueBindingBuilder<Presenter> bindOnPresenter() {
+//		if (presenterBindingBuilder == null) {
+//			presenterBindingBuilder = Bindings.obs(this).get((com.doctusoft.bean.ObservableProperty) ContainerWithPresenter_._presenter);
+//		}
+//		return presenterBindingBuilder;
 		return Bindings.obs(this).get((com.doctusoft.bean.ObservableProperty) ContainerWithPresenter_._presenter);
 	}
 	
