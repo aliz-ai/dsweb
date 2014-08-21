@@ -6,7 +6,7 @@ import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.bean.binding.ValueBinding;
 
-public class Pager extends BaseContainer {
+public class Pager extends Composite<BaseContainer> {
 
 	@ObservableProperty
 	private Integer activePage = 1;
@@ -18,11 +18,12 @@ public class Pager extends BaseContainer {
 	private Link previousButton;
 	private Link nextButton;
 
-	//private EmptyEventHandler presenterMethod = null;
+	private EmptyEventHandler event;
 
-	public Pager(String elementType) {
-		super("ul");
-		withStyleClass("pager");
+	public Pager() {
+		super(new BaseContainer("ul"));		
+		root.addStyleClass("pager");
+		
 		/*
 		 * Previous button
 		 */
@@ -34,16 +35,19 @@ public class Pager extends BaseContainer {
 				if (page > 1){
 					page--;
 					setActivePage(page);
+					if (event != null) {
+						 event.handle();
+					}
 				}
 			}
 		});
-		new BaseContainer("li").add(previousButton).appendTo(this);
+		new BaseContainer("li").add(previousButton).appendTo(root);
 
 		/*
 		 * Pageinfo
 		 */
 		pageInfoLabel = new Label();
-		new BaseContainer("li").add(pageInfoLabel).appendTo(this);
+		new BaseContainer("li").add(pageInfoLabel).appendTo(root);
 
 		/*
 		 * Next button
@@ -56,10 +60,13 @@ public class Pager extends BaseContainer {
 				if (page < getNumberOfPages()){
 					page++;
 					setActivePage(page);
+					if (event != null) {
+						 event.handle();
+					}
 				}
 			}
 		});
-		new BaseContainer("li").add(nextButton).appendTo(this);
+		new BaseContainer("li").add(nextButton).appendTo(root);
 
 		Bindings.obs(this).get(Pager_._activePage)
 				.addValueChangeListener(new ValueChangeListener<Integer>() {
@@ -78,8 +85,12 @@ public class Pager extends BaseContainer {
 								+ newValue);
 					}
 				});
-}
+	}
 	
+	public Pager onPaging(final EmptyEventHandler handler) {
+		event = handler;
+		return this;
+	}
 
 	public Pager bindActivePage(final ValueBinding<Integer> activePageBinding) {
 		Bindings.bind(activePageBinding,
