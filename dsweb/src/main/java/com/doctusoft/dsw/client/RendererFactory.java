@@ -29,7 +29,7 @@ public interface RendererFactory<ActualBaseComponent> {
 
 	/**
 	 * 
-	 * @return null if no renderer was ounf
+	 * @return null if no renderer was found
 	 */
 	public Renderer<ActualBaseComponent> resolveRenderer(BaseComponentModel baseWidget);
 
@@ -38,4 +38,9 @@ public interface RendererFactory<ActualBaseComponent> {
 	 * @throws RuntimeException if no renderer was found
 	 */
 	public Renderer<ActualBaseComponent> getRenderer(BaseComponentModel baseWidget);
+	
+	/**
+	 * Marks the component as disposable, and 'hides' the rendered component. The rendered component and its renderer might still remaing cached until a GC run. 
+	 */
+	public void dispose(BaseComponentModel baseWidget);
 }

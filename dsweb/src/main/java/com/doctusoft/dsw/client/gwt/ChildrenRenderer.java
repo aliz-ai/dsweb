@@ -55,8 +55,7 @@ public class ChildrenRenderer {
 			@Override
 			public void removed(ObservableList<BaseComponentModel> list, int index,
 					BaseComponentModel element) {
-				// remove the rendered JQuery element
-				renderedWidgets.get(element).remove();
+				rendererFactory.dispose(element);
 				// remove the handle from the map
 				renderedWidgets.remove(element);
 			}

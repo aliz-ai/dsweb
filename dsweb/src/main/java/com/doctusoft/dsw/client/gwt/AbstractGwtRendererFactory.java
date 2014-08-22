@@ -24,6 +24,9 @@ package com.doctusoft.dsw.client.gwt;
 
 
 import com.doctusoft.dsw.client.AbstractRendererFactory;
+import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
+import com.google.common.base.Preconditions;
+import com.google.gwt.dom.client.Element;
 import com.xedge.jquery.client.JQuery;
 
 public abstract class AbstractGwtRendererFactory extends AbstractRendererFactory<JQuery> {
@@ -43,5 +46,17 @@ public abstract class AbstractGwtRendererFactory extends AbstractRendererFactory
 	    fileref.setAttribute("href", path)
   		document.getElementsByTagName("head")[0].appendChild(fileref);
 	}-*/;
+	
+	@Override
+	public void dispose(BaseComponentModel baseComponentModel) {
+		super.dispose(baseComponentModel);
+		// remove the jquery object from its parent, but it will be kept in the DOM without a parent. A total removal of the DOM objects will only happen when the dsweb gc runs
+		JQuery jquery = (JQuery) renderers.get(baseComponentModel).getWidget();
+		if (jquery != null) {
+			Preconditions.checkState(jquery.length() == 1, "The component " + baseComponentModel + " should have rendered exactly one dom element");
+			Element element = jquery.get(0);
+			element.getParentNode().removeChild(element);
+		}
+	}
 
 }
