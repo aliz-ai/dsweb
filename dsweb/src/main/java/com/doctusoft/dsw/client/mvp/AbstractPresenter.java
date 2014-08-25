@@ -27,7 +27,7 @@ public abstract class AbstractPresenter<ActualPresenter extends AbstractPresente
         Presenter<ActualPresenter> {
 
 	@Override
-	public void start(Place<ActualPresenter> place) {
+	public void start(AbstractPlace<ActualPresenter> place) {
 		// empty default implementation
 	}
 

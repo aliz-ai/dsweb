@@ -34,7 +34,7 @@ import com.google.common.base.Objects;
 public class PlaceController implements Serializable {
 
 	@Getter
-	protected Place<?> currentPlace = null;
+	protected AbstractPlace<?> currentPlace = null;
 	@Getter
 	protected Presenter<?> currentPresenter = null;
 	private PlacePresenterMapper mapper;
@@ -45,7 +45,7 @@ public class PlaceController implements Serializable {
 		this.mapper = mapper;
 	}
 
-	public <Presenter extends com.doctusoft.dsw.client.mvp.Presenter<Presenter>> void goTo(Place<Presenter> place) {
+	public <Presenter extends com.doctusoft.dsw.client.mvp.Presenter<Presenter>> void goTo(AbstractPlace<Presenter> place) {
 		if (currentPresenter != null) {
 			currentPresenter.onUnload();
 		}
@@ -65,11 +65,11 @@ public class PlaceController implements Serializable {
 	}
 
 	public interface PresenterStartedListener extends Serializable {
-		public void presenterStarted(Presenter<?> presenter, Place<?> place);
+		public void presenterStarted(Presenter<?> presenter, AbstractPlace<?> place);
 	}
 
 	protected class PresenterStartedListeners extends GenericListeners<PresenterStartedListener> {
-		public void presenterStarted(final Presenter<?> presenter, final Place<?> place) {
+		public void presenterStarted(final Presenter<?> presenter, final AbstractPlace<?> place) {
 			forEachListener(new ListenerCallback<PlaceController.PresenterStartedListener>() {
 				@Override
 				public void apply(PresenterStartedListener listener) {

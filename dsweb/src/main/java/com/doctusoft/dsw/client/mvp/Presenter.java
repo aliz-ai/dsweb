@@ -29,11 +29,11 @@ import com.doctusoft.dsw.mvp.client.ViewOf;
 
 /**
  * Usign the ActualPresenter type parameter might be an overkill for type-safety. It introduces a lot of typing with
- * subtypes (see {@link AbstractPresenter} or {@link Place})
+ * subtypes (see {@link AbstractPresenter} or {@link AbstractPlace})
  */
 public interface Presenter<ActualPresenter extends Presenter<ActualPresenter>> extends Serializable {
 
-	public void start(Place<ActualPresenter> place);
+	public void start(AbstractPlace<ActualPresenter> place);
 
 	public void onUnload();
 

@@ -28,9 +28,9 @@ import java.io.Serializable;
 public class SimplePlaceFactory implements PlaceFactory, Serializable {
 	
 	@Override
-	public <P extends Presenter<P>> Place<P> createPlaceForClass(Class<? extends Place<?>> placeClass) {
+	public <P extends Presenter<P>> AbstractPlace<P> createPlaceForClass(Class<? extends AbstractPlace<?>> placeClass) {
 		try {
-			return (Place<P>) placeClass.newInstance();
+			return (AbstractPlace<P>) placeClass.newInstance();
 		} catch (Exception e) {
 			throw new RuntimeException("Exception creating place: " + placeClass);
 		}

@@ -34,13 +34,13 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
 
 public class NavigationHandler implements Serializable {
-	protected Map<String, Class<? extends Place<?>>> placeClassesByFragmentRoot = Maps.newHashMap();
+	protected Map<String, Class<? extends AbstractPlace<?>>> placeClassesByFragmentRoot = Maps.newHashMap();
 	protected PlaceController placeController;
-	private Place<?> defaultPlace;
+	private AbstractPlace<?> defaultPlace;
 	private HistoryHandlerModel historyHandlerModel;
 	private PlaceFactory placeFactory;
 
-	public NavigationHandler(final HistoryHandlerModel historyHandlerModel, final PlaceController placeController, Place<?> defaultPlace,
+	public NavigationHandler(final HistoryHandlerModel historyHandlerModel, final PlaceController placeController, AbstractPlace<?> defaultPlace,
 					PlaceFactory placeFactory) {
 		this.historyHandlerModel = historyHandlerModel;
 		this.placeController = placeController;
@@ -49,13 +49,13 @@ public class NavigationHandler implements Serializable {
 		HistoryHandlerModel_._historyToken.addChangeListener(historyHandlerModel, new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
-				Place<?> place = resolvePlace(newValue);
+				AbstractPlace<?> place = resolvePlace(newValue);
 				placeController.goTo(place);
 			}
 		});
 		placeController.addPresenterStartedListener(new PresenterStartedListener() {
 			@Override
-			public void presenterStarted(Presenter<?> presenter, Place<?> place) {
+			public void presenterStarted(Presenter<?> presenter, AbstractPlace<?> place) {
 				String currentFragment = historyHandlerModel.getHistoryToken();
 				String placeFragment = place.generateFragment();
 				if (!Objects.equal(currentFragment, placeFragment)) {
@@ -66,27 +66,30 @@ public class NavigationHandler implements Serializable {
 	}
 
 	public void handleCurrentHistory() {
-		Place<?> place = resolvePlace(historyHandlerModel.getHistoryToken());
+		AbstractPlace<?> place = resolvePlace(historyHandlerModel.getHistoryToken());
 		placeController.goTo(place);
 	}
 
-	protected Place<?> resolvePlace(String fragment) {
+	protected AbstractPlace<?> resolvePlace(String fragment) {
 		if (fragment == null)
 			return defaultPlace;
 		String[] fragmentParts = fragment.split(":");
 		String placeName = fragmentParts[0];
-		Class<? extends Place<?>> placeClass = placeClassesByFragmentRoot.get(placeName);
+		Class<? extends AbstractPlace<?>> placeClass = placeClassesByFragmentRoot.get(placeName);
 		if (placeClass == null)
 			return defaultPlace;
-		Place<?> place;
-		place = (Place) placeFactory.createPlaceForClass(placeClass);
+		AbstractPlace<?> place;
+		place = (AbstractPlace) placeFactory.createPlaceForClass(placeClass);
 		place.parseFragment(fragment);
 		return place;
 	}
 
-	public void registerPlaces(Class<? extends Place<?>>... placeClasses) {
-		for (Class<? extends Place<?>> placeClass : placeClasses) {
-			placeClassesByFragmentRoot.put(Place.getFragmentRoot(placeClass), placeClass);
+	/**
+	 * Pass instances of the supported places. Just pass an arbitrary instance for parametric places 
+	 */
+	public void registerPlaces(AbstractPlace<?> ... places) {
+		for (AbstractPlace<?> place : places) {
+			placeClassesByFragmentRoot.put(place.getFragmentRoot(), (Class) place.getClass());
 		}
 	}
 

@@ -28,7 +28,7 @@ import java.lang.reflect.Constructor;
 public class SimplePlacePresenterMapper implements PlacePresenterMapper {
 	
 	@Override
-	public <Presenter extends com.doctusoft.dsw.client.mvp.Presenter<Presenter>> Presenter getPresenter(Place<Presenter> place) {
+	public <Presenter extends com.doctusoft.dsw.client.mvp.Presenter<Presenter>> Presenter getPresenter(AbstractPlace<Presenter> place) {
 		try {
 			// TODO some more error handling :)
 			Constructor<?>[] constructors = place.getPresenterClass().getConstructors();
