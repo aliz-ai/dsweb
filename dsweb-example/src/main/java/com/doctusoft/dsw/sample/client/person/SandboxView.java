@@ -23,6 +23,7 @@ package com.doctusoft.dsw.sample.client.person;
  */
 
 
+import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.Cell;
 import com.doctusoft.dsw.client.comp.ContextMenu;
@@ -34,6 +35,8 @@ import com.doctusoft.dsw.client.comp.Link;
 import com.doctusoft.dsw.client.comp.Pager;
 import com.doctusoft.dsw.client.comp.Row;
 import com.doctusoft.dsw.client.comp.Select;
+import com.doctusoft.dsw.client.comp.Tab;
+import com.doctusoft.dsw.client.comp.TabSheet;
 import com.doctusoft.dsw.client.comp.datatable.Columns;
 import com.doctusoft.dsw.client.comp.datatable.DateFormatter;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
@@ -45,9 +48,9 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
   private InputText focus;
   
   public SandboxView() {
-    new InputText().appendTo(container).addStyleClass("valami");
+    InputText inputText = new InputText().withStyleClass("valami");
     
-    new DataTable<PersonDto>()
+    DataTable<PersonDto> dataTable = new DataTable<PersonDto>()
       .addColumn(Columns.from("Id", PersonDto_._id))
       .addColumn(Columns.obs("Name", PersonDto_._name))
       .addColumn(Columns.from("Email", PersonDto_._email))
@@ -55,21 +58,29 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
       .bind(bindOnPresenter().get(SandboxActivity_._personList))
       .bindSelectionMode(bindOnPresenter().get(SandboxActivity_._selectionMode))
       .bindSelection(bindOnPresenter().get(SandboxActivity_._selection))
-      .appendTo(container).addStyleClass("valami");
+      .withStyleClass("valami");
     
-    new ContextMenu<Link>("td", "valami2")
-      .addMenuItem(new Link("Kijelölt törlése").click(presenterMethod(SandboxActivity_.__hideLabel)))
-      //.setConnectedObjectSelector("td")
-      .appendTo(container);//.addStyleClass("valami2");
+    ContextMenu<Link> contextMenu = new ContextMenu<Link>("tbody", "valami2")
+      .addMenuItem(new Link("Kijelölt törlése")
+      .click(presenterMethod(SandboxActivity_.__hideLabel)));
+
+    Pager pager = new Pager()
+    	.bindActivePage(bindOnPresenter().get(SandboxActivity_._activePage))
+    	.bindNumberOfPages(bindOnPresenter().get(SandboxActivity_._numberOfPages))
+    	.onPaging(presenterMethod(SandboxActivity_.__pagination));
+    
+    new TabSheet()
+    	.withTab(new Tab("Valami")
+    		.withContent(new BaseContainer()
+    			.add(dataTable)
+    			.add(pager)
+    			.add(contextMenu)
+    			.getComponentModel()))
+    	.withTab(new Tab("Másik").withContent(new BaseContainer().add(inputText).getComponentModel()))
+    	.appendTo(container);
     
     new Label("hide me").bindVisible(bindOnPresenter().get(SandboxActivity_._visibility)).appendTo(container);
     new Button("új").click(presenterMethod(SandboxActivity_.__hideLabel)).appendTo(container);
-    
-    new Pager()
-    	.bindActivePage(bindOnPresenter().get(SandboxActivity_._activePage))
-    	.bindNumberOfPages(bindOnPresenter().get(SandboxActivity_._numberOfPages))
-    	.onPaging(presenterMethod(SandboxActivity_.__pagination))
-    	.appendTo(container);
 
 	Row row = new Row().appendTo(container);
 	Cell cell1 = new Cell().add(new Label("hello world")).appendTo(row);

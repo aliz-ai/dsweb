@@ -3,7 +3,7 @@ package com.doctusoft.dsw.client.comp;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.TabSheetModel;
 
-public class TabSheet extends AbstractContainer<TabSheet, TabSheetModel>{
+public class TabSheet extends BaseComponent<TabSheet, TabSheetModel>{
 
 	public TabSheet() {
 		super(new TabSheetModel());

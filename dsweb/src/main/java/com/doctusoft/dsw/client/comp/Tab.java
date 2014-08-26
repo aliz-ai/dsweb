@@ -4,7 +4,6 @@ import lombok.Getter;
 
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.binding.EmptyEventHandler;
-import com.doctusoft.dsw.client.comp.model.AbstractContainerModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 
 @Getter
@@ -25,7 +24,7 @@ public class Tab {
 		content = panel.getComponentModel();
 	}
 
-	public Tab withContent(AbstractContainerModel<BaseComponentModel> content) {
+	public Tab withContent(BaseComponentModel content) {
 		this.content = content;
 		return this;
 	}
