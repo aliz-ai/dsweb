@@ -1,3 +1,4 @@
+
 package com.doctusoft.dsw.client.gwt;
 
 /*
@@ -13,15 +14,14 @@ package com.doctusoft.dsw.client.gwt;
  * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public
- * License along with this program.  If not, see
+ * License along with this program. If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-
 
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.dsw.client.comp.model.CheckboxModel;
@@ -32,38 +32,41 @@ import com.xedge.jquery.client.handlers.EventHandler;
 
 public class CheckboxRenderer extends BaseComponentRenderer {
 	
-	public static native void setCheckedNative(JQuery checkbox, boolean isChecked) /*-{
+	public static native void setCheckedNative( JQuery checkbox, boolean isChecked ) /*-{
 		checkbox.prop('checked', isChecked);
 	}-*/;
 	
-	public CheckboxRenderer(final CheckboxModel model) {
-		super(JQuery.select("<label class=\"checkbox\">"), model);
-		final JQuery input = JQuery.select("<input type=\"checkbox\">");
+	public CheckboxRenderer( final CheckboxModel model ) {
+		super( JQuery.select( "<label class=\"checkbox\">" ), model );
+		final JQuery input = JQuery.select( "<input type=\"checkbox\">" );
 		
-		input.appendTo(widget);
-		input.after(model.getLabel());
-		setCheckedNative(input, model.getChecked().booleanValue());
+		input.appendTo( widget );
+		input.after( "<span>" + model.getLabel() + "</span>" );
+		setCheckedNative( input, model.getChecked().booleanValue() );
 		
-		CheckboxModel_._checked.addChangeListener(model, new ValueChangeListener<Boolean>() {
+		CheckboxModel_._checked.addChangeListener( model, new ValueChangeListener<Boolean>() {
+			
 			@Override
-			public void valueChanged(Boolean newValue) {
-				setCheckedNative(input, newValue.booleanValue());
+			public void valueChanged( Boolean newValue ) {
+				setCheckedNative( input, newValue.booleanValue() );
 			}
-		});
+		} );
 		
-		input.change(new EventHandler() {
+		input.change( new EventHandler() {
+			
 			@Override
-			public void eventComplete(JQEvent event, JQuery currentJQuery) {
-				model.setChecked(input.is(":checked"));
+			public void eventComplete( JQEvent event, JQuery currentJQuery ) {
+				model.setChecked( input.is( ":checked" ) );
 			}
-		});
+		} );
 		
-		CheckboxModel_._label.addChangeListener(model, new ValueChangeListener<String>() {
+		CheckboxModel_._label.addChangeListener( model, new ValueChangeListener<String>() {
+			
 			@Override
-			public void valueChanged(String newValue) {
-				input.after(newValue);
+			public void valueChanged( String newValue ) {
+				input.next().text( newValue );
 			}
-		});
+		} );
 	}
-
+	
 }
