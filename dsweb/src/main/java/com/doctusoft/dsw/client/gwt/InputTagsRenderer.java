@@ -53,7 +53,7 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 		widget.attr("placeholder","Add-tags");
 		widget.attr("data-role", "tagsinput");
 		
-		if (inputTagsModel.getTagList() != null) {
+		if (inputTagsModel.getTagList() != null && !inputTagsModel.getTagList().isEmpty()) {
 			addTag(widget, inputTagsModel.getTagList().toString());
 		}
 		new ListBindingListener<String>(Bindings.obs(inputTagsModel).get((ObservableProperty) InputTagsModel_._tagSuggestions)) {
@@ -198,23 +198,23 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 	}-*/;
 	
 	private native static void setTagOptionSuggestions(JQuery element, JsArray<Item> tagSuggestions) /*-{
-	setTimeout(function () { 
-		element.tagsinput('destroy');
-		element.tagsinput({
-				tagClass: function(item) {
-			    		return item.style;
-			    },
-			    itemValue: 'value',
-  				itemText: 'text',
-			  	typeahead: {
-			    	source: tagSuggestions
-			  }
-		}); 
+		setTimeout(function () { 
+			element.tagsinput('destroy');
+			element.tagsinput({
+					tagClass: function(item) {
+				    		return item.style;
+				    },
+				    itemValue: 'value',
+	  				itemText: 'text',
+				  	typeahead: {
+				    	source: tagSuggestions
+				  }
+			}); 
 		}, 10);
 	}-*/;
 	
 	private native static void addTag(JQuery element, String newTag) /*-{
-//		setTimeout(function () { 
+//		setTimeout(function () { {
 			element.tagsinput('add', newTag);
 //		}, 1);
 	}-*/;

@@ -36,7 +36,7 @@ public class ProgressBar extends BaseContainer {
 	private BaseContainer bar;
 	
 	@ObservableProperty
-	private Integer progress = 60;;
+	private Integer progress = 60;
 	
 	public ProgressBar() {
 		addStyleClass("progress");

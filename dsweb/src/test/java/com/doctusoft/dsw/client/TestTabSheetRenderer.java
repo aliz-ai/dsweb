@@ -2,9 +2,9 @@ package com.doctusoft.dsw.client;
 
 import org.junit.Test;
 
+import com.doctusoft.dsw.client.comp.Container;
 import com.doctusoft.dsw.client.comp.Tab;
 import com.doctusoft.dsw.client.comp.TabSheet;
-import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.xedge.jquery.client.JQuery;
 
 public class TestTabSheetRenderer extends AbstractDswebTest {
@@ -19,8 +19,11 @@ public class TestTabSheetRenderer extends AbstractDswebTest {
 	@Test
 	public void testTabadding() {
 		final String tabCaption = "Tab1";
-		BaseComponentModel tabComponentModel = new BaseComponentModel();
-		Tab tab = new Tab(tabCaption).withContent(tabComponentModel);
+		Container tabComponent = new Container().withId("tabContent");
+		Tab tab = new Tab(tabCaption).withContent(tabComponent.getModel());
+		TabSheet tabSheet = new TabSheet().withTab(tab);
+		registerApp(tabSheet);
+		assertEquals(1, JQuery.select("#tabContent").length());
 	}
 	
 }
