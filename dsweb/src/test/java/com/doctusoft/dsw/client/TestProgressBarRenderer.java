@@ -5,7 +5,7 @@ import org.junit.Test;
 import com.doctusoft.dsw.client.comp.ProgressBar;
 import com.xedge.jquery.client.JQuery;
 
-public class TestProgressBar extends AbstractDswebTest {
+public class TestProgressBarRenderer extends AbstractDswebTest {
 	
 	@Test
 	public void testProgressBarIsPresent() {
