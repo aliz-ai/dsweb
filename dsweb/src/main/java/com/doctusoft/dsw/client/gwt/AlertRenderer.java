@@ -35,7 +35,7 @@ public class AlertRenderer extends ContainerRenderer {
 		super(alert);
 		final JQuery title = JQuery.select("<" + alert.getAlertDisplayType() + ">" + alert.getTitle() + "</" + alert.getAlertDisplayType() +  ">");
 		widget.append(title);
-		widget.append(" " + alert.getDescription());
+		widget.append(" <span>" + alert.getDescription() + "</span>");
 		
 		if (alert.getAlertType() != null) {
 			widget.addClass(alert.getAlertType());
@@ -51,7 +51,7 @@ public class AlertRenderer extends ContainerRenderer {
 		Bindings.obs(alert).get(AlertModel_._description).addValueChangeListener(new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
-				widget.clone(false).children().remove().end().text(newValue);
+				widget.select( "span" ).text( newValue );
 			}
 		});
 		widget.find(".close").attr("data-dismiss", "alert");
