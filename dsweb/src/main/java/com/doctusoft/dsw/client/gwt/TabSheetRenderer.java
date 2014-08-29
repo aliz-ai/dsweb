@@ -41,9 +41,10 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 							@Override
 							public void valueChanged(Tab newValue) {
 								JQuery.select("li").removeClass("active");
-								tabCaptionList.get(model.getTabList().indexOf(newValue)).addClass("active");
+								int tabIndex = model.getTabList().indexOf(newValue);
+								tabCaptionList.get(tabIndex).addClass("active");
 								widget.find(".tab-container").children().hide();
-								tabContentList.get(model.getTabList().indexOf(newValue)).show();
+								tabContentList.get(tabIndex).show();
 							}
 						});
 		

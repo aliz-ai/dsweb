@@ -10,22 +10,22 @@ public class TestLinkRenderer extends AbstractDswebTest {
 	
 	@Test
 	public void testText() {
-		String initialText = "proba";
+		String initialText = "test";
 		Link link = new Link( initialText ).withId( "link" );
 		registerApp( link );
 		assertEquals( initialText, JQuery.select( "#link" ).text() );
-		String changedText = "uj";
+		String changedText = "new";
 		link.getModel().setText( changedText );
 		assertEquals( changedText, JQuery.select( "#link" ).text() );
 	}
 	
 	@Test
 	public void testHref() {
-		String initialHref = "regi.html";
+		String initialHref = "test";
 		Link link = new Link().withId( "link" ).withHref( initialHref );
 		registerApp( link );
 		assertEquals( initialHref, JQuery.select( "#link" ).attr( "href" ) );
-		String changedHref = "uj.html";
+		String changedHref = "new";
 		link.getModel().setHref( changedHref );
 		assertEquals( changedHref, JQuery.select( "#link" ).attr( "href" ) );
 	}
@@ -34,14 +34,14 @@ public class TestLinkRenderer extends AbstractDswebTest {
 	public void testTarget() {
 		String target = "_self";
 		registerApp( new Link().withId( "link" ).withTarget( target ) );
-		assertEquals( target, JQuery.select( "#link" ).prop( "target" ) );
+		assertEquals( target, JQuery.select( "#link" ).attr( "target" ) );
 	}
 	
 	@Test
 	public void testSimultaneousHrefAndClickListener() {
 		String href = "proba";
 		registerApp( new Link().withId( "link" ).withHref( href ).click( new EmptyEventHandlerMock() ) );
-		assertEquals( "javascript:;", JQuery.select( "#link" ).prop( "href" ) );
+		assertEquals( "javascript:;", JQuery.select( "#link" ).attr( "href" ) );
 	}
 	
 }
