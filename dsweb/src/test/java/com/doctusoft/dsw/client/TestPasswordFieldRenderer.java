@@ -8,15 +8,15 @@ import com.xedge.jquery.client.JQuery;
 public class TestPasswordFieldRenderer extends AbstractDswebTest {
 
 	@Test
-	public void testPasswordFieldIsPresent() {
+	public void testInputIsPasswordField() {
 		PasswordField passwordField = new PasswordField();
 		passwordField.withId("password");
 		registerApp(passwordField);
-		assertEquals(1, JQuery.select("#password").length());
+		assertEquals("password", JQuery.select("#password").attr("type"));
 	}
 	
 	@Test
-	public void testValueChange() {
+	public void testValueChangeByServerSide() {
 		String password = "pass";
 		PasswordField passwordField = new PasswordField();
 		passwordField.withId("password");
@@ -26,4 +26,16 @@ public class TestPasswordFieldRenderer extends AbstractDswebTest {
 		assertEquals(password, JQuery.select("#password").val());
 	}
 	
+	@Test
+	public void testValueChangeByClientSide() {
+		String password = "pass";
+		PasswordField passwordField = new PasswordField();
+		passwordField.withId("password");
+		registerApp(passwordField);
+		JQuery jqueryPass = JQuery.select("#password");
+		assertEquals("", jqueryPass.val());
+		jqueryPass.val(password);
+		jqueryPass.change();
+		assertEquals(password, passwordField.getModel().getValue());
+	}
 }

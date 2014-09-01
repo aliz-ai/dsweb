@@ -53,8 +53,6 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 			@Override
 			public void inserted(ObservableList<Tab> list,
 					int index, final Tab element) {
-				//tabHolder.find(":nth-child("+5+")").after(tabCaption);
-				//:nth-child(n)
 				JQuery tabCaption =  JQuery.select( "<li>" );
 				int numberOfTabs = tabHolder.find("li").length();
 				if (numberOfTabs >= index || index == 0) {
@@ -62,8 +60,6 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 				} else {
 					tabHolder.children("li:nth-child("+index+")").prepend(tabCaption);
 				}
-				
-				//tabHolder.find("li:nth-child("+--index+")").prepend(tabCaption);
 				
 				JQuery tabLink = JQuery.select( "<a>" ).appendTo(tabCaption);
 				tabLink.text(element.getTitle());
@@ -75,8 +71,6 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 					}
 				});
 				tabCaptionList.add(tabCaption);
-				
-				//tabCaption.appendTo(tabHolder.find(":nth-child("+index+")"));
 				JQuery tabContent;
 				if (widget.find(".tab-container").length() == 0) {
 					widget.after(JQuery.select("ul")).append(JQuery.select("<div>").addClass("tab-container"));
