@@ -25,4 +25,11 @@ public abstract class AbstractDswebTest extends GWTTestCase {
 		JQuery.select("body").children().remove();
 		factory.getRenderer(app.getComponentModel()).getWidget().appendTo("body");
 	}
+	
+	//useful for debugging purposes
+	protected void dumpRoot() {
+		JQuery root = JQuery.select( ":root" );
+		System.out.println( root.html() );
+		System.out.println( "--------------------------------------------------------" );
+	}
 }
