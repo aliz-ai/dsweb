@@ -67,7 +67,10 @@ public class SandboxActivity extends AbstractActivity {
 	private ObservableList<PersonDto> selection = new ObservableList<PersonDto>();
 	
 	@ObservableProperty
-	private boolean visibility = false;
+	private boolean visibility = true;
+	
+	@ObservableProperty
+	private boolean cellVisibilty = true;
 	
 	@ObservableProperty
 	private ComponentEvent focus = new ComponentEvent();
@@ -102,6 +105,11 @@ public class SandboxActivity extends AbstractActivity {
 	}
 	
 	@MethodRef
+	public void hideCell() {
+		setCellVisibilty(!isCellVisibilty());
+	}
+	
+	@MethodRef
 	public void pagination() {
 		personList.clear();
 		setPageInfo(getActivePage() + "/" + getNumberOfPages());
@@ -111,6 +119,6 @@ public class SandboxActivity extends AbstractActivity {
 	@MethodRef
 	public void hideLabel() {
 		personList.removeAll(selection);
-		setVisibility(false);
+		setVisibility(!isVisibility());
 	}
 }

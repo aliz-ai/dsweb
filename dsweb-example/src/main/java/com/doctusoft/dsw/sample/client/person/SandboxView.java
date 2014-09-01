@@ -77,10 +77,14 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
     			.add(contextMenu)
     			.getComponentModel()))
     	.withTab(new Tab("Másik").withContent(new BaseContainer().add(inputText).getComponentModel()))
+    	.withTabOnSpecifiedIndex(new Tab("Harmadik"),1)
+    	.withTab(new Tab("Negyedik"))
+    	.onAfterTabHidden(presenterMethod(SandboxActivity_.__hideCell))
+    	.onBeforeTabShown(presenterMethod(SandboxActivity_.__hideLabel))
     	.appendTo(container);
     
     new Label("hide me").bindVisible(bindOnPresenter().get(SandboxActivity_._visibility)).appendTo(container);
-    new Button("új").click(presenterMethod(SandboxActivity_.__hideLabel)).appendTo(container);
+    new Button("új").click(presenterMethod(SandboxActivity_.__hideLabel)).bindVisible(bindOnPresenter().get(SandboxActivity_._cellVisibilty)).appendTo(container);
 
 	Row row = new Row().appendTo(container);
 	Cell cell1 = new Cell().add(new Label("hello world")).appendTo(row);

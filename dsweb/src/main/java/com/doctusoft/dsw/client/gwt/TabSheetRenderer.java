@@ -53,27 +53,30 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 			@Override
 			public void inserted(ObservableList<Tab> list,
 					int index, final Tab element) {
+				//tabHolder.find(":nth-child("+5+")").after(tabCaption);
+				//:nth-child(n)
 				JQuery tabCaption =  JQuery.select( "<li>" );
-				tabHolder.prepend(tabCaption);
+				int numberOfTabs = tabHolder.find("li").length();
+				if (numberOfTabs >= index || index == 0) {
+					tabHolder.append(tabCaption);
+				} else {
+					tabHolder.children("li:nth-child("+index+")").prepend(tabCaption);
+				}
+				
+				//tabHolder.find("li:nth-child("+--index+")").prepend(tabCaption);
+				
 				JQuery tabLink = JQuery.select( "<a>" ).appendTo(tabCaption);
 				tabLink.text(element.getTitle());
 				tabLink.click(new EventHandler() {
 					
 					@Override
 					public void eventComplete(JQEvent event, JQuery currentJQuery) {
-						Tab previousTab = model.getActiveTab();
 						model.setActiveTab(element);
-						
-						if (element.getEventBeforeTabShown() != null) {
-							element.getEventBeforeTabShown().handle();
-						}
-						if (previousTab.getEventAfterTabHidden() != null) {
-							previousTab.getEventAfterTabHidden().handle();
-						}
 					}
 				});
 				tabCaptionList.add(tabCaption);
-				tabCaption.appendTo(tabHolder);
+				
+				//tabCaption.appendTo(tabHolder.find(":nth-child("+index+")"));
 				JQuery tabContent;
 				if (widget.find(".tab-container").length() == 0) {
 					widget.after(JQuery.select("ul")).append(JQuery.select("<div>").addClass("tab-container"));
@@ -90,8 +93,11 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 			@Override
 			public void removed(ObservableList<Tab> list,
 					int index, Tab element) {
+				tabCaptionList.get(index).remove();
+				tabContentList.get(index).remove();
 				tabContentList.remove(index);
 				tabCaptionList.remove(index);
+
 			}
 		};
 	}
@@ -101,4 +107,5 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 		parentWidget.append(rendered);
 		renderedWidgets.put(baseWidget, rendered);
 	}
+	
 }
