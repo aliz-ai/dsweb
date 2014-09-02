@@ -14,9 +14,9 @@ public class TabSheetModel extends BaseComponentModel implements ModelObject{
 	private Tab activeTab;
 	
 	@ObservableProperty
-	private ComponentEvent eventBeforeTabShown;
+	private ComponentEvent eventBeforeTabShown = new ComponentEvent();
 
 	@ObservableProperty
-	private ComponentEvent eventAfterTabHidden;
+	private ComponentEvent eventAfterTabHidden = new ComponentEvent();
 
 }

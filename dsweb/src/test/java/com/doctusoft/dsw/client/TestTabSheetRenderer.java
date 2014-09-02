@@ -37,12 +37,21 @@ public class TestTabSheetRenderer extends AbstractDswebTest {
 	
 	@Test
 	public void testDefaultTabaddingOnSpecifiedIndex() {
-		final String tabCaption = "Tab1";
-		Container tabComponent = new Container().withId("tabContent");
-		Tab tab = new Tab(tabCaption).withContent(tabComponent.getModel());
-		TabSheet tabSheet = new TabSheet().withTab(tab);
+		final String tabCaption1 = "Tab1";
+		final String tabCaption2 = "Tab2";
+		final String tabCaption3 = "Tab3";
+		final String tabCaption4 = "Tab4";
+		Container tabComponent = new Container();
+		TabSheet tabSheet = new TabSheet()
+			.withTab(new Tab(tabCaption1).withContent(tabComponent.getModel()))
+			.withTab(new Tab(tabCaption2).withContent(tabComponent.getModel()))
+			.withTab(new Tab(tabCaption3).withContent(tabComponent.getModel()))
+			.withDefaultTabOnSpecifiedIndex(tabCaption4, tabComponent.getModel(), 1);
 		registerApp(tabSheet);
-		assertEquals(1, JQuery.select("#tabContent").length());
+		assertEquals(tabCaption1, JQuery.select("li:nth-child(1)").text());
+		assertEquals(tabCaption4, JQuery.select("li:nth-child(2)").text());
+		assertEquals(tabCaption2, JQuery.select("li:nth-child(3)").text());
+		assertEquals(tabCaption3, JQuery.select("li:nth-child(4)").text());
 	}
 	
 	@Test
@@ -52,14 +61,15 @@ public class TestTabSheetRenderer extends AbstractDswebTest {
 		final String tabCaption3 = "Tab3";
 		final String tabCaption4 = "Tab4";
 		Container tabComponent = new Container();
-		Tab tab = new Tab(tabCaption1).withContent(tabComponent.getModel());
 		TabSheet tabSheet = new TabSheet()
 			.withTab(new Tab(tabCaption1).withContent(tabComponent.getModel()))
 			.withTab(new Tab(tabCaption2).withContent(tabComponent.getModel()))
 			.withTab(new Tab(tabCaption3).withContent(tabComponent.getModel()))
 			.withTabOnSpecifiedIndex(new Tab(tabCaption4).withContent(tabComponent.getModel()), 1);
 		registerApp(tabSheet);
+		assertEquals(tabCaption1, JQuery.select("li:nth-child(1)").text());
 		assertEquals(tabCaption4, JQuery.select("li:nth-child(2)").text());
+		assertEquals(tabCaption2, JQuery.select("li:nth-child(3)").text());
+		assertEquals(tabCaption3, JQuery.select("li:nth-child(4)").text());
 	}
-	
 }
