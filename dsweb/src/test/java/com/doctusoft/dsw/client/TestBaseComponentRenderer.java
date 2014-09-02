@@ -9,7 +9,7 @@ import com.google.gwt.user.client.Timer;
 import com.xedge.jquery.client.JQuery;
 
 /**
- * TODO focus and keyPressed 
+ * TODO focus and keyPressed
  */
 public class TestBaseComponentRenderer extends AbstractDswebTest {
 	
@@ -31,7 +31,7 @@ public class TestBaseComponentRenderer extends AbstractDswebTest {
 		}.schedule(50);
 		delayTestFinish(100);
 	}
-
+	
 	@Test
 	public void testVisibleInitialFalse() {
 		registerApp(new Label().withVisible(false).withId("label"));
@@ -52,7 +52,7 @@ public class TestBaseComponentRenderer extends AbstractDswebTest {
 		label.getModel().setVisible(false);
 		assertTrue("none".equals(JQuery.select("#label").css("display")));
 	}
-
+	
 	@Test
 	public void testVisibilityShow() {
 		final Label label = new Label().withVisible(false).withId("label");
@@ -94,11 +94,13 @@ public class TestBaseComponentRenderer extends AbstractDswebTest {
 		label.withStyle(null);
 		assertNull(JQuery.select("#label").attr("style"));
 	}
-
+	
 	@Test
 	public void testTabIndex() {
-		Label label = new Label().withId("label").withTabIndex(0);
+		Label label = new Label().withId("label");
 		registerApp(label);
+		assertNull(JQuery.select("#label").attr("tabindex"));
+		label.withTabIndex( 0 );
 		assertEquals("0", JQuery.select("#label").attr("tabindex"));
 		label.withTabIndex(1);
 		assertEquals("1", JQuery.select("#label").attr("tabindex"));
@@ -112,7 +114,7 @@ public class TestBaseComponentRenderer extends AbstractDswebTest {
 		JQuery.select("#label").click();
 		clickHandler.assertInvoked();
 	}
-
+	
 	@Test
 	public void testClickAttachedLater() {
 		EmptyEventHandlerMock clickHandler = new EmptyEventHandlerMock();
@@ -123,7 +125,7 @@ public class TestBaseComponentRenderer extends AbstractDswebTest {
 		JQuery.select("#label").click();
 		clickHandler.assertInvoked();
 	}
-
+	
 	@Test
 	public void testClickNoListenerAttached() {
 		Label label = new Label().withId("label");

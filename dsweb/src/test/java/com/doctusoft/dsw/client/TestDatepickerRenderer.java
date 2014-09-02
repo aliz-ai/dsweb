@@ -3,13 +3,11 @@ package com.doctusoft.dsw.client;
 
 import java.text.ParseException;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestDatepickerRenderer extends AbstractDswebTest {
 	
 	@Test
-	@Ignore
 	//TODO vmiert elszall a javascript a komponens inicializalasakor
 	public void testFormat() throws ParseException {
 		//		Datepicker datePicker = new Datepicker().withId( "datepicker" );
