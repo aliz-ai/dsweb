@@ -1,12 +1,15 @@
 package com.doctusoft.dsw.client.comp;
 
+import java.io.Serializable;
+
 import lombok.Getter;
 
 import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ModelObject;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 
 @Getter
-public class Tab {
+public class Tab implements Serializable, ModelObject{
 
 	private String title;
 	

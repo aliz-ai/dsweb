@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.doctusoft.bean.ObservableProperty;
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
@@ -48,7 +49,7 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 							}
 						});
 		
-		new ListBindingListener<Tab>(Bindings.obs(model).get(TabSheetModel_._tabList)) {
+		new ListBindingListener<Tab>(Bindings.obs(model).get((ObservableProperty) TabSheetModel_._tabList)) {
 
 			@Override
 			public void inserted(ObservableList<Tab> list,
