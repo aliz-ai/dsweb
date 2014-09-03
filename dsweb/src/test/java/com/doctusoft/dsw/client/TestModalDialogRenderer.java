@@ -60,7 +60,6 @@ public class TestModalDialogRenderer extends AbstractDswebTest {
 		modalDialog.show();
 		registerApp( modalDialog );
 		JQuery jqBody = JQuery.select( "#modal div.modal-body" );
-		dumpRoot();
 		assertEquals( "hello", jqBody.text() );
 	}
 	
