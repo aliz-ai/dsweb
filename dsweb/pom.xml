@@ -65,8 +65,8 @@
 								<property name="test_classpath" refid="maven.test.classpath" />
 								<echo message="Emma - instrumentation" />
 								<echo message="test classpath: ${test_classpath}" />
-								<mkdir dir="${project.basedir}/target/emma-report" />
-								<java dir="${project.basedir}/target/emma-report" fork="true"
+								<mkdir dir="${project.basedir}/emma-report" />
+								<java dir="${project.basedir}/emma-report" fork="true"
 									classpathref="maven.test.classpath" classname="emma">
 									<arg value="report" />
 									<arg value="-sp" />
