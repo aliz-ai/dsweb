@@ -10,6 +10,7 @@
 	<packaging>jar</packaging>
 
 	<properties>
+		<skipEmma>true</skipEmma>
 	</properties>
 
 	<build>
@@ -24,6 +25,67 @@
 			</resource>
 		</resources>
 		<plugins>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>Emma instrumentation</id>
+						<phase>process-classes</phase>
+						<configuration>
+							<skip>${skipEmma}</skip>
+							<target>
+		
+								<property name="test_classpath" refid="maven.test.classpath" />
+								<echo message="Emma - instrumentation" />
+								<echo message="test classpath: ${test_classpath}" />
+								<java fork="true" classpathref="maven.test.classpath"
+									classname="emma">
+									<arg value="instr" />
+									<arg value="-cp" />
+									<arg value="target/classes" />
+									<arg value="-m" />
+									<arg value="overwrite" />
+									<arg value="-out" />
+									<arg value="target/emma/emma.em" />
+								</java>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>Emma Report</id>
+						<phase>prepare-package</phase>
+						<configuration>
+							<skip>${skipEmma}</skip>
+							<target>
+				
+								<property name="test_classpath" refid="maven.test.classpath" />
+								<echo message="Emma - instrumentation" />
+								<echo message="test classpath: ${test_classpath}" />
+								<mkdir dir="${project.basedir}/target/emma-report" />
+								<java dir="${project.basedir}/target/emma-report" fork="true"
+									classpathref="maven.test.classpath" classname="emma">
+									<arg value="report" />
+									<arg value="-sp" />
+									<arg value="${project.basedir}/src/main/java" />
+									<arg value="-r" />
+									<arg value="html" />
+									<arg value="-in" />
+									<arg
+										value="${project.basedir}/target/emma/emma.em,${project.basedir}/target/emma/emma.ec" />
+								</java>
+				
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+	</execution>
+				</executions>
+			</plugin>
 			<plugin>
 			    <groupId>org.apache.maven.plugins</groupId>
 			    <artifactId>maven-surefire-plugin</artifactId>
@@ -40,6 +102,9 @@
 			        <argLine>
 			          -javaagent:${settings.localRepository}/com/doctusoft/lombok-ds/${lombok.ds.version}/lombok-ds-${lombok.ds.version}.jar=ECJ
 			        </argLine>
+			        <systemPropertyVariables>
+			        	<emma.coverage.out.file>${project.basedir}/target/emma/emma.ec</emma.coverage.out.file>
+			        </systemPropertyVariables>
 			        <systemProperties>
 			            <property>
 			                <name>gwt.args</name>
@@ -127,6 +192,14 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava-gwt</artifactId>
+		</dependency>
+
+		<!-- this gwt patched emma jar is obtained from the GWT testing guide and uploaded to the doctusoft public nexus 3rdparty repository -->
+		<dependency>
+			<groupId>emma</groupId>
+			<artifactId>emma</artifactId>
+			<version>2.0.5312-patched</version>
+			<scope>test</scope>
 		</dependency>
 		
 	</dependencies>
