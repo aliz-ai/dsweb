@@ -29,6 +29,10 @@
 		<version.maven.war.plugin>2.4</version.maven.war.plugin>
 		<version.maven.deploy.plugin>2.4</version.maven.deploy.plugin>
 		<version.maven.surefire.plugin>2.17</version.maven.surefire.plugin>
+		<version.maven.javadoc.plugin>2.9.1</version.maven.javadoc.plugin>
+		<version.github.site.plugin>0.9</version.github.site.plugin>
+		
+		<github.global.server>github</github.global.server>
 
 		<!-- maven-compiler-plugin -->
 		<maven.compiler.source>1.6</maven.compiler.source>
@@ -36,12 +40,34 @@
 
 	 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	 </properties>
+	 
+	 <developers>
+	 	<developer>
+	 		<email>gabor.farkas@doctusoft.com</email>
+	 		<name>Gabor Farkas</name>
+	 		<url>https://github.com/gabor-farkas</url>
+	 		<id>gabor-farkas</id>
+	 	</developer>
+	 </developers>
 
 	<build>
 
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>${version.maven.javadoc.plugin}</version>
+					<configuration>
+						<skip>true</skip>
+					</configuration>
+				</plugin>
 
+				<plugin>
+					<groupId>com.github.github</groupId>
+					<artifactId>site-maven-plugin</artifactId>
+					<version>${version.github.site.plugin}</version>
+				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>license-maven-plugin</artifactId>
