@@ -76,14 +76,6 @@ public class DataTableRenderer extends BaseComponentRenderer {
 					tbody.insertBefore( rows.get( index ) );
 				}
 				rows.add( index, row );
-				/*
-				Deferred.defer(DataTableRenderer.this, "reinit", new Runnable() {
-					@Override
-					public void run() {
-						reinit();
-					}
-				});
-				*/
 			}
 			
 			@Override
@@ -167,20 +159,6 @@ public class DataTableRenderer extends BaseComponentRenderer {
 		}
 	}
 	
-	private native int setPageNum() /*-{
-		
-	}-*/;
-	
-	protected void reinit() {
-		widget.find(".dataTables_empty").parent().remove();
-		JQuery tempContainer = JQuery.select("<div/>").appendTo("body");
-		JQuery rows = widget.find("tbody tr").appendTo(tempContainer);
-		destroy(widget);
-		tempContainer.find("tr").first().appendTo(widget.find("tbody"));
-		install(widget);
-		tempContainer.remove();
-	}
-	
 	private native void destroy(JQuery target) /*-{
 		target.DataTable().destroy();
 	}-*/;
@@ -188,19 +166,6 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	private native void install(JQuery target) /*-{
 		var that = this;
 		setTimeout(function () {
-//			if ($wnd.$.fn.dataTable.isDataTable(target))	// already installed
-//				return;
-//			var that = this;
-//			var table = target.DataTable({
-//				//lengthMenu : [[1, 2, -1], [1, 2, "All"]],
-//				//lengthChange: true,
-//				ordering : false,
-//				searching : false
-//			 });
-//			target.on( 'page.dt',   function () {
-//				//alert(table.page.info().page + 1);
-//				//alert(table.page.info().recordsTotal);
-//			});
 			// row click listener
 			target.find("tbody").on("mousedown", "tr", function() {
 				that.@com.doctusoft.dsw.client.gwt.DataTableRenderer::rowClicked(Lcom/xedge/jquery/client/JQuery;)($wnd.jQuery(this));
