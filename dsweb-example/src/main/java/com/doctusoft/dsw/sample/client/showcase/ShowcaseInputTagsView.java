@@ -29,10 +29,9 @@ import com.doctusoft.dsw.client.comp.InputTags;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
+import com.google.common.collect.ImmutableList;
 
 public class ShowcaseInputTagsView extends ContainerWithPresenter<ShowcaseActivity>{
-	
-	
 	
 	public ShowcaseInputTagsView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(container)
@@ -54,11 +53,14 @@ public class ShowcaseInputTagsView extends ContainerWithPresenter<ShowcaseActivi
 		appendTo(container);
 	}
 
-
-
 	@Override
 	public BaseComponentModel getComponentModel() {
 		return container.getModel();
 	}
 
+	@Override
+	public void viewPresented() {
+		getPresenter().getTagSuggestions().clear();
+		getPresenter().getTagSuggestions().addAll(ImmutableList.of("first", "second", "third"));
+	}
 }

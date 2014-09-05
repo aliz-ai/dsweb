@@ -36,6 +36,7 @@ import com.doctusoft.dsw.client.comp.Navs;
 import com.doctusoft.dsw.client.comp.Row;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter_;
+import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.person.ChartView;
 import com.google.common.collect.Maps;
 
@@ -87,7 +88,11 @@ public class ShowcaseView extends ContainerWithPresenter<ShowcaseActivity> {
 			@Override
 			public void valueChanged(ShowcaseItem item) {
 				subcontainer.clear();
-				subcontainer.add(subitems.get(item));
+				HasComponentModel subView = subitems.get(item);
+				if (subView instanceof  ViewOf) {
+					((ViewOf<?>) subView).viewPresented();
+				}
+				subcontainer.add(subView);
 			}
 		});
 		
