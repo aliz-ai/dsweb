@@ -17,6 +17,9 @@ public class TestAbstractSelect {
 	@ObservableProperty
 	private List<SelectItem<String>> selectItems;
 	
+	/**
+	 * TODO this behaviour propbably has to be changed. See https://github.com/Doctusoft/dsweb/issues/13
+	 */
 	@Test
 	public void testFirstOptionSelectedOnNoDefault() {
 		setSelectValue(null);
