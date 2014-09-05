@@ -119,6 +119,7 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 		itemsByValue.put(item.getValue(), item);
 		modelsByValue.put(item.getValue(), itemModel);
 		items.add(index, item);
+		reapplyValue();
 	}
 	
 	public void setSelectItems(List<SelectItem<T>> selectItems) {
@@ -129,6 +130,10 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 		for (SelectItem<T> item : selectItems) {
 			registerSelectItem(index ++, item);
 		}
+		reapplyValue();
+	}
+
+	private void reapplyValue() {
 		// the value might have been set earlier. Now that we have the possible select items, we re-fire the listeners so that the proper value is set
 		if (model.getSelectedIndex() == -1) {
 			setValue(value);
