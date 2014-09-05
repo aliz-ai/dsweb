@@ -1,4 +1,4 @@
-package com.doctusoft.dsw.client;
+package com.doctusoft.dsw.client.gwt;
 
 import junit.framework.Assert;
 

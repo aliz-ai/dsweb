@@ -1,5 +1,6 @@
-package com.doctusoft.dsw.client;
+package com.doctusoft.dsw.client.gwt;
 
+import com.doctusoft.dsw.client.RendererFactory;
 import com.doctusoft.dsw.client.comp.HasComponentModel;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
