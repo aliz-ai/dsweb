@@ -137,6 +137,10 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 		// the value might have been set earlier. Now that we have the possible select items, we re-fire the listeners so that the proper value is set
 		if (model.getSelectedIndex() == -1) {
 			setValue(value);
+			if (value == null && model.getSelectedIndex() == -1 && !items.isEmpty()) {
+				// if the value is null and there's still no default option
+				setValue(items.get(0).getValue());
+			}
 		}
 	}
 	
