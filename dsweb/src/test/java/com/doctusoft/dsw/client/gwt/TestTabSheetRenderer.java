@@ -29,7 +29,7 @@ public class TestTabSheetRenderer extends AbstractDswebTest {
 	public void testTabadding() {
 		final String tabCaption = "Tab1";
 		Container tabComponent = new Container().withId("tabContent");
-		Tab tab = new Tab(tabCaption).withContent(tabComponent.getModel());
+		Tab tab = new Tab().withTitle(tabCaption).withContent(tabComponent.getModel());
 		TabSheet tabSheet = new TabSheet().withTab(tab);
 		registerApp(tabSheet);
 		assertEquals(1, JQuery.select("#tabContent").length());
@@ -43,9 +43,9 @@ public class TestTabSheetRenderer extends AbstractDswebTest {
 		final String tabCaption4 = "Tab4";
 		Container tabComponent = new Container();
 		TabSheet tabSheet = new TabSheet()
-			.withTab(new Tab(tabCaption1).withContent(tabComponent.getModel()))
-			.withTab(new Tab(tabCaption2).withContent(tabComponent.getModel()))
-			.withTab(new Tab(tabCaption3).withContent(tabComponent.getModel()))
+			.withTab(new Tab().withTitle(tabCaption1).withContent(tabComponent.getModel()))
+			.withTab(new Tab().withTitle(tabCaption2).withContent(tabComponent.getModel()))
+			.withTab(new Tab().withTitle(tabCaption3).withContent(tabComponent.getModel()))
 			.withDefaultTabOnSpecifiedIndex(tabCaption4, tabComponent.getModel(), 1);
 		registerApp(tabSheet);
 		assertEquals(tabCaption1, JQuery.select("li:nth-child(1)").text());
@@ -62,10 +62,10 @@ public class TestTabSheetRenderer extends AbstractDswebTest {
 		final String tabCaption4 = "Tab4";
 		Container tabComponent = new Container();
 		TabSheet tabSheet = new TabSheet()
-			.withTab(new Tab(tabCaption1).withContent(tabComponent.getModel()))
-			.withTab(new Tab(tabCaption2).withContent(tabComponent.getModel()))
-			.withTab(new Tab(tabCaption3).withContent(tabComponent.getModel()))
-			.withTabOnSpecifiedIndex(new Tab(tabCaption4).withContent(tabComponent.getModel()), 1);
+			.withTab(new Tab().withTitle(tabCaption1).withContent(tabComponent.getModel()))
+			.withTab(new Tab().withTitle(tabCaption2).withContent(tabComponent.getModel()))
+			.withTab(new Tab().withTitle(tabCaption3).withContent(tabComponent.getModel()))
+			.withTabOnSpecifiedIndex(new Tab().withTitle(tabCaption4).withContent(tabComponent.getModel()), 1);
 		registerApp(tabSheet);
 		assertEquals(tabCaption1, JQuery.select("li:nth-child(1)").text());
 		assertEquals(tabCaption4, JQuery.select("li:nth-child(2)").text());

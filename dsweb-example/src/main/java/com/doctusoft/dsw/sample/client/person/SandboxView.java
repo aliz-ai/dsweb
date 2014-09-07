@@ -70,15 +70,18 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
     	.onPaging(presenterMethod(SandboxActivity_.__pagination));
     
     new TabSheet()
-    	.withTab(new Tab("Valami")
+    	.withTab(new Tab()
+    		.withTitle("Valami")
     		.withContent(new BaseContainer()
     			.add(dataTable)
     			.add(pager)
     			.add(contextMenu)
     			.getComponentModel()))
-    	.withTab(new Tab("Másik").withContent(new BaseContainer().add(inputText).getComponentModel()))
-    	.withTabOnSpecifiedIndex(new Tab("Harmadik"),1)
-    	.withTab(new Tab("Negyedik"))
+    	.withTab(new Tab()
+    		.withTitle("Másik")
+    		.withContent(new BaseContainer().add(inputText).getComponentModel()))
+    	.withTabOnSpecifiedIndex(new Tab().withTitle("Harmadik"),1)
+    	.withTab(new Tab().withTitle("Negyedik"))
     	.onAfterTabHidden(presenterMethod(SandboxActivity_.__hideCell))
     	.onBeforeTabShown(presenterMethod(SandboxActivity_.__hideLabel))
     	.appendTo(container);

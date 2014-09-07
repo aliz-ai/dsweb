@@ -19,7 +19,9 @@ public class TabSheet extends BaseComponent<TabSheet, TabSheetModel>{
 	}
 	
 	public TabSheet withDefaultTab(String title, BaseComponentModel tabPanel) {
-		Tab tab = new Tab(title).withContent(tabPanel);
+		Tab tab = new Tab()
+			.withTitle(title)
+			.withContent(tabPanel);
 		model.getTabList().add(tab);
 		return this;
 	}
@@ -30,7 +32,9 @@ public class TabSheet extends BaseComponent<TabSheet, TabSheetModel>{
 	}
 	
 	public TabSheet withDefaultTabOnSpecifiedIndex(String title, BaseComponentModel tabPanel, int index) {
-		Tab tab = new Tab(title).withContent(tabPanel);
+		Tab tab = new Tab()
+			.withTitle(title)
+			.withContent(tabPanel);
 		model.getTabList().add(index, tab);
 		return this;
 	}
