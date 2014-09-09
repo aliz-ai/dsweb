@@ -44,8 +44,6 @@ public class DatepickerRenderer extends BaseComponentRenderer {
 	
 	DateTimeFormat dateTimeFormat;
 	
-	private Date dta;
-
 	public DatepickerRenderer(final DatepickerModel model) {
 		super(JQuery.select("<input type=\"text\" />"), model);
 		dateTimeFormat = new DateTimeFormat(model.getFormat(), info){};
@@ -84,7 +82,7 @@ public class DatepickerRenderer extends BaseComponentRenderer {
 				}
 				changedFromWidget = true;
 				String dateValue = widget.val();
-				if(!dateValue.equals("")) {
+				if (!dateValue.equals("")) {
 					model.setValue(dateTimeFormat.parse(dateValue));
 				} else {
 					model.setValue(null);
@@ -96,6 +94,7 @@ public class DatepickerRenderer extends BaseComponentRenderer {
 		DatepickerModel_._format.addChangeListener(model, new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
+				destroyDatepickerNative(widget);
 				initDatepickerNative(widget, model.getFormat().toLowerCase());
 			}
 		});
@@ -106,8 +105,11 @@ public class DatepickerRenderer extends BaseComponentRenderer {
 	}-*/;
 	
 
-	private native void initDatepickerNative(JQuery widget, String datepickerFormat) /*-{
+	private native void destroyDatepickerNative(JQuery widget) /*-{
 		widget.datepicker("remove");
+	}-*/;
+	
+	private native void initDatepickerNative(JQuery widget, String datepickerFormat) /*-{
 		widget.datepicker({
 			clearBtn: true,
 			autoclose: true,

@@ -42,6 +42,11 @@ public class Button extends BaseComponent<Button, ButtonModel> {
 		model.setCaption(caption);
 	}
 	
+	public Button withCaption(String caption) {
+		model.setCaption(caption);
+		return this;
+	}
+	
 	public Button bindCaption(final ValueBinding<String> captionBinding) {
 		Bindings.bind(captionBinding, Bindings.obs(model).get(ButtonModel_._caption));
 		return this;

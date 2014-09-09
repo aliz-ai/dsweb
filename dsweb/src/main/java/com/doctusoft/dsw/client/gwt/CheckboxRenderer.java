@@ -26,29 +26,33 @@ package com.doctusoft.dsw.client.gwt;
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.dsw.client.comp.model.CheckboxModel;
 import com.doctusoft.dsw.client.comp.model.CheckboxModel_;
+import com.google.common.base.Objects;
 import com.xedge.jquery.client.JQEvent;
 import com.xedge.jquery.client.JQuery;
 import com.xedge.jquery.client.handlers.EventHandler;
 
 public class CheckboxRenderer extends BaseComponentRenderer {
 	
+	private JQuery input;
+
 	public static native void setCheckedNative( JQuery checkbox, boolean isChecked ) /*-{
 		checkbox.prop('checked', isChecked);
 	}-*/;
 	
 	public CheckboxRenderer( final CheckboxModel model ) {
 		super( JQuery.select( "<label class=\"checkbox\">" ), model );
-		final JQuery input = JQuery.select( "<input type=\"checkbox\">" );
+		input = JQuery.select( "<input type=\"checkbox\">" );
 		
 		input.appendTo( widget );
-		input.after( "<span>" + model.getLabel() + "</span>" );
-		setCheckedNative( input, model.getChecked().booleanValue() );
+		input.after( "<span></span>" );
+		applyValue(model.getLabel());
+		setCheckedNative( input, Objects.firstNonNull(model.getChecked(), false) );
 		
 		CheckboxModel_._checked.addChangeListener( model, new ValueChangeListener<Boolean>() {
 			
 			@Override
 			public void valueChanged( Boolean newValue ) {
-				setCheckedNative( input, newValue.booleanValue() );
+				setCheckedNative( input, Objects.firstNonNull(newValue, false) );
 			}
 		} );
 		
@@ -61,12 +65,16 @@ public class CheckboxRenderer extends BaseComponentRenderer {
 		} );
 		
 		CheckboxModel_._label.addChangeListener( model, new ValueChangeListener<String>() {
-			
 			@Override
 			public void valueChanged( String newValue ) {
-				input.next().text( newValue );
+				applyValue(newValue);
 			}
+
 		} );
+	}
+
+	private void applyValue(String newValue) {
+		input.next().text( Objects.firstNonNull(newValue, "") );
 	}
 	
 }

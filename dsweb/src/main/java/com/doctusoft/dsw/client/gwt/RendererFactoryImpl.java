@@ -40,6 +40,7 @@ import com.doctusoft.dsw.client.comp.model.HistoryHandlerModel;
 import com.doctusoft.dsw.client.comp.model.HtmlContentModel;
 import com.doctusoft.dsw.client.comp.model.IconModel;
 import com.doctusoft.dsw.client.comp.model.ImageModel;
+import com.doctusoft.dsw.client.comp.model.InputNumberModel;
 import com.doctusoft.dsw.client.comp.model.InputTagsModel;
 import com.doctusoft.dsw.client.comp.model.InputTextModel;
 import com.doctusoft.dsw.client.comp.model.InputTimeModel;
@@ -148,6 +149,9 @@ public class RendererFactoryImpl extends AbstractGwtRendererFactory {
 		}
 		if (baseWidget instanceof ImageModel) {
 			return new ImageRenderer( (ImageModel) baseWidget );
+		}
+		if (baseWidget instanceof InputNumberModel) {
+			return new InputNumberRenderer( (InputNumberModel) baseWidget );
 		}
 		return null;
 	}

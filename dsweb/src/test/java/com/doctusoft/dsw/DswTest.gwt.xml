@@ -40,9 +40,8 @@
 	<public path="public"></public>
 	
 	<script src="jquery-1.10.2.js"></script>
-	<script src="bootstrap-datepicker.js"></script>
 	<script src="bootstrap.js"></script>
 	<script src="bootstrap-tagsinput.js"></script>
-	<script  src="bootstrap-datepicker.js"></script>
+	<script src="bootstrap-datepicker.js"></script>
 
 </module>
