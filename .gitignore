@@ -9,6 +9,7 @@
 *.launch
 gwt-unitCache
 www-test
+war
 
 # Package Files #
 *.jar
