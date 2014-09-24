@@ -84,7 +84,9 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 	
 	public Actual focus() {
 		if (model.getFocus() == null) {
-			model.setFocus(new ComponentEvent());
+			ComponentEvent event = new ComponentEvent();
+			event.setHasListeners(true);	// it always has a listener on the Renderer side
+			model.setFocus(event);
 		}
 		model.getFocus().fire();
 		return (Actual) this;

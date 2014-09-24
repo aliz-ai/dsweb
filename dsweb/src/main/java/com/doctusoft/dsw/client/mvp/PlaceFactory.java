@@ -1,5 +1,7 @@
 package com.doctusoft.dsw.client.mvp;
 
+import java.io.Serializable;
+
 /*
  * #%L
  * dsweb
@@ -23,7 +25,7 @@ package com.doctusoft.dsw.client.mvp;
  */
 
 
-public interface PlaceFactory {
+public interface PlaceFactory extends Serializable {
 	
 	<P extends Presenter<P>> AbstractPlace<P> createPlaceForClass(Class<? extends AbstractPlace<?>> placeClass);
 
