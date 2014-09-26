@@ -114,8 +114,8 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 			@Override
 			public void triggerEvent(KeyPressedEvent event, JQEvent jqEvent) {
 				// only send event for keycodes that are registered on the server side
-				if (model.getRestrictToKeyCodes() == null || model.getRestrictToKeyCodes().contains(jqEvent.which())) {
-					event.fire(jqEvent.which());
+				if (model.getRestrictToKeyCodes() == null || model.getRestrictToKeyCodes().contains(jqEvent.getKeyCode())) {
+					event.fire(jqEvent.getKeyCode());
 				}
 			}
 		});
