@@ -187,7 +187,7 @@ public class TestBaseComponentRenderer extends AbstractDswebTest {
 
 	protected static native void fireKeyPress(int keyCode, JQuery target) /*-{
 		var e = $wnd.$.Event("keypress");
-		e.which = keyCode;
+		e.keyCode = keyCode;
 		target.trigger(e);
 	}-*/;
 }
