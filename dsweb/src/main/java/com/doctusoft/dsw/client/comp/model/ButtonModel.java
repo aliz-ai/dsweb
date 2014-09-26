@@ -27,6 +27,9 @@ import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.ModelObject;
 
 public class ButtonModel extends BaseComponentModel implements ModelObject {
+	
+	@ObservableProperty
+	private String iconClassName;
 
 	@ObservableProperty
 	private String caption;

@@ -26,9 +26,11 @@ package com.doctusoft.dsw.client.comp;
 import lombok.Getter;
 
 import com.doctusoft.bean.binding.Bindings;
+import com.doctusoft.bean.binding.Converter;
 import com.doctusoft.bean.binding.ValueBinding;
 import com.doctusoft.dsw.client.comp.model.ButtonModel;
 import com.doctusoft.dsw.client.comp.model.ButtonModel_;
+import com.doctusoft.dsw.client.gwt.BootstrapIcon;
 
 @Getter
 public class Button extends BaseComponent<Button, ButtonModel> {
@@ -47,8 +49,40 @@ public class Button extends BaseComponent<Button, ButtonModel> {
 		return this;
 	}
 	
+	public Button withIcon(BootstrapIcon icon) {
+		model.setIconClassName((icon == null)?null:icon.getClassName());
+		return this;
+	}
+	
+	public Button withIconClassName(String iconClassName) {
+		model.setIconClassName(iconClassName);
+		return this;
+	}
+
 	public Button bindCaption(final ValueBinding<String> captionBinding) {
 		Bindings.bind(captionBinding, Bindings.obs(model).get(ButtonModel_._caption));
+		return this;
+	}
+	
+	public Button bindIcon(final ValueBinding<BootstrapIcon> iconBinding) {
+		Bindings.bind(iconBinding, Bindings.obs(model).get(ButtonModel_._iconClassName).convert(new Converter<String, BootstrapIcon>() {
+			@Override
+			public String convertTarget(BootstrapIcon target) {
+				if (target == null)
+					return null;
+				return target.getClassName();
+			}
+			@Override
+			public BootstrapIcon convertSource(String source) {
+				// not needed
+				return null;
+			}
+		}));
+		return this;
+	}
+	
+	public Button bindIconClassName(final ValueBinding<String> iconClassNameBinding) {
+		Bindings.bind(iconClassNameBinding, Bindings.obs(model).get(ButtonModel_._iconClassName));
 		return this;
 	}
 	

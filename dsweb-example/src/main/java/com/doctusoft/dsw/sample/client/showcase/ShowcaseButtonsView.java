@@ -34,6 +34,7 @@ import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.Link;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
+import com.doctusoft.dsw.client.gwt.BootstrapIcon;
 import com.doctusoft.dsw.client.gwt.BootstrapStyleClasses;
 
 public class ShowcaseButtonsView implements HasComponentModel {
@@ -58,6 +59,7 @@ public class ShowcaseButtonsView implements HasComponentModel {
 						container.add(new Alert("Clicked"));
 					}
 				})).appendTo(container);
+		new Button("Button with icon").withIcon(BootstrapIcon.ICON_BOOK).appendTo(container);
 	}
 	
 	@Override

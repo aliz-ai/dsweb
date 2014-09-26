@@ -40,6 +40,23 @@ public class ButtonRenderer extends BaseComponentRenderer {
 				widget.text(Objects.firstNonNull(newValue, ""));
 			}
 		});
+		addChangeListenerAndApply(ButtonModel_._iconClassName, button, new ValueChangeListener<String>() {
+			@Override
+			public void valueChanged(String newValue) {
+				if (newValue == null) {
+					widget.find("i").remove();
+				} else {
+					JQuery icon = widget.find("i");
+					if (icon.length() == 0) {
+						icon = JQuery.select("<i/>").prependTo(widget);
+					}
+					icon.attr("class", newValue);
+					// ensure that the button text begins with a space
+					// using jquery text() would override the inserted icon, so we have to 'hack' on the text node 
+					widget.contents().get(1).setNodeValue(" " + button.getCaption());
+				}
+			}
+		});
 	}
 	
 }
