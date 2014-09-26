@@ -36,6 +36,7 @@ import com.doctusoft.dsw.client.comp.model.ContextMenuModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel;
 import com.doctusoft.dsw.client.comp.model.DatepickerModel;
 import com.doctusoft.dsw.client.comp.model.DropdownButtonModel;
+import com.doctusoft.dsw.client.comp.model.ExecuteJavascriptModel;
 import com.doctusoft.dsw.client.comp.model.HistoryHandlerModel;
 import com.doctusoft.dsw.client.comp.model.HtmlContentModel;
 import com.doctusoft.dsw.client.comp.model.IconModel;
@@ -71,87 +72,90 @@ public class RendererFactoryImpl extends AbstractGwtRendererFactory {
 	}
 	
 	@Override
-	public Renderer<JQuery> resolveRenderer(BaseComponentModel baseWidget) {
-		if (baseWidget instanceof InputTimeModel) {
-			return new InputTimeRenderer((InputTimeModel) baseWidget);
+	public Renderer<JQuery> resolveRenderer(BaseComponentModel model) {
+		if (model instanceof InputTimeModel) {
+			return new InputTimeRenderer((InputTimeModel) model);
 		}
-		if (baseWidget instanceof TypeaheadModel) {
-			return new TypeaheadRenderer( (TypeaheadModel) baseWidget );
+		if (model instanceof TypeaheadModel) {
+			return new TypeaheadRenderer( (TypeaheadModel) model );
 		}
-		if (baseWidget instanceof TabSheetModel) {
-			return new TabSheetRenderer( (TabSheetModel) baseWidget );
+		if (model instanceof TabSheetModel) {
+			return new TabSheetRenderer( (TabSheetModel) model );
 		}
-		if (baseWidget instanceof InputTagsModel) {
-			return new InputTagsRenderer( (InputTagsModel) baseWidget );
+		if (model instanceof InputTagsModel) {
+			return new InputTagsRenderer( (InputTagsModel) model );
 		}
-		if (baseWidget instanceof LabelModel) {
-			return new LabelRenderer( (LabelModel) baseWidget );
+		if (model instanceof LabelModel) {
+			return new LabelRenderer( (LabelModel) model );
 		}
-		if (baseWidget instanceof ButtonModel) {
-			return new ButtonRenderer( (ButtonModel) baseWidget );
+		if (model instanceof ButtonModel) {
+			return new ButtonRenderer( (ButtonModel) model );
 		}
-		if (baseWidget instanceof InputTextModel) {
-			return new InputTextRenderer( (InputTextModel) baseWidget );
+		if (model instanceof InputTextModel) {
+			return new InputTextRenderer( (InputTextModel) model );
 		}
-		if (baseWidget instanceof DropdownButtonModel) {
-			return new DropdownButtonRenderer( (DropdownButtonModel) baseWidget );
+		if (model instanceof DropdownButtonModel) {
+			return new DropdownButtonRenderer( (DropdownButtonModel) model );
 		}
-		if (baseWidget instanceof AlertModel) {
-			return new AlertRenderer( (AlertModel) baseWidget );
+		if (model instanceof AlertModel) {
+			return new AlertRenderer( (AlertModel) model );
 		}
-		if (baseWidget instanceof ContextMenuModel){
-			return new ContextMenuRenderer( (ContextMenuModel) baseWidget );
+		if (model instanceof ContextMenuModel){
+			return new ContextMenuRenderer( (ContextMenuModel) model );
 		}
-		if (baseWidget instanceof ContainerModel) {
-			return new ContainerRenderer( (ContainerModel) baseWidget );
+		if (model instanceof ContainerModel) {
+			return new ContainerRenderer( (ContainerModel) model );
 		}
-		if (baseWidget instanceof SelectModel) {
-			return new SelectRenderer( (SelectModel) baseWidget );
+		if (model instanceof SelectModel) {
+			return new SelectRenderer( (SelectModel) model );
 		}
-		if (baseWidget instanceof LinkModel) {
-			return new LinkRenderer( (LinkModel) baseWidget );
+		if (model instanceof LinkModel) {
+			return new LinkRenderer( (LinkModel) model );
 		}
-		if (baseWidget instanceof HistoryHandlerModel) {
-			return new HistoryHandlerRenderer( (HistoryHandlerModel) baseWidget );
+		if (model instanceof HistoryHandlerModel) {
+			return new HistoryHandlerRenderer( (HistoryHandlerModel) model );
 		}
-		if (baseWidget instanceof ModalDialogModel) {
-			return new ModalDialogRenderer( (ModalDialogModel) baseWidget );
+		if (model instanceof ModalDialogModel) {
+			return new ModalDialogRenderer( (ModalDialogModel) model );
 		}
-		if (baseWidget instanceof CheckboxModel) {
-			return new CheckboxRenderer( (CheckboxModel) baseWidget );
+		if (model instanceof CheckboxModel) {
+			return new CheckboxRenderer( (CheckboxModel) model );
 		}
-		if (baseWidget instanceof TextareaModel) {
-			return new TextareaRenderer( (TextareaModel) baseWidget );
+		if (model instanceof TextareaModel) {
+			return new TextareaRenderer( (TextareaModel) model );
 		}
-		if (baseWidget instanceof CellModel) {
-			return new CellRenderer( (CellModel) baseWidget );
+		if (model instanceof CellModel) {
+			return new CellRenderer( (CellModel) model );
 		}
-		if (baseWidget instanceof IconModel) {
-			return new IconRenderer( (IconModel) baseWidget );
+		if (model instanceof IconModel) {
+			return new IconRenderer( (IconModel) model );
 		}
-		if (baseWidget instanceof HtmlContentModel) {
-			return new HtmlContentRenderer( (HtmlContentModel) baseWidget );
+		if (model instanceof HtmlContentModel) {
+			return new HtmlContentRenderer( (HtmlContentModel) model );
 		}
-		if (baseWidget instanceof DataTableModel) {
-			return new DataTableRenderer( (DataTableModel) baseWidget );
+		if (model instanceof DataTableModel) {
+			return new DataTableRenderer( (DataTableModel) model );
 		}
-		if (baseWidget instanceof ResourceLoaderModel) {
-			return new ResourceLoaderRenderer( (ResourceLoaderModel) baseWidget );
+		if (model instanceof ResourceLoaderModel) {
+			return new ResourceLoaderRenderer( (ResourceLoaderModel) model );
 		}
-		if (baseWidget instanceof DatepickerModel) {
-			return new DatepickerRenderer( (DatepickerModel) baseWidget );
+		if (model instanceof DatepickerModel) {
+			return new DatepickerRenderer( (DatepickerModel) model );
 		}
-		if (baseWidget instanceof PieChartModel) {
-			return new PieChartRenderer( (PieChartModel) baseWidget );
+		if (model instanceof PieChartModel) {
+			return new PieChartRenderer( (PieChartModel) model );
 		}
-		if (baseWidget instanceof BarChartModel) {
-			return new BarChartRenderer( (BarChartModel) baseWidget );
+		if (model instanceof BarChartModel) {
+			return new BarChartRenderer( (BarChartModel) model );
 		}
-		if (baseWidget instanceof ImageModel) {
-			return new ImageRenderer( (ImageModel) baseWidget );
+		if (model instanceof ImageModel) {
+			return new ImageRenderer( (ImageModel) model );
 		}
-		if (baseWidget instanceof InputNumberModel) {
-			return new InputNumberRenderer( (InputNumberModel) baseWidget );
+		if (model instanceof InputNumberModel) {
+			return new InputNumberRenderer( (InputNumberModel) model );
+		}
+		if (model instanceof ExecuteJavascriptModel) {
+			return new ExecuteJavascriptRenderer((ExecuteJavascriptModel) model);
 		}
 		return null;
 	}

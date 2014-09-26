@@ -2,6 +2,7 @@ package com.doctusoft.dsw.client.gwt;
 
 import org.junit.Test;
 
+import com.doctusoft.dsw.client.comp.InputText;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent_;
@@ -9,7 +10,7 @@ import com.google.gwt.user.client.Timer;
 import com.xedge.jquery.client.JQuery;
 
 /**
- * TODO focus and keyPressed
+ * TODO keyPressed
  */
 public class TestBaseComponentRenderer extends AbstractDswebTest {
 	
@@ -143,4 +144,13 @@ public class TestBaseComponentRenderer extends AbstractDswebTest {
 		clickMock.assertValueChanged(false);
 	}
 	
+	@Test
+	public void testFocusAfterRendered() {
+		InputText inputText = new InputText().withId("text");
+		registerApp(inputText);
+		assertEquals(0, JQuery.select("#text:focus").length());
+		inputText.focus();
+		assertEquals(1, JQuery.select("#text:focus").length());
+	}
+
 }
