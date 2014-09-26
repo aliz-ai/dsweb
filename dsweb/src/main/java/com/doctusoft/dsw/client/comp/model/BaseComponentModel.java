@@ -57,9 +57,11 @@ public class BaseComponentModel implements ModelObject, HasComponentModel, Seria
 	@ObservableProperty
 	private KeyPressedEvent keyPressed = null;
 	
+	@ObservableProperty
+	private ObservableList<Integer> restrictToKeyCodes = null;
+	
 	@Override
 	public BaseComponentModel getComponentModel() {
 		return this;
 	}
-	
 }

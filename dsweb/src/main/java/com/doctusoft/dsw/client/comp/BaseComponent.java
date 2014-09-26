@@ -24,6 +24,7 @@ package com.doctusoft.dsw.client.comp;
 
 
 import java.io.Serializable;
+import java.util.Map;
 
 import lombok.Getter;
 
@@ -46,11 +47,16 @@ import com.doctusoft.dsw.client.comp.model.event.ParametricEventHandler;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
+import com.google.common.collect.Maps;
 
 @Getter
 public abstract class BaseComponent<Actual, Model extends BaseComponentModel> implements HasComponentModel, Serializable {
 	
 	protected Model model;
+	
+	protected Map<Integer, ParametricEventHandler<KeyEvent>> specificKeyHandlers;
+	protected KeyEventDispatcher specificKeyDispatcher;
+	protected boolean globalKeyHandlerRegistered = false;
 	
 	public BaseComponent(Model model) {
 		this.model = model;
@@ -61,16 +67,54 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 		return (Actual) this;
 	}
 	
+	/**
+	 * Listens to all keypress events on the given node. Use this wisely. If you only need to know about a few key codes, like Enter and Escape keys, use {@link BaseComponent#keypress(ParametricEventHandler, int...)}
+	 */
 	public Actual keypress(final ParametricEventHandler<KeyEvent> handler) {
-		model.setKeyPressed(new KeyPressedEvent());
+		globalKeyHandlerRegistered = true;
+		if (model.getRestrictToKeyCodes() != null) {
+			model.setRestrictToKeyCodes(null);
+		}
+		bindKeyPressInner(handler);
+		return (Actual) this;
+	}
+	
+	private void bindKeyPressInner(final ParametricEventHandler<KeyEvent> handler) {
 		bindEvent(BaseComponentModel_._keyPressed, handler, new Supplier<KeyPressedEvent>() {
 			@Override
 			public KeyPressedEvent get() {
 				return new KeyPressedEvent();
 			}
 		});
+	}
+	
+	/**
+	 * Listens to specific key codes. 
+	 */
+	public Actual keypress(final ParametricEventHandler<KeyEvent> handler, int ... keyCodes) {
+		if (specificKeyDispatcher == null) {
+			// register the dispatcher and make it listen to all key events
+			specificKeyDispatcher = new KeyEventDispatcher();
+			bindKeyPressInner(specificKeyDispatcher);
+		}
+		if (specificKeyHandlers == null) {
+			specificKeyHandlers = Maps.newHashMap();
+		}
+		for (int keyCode : keyCodes) {
+			specificKeyHandlers.put(keyCode, handler);
+		}
+		if (!globalKeyHandlerRegistered) {
+			if (model.getRestrictToKeyCodes() == null) {
+				model.setRestrictToKeyCodes(new ObservableList<Integer>());
+			}
+			ObservableList<Integer> restrictList = model.getRestrictToKeyCodes();
+			for (int keyCode : keyCodes) {
+				restrictList.add(keyCode);
+			}
+		}
 		return (Actual) this;
 	}
+
 	
 	public Actual bindFocus(final ObservableChainedValueBindingBuilder<ComponentEvent> eventBinding) {
 		eventBinding.get(ComponentEvent_._fired).addValueChangeListener(new ValueChangeListener<Boolean>() {
@@ -187,6 +231,18 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 	@Override
 	public Model getComponentModel() {
 		return model;
+	}
+	
+	protected class KeyEventDispatcher implements ParametricEventHandler<KeyEvent> {
+		@Override
+		public void handle(KeyEvent keyEvent) {
+			if (specificKeyHandlers == null)
+				return;
+			ParametricEventHandler<KeyEvent> handler = specificKeyHandlers.get(keyEvent.getCode());
+			if (handler != null) {
+				handler.handle(keyEvent);
+			}
+		}
 	}
 	
 	protected void bindEvent(ObservableProperty<? super Model, ComponentEvent> eventProperty, final EmptyEventHandler handler) {

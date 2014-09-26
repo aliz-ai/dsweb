@@ -2,16 +2,18 @@ package com.doctusoft.dsw.client.gwt;
 
 import org.junit.Test;
 
+import com.doctusoft.bean.ValueChangeListener;
+import com.doctusoft.bean.binding.Bindings;
+import com.doctusoft.dsw.client.KeyEventHandlerMock;
 import com.doctusoft.dsw.client.comp.InputText;
 import com.doctusoft.dsw.client.comp.Label;
+import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent_;
+import com.google.common.base.Objects;
 import com.google.gwt.user.client.Timer;
 import com.xedge.jquery.client.JQuery;
 
-/**
- * TODO keyPressed
- */
 public class TestBaseComponentRenderer extends AbstractDswebTest {
 	
 	@Test
@@ -153,4 +155,39 @@ public class TestBaseComponentRenderer extends AbstractDswebTest {
 		assertEquals(1, JQuery.select("#text:focus").length());
 	}
 
+	@Test
+	public void testKeyPressedNonRestricted() {
+		KeyEventHandlerMock mock = new KeyEventHandlerMock();
+		InputText inputText = new InputText().withId("text").keypress(mock);
+		registerApp(inputText);
+		fireKeyPress(21, JQuery.select("#text"));
+		assertEquals(21, mock.getReceivedKeyCode());
+	}
+	
+	@Test
+	public void testKeyPressedRestrictedSingle() {
+		final KeyEventHandlerMock mock = new KeyEventHandlerMock();
+		final InputText inputText = new InputText().withId("text");
+		// register directly on the model so that we capture all events
+		Bindings.obs(inputText.getModel()).get(BaseComponentModel_._keyPressed).get(ComponentEvent_._fired).addValueChangeListener(new ValueChangeListener<Boolean>() {
+			@Override
+			public void valueChanged(Boolean newValue) {
+				if (Objects.firstNonNull(newValue, false)) {
+					mock.handle(inputText.getModel().getKeyPressed().getKeyEvent());
+				}
+			}
+		});
+		inputText.keypress(new KeyEventHandlerMock(), 21);
+		registerApp(inputText);
+		fireKeyPress(22, JQuery.select("#text"));
+		assertEquals(0, mock.getReceivedKeyCode());
+		fireKeyPress(21, JQuery.select("#text"));
+		assertEquals(21, mock.getReceivedKeyCode());
+	}
+
+	protected static native void fireKeyPress(int keyCode, JQuery target) /*-{
+		var e = $wnd.$.Event("keypress");
+		e.which = keyCode;
+		target.trigger(e);
+	}-*/;
 }
