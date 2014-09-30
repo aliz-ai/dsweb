@@ -88,12 +88,16 @@ public class DataTableRenderer extends BaseComponentRenderer {
 			
 			@Override
 			public void inserted( ObservableList<Integer> list, int index, Integer element ) {
-				rows.get( element ).addClass( "selected" );
+				if (rows.size() > element){ //temporary solution, FIXME gabor-farkas https://github.com/Doctusoft/dsweb/issues/20
+					rows.get( element ).addClass( "selected" );
+				}
 			}
 			
 			@Override
 			public void removed( ObservableList<Integer> list, int index, Integer element ) {
-				rows.get( element ).removeClass( "selected" );
+				if (rows.size() > element){ //temporary solution, FIXME gabor-farkas https://github.com/Doctusoft/dsweb/issues/20
+					rows.get( element ).removeClass( "selected" );
+				}
 			}
 		};
 		install( widget );

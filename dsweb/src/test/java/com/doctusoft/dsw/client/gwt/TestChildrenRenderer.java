@@ -23,7 +23,8 @@ public class TestChildrenRenderer extends AbstractDswebTest {
 		assertEquals( "<span>egy</span>", jqLink.html() );
 		link.add( new Label( "harom" ) );
 		assertEquals( "<span>egy</span><span>harom</span>", jqLink.html() );
-		dumpRoot();
+		link.getModel().getChildren().add( 1, new Label( "koztes" ).getModel() );
+		assertEquals( "<span>egy</span><span>koztes</span><span>harom</span>", jqLink.html() );
 	}
 	
 }
