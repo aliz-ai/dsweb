@@ -14,15 +14,14 @@ package com.doctusoft.dsw.client.gwt;
  * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public
- * License along with this program.  If not, see
+ * License along with this program. If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-
 
 import com.doctusoft.dsw.client.Renderer;
 import com.doctusoft.dsw.client.comp.model.AlertModel;
@@ -50,6 +49,7 @@ import com.doctusoft.dsw.client.comp.model.LinkModel;
 import com.doctusoft.dsw.client.comp.model.ModalDialogModel;
 import com.doctusoft.dsw.client.comp.model.PieChartModel;
 import com.doctusoft.dsw.client.comp.model.ResourceLoaderModel;
+import com.doctusoft.dsw.client.comp.model.RichTextEditorModel;
 import com.doctusoft.dsw.client.comp.model.SelectModel;
 import com.doctusoft.dsw.client.comp.model.TabSheetModel;
 import com.doctusoft.dsw.client.comp.model.TextareaModel;
@@ -72,9 +72,9 @@ public class RendererFactoryImpl extends AbstractGwtRendererFactory {
 	}
 	
 	@Override
-	public Renderer<JQuery> resolveRenderer(BaseComponentModel model) {
+	public Renderer<JQuery> resolveRenderer( BaseComponentModel model ) {
 		if (model instanceof InputTimeModel) {
-			return new InputTimeRenderer((InputTimeModel) model);
+			return new InputTimeRenderer( (InputTimeModel) model );
 		}
 		if (model instanceof TypeaheadModel) {
 			return new TypeaheadRenderer( (TypeaheadModel) model );
@@ -100,7 +100,7 @@ public class RendererFactoryImpl extends AbstractGwtRendererFactory {
 		if (model instanceof AlertModel) {
 			return new AlertRenderer( (AlertModel) model );
 		}
-		if (model instanceof ContextMenuModel){
+		if (model instanceof ContextMenuModel) {
 			return new ContextMenuRenderer( (ContextMenuModel) model );
 		}
 		if (model instanceof ContainerModel) {
@@ -155,9 +155,11 @@ public class RendererFactoryImpl extends AbstractGwtRendererFactory {
 			return new InputNumberRenderer( (InputNumberModel) model );
 		}
 		if (model instanceof ExecuteJavascriptModel) {
-			return new ExecuteJavascriptRenderer((ExecuteJavascriptModel) model);
+			return new ExecuteJavascriptRenderer( (ExecuteJavascriptModel) model );
+		}
+		if (model instanceof RichTextEditorModel) {
+			return new RichTextEditorRenderer( (RichTextEditorModel) model );
 		}
 		return null;
 	}
-	
 }
