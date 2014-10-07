@@ -3,6 +3,7 @@ package com.doctusoft.dsw.client.comp;
 
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.ValueBinding;
+import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.comp.model.RichTextEditorModel;
 import com.doctusoft.dsw.client.comp.model.RichTextEditorModel_;
 
@@ -18,6 +19,11 @@ public class RichTextEditor extends BaseComponent<RichTextEditor, RichTextEditor
 	
 	public RichTextEditor bindContent( ValueBinding<String> binding ) {
 		Bindings.bind( binding, Bindings.obs( model ).get( RichTextEditorModel_._content ) );
+		return this;
+	}
+	
+	public RichTextEditor bindAutoCompleteOptions( ValueBinding<ObservableList<String>> binding ) {
+		Bindings.bind( binding, Bindings.obs( model ).get( RichTextEditorModel_._autoCompleteOptions ) );
 		return this;
 	}
 }

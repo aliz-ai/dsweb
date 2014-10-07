@@ -23,30 +23,16 @@ package com.doctusoft.dsw.sample.client.person;
  * #L%
  */
 
-import com.doctusoft.ObservableProperty;
-import com.doctusoft.bean.binding.Bindings;
-import com.doctusoft.dsw.client.comp.InputTags;
 import com.doctusoft.dsw.client.comp.InputText;
 import com.doctusoft.dsw.client.comp.RichTextEditor;
-import com.doctusoft.dsw.client.comp.Select;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
 public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 	
-	private Select<String> select;
-	private InputTags inputTagsWithOption;
-	private InputText focus;
-	@ObservableProperty
-	private String content = "hahahah";
-	
 	public SandboxView() {
-		new RichTextEditor().bindContent( Bindings.obs( this ).get( SandboxView_._content ) ).appendTo( container );
-	}
-	
-	@Override
-	public void viewPresented() {
-		//		focus.focus();
-		//		select.setSelectItems(getPresenter().getLocationItems());
+		new RichTextEditor().bindContent( bindOnPresenter().get( SandboxActivity_._content2 ) )
+			.bindAutoCompleteOptions( bindOnPresenter().get( SandboxActivity_._options ) ).appendTo( container );
+		new InputText().bind( bindOnPresenter().get( SandboxActivity_._content2 ) ).appendTo( container );
 	}
 	
 }

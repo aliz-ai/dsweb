@@ -2,48 +2,92 @@
 package com.doctusoft.dsw.client.gwt;
 
 import com.doctusoft.bean.ValueChangeListener;
+import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.comp.model.RichTextEditorModel;
 import com.doctusoft.dsw.client.comp.model.RichTextEditorModel_;
 import com.google.common.base.Objects;
-import com.xedge.jquery.client.JQEvent;
+import com.google.common.base.Strings;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.JsArray;
 import com.xedge.jquery.client.JQuery;
-import com.xedge.jquery.client.handlers.EventHandler;
 
 public class RichTextEditorRenderer extends BaseComponentRenderer {
 	
+	private static Integer editorIdSequence = 0;
+	
+	private static final String RICH_TEXT_ID_PREFIX = "richtext";
+	
+	private RichTextEditorModel model;
+	
 	public RichTextEditorRenderer( final RichTextEditorModel model ) {
-		super( JQuery.select( "<form method=\"post\"><textarea name=\"content\" id=\"" + model.getId()
-			+ "\" style=\"width:100%\"></textarea></form>" ),
+		super( JQuery.select( "<textarea name=\"content\" id=\""
+			+ Objects.firstNonNull( model.getId(), RICH_TEXT_ID_PREFIX + editorIdSequence )
+			+ "\" style=\"width:100%\"></textarea>" ),
 			model );
-		init( widget );
-		String modelContent = model.getContent();
-		widget.html( Objects.firstNonNull( modelContent, "" ) );
+		this.model = model;
+		if (Strings.isNullOrEmpty( model.getId() )) {
+			model.setId( RICH_TEXT_ID_PREFIX + (editorIdSequence).toString() );
+			editorIdSequence++;
+		}
+		String content = model.getContent();
+		widget.html( content );
+		
+		JsArray<JavaScriptObject> autoCompleteValues = JavaScriptObject.createArray().cast();
+		ObservableList<String> autoCompleteOptions = model.getAutoCompleteOptions();
+		for (String option : autoCompleteOptions) {
+			autoCompleteValues.push( createOption( option ) );
+		}
+		
+		init( widget, model.getId(), content, autoCompleteValues );
 		
 		RichTextEditorModel_._content.addChangeListener( model, new ValueChangeListener<String>() {
 			
 			@Override
 			public void valueChanged( String content ) {
-				widget.html( content );
+				setContent( content, model.getId() );
 			}
 		} );
 		
-		widget.keypress( new EventHandler() {
-			
-			@Override
-			public void eventComplete( JQEvent event, JQuery currentJQuery ) {
-				model.setContent( widget.html() );
-				
-				//TODO ez igy nem jo
-				
-			}
-		} );
 	}
 	
-	private native void init( JQuery widget ) /*-{
-		widget.tinymce({
-			script_url : 'tinymce/js/tinymce/tinymce.min.js',
-			theme : "modern"
-		});
+	private native JavaScriptObject createOption( String optionName )/*-{
+		return {
+			name : optionName
+		};
+	}-*/;
+	
+	private void editorContentChanged( String content ) {
+		model.setContent( content );
+	}
+	
+	private native void setContent( String content, String id )/*-{
+		if ($wnd.tinymce.get(id).getContent() != content) {
+			$wnd.tinymce.get(id).setContent(content);
+		}
+	}-*/;
+	
+	private native void init( JQuery widget, String id, String content, JsArray<JavaScriptObject> mentionSources ) /*-{
+		var that = this;
+		setTimeout(function() {
+			$wnd.tinymce.init({
+				selector : "textarea#" + id,
+				theme : "modern",
+				plugins : "mention",
+				content: content,
+				mentions: {
+				    source: mentionSources,
+				    insert: function(item) {
+					    return '{' + item.name + '}';
+					}, 
+					delimiter: '{'
+				},
+				setup : function(editor) {
+					editor.on('change', function(e) {
+						that.@com.doctusoft.dsw.client.gwt.RichTextEditorRenderer::editorContentChanged(Ljava/lang/String;)(editor.getContent());
+					});
+				}
+			});
+		}, 0);
 	}-*/;
 	
 }

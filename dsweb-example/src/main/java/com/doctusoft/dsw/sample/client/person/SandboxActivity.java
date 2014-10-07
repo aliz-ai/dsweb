@@ -14,27 +14,18 @@ package com.doctusoft.dsw.sample.client.person;
  * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public
- * License along with this program.  If not, see
+ * License along with this program. If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
 
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.doctusoft.MethodRef;
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.binding.observable.ObservableList;
-import com.doctusoft.dsw.client.comp.SelectItem;
-import com.doctusoft.dsw.client.comp.SelectItems;
-import com.doctusoft.dsw.client.comp.model.ComponentEvent;
-import com.doctusoft.dsw.client.comp.model.SelectionMode;
 import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.ClientFactory;
 import com.google.gwt.activity.shared.AbstractActivity;
@@ -46,79 +37,30 @@ public class SandboxActivity extends AbstractActivity {
 	private final ClientFactory clientFactory;
 	
 	@ObservableProperty
-	private Integer activePage = 1;
+	private String content2 = "<p>ohplease</p><p>hello</p>";
 	
 	@ObservableProperty
-	private Integer numberOfPages = 1;
-	
-	@ObservableProperty
-	private String pageInfo = "";
-	
-	@ObservableProperty
-	private ObservableList<SelectItem<String>> locationItems = new ObservableList<SelectItem<String>>();
-	
-	@ObservableProperty
-	private ObservableList<PersonDto> personList = new ObservableList<PersonDto>();
-	
-	@ObservableProperty
-	private SelectionMode selectionMode = SelectionMode.Single;
-	
-	@ObservableProperty
-	private ObservableList<PersonDto> selection = new ObservableList<PersonDto>();
-	
-	@ObservableProperty
-	private boolean visibility = true;
-	
-	@ObservableProperty
-	private boolean cellVisibilty = true;
-	
-	@ObservableProperty
-	private ComponentEvent focus = new ComponentEvent();
-	
-	List<PersonDto> dummy = new ArrayList<PersonDto>();
+	ObservableList<String> options = new ObservableList<String>();
 	
 	public SandboxActivity( ClientFactory clientFactory ) {
 		this.clientFactory = clientFactory;
+		options.add( "Bela" );
+		options.add( "jozsi" );
+		options.add( "Nora" );
+		options.add( "ELemer" );
+		
 	}
 	
 	@MethodRef
-	public void checkBindings() {
-		System.out.println( "visibility: " + visibility );
-	}
+	public void checkBindings() {}
 	
 	@Override
 	public void start( AcceptsOneWidget panel, EventBus eventBus ) {
 		ViewOf<SandboxActivity> view = clientFactory.getSandboxView();
-		locationItems.addAll( SelectItems.fromStrings( "asd", "blup", "blip" ) );
-		
-		dummy.add(new PersonDto(1l, "Compay Segundo", "compay@buena.cu", new Date(7, 10, 18)));
-		dummy.add(new PersonDto(2l, "Omara Portuondo", "omara@buena.cu", new Date(30, 9, 29)));
-		dummy.add(new PersonDto(3l, "Ibrahim Ferrer", "ibrahim@buena.cu", new Date(6, 7, 27)));
-		setActivePage(1);
-		setNumberOfPages(dummy.size());
-		setPageInfo(getActivePage() + "/" + getNumberOfPages());
-		pagination();
 		view.setPresenter( this );
 		panel.setWidget( view );
 		view.viewPresented();
 		
 	}
 	
-	@MethodRef
-	public void hideCell() {
-		setCellVisibilty(!isCellVisibilty());
-	}
-	
-	@MethodRef
-	public void pagination() {
-		personList.clear();
-		setPageInfo(getActivePage() + "/" + getNumberOfPages());
-		personList.add(dummy.get(activePage-1));
-	}
-	
-	@MethodRef
-	public void hideLabel() {
-		personList.removeAll(selection);
-		setVisibility(!isVisibility());
-	}
 }
