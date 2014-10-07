@@ -73,13 +73,15 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 				selector : "textarea#" + id,
 				theme : "modern",
 				plugins : "mention",
+				toolbar: 
+			        "undo redo | styleselect | bold italic | link image | alignleft aligncenter alignright | sizeselect | fontselect |  fontsizeselect",
 				content: content,
 				mentions: {
 				    source: mentionSources,
 				    insert: function(item) {
-					    return '{' + item.name + '}';
+					    return '${' + item.name + '}';
 					}, 
-					delimiter: '{'
+					delimiter: '$'
 				},
 				setup : function(editor) {
 					editor.on('change', function(e) {
