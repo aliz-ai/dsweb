@@ -42,18 +42,15 @@ public class AlertModel extends ContainerModel implements ModelObject {
 	@Setter
 	private AlertDisplayType alertDisplayType = AlertDisplayType.OneLine;
 	
-	@Setter
+	@ObservableProperty
 	private AlertType alertType;
 	
 	public String getAlertDisplayType() {
-		return alertDisplayType.getName();
-	}
-	
-	public String getAlertType() {
 		if (alertType != null) {
-			return alertType.getName();
+			return alertDisplayType.getName();
 		}
 		return null;
 	}
+	
 
 }

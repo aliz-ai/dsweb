@@ -25,21 +25,35 @@ package com.doctusoft.dsw.client.gwt;
 
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
+import com.doctusoft.dsw.client.comp.Alert.AlertType;
 import com.doctusoft.dsw.client.comp.model.AlertModel;
 import com.doctusoft.dsw.client.comp.model.AlertModel_;
 import com.xedge.jquery.client.JQuery;
 
 public class AlertRenderer extends ContainerRenderer {
 	
+	private AlertType lastAlertType;
+
 	public AlertRenderer(AlertModel alert) {
 		super(alert);
 		final JQuery title = JQuery.select("<" + alert.getAlertDisplayType() + ">" + alert.getTitle() + "</" + alert.getAlertDisplayType() +  ">");
+		lastAlertType = alert.getAlertType();
 		widget.append(title);
 		widget.append(" <span>" + alert.getDescription() + "</span>");
 		
 		if (alert.getAlertType() != null) {
-			widget.addClass(alert.getAlertType());
+			widget.addClass(alert.getAlertType().getName());
 		}
+
+		Bindings.obs(alert).get(AlertModel_._alertType).addValueChangeListener(new ValueChangeListener<AlertType>() {
+			@Override
+			public void valueChanged(AlertType newValue) {
+				if (lastAlertType != null) {
+					widget.removeClass(lastAlertType.getName());
+				}
+				widget.addClass(newValue.getName());
+			}
+		});
 		
 		Bindings.obs(alert).get(AlertModel_._title).addValueChangeListener(new ValueChangeListener<String>() {
 			@Override

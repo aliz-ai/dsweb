@@ -44,5 +44,9 @@ public class TestAlertRenderer extends AbstractDswebTest {
 		alert.getModel().setAlertType( AlertType.Danger );
 		registerApp( alert );
 		assertTrue( JQuery.select( "#alert" ).hasClass( "alert-error" ) );
+		alert.getModel().setAlertType(AlertType.Information);
+		assertTrue(JQuery.select("#alert").hasClass("alert-info"));
+		assertFalse(JQuery.select("#alert").hasClass("alert-error"));
+
 	}
 }
