@@ -41,10 +41,10 @@ import com.doctusoft.dsw.sample.client.person.ChartView;
 import com.google.common.collect.Maps;
 
 public class ShowcaseView extends ContainerWithPresenter<ShowcaseActivity> {
-	
+
 	private final Container subcontainer;
 	private final Map<ShowcaseItem, HasComponentModel> subitems = Maps.newHashMap();
-	
+
 	public ShowcaseView() {
 		Row row = new Row().appendTo(container);
 		Cell menuCell = new Cell().withSpan(3).appendTo(row);
@@ -60,6 +60,7 @@ public class ShowcaseView extends ContainerWithPresenter<ShowcaseActivity> {
 		.addMenuItem(new Link("Progress Bars", "#ShowcasePlace:ProgressBars"))
 		.addMenuItem(new Link("Exceptions", "#ShowcasePlace:Exceptions"))
 		.addMenuItem(new Link("Charts", "#ShowcasePlace:Charts"))
+		.addMenuItem(new Link("RichText editor", "#ShowcasePlace:RichTextEditor"))
 		.appendTo(menuCell);
 		subcontainer = new Container().appendTo(new Cell().withSpan(9).appendTo(row));
 		// a lazy initialization would be nicer, but that's okay for now
@@ -69,18 +70,23 @@ public class ShowcaseView extends ContainerWithPresenter<ShowcaseActivity> {
 		subitems.put(ShowcaseItem.Typeahead, new ShowcaseTypeaheadView());
 		subitems.put(ShowcaseItem.Navs, new ShowcaseNavsView());
 		subitems.put(ShowcaseItem.ProgressBars, new ShowcaseProgressBarView());
+		ShowcaseRichTextEditorView showcaseRichTextEditorView = new ShowcaseRichTextEditorView();
+		Bindings.bind(bindOnPresenter(),
+				(ValueBinding) Bindings.obs(showcaseRichTextEditorView).get(ContainerWithPresenter_._presenter));
+		subitems.put(ShowcaseItem.RichTextEditor, showcaseRichTextEditorView);
+
 		ShowcaseTableView tableView = new ShowcaseTableView();
 		Bindings.bind(bindOnPresenter(), (ValueBinding) Bindings.obs(tableView).get(ContainerWithPresenter_._presenter));
 		subitems.put(ShowcaseItem.Tables, tableView);
-		
+
 		ShowcaseInputTagsView inputTagsView = new ShowcaseInputTagsView();
 		Bindings.bind(bindOnPresenter(), (ValueBinding)Bindings.obs(inputTagsView).get(ContainerWithPresenter_._presenter));
 		subitems.put(ShowcaseItem.InputTags, inputTagsView);
-		
+
 		ShowcaseDatepickerView datepickerView = new ShowcaseDatepickerView();
 		Bindings.bind(bindOnPresenter(), (ValueBinding)Bindings.obs(datepickerView).get(ContainerWithPresenter_._presenter));
 		subitems.put(ShowcaseItem.Datepicker, datepickerView);
-		
+
 		ShowcaseExceptionsView exceptionsView = new ShowcaseExceptionsView();
 		Bindings.bind(bindOnPresenter(), (ValueBinding) Bindings.obs(exceptionsView).get(ContainerWithPresenter_._presenter));
 		subitems.put(ShowcaseItem.Exceptions, exceptionsView);
@@ -95,11 +101,11 @@ public class ShowcaseView extends ContainerWithPresenter<ShowcaseActivity> {
 				subcontainer.add(subView);
 			}
 		});
-		
+
 		ChartView chartView = new ChartView();
 		Bindings.bind(bindOnPresenter(), (ValueBinding) Bindings.obs(chartView).get(ContainerWithPresenter_._presenter));
-		
+
 		subitems.put( ShowcaseItem.Charts, chartView );
 	}
-	
+
 }

@@ -45,49 +45,57 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
 public class ShowcaseActivity extends BaseActivity<ShowcaseActivity, ShowcasePlace> {
-	
+
 	@ObservableProperty
 	private ShowcaseItem item;
-	
+
 	@ObservableProperty
 	private ObservableList<PersonDto> personList = new ObservableList<PersonDto>();
-	
+
 	@ObservableProperty
 	private String modalContent;
-	
+
 	@ObservableProperty
 	private boolean modalVisible;
-	
+
 	@ObservableProperty
 	private SelectionMode selectionMode = SelectionMode.Single;
-	
+
 	@ObservableProperty
 	private ObservableList<PersonDto> selection = new ObservableList<PersonDto>();
-	
+
 	@ObservableProperty
 	private String selectionString = "";
-	
+
 	@ObservableProperty
 	private ObservableList<TagOption> tagOptions = new ObservableList<TagOption>();
-	
+
 	@ObservableProperty
 	private ObservableList<TagOption> tagOptionSuggestions = new ObservableList<TagOption>();
-	
+
 	@ObservableProperty
 	private ObservableList<String> tags = new ObservableList<String>();
-	
+
 	@ObservableProperty
 	private String tagsJoined = "";
-	
+
 	@ObservableProperty
 	private ObservableList<String> tagSuggestions = new ObservableList<String>();
-	
+
 	@ObservableProperty
 	private String timeTest = "";
-	
+
 	@ObservableProperty
 	private Date dateTimeTest;
-	
+
+	private static int counter = 0;
+
+	@ObservableProperty
+	private String content2 = "<p>ohplease</p><p>hello</p>";
+
+	@ObservableProperty
+	ObservableList<String> options = new ObservableList<String>();
+
 	public ShowcaseActivity(ClientFactory clientFactory, ShowcasePlace showcasePlace) {
 		super(clientFactory, showcasePlace);
 		setItem(place.getItem());
@@ -117,24 +125,28 @@ public class ShowcaseActivity extends BaseActivity<ShowcaseActivity, ShowcasePla
 				setTagsJoined("Selected tags: " + Joiner.on(",").join(tags));
 			}
 		};
+		options.add("Bela");
+		options.add("jozsi");
+		options.add("Nora");
+		options.add("ELemer");
 	}
-	
+
 	@Override
 	protected ViewOf<ShowcaseActivity> createView() {
 		return clientFactory.getShowcaseView();
 	}
-	
+
 	@MethodRef
 	public void dangerousMethod() {
 		throw new RuntimeException("unexpected exception");
 	}
-	
+
 	@MethodRef
 	public void personClicked(PersonDto personDto) {
 		setModalContent("You selected: " + personDto.getName());
 		setModalVisible(true);
 	}
-	
+
 	@MethodRef
 	public void chartClicked(ChartItemClickParam param){
 		setModalContent("Selected item: " + param.getItemIndex() + " subindex: " + param.getSubIndex());
@@ -149,5 +161,10 @@ public class ShowcaseActivity extends BaseActivity<ShowcaseActivity, ShowcasePla
 			setTimeTest("There's no date selected!");
 		}
 	}
-		
+
+	@MethodRef
+	public void addOption() {
+		options.add(1, "option" + counter++);
+	}
+
 }

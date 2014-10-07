@@ -1,4 +1,3 @@
-
 package com.doctusoft.dsw.sample.client.person;
 
 /*
@@ -28,11 +27,15 @@ import com.doctusoft.dsw.client.comp.RichTextEditor;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
 public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
-	
+
 	public SandboxView() {
-		new RichTextEditor().bindContent( bindOnPresenter().get( SandboxActivity_._content2 ) )
-			.bindAutoCompleteOptions( bindOnPresenter().get( SandboxActivity_._options ) ).appendTo( container );
-		new InputText().bind( bindOnPresenter().get( SandboxActivity_._content2 ) ).appendTo( container );
+		new RichTextEditor().bindContent(bindOnPresenter().get(SandboxActivity_._content2))
+		.bindAutoCompleteOptions(bindOnPresenter().get(SandboxActivity_._options))
+		.withAutocompleteTriggerCharacter('@').withTextToInsertBeforeAutoCompleteValue("@{")
+		.appendTo(container);
+		new InputText().bind(bindOnPresenter().get(SandboxActivity_._content2)).appendTo(container);
+		new com.doctusoft.dsw.client.comp.Button("Add option").click(presenterMethod(SandboxActivity_.__addOption))
+				.appendTo(
+				container);
 	}
-	
 }

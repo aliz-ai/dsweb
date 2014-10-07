@@ -24,7 +24,7 @@ package com.doctusoft.dsw.sample.client.showcase;
 
 
 public enum ShowcaseItem {
-	
+
 	Buttons,
 	Select,
 	Typeahead,
@@ -35,6 +35,7 @@ public enum ShowcaseItem {
 	Tables,
 	ProgressBars,
 	Exceptions,
-	Charts;
-	
+	Charts,
+	RichTextEditor;
+
 }
