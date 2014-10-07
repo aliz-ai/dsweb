@@ -42,7 +42,7 @@ import com.doctusoft.dsw.client.comp.model.DataTableModel_;
 import com.doctusoft.dsw.client.comp.model.DataTableRowModel;
 import com.doctusoft.dsw.client.comp.model.RowClickedEvent;
 import com.doctusoft.dsw.client.comp.model.SelectionMode;
-import com.doctusoft.dsw.client.comp.model.event.ParametricEventHandler;
+import com.doctusoft.bean.binding.ParametricEventHandler;
 import com.google.common.base.Function;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Lists;

@@ -34,7 +34,7 @@ import com.doctusoft.dsw.client.comp.PasswordField;
 import com.doctusoft.dsw.client.comp.Textarea;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.event.KeyEvent;
-import com.doctusoft.dsw.client.comp.model.event.ParametricEventHandler;
+import com.doctusoft.bean.binding.ParametricEventHandler;
 
 public class ShowcaseInputsView implements HasComponentModel {
 	

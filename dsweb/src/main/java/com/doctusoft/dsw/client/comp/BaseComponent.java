@@ -43,7 +43,7 @@ import com.doctusoft.dsw.client.comp.model.ComponentEvent_;
 import com.doctusoft.dsw.client.comp.model.event.KeyEvent;
 import com.doctusoft.dsw.client.comp.model.event.KeyPressedEvent;
 import com.doctusoft.dsw.client.comp.model.event.ParametricEvent;
-import com.doctusoft.dsw.client.comp.model.event.ParametricEventHandler;
+import com.doctusoft.bean.binding.ParametricEventHandler;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;

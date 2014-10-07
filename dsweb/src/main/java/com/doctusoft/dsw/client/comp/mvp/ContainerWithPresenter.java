@@ -36,7 +36,7 @@ import com.doctusoft.bean.binding.observable.ObservableChainedValueBindingBuilde
 import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.HasComponentModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
-import com.doctusoft.dsw.client.comp.model.event.ParametricEventHandler;
+import com.doctusoft.bean.binding.ParametricEventHandler;
 import com.doctusoft.dsw.client.exc.ExceptionReporter;
 import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.google.gwt.user.client.ui.Widget;

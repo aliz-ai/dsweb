@@ -28,7 +28,7 @@ import com.doctusoft.dsw.client.comp.model.AbstractChartModel.LegendPosition;
 import com.doctusoft.dsw.client.comp.model.AbstractChartModel_;
 import com.doctusoft.dsw.client.comp.model.ChartItemClickParam;
 import com.doctusoft.dsw.client.comp.model.ChartItemClickedEvent;
-import com.doctusoft.dsw.client.comp.model.event.ParametricEventHandler;
+import com.doctusoft.bean.binding.ParametricEventHandler;
 import com.google.common.base.Supplier;
 
 
