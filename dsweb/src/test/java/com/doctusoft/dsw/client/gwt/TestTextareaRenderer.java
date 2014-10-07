@@ -35,4 +35,16 @@ public class TestTextareaRenderer extends AbstractDswebTest {
 		
 	}
 
+	@Test
+	public void testPlaceHolder() {
+		final Textarea textArea = new Textarea().withId("textarea").withPlaceHolder("ph");
+		registerApp(textArea);
+		JQuery jqInput = JQuery.select("#textarea");
+		String actualPlaceholder = jqInput.attr("placeholder");
+		assertEquals("ph", actualPlaceholder);
+		textArea.withPlaceHolder("changed");
+		actualPlaceholder = jqInput.attr("placeholder");
+		assertEquals("changed", actualPlaceholder);
+	}
+
 }

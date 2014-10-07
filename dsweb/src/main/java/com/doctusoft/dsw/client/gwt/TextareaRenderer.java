@@ -34,8 +34,9 @@ import com.xedge.jquery.client.handlers.EventHandler;
 public class TextareaRenderer extends BaseComponentRenderer {
 
 	public TextareaRenderer(final TextareaModel textarea) {
-		super(JQuery.select("<textarea rows=\"" + textarea.getRows() +"\"></textarea>"), textarea);
-		
+		super(JQuery.select("<textarea rows=\"" + textarea.getRows() + "\" placeholder=\"" + textarea.getPlaceHolder()
+				+ "\"></textarea>"), textarea);
+
 		widget.val(textarea.getValue());
 		Bindings.obs(textarea).get(TextareaModel_._value).addValueChangeListener(new ValueChangeListener<String>() {
 			@Override
@@ -47,6 +48,14 @@ public class TextareaRenderer extends BaseComponentRenderer {
 			@Override
 			public void eventComplete(JQEvent event, JQuery currentJQuery) {
 				textarea.setValue(widget.val());
+			}
+		});
+
+		TextareaModel_._placeHolder.addChangeListener(textarea, new ValueChangeListener<String>() {
+
+			@Override
+			public void valueChanged(String placeHolder) {
+				widget.attr("placeholder", placeHolder);
 			}
 		});
 	}

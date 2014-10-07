@@ -44,7 +44,7 @@ public class ShowcaseInputsView implements HasComponentModel {
 		new BaseContainer().withStyleClass("page-header").appendTo(container)
 			.add(new HtmlContent("<h1>Inputs</h1>"));
 		new Label("Simple text input", "h3").appendTo(container);
-		new InputText().appendTo(container)
+		new InputText().withPlaceHolder("placeholder").appendTo(container)
 			.keypress(new ParametricEventHandler<KeyEvent>() {
 				@Override
 				public void handle(KeyEvent parameter) {

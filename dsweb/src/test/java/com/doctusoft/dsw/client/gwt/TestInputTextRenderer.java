@@ -37,4 +37,16 @@ public class TestInputTextRenderer extends AbstractDswebTest {
 		jqInput.change();
 		assertEquals( "proba", inputText.getModel().getValue() );
 	}
+
+	@Test
+	public void testPlaceHolder() {
+		final InputText inputText = new InputText().withId("input").withPlaceHolder("ph");
+		registerApp(inputText);
+		JQuery jqInput = JQuery.select("#input");
+		String actualPlaceholder = jqInput.attr("placeholder");
+		assertEquals("ph", actualPlaceholder);
+		inputText.withPlaceHolder("changed");
+		actualPlaceholder = jqInput.attr("placeholder");
+		assertEquals("changed", actualPlaceholder);
+	}
 }

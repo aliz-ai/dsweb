@@ -31,8 +31,23 @@ public class TestInputTimeRenderer extends AbstractDswebTest {
 		assertEquals( "08:14", model.getValue() );
 		changeInputValue( jqInput, "1214" );
 		assertEquals( "12:14", model.getValue() );
+		jqInput.val("18:40");
+		jqInput.change();
+		assertEquals("18:40", model.getValue());
 	}
 	
+	@Test
+	public void testPlaceHolder() {
+		final InputTime inputTime = new InputTime().withId("input").withPlaceHolder("ph");
+		registerApp(inputTime);
+		JQuery jqInput = JQuery.select("#input");
+		String actualPlaceholder = jqInput.attr("placeholder");
+		assertEquals("ph", actualPlaceholder);
+		inputTime.withPlaceHolder("changed");
+		actualPlaceholder = jqInput.attr("placeholder");
+		assertEquals("changed", actualPlaceholder);
+	}
+
 	private void changeInputValue( JQuery jqInput, String newVal ) {
 		jqInput.val( newVal );
 		jqInput.change();

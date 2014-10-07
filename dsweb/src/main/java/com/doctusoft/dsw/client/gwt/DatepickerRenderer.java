@@ -35,29 +35,29 @@ import com.xedge.jquery.client.JQuery;
 import com.xedge.jquery.client.handlers.EventHandler;
 
 public class DatepickerRenderer extends BaseComponentRenderer {
-	
+
 	private boolean changedFromModel = false;
-	
+
 	private boolean changedFromWidget = false;
-	
+
 	DefaultDateTimeFormatInfo info = new DefaultDateTimeFormatInfo();
-	
+
 	DateTimeFormat dateTimeFormat;
-	
+
 	public DatepickerRenderer(final DatepickerModel model) {
-		super(JQuery.select("<input type=\"text\" />"), model);
+		super(JQuery.select("<input type=\"text\" placeholder=\"" + model.getPlaceHolder() + "\"/>"), model);
 		dateTimeFormat = new DateTimeFormat(model.getFormat(), info){};
-		
+
 		initDatepickerNative(widget, model.getFormat().toLowerCase());
-		
+
 		if(model.getValue() != null) {
 			setDatepickerValueNative(widget, dateTimeFormat.format(model.getValue()));
 		} else {
 			setDatepickerValueNative(widget, "");
 		}
-			
+
 		DatepickerModel_._value.addChangeListener(model, new ValueChangeListener<Date>() {
-			
+
 			@Override
 			public void valueChanged(Date newValue) {
 				if (changedFromWidget) {
@@ -68,11 +68,19 @@ public class DatepickerRenderer extends BaseComponentRenderer {
 					setDatepickerValueNative(widget, dateTimeFormat.format(newValue));
 				} else {
 					setDatepickerValueNative(widget, "");
-				} 
+				}
 				changedFromModel = false;
 			}
 		});
-		
+
+		DatepickerModel_._placeHolder.addChangeListener(model, new ValueChangeListener<String>() {
+
+			@Override
+			public void valueChanged(String placeHolder) {
+				widget.attr("placeholder", placeHolder);
+			}
+		});
+
 		widget.change(new EventHandler() {
 
 			@Override
@@ -90,7 +98,7 @@ public class DatepickerRenderer extends BaseComponentRenderer {
 				changedFromWidget = false;
 			}
 		});
-		
+
 		DatepickerModel_._format.addChangeListener(model, new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
@@ -103,17 +111,17 @@ public class DatepickerRenderer extends BaseComponentRenderer {
 	private native void setDatepickerValueNative(JQuery widget, String value) /*-{
 		widget.datepicker("setDate", value);
 	}-*/;
-	
+
 
 	private native void destroyDatepickerNative(JQuery widget) /*-{
 		widget.datepicker("remove");
 	}-*/;
-	
+
 	private native void initDatepickerNative(JQuery widget, String datepickerFormat) /*-{
 		widget.datepicker({
-			clearBtn: true,
-			autoclose: true,
-			format: datepickerFormat
+			clearBtn : true,
+			autoclose : true,
+			format : datepickerFormat
 		});
 	}-*/;
 

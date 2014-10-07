@@ -35,14 +35,20 @@ public class Datepicker extends BaseComponent<Datepicker, DatepickerModel> {
 	public Datepicker() {
 		super(new DatepickerModel());
 	}
-	
+
 	public Datepicker withFormat(String format) {
 		model.setFormat(format);
 		return this;
 	}
-	
+
 	public Datepicker bind(final ValueBinding<Date> valueBinding) {
 		Bindings.bind(valueBinding, Bindings.obs(model).get(DatepickerModel_._value));
 		return this;
 	}
+
+	public Datepicker withPlaceHolder(String placeHolder) {
+		model.setPlaceHolder(placeHolder);
+		return this;
+	}
+
 }

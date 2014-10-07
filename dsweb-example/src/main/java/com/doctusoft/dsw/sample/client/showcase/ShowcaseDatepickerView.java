@@ -35,20 +35,21 @@ public class ShowcaseDatepickerView extends ContainerWithPresenter<ShowcaseActiv
 	public ShowcaseDatepickerView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(container)
 		.add(new HtmlContent("<h1>Datepicker</h1>"));
-		
+
 		new Datepicker().bind( bindOnPresenter().get(ShowcaseActivity_._dateTimeTest) )
 		.withFormat( "yyyy.MM.dd" )
+		.withPlaceHolder("Pick a date!")
 		.appendTo(container);
-		
+
 		new HtmlContent("<br>").appendTo(container);
-		
+
 		new Label().bind(bindOnPresenter().get(ShowcaseActivity_._timeTest)).appendTo(container);
-		
+
 		new HtmlContent("<br>").appendTo(container);
-		
+
 		new Button("Check binding").click(presenterMethod(ShowcaseActivity_.__datePickerBindingTest)).appendTo(container);
 	}
-	
-	
+
+
 
 }

@@ -34,7 +34,7 @@ import com.xedge.jquery.client.handlers.EventHandler;
 public class InputTextRenderer extends BaseComponentRenderer {
 
 	public InputTextRenderer(final InputTextModel inputText) {
-		super(JQuery.select("<input type=\""+ inputText.getInputType() + "\" />"), inputText);
+		super(JQuery.select(createWidgetText(inputText.getInputType(), inputText.getPlaceHolder())), inputText);
 		widget.val(inputText.getValue());
 		Bindings.obs(inputText).get(InputTextModel_._value).addValueChangeListener(new ValueChangeListener<String>() {
 			@Override
@@ -43,6 +43,23 @@ public class InputTextRenderer extends BaseComponentRenderer {
 			}
 		});
 		Bindings.obs(inputText).get(InputTextModel_._inputType).addValueChangeListener(new ValueChangeListener<String>() {
+			@Override
+			public void valueChanged(String newValue) {
+				widget = JQuery.select(createWidgetText(newValue, inputText.getPlaceHolder()));
+			}
+		});
+
+		Bindings.obs(inputText).get(InputTextModel_._placeHolder).addValueChangeListener(new ValueChangeListener<String>() {
+
+			@Override
+			public void valueChanged(String placeHolder) {
+				widget.attr("placeHolder", placeHolder);
+
+			}
+		});
+
+		Bindings.obs(inputText).get(InputTextModel_._inputType)
+		.addValueChangeListener(new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
 				widget = JQuery.select("<input type=\"" + newValue + "\" />");
@@ -54,5 +71,10 @@ public class InputTextRenderer extends BaseComponentRenderer {
 				inputText.setValue(widget.val());
 			}
 		});
+	}
+
+	private static String createWidgetText(String inputType, String placeHolder) {
+		return "<input type=\"" + inputType + "\"  placeholder=\""
+				+ placeHolder + "\"/>";
 	}
 }

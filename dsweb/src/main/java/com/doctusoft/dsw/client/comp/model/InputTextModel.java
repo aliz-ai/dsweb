@@ -30,9 +30,12 @@ public class InputTextModel extends BaseComponentModel implements ModelObject {
 
 	@ObservableProperty
 	private String value = "";
-	
+
 	@ObservableProperty
 	private String inputType = "text";
+
+	@ObservableProperty
+	private String placeHolder = "";
 
 
 }

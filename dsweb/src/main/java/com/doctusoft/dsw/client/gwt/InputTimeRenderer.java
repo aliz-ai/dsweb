@@ -33,16 +33,16 @@ import com.xedge.jquery.client.handlers.EventHandler;
 public class InputTimeRenderer extends BaseComponentRenderer {
 
 	public InputTimeRenderer(final InputTimeModel model) {
-		super(JQuery.select("<input type=\"text\" />"), model);
-		
-		widget.val(model.getValue());		
+		super(JQuery.select("<input type=\"text\" placeholder=\"" + model.getPlaceHolder() + "\" />"), model);
+
+		widget.val(model.getValue());
 		InputTimeModel_._value.addChangeListener(model, new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
 				widget.val(newValue);
 			}
 		});
-		
+
 		widget.change(new EventHandler() {
 			@Override
 			public void eventComplete(JQEvent event, JQuery currentJQuery) {
@@ -55,12 +55,20 @@ public class InputTimeRenderer extends BaseComponentRenderer {
 				if (!widget.val().equals(checked)) {
 					widget.val(checked);
 				}
-				model.setValue(widget.val());				
+				model.setValue(widget.val());
 			}
 		});
-		
+
+		InputTimeModel_._placeHolder.addChangeListener(model, new ValueChangeListener<String>() {
+
+			@Override
+			public void valueChanged(String placeHolder) {
+				widget.attr("placeholder", placeHolder);
+			}
+		});
+
 	}
-	
+
 	public static String checkAndFormatTime(String time) {
 		String newTime = null;
 		if (time.matches("([0-9]|0[0-9]|1[0-9]|2[0-3])(|:)[0-5][0-9]")) {
@@ -69,7 +77,7 @@ public class InputTimeRenderer extends BaseComponentRenderer {
 				newTime = "0" + time;
 			}
 			if (newTime.matches("[^:]+")) {
-				newTime = newTime.substring(0, 2) + ":" + newTime.substring(2, 4); 
+				newTime = newTime.substring(0, 2) + ":" + newTime.substring(2, 4);
 			}
 		}
 		return newTime;

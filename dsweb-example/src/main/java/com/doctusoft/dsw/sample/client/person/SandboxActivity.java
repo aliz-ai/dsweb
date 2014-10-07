@@ -22,9 +22,9 @@ package com.doctusoft.dsw.sample.client.person;
  * #L%
  */
 
-import com.doctusoft.MethodRef;
+import java.math.BigDecimal;
+
 import com.doctusoft.ObservableProperty;
-import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.ClientFactory;
 import com.google.gwt.activity.shared.AbstractActivity;
@@ -35,25 +35,12 @@ public class SandboxActivity extends AbstractActivity {
 
 	private final ClientFactory clientFactory;
 
-	private static int counter = 0;
-
 	@ObservableProperty
-	private String content2 = "<p>ohplease</p><p>hello</p>";
-
-	@ObservableProperty
-	ObservableList<String> options = new ObservableList<String>();
+	private BigDecimal inputNumberValue;
 
 	public SandboxActivity(ClientFactory clientFactory) {
 		this.clientFactory = clientFactory;
-		options.add("Bela");
-		options.add("jozsi");
-		options.add("Nora");
-		options.add("ELemer");
 
-	}
-
-	@MethodRef
-	public void checkBindings() {
 	}
 
 	@Override
@@ -65,8 +52,4 @@ public class SandboxActivity extends AbstractActivity {
 
 	}
 
-	@MethodRef
-	public void addOption() {
-		options.add(1, "option" + counter++);
-	}
 }
