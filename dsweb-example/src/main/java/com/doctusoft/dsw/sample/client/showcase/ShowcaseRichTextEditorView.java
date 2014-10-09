@@ -12,7 +12,7 @@ public class ShowcaseRichTextEditorView extends ContainerWithPresenter<ShowcaseA
 	public ShowcaseRichTextEditorView() {
 		new Alert(
 				"Ha egy új szót a @ karakterrel kezdesz, feljön az autocomplete menü. Az Add option gombbal bővül a választható option-ök listája további dummy opciókkal.")
-		.setAlertType(AlertType.Information).appendTo(container);
+				.setAlertType(AlertType.Information).appendTo(container);
 		new RichTextEditor().bindContent(bindOnPresenter().get(ShowcaseActivity_._content2))
 		.bindAutoCompleteOptions(bindOnPresenter().get(ShowcaseActivity_._options))
 		.withAutocompleteTriggerCharacter('@').withTextToInsertBeforeAutoCompleteValue("@{")

@@ -25,6 +25,7 @@ package com.doctusoft.dsw.client.comp;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import lombok.Getter;
 
@@ -32,9 +33,13 @@ import com.doctusoft.bean.ObservableProperty;
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.EmptyEventHandler;
+import com.doctusoft.bean.binding.ParametricEventHandler;
 import com.doctusoft.bean.binding.ValueBinding;
 import com.doctusoft.bean.binding.observable.ObservableChainedValueBindingBuilder;
 import com.doctusoft.bean.binding.observable.ObservableList;
+import com.doctusoft.bean.binding.observable.ObservableMap;
+import com.doctusoft.bean.binding.observable.ObservableMap.MapElementInsertedListener;
+import com.doctusoft.bean.binding.observable.ObservableMap.MapElementRemovedListener;
 import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
@@ -43,7 +48,6 @@ import com.doctusoft.dsw.client.comp.model.ComponentEvent_;
 import com.doctusoft.dsw.client.comp.model.event.KeyEvent;
 import com.doctusoft.dsw.client.comp.model.event.KeyPressedEvent;
 import com.doctusoft.dsw.client.comp.model.event.ParametricEvent;
-import com.doctusoft.bean.binding.ParametricEventHandler;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
@@ -58,8 +62,24 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 	protected KeyEventDispatcher specificKeyDispatcher;
 	protected boolean globalKeyHandlerRegistered = false;
 	
+	private ObservableMap<String, String> inlineCssStyles;
+
 	public BaseComponent(Model model) {
 		this.model = model;
+		inlineCssStyles = new ObservableMap<String, String>();
+		inlineCssStyles.addDeleteListener(new MapElementRemovedListener<String, String>() {
+			@Override
+			public void removed(ObservableMap<String, String> map, String key, String element) {
+				applyCssChanges();
+			}
+		});
+		inlineCssStyles.addInsertListener(new MapElementInsertedListener<String, String>() {
+
+			@Override
+			public void inserted(ObservableMap<String, String> map, String key, String element) {
+				applyCssChanges();
+			}
+		});
 	}
 	
 	public Actual click(final EmptyEventHandler handler) {
@@ -233,6 +253,40 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 		return model;
 	}
 	
+	public Actual css(String name, String value) {
+		inlineCssStyles.put(name, value);
+		return (Actual) this;
+	}
+
+	public String css(String properyName) {
+		return inlineCssStyles.get(properyName);
+	}
+
+	public Actual bindCss(final String name, ObservableChainedValueBindingBuilder<String> binding) {
+		inlineCssStyles.put(name, binding.getValue());
+		binding.addValueChangeListener(new ValueChangeListener<String>() {
+
+			@Override
+			public void valueChanged(String newValue) {
+				inlineCssStyles.put(name, newValue);
+			}
+		});
+		return (Actual) this;
+	}
+
+	private void applyCssChanges() {
+		StringBuilder builder = new StringBuilder();
+		for (Entry<String, String> cssStyle : inlineCssStyles.entrySet()) {
+			if (cssStyle.getKey() != null && cssStyle.getValue() != null) {
+				builder.append(cssStyle.getKey());
+				builder.append(":");
+				builder.append(cssStyle.getValue());
+				builder.append(";");
+			}
+		}
+		model.setStyle(builder.toString());
+	}
+
 	protected class KeyEventDispatcher implements ParametricEventHandler<KeyEvent> {
 		@Override
 		public void handle(KeyEvent keyEvent) {
@@ -278,5 +332,5 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 			}
 		});
 	}
-	
+
 }
