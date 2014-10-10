@@ -36,7 +36,7 @@ public class AlertRenderer extends ContainerRenderer {
 
 	public AlertRenderer(AlertModel alert) {
 		super(alert);
-		final JQuery title = JQuery.select("<" + alert.getAlertDisplayType() + ">" + alert.getTitle() + "</" + alert.getAlertDisplayType() +  ">");
+		final JQuery title = JQuery.select("<" + alert.getAlertDisplayType().getElementName() + "/>").text(alert.getTitle());
 		lastAlertType = alert.getAlertType();
 		widget.append(title);
 		widget.append(" <span>" + alert.getDescription() + "</span>");

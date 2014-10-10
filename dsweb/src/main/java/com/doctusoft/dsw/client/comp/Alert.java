@@ -63,9 +63,9 @@ public class Alert extends AbstractContainer<Alert, AlertModel> {
 		TwoLine("h4");
 		
 		@Getter
-		private String name;
-		AlertDisplayType(String name) {
-			this.name = name;
+		private String elementName;
+		AlertDisplayType(String elementName) {
+			this.elementName = elementName;
 		}
 	}
 	
