@@ -65,7 +65,7 @@ public class AlertRenderer extends ContainerRenderer {
 		Bindings.obs(alert).get(AlertModel_._description).addValueChangeListener(new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
-				widget.select( "span" ).text( newValue );
+				widget.find( "span" ).text( newValue );
 			}
 		});
 		widget.find(".close").attr("data-dismiss", "alert");
