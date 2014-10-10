@@ -1,5 +1,7 @@
 package com.doctusoft.dsw.client.comp.model;
 
+import com.doctusoft.ObservableProperty;
+
 /*
  * #%L
  * dsweb
@@ -22,7 +24,7 @@ package com.doctusoft.dsw.client.comp.model;
  * #L%
  */
 
-
+@ObservableProperty
 public class ContainerModel extends AbstractContainerModel<BaseComponentModel> {
 	
 }

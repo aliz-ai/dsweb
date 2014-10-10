@@ -23,9 +23,10 @@ package com.doctusoft.dsw.client.comp.model;
  */
 
 
+import com.doctusoft.ObservableProperty;
 import com.doctusoft.dsw.client.comp.model.event.ParametricEvent;
 
-
+@ObservableProperty
 public abstract class AbstractParametricEvent<T> extends ComponentEvent implements ParametricEvent<T> {
 	
 	public abstract T getEventParameter();
