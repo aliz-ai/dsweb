@@ -51,7 +51,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	private final DataTableModel model;
 	
 	public DataTableRenderer( DataTableModel model ) {
-		super( JQuery.select( "<table class=\"table table-striped table-bordered\"/>" ), model );
+		super( JQuery.select( "<table class=\"table\"/>" ), model );
 		this.model = model;
 		// apply columns, no change supported currently
 		JQuery headerRow = JQuery.select( "<tr>" ).appendTo( JQuery.select( "<thead>" ).appendTo( widget ) );
