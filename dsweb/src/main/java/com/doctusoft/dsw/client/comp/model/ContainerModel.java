@@ -24,9 +24,7 @@ import com.doctusoft.ObservableProperty;
  * #L%
  */
 
+@ObservableProperty
 public class ContainerModel extends AbstractContainerModel<BaseComponentModel> {
-	
-	@ObservableProperty
-	private boolean tempFix;
 	
 }
