@@ -24,6 +24,7 @@ package com.doctusoft.dsw.sample.client.person;
 
 import java.math.BigDecimal;
 
+import com.doctusoft.MethodRef;
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.ClientFactory;
@@ -37,6 +38,15 @@ public class SandboxActivity extends AbstractActivity {
 
 	@ObservableProperty
 	private BigDecimal inputNumberValue;
+	
+	@ObservableProperty
+	private Boolean disabled = false;
+	
+	@ObservableProperty
+	private String button1 = "Set Disabled all inputs";
+	
+	@ObservableProperty
+	private String button2 = "test Button";
 
 	public SandboxActivity(ClientFactory clientFactory) {
 		this.clientFactory = clientFactory;
@@ -49,7 +59,11 @@ public class SandboxActivity extends AbstractActivity {
 		view.setPresenter(this);
 		panel.setWidget(view);
 		view.viewPresented();
-
+	}
+	
+	@MethodRef
+	public void changeDisabled() {
+		setDisabled(!getDisabled());
 	}
 
 }

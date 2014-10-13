@@ -22,13 +22,92 @@ package com.doctusoft.dsw.sample.client.person;
  * #L%
  */
 
+import com.doctusoft.dsw.client.comp.Button;
+import com.doctusoft.dsw.client.comp.Datepicker;
+import com.doctusoft.dsw.client.comp.InplaceText;
+import com.doctusoft.dsw.client.comp.InputNumber;
+import com.doctusoft.dsw.client.comp.InputTags;
+import com.doctusoft.dsw.client.comp.InputText;
 import com.doctusoft.dsw.client.comp.InputTime;
+import com.doctusoft.dsw.client.comp.Link;
+import com.doctusoft.dsw.client.comp.PasswordField;
+import com.doctusoft.dsw.client.comp.RichTextEditor;
+import com.doctusoft.dsw.client.comp.Select;
+import com.doctusoft.dsw.client.comp.SelectItems;
+import com.doctusoft.dsw.client.comp.Textarea;
+import com.doctusoft.dsw.client.comp.Typeahead;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
 public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 
 	public SandboxView() {
+		
+		new Button()
+			.bindCaption(bindOnPresenter()
+					.get(SandboxActivity_._button1))
+			.click(presenterMethod(SandboxActivity_.__changeDisabled))
+			.appendTo(container);
+		new Button()
+			.bindCaption(bindOnPresenter()
+					.get(SandboxActivity_._button2))
+			.bindDisabled(bindOnPresenter().get(SandboxActivity_._disabled))
+			.appendTo(container);
+		new Link("test Link")
+		.withStyleClasses("btn", "btn-default", "btn-lg")
+		.bindDisabled(bindOnPresenter()
+				.get(SandboxActivity_._disabled))
+		.appendTo(container);
+		new InputText()
+			.withPlaceHolder("input text")
+			.bindDisabled(bindOnPresenter()
+					.get(SandboxActivity_._disabled))
+			.appendTo(container);
+		new PasswordField()
+			.withPlaceHolder("password field")
+			.bindDisabled(bindOnPresenter()
+				.get(SandboxActivity_._disabled))
+			.appendTo(container);
+		new InplaceText()
+			.bindDisabled(bindOnPresenter()
+					.get(SandboxActivity_._disabled))
+			.appendTo(container);
+		new InputNumber()
+			.withPlaceHolder("input number")
+			.bindDisabled(bindOnPresenter()
+					.get(SandboxActivity_._disabled))
+			.appendTo(container);
+		new InputTags()
+			.bindDisabled(bindOnPresenter()
+					.get(SandboxActivity_._disabled))
+			.appendTo(container);
+		new Textarea()
+			.withPlaceHolder("TextArea")
+			.bindDisabled(bindOnPresenter()
+					.get(SandboxActivity_._disabled))
+			.appendTo(container);
+		new Typeahead<String>()
+			.withSelectItems(SelectItems.fromStrings("First item","Second item","Third item"))
+			.bindDisabled(bindOnPresenter()
+					.get(SandboxActivity_._disabled))
+			.appendTo(container);
 		new InputTime()
-				.withPlaceHolder("time aaa..").appendTo(container);
+			.bindDisabled(bindOnPresenter()
+					.get(SandboxActivity_._disabled))
+			.withPlaceHolder("time aaa..")
+			.appendTo(container);
+		new Datepicker()
+			.withPlaceHolder("Datepicker")
+			.bindDisabled(bindOnPresenter()
+					.get(SandboxActivity_._disabled))
+			.appendTo(container);
+		new Select<String>()
+			.appendTo(container)
+			.bindDisabled(bindOnPresenter()
+					.get(SandboxActivity_._disabled))
+			.setSelectItems(SelectItems.fromStrings("First item","Second item","Third item"));
+		new RichTextEditor().bindContent(bindOnPresenter().get(SandboxActivity_._button1))
+			.bindDisabled(bindOnPresenter()
+				.get(SandboxActivity_._disabled))
+			.appendTo(container);		
 	}
 }

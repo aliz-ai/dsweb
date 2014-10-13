@@ -60,6 +60,9 @@ public class BaseComponentModel implements ModelObject, HasComponentModel, Seria
 	@ObservableProperty
 	private ObservableList<Integer> restrictToKeyCodes = null;
 	
+	@ObservableProperty
+	private Boolean disabled;
+	
 	@Override
 	public BaseComponentModel getComponentModel() {
 		return this;

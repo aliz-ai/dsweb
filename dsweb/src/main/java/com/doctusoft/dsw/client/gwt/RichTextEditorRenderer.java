@@ -4,6 +4,7 @@ import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
+import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
 import com.doctusoft.dsw.client.comp.model.RichTextEditorModel;
 import com.doctusoft.dsw.client.comp.model.RichTextEditorModel_;
 import com.doctusoft.dsw.client.util.JsArrayExtended;
@@ -59,6 +60,16 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 				autoCompleteValues.remove(index);
 			}
 		};
+		
+		addChangeListener(BaseComponentModel_._disabled, model, new ValueChangeListener<Boolean>() {
+
+			@Override
+			public void valueChanged(Boolean newValue) {
+				if (newValue != null) {
+					setEnabled(!newValue, model.getId());
+				}
+			}
+		});
 
 	}
 
@@ -76,6 +87,10 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 		if ($wnd.tinymce.get(id).getContent() != content) {
 			$wnd.tinymce.get(id).setContent(content);
 		}
+	}-*/;
+	
+	private native void setEnabled(boolean enabled, String id) /*-{
+		$wnd.tinymce.get(id).getBody().setAttribute('contenteditable', enabled);
 	}-*/;
 
 	private native void init(JQuery widget, String id, String content, JsArray<JavaScriptObject> mentionSources,
