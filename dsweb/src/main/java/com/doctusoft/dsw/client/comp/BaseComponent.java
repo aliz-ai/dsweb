@@ -183,10 +183,11 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 		return (Actual) this;
 	}
 
-	public void removeStyleClass(String styleClass) {
+	public Actual removeStyleClass(String styleClass) {
 		if (model.getStyleClasses() != null) {
 			model.getStyleClasses().remove(styleClass);
 		}
+		return (Actual) this;
 	}
 	
 	public Actual bindStyleClassPresent(final String styleClass, final ObservableValueBinding<Boolean> presentBinding) {

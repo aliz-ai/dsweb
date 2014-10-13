@@ -54,4 +54,10 @@ public class TestButtonRenderer extends AbstractDswebTest {
 		button.withIcon(BootstrapIcon.ICON_BELL);
 		assertEquals(BootstrapIcon.ICON_BELL.getClassName(), JQuery.select("#button>i").attr("class"));
 	}
+
+	@Test
+	public void testIconWithNullCpation() {
+		registerApp(new Button().withIcon(BootstrapIcon.ICON_BOOK).withId("button"));
+		assertFalse(JQuery.select("#button").text().contains("null"));
+	}
 }

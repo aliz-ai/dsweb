@@ -34,6 +34,7 @@ public class ButtonRenderer extends BaseComponentRenderer {
 	public ButtonRenderer(final ButtonModel button) {
 		super(JQuery.select("<button/>"), button);
 		widget.addClass("btn");
+		widget.attr("type", "button");		// this prevents submitting when on a form
 		addChangeListenerAndApply(ButtonModel_._caption, button, new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
@@ -53,7 +54,7 @@ public class ButtonRenderer extends BaseComponentRenderer {
 					icon.attr("class", newValue);
 					// ensure that the button text begins with a space
 					// using jquery text() would override the inserted icon, so we have to 'hack' on the text node 
-					widget.contents().get(1).setNodeValue(" " + button.getCaption());
+					widget.contents().get(1).setNodeValue(" " + Objects.firstNonNull(button.getCaption(), ""));
 				}
 			}
 		});

@@ -58,7 +58,7 @@ public class BootstrapStyleClasses {
 	
 	// table
 	public static final String TABLE = "table";
-	public static final String TABLE_STRIPPED = "table-stripped";
+	public static final String TABLE_STRIPED = "table-striped";
 	public static final String TABLE_BORDERED = "table-bordered";
 	public static final String TABLE_HOVER = "table-hover";
 	public static final String TABLE_CONDENSED = "table-condensed";

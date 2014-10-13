@@ -30,6 +30,7 @@ import java.util.List;
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.Converter;
+import com.doctusoft.bean.binding.ParametricEventHandler;
 import com.doctusoft.bean.binding.ValueBinding;
 import com.doctusoft.bean.binding.observable.BidirectionalConvertingListBinder;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
@@ -42,7 +43,7 @@ import com.doctusoft.dsw.client.comp.model.DataTableModel_;
 import com.doctusoft.dsw.client.comp.model.DataTableRowModel;
 import com.doctusoft.dsw.client.comp.model.RowClickedEvent;
 import com.doctusoft.dsw.client.comp.model.SelectionMode;
-import com.doctusoft.bean.binding.ParametricEventHandler;
+import com.doctusoft.dsw.client.gwt.BootstrapStyleClasses;
 import com.google.common.base.Function;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Lists;
@@ -74,6 +75,7 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 	
 	public DataTable() {
 		super( new DataTableModel() );
+		withStyleClasses(BootstrapStyleClasses.TABLE_STRIPED, BootstrapStyleClasses.TABLE_BORDERED);
 		Bindings.obs( model ).get( DataTableModel_._selectionMode ).addValueChangeListener( new ValueChangeListener<SelectionMode>() {
 			
 			@Override
