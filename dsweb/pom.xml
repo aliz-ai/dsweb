@@ -3,7 +3,7 @@
 	<parent>
 	 	<groupId>com.doctusoft</groupId>
 	 	<artifactId>dsweb-parent</artifactId>
-		<version>0.0.5-SNAPSHOT</version>
+		<version>0.0.5</version>
 	</parent>
 	<artifactId>dsweb</artifactId>
 	<name>dsweb</name>
@@ -63,8 +63,7 @@
 								<property name="test_classpath" refid="maven.test.classpath" />
 								<echo message="Emma - instrumentation" />
 								<echo message="test classpath: ${test_classpath}" />
-								<java fork="true" classpathref="maven.test.classpath"
-									classname="emma">
+								<java fork="true" classpathref="maven.test.classpath" classname="emma">
 									<arg value="instr" />
 									<arg value="-cp" />
 									<arg value="target/classes" />
@@ -90,16 +89,14 @@
 								<echo message="Emma - instrumentation" />
 								<echo message="test classpath: ${test_classpath}" />
 								<mkdir dir="${project.basedir}/emma-report" />
-								<java dir="${project.basedir}/emma-report" fork="true"
-									classpathref="maven.test.classpath" classname="emma">
+								<java dir="${project.basedir}/emma-report" fork="true" classpathref="maven.test.classpath" classname="emma">
 									<arg value="report" />
 									<arg value="-sp" />
 									<arg value="${project.basedir}/src/main/java" />
 									<arg value="-r" />
 									<arg value="html" />
 									<arg value="-in" />
-									<arg
-										value="${project.basedir}/target/emma/emma.em,${project.basedir}/target/emma/emma.ec" />
+									<arg value="${project.basedir}/target/emma/emma.em,${project.basedir}/target/emma/emma.ec" />
 								</java>
 				
 							</target>
