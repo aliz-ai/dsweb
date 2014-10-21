@@ -28,6 +28,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
+import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.ValueBinding;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
@@ -37,7 +38,7 @@ import com.doctusoft.dsw.client.comp.model.ContainerModel;
 
 public abstract class Repeat<T> extends BaseComponent<Repeat<T>, ContainerModel> {
 	
-	@com.doctusoft.ObservableProperty
+	@ObservableProperty
 	@Getter
 	@Setter
 	private ObservableList<T> items = new ObservableList<T>();
