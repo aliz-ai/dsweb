@@ -105,9 +105,10 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 			.bindDisabled(bindOnPresenter()
 					.get(SandboxActivity_._disabled))
 			.setSelectItems(SelectItems.fromStrings("First item","Second item","Third item"));
-		new RichTextEditor().bindContent(bindOnPresenter().get(SandboxActivity_._button1))
+		RichTextEditor richTextEditor = new RichTextEditor().bindContent(bindOnPresenter().get(SandboxActivity_._button1))
 			.bindDisabled(bindOnPresenter()
 				.get(SandboxActivity_._disabled))
-			.appendTo(container);		
+			.appendTo(container);
+		container.remove(richTextEditor);
 	}
 }
