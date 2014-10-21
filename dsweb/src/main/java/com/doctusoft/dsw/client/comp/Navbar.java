@@ -1,5 +1,7 @@
 package com.doctusoft.dsw.client.comp;
 
+import com.doctusoft.dsw.client.comp.model.ContainerModel;
+
 /*
  * #%L
  * dsweb
@@ -23,7 +25,7 @@ package com.doctusoft.dsw.client.comp;
  */
 
 
-public class Navbar extends BaseContainer {
+public class Navbar extends AbstractContainer<Navbar, ContainerModel> {
 	
 	private BaseContainer menuItemContainer;
 
@@ -32,6 +34,7 @@ public class Navbar extends BaseContainer {
 	}
 	
 	protected Navbar(String title, boolean includeContainer) {
+		super(new ContainerModel());
 		addStyleClass("navbar");
 		
 		AbstractContainer innerContainer = new BaseContainer();
