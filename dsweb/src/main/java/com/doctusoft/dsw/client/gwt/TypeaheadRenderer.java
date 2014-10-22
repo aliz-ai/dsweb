@@ -81,7 +81,7 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 			}
 		});
 		
-		TypeaheadModel_._textValue.addChangeListener(typeaheadModel, new ValueChangeListener<String>() {
+		TypeaheadModel_._customText.addChangeListener(typeaheadModel, new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
 				if (newValue != widget.val()) {
@@ -116,7 +116,7 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 					widget.val(typeaheadModel.getSelectItemsModel().get(typeaheadModel.getSelectedIndex()).getCaption());
 				}
 				else{	
-					typeaheadModel.setTextValue(widgetVal);
+					typeaheadModel.setCustomText(widgetVal);
 					typeaheadModel.setSelectedIndex(newIndex);
 				}
 			}

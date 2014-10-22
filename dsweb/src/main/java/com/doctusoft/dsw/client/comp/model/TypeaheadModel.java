@@ -35,5 +35,5 @@ public class TypeaheadModel extends SelectModel implements ModelObject {
 	private boolean allowCustomText = false;
 	
 	@ObservableProperty
-	private String textValue;
+	private String customText;
 }

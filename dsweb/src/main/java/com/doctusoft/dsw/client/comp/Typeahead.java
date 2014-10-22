@@ -23,10 +23,8 @@ package com.doctusoft.dsw.client.comp;
  */
 
 
-import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.ValueBinding;
-import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 import com.doctusoft.dsw.client.comp.model.TypeaheadModel;
 import com.doctusoft.dsw.client.comp.model.TypeaheadModel_;
 
@@ -42,13 +40,18 @@ public class Typeahead<T> extends AbstractSelect<Typeahead<T>, TypeaheadModel, T
 		return this;
 	}
 	
-	public Typeahead<T> setAllowCustomText(boolean allow) {
+	public Typeahead<T> withAllowCustomText(boolean allow) {
 		model.setAllowCustomText(allow);
 		return this;
 	}
 	
-	public Typeahead bindText(final ValueBinding<T> valueBinding) {
-		Bindings.bind(valueBinding, (ObservableValueBinding) Bindings.obs(model).get(TypeaheadModel_._textValue));
+	public Typeahead<T> allowCustomText() {
+		model.setAllowCustomText(true);
+		return this;
+	}
+	
+	public Typeahead<T> bindCustomText(final ValueBinding<String> valueBinding) {
+		Bindings.bind(valueBinding, Bindings.obs(model).get(TypeaheadModel_._customText));
 		return this;
 	}
 }
