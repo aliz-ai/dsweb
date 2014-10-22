@@ -26,5 +26,9 @@ package com.doctusoft.dsw.client.comp;
 public interface IsContainer {
 	
 	public Object add(HasComponentModel component);
+	
+	public Object prepend(HasComponentModel component);
+	
+	public Object insert(int index, HasComponentModel component);
 
 }

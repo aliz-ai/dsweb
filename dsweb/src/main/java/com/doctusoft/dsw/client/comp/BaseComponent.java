@@ -244,6 +244,16 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 		return (Actual) this;
 	}
 	
+	public Actual insertTo(int index, IsContainer container) {
+		container.insert(index, this);
+		return (Actual) this;
+	}
+	
+	public Actual prependTo(IsContainer container) {
+		container.prepend(this);
+		return (Actual) this;
+	}
+	
 	public Actual withId(String id) {
 		model.setId(id);
 		return (Actual) this;
