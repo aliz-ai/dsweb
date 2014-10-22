@@ -41,10 +41,24 @@ public abstract class AbstractContainer<Actual, Model extends AbstractContainerM
 		getModel().getChildren().clear();
 	}
 	
+	public Actual insert(int index, HasComponentModel component) {
+		addToSpecifiedIndex(model.getChildren(), index, component.getComponentModel());
+		return (Actual) this;
+	}
+	
+	public Actual prepend(HasComponentModel component) {
+		addToSpecifiedIndex(model.getChildren(), 0, component.getComponentModel());
+		return (Actual) this;
+	}
+	
 	@Override
 	public Actual add(HasComponentModel component) {
 		addWithWildCardCapture(model.getChildren(), component.getComponentModel());
 		return (Actual) this;
+	}
+	
+	private <T> void addToSpecifiedIndex(ObservableList<T> list, int index, BaseComponentModel model) {
+		list.add(index, (T) model);
 	}
 	
 	private <T> void addWithWildCardCapture(ObservableList<T> list, BaseComponentModel model) {

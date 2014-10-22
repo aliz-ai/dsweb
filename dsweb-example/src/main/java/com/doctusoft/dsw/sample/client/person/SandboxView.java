@@ -70,7 +70,7 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 		new InplaceText()
 			.bindDisabled(bindOnPresenter()
 					.get(SandboxActivity_._disabled))
-			.appendTo(container);
+			.insertTo(2,container);
 		new InputNumber()
 			.withPlaceHolder("input number")
 			.bindDisabled(bindOnPresenter()
@@ -80,11 +80,11 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 			.bindDisabled(bindOnPresenter()
 					.get(SandboxActivity_._disabled))
 			.appendTo(container);
-		new Textarea()
+		Textarea textarea = new Textarea()
 			.withPlaceHolder("TextArea")
 			.bindDisabled(bindOnPresenter()
-					.get(SandboxActivity_._disabled))
-			.appendTo(container);
+					.get(SandboxActivity_._disabled));
+			//.appendTo(container);
 		new Typeahead<String>()
 			.withSelectItems(SelectItems.fromStrings("First item","Second item","Third item"))
 			.bindDisabled(bindOnPresenter()
@@ -99,15 +99,18 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 			.withPlaceHolder("Datepicker")
 			.bindDisabled(bindOnPresenter()
 					.get(SandboxActivity_._disabled))
-			.appendTo(container);
+			.insertTo(9, container);
 		new Select<String>()
-			.appendTo(container)
+			.prependTo(container)
 			.bindDisabled(bindOnPresenter()
 					.get(SandboxActivity_._disabled))
 			.setSelectItems(SelectItems.fromStrings("First item","Second item","Third item"));
-		new RichTextEditor().bindContent(bindOnPresenter().get(SandboxActivity_._button1))
+		RichTextEditor richTextEditor = new RichTextEditor().bindContent(bindOnPresenter().get(SandboxActivity_._button1))
 			.bindDisabled(bindOnPresenter()
-				.get(SandboxActivity_._disabled))
-			.appendTo(container);		
+				.get(SandboxActivity_._disabled));		
+		
+		container.prepend(richTextEditor);
+		
+		container.insert(6, textarea);
 	}
 }
