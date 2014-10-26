@@ -25,13 +25,13 @@ package com.doctusoft.dsw.sample.client.showcase;
 
 import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.Container;
-import com.doctusoft.dsw.client.comp.HasComponentModel;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.Select;
 import com.doctusoft.dsw.client.comp.SelectItems;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
+import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
-public class ShowcaseSelectView implements HasComponentModel {
+public class ShowcaseSelectView extends ContainerWithPresenter<ShowcaseSelectActivity> {
 	
 	private Container container = new Container();
 	

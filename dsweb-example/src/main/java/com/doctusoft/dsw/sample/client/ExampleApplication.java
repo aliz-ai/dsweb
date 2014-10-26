@@ -26,10 +26,19 @@ package com.doctusoft.dsw.sample.client;
 import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.Container;
 import com.doctusoft.dsw.client.comp.HasComponentModel;
+import com.doctusoft.dsw.client.comp.HistoryHandler;
 import com.doctusoft.dsw.client.comp.Link;
 import com.doctusoft.dsw.client.comp.TopNavbar;
 import com.doctusoft.dsw.client.exc.BasicExceptionDisplayer;
+import com.doctusoft.dsw.client.mvp.AbstractPlace;
+import com.doctusoft.dsw.client.mvp.NavigationHandler;
+import com.doctusoft.dsw.client.mvp.PlaceController;
+import com.doctusoft.dsw.client.mvp.PlaceController.PresenterStartedListener;
+import com.doctusoft.dsw.client.mvp.Presenter;
 import com.doctusoft.dsw.sample.client.person.PersonListPlace;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseButtonsActivity;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputsActivity;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseRichTextEditorActivity;
 import com.google.gwt.place.shared.Place;
 
 public class ExampleApplication extends AbstractMVPApplication {
@@ -42,6 +51,26 @@ public class ExampleApplication extends AbstractMVPApplication {
 	
 	public ExampleApplication(ClientFactory clientFactory) {
 		this.clientFactory = clientFactory;
+		
+		HistoryHandler historyHandler = new HistoryHandler().appendTo(rootContainer);
+
+        PlaceController placeController = new PlaceController(new ExamplePlacePresenterMapper(clientFactory));
+        clientFactory.setPlaceController(placeController);
+        placeController.addPresenterStartedListener(new PresenterStartedListener() {
+            @Override
+            public void presenterStarted(Presenter<?> presenter, AbstractPlace<?> place) {
+            	rootContainer.getComponentModel().getChildren().clear();
+            	rootContainer.add(((HasComponentModel) presenter.getView()).getComponentModel());
+            }
+        });
+        NavigationHandler navigationHandler = new NavigationHandler(historyHandler.getModel(), placeController,
+                new ShowcaseRichTextEditorActivity.Place(), new ExamplePlaceFactory());
+        navigationHandler.registerPlaces(
+                new ShowcaseButtonsActivity.Place(),
+                new ShowcaseInputsActivity.Place()
+                );
+
+        navigationHandler.handleCurrentHistory();
 	}
 	
 	@Override

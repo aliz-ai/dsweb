@@ -29,15 +29,14 @@ import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.Container;
 import com.doctusoft.dsw.client.comp.DropdownLink;
-import com.doctusoft.dsw.client.comp.HasComponentModel;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.Link;
-import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
+import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 import com.doctusoft.dsw.client.gwt.BootstrapIcon;
 import com.doctusoft.dsw.client.gwt.BootstrapStyleClasses;
 
-public class ShowcaseButtonsView implements HasComponentModel {
+public class ShowcaseButtonsView extends ContainerWithPresenter<ShowcaseButtonsActivity> {
 	
 	private Container container = new Container();
 	private DropdownLink menuDropdown;
@@ -62,9 +61,9 @@ public class ShowcaseButtonsView implements HasComponentModel {
 		new Button("Button with icon").withIcon(BootstrapIcon.ICON_BOOK).appendTo(container);
 	}
 	
-	@Override
-	public BaseComponentModel getComponentModel() {
-		return container.getModel();
-	}
+//	@Override
+//	public BaseComponentModel getComponentModel() {
+//		return container.getModel();
+//	}
 
 }

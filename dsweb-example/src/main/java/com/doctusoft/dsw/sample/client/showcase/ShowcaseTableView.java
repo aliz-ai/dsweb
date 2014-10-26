@@ -37,7 +37,7 @@ import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 import com.doctusoft.dsw.sample.client.person.PersonDto;
 import com.doctusoft.dsw.sample.client.person.PersonDto_;
 
-public class ShowcaseTableView extends ContainerWithPresenter<ShowcaseActivity> {
+public class ShowcaseTableView extends ContainerWithPresenter<ShowcaseTableActivity> {
 
 	public ShowcaseTableView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(container)
@@ -47,22 +47,22 @@ public class ShowcaseTableView extends ContainerWithPresenter<ShowcaseActivity> 
 			.addColumn(Columns.obs("Name", PersonDto_._name))
 			.addColumn(Columns.from("Email", PersonDto_._email))
 			.addColumn(Columns.from("Born", PersonDto_._birthDate).format(new DateFormatter("yyyy-MM-dd")))
-			.addColumn(Columns.actionButton(this, ShowcaseActivity_.__personClicked, "View"))
-			.bind(bindOnPresenter().get(ShowcaseActivity_._personList))
-			.bindSelectionMode(bindOnPresenter().get(ShowcaseActivity_._selectionMode))
-			.bindSelection(bindOnPresenter().get(ShowcaseActivity_._selection))
+			.addColumn(Columns.actionButton(this, ShowcaseTableActivity_.__personClicked, "View"))
+			.bind(bindOnPresenter().get(ShowcaseTableActivity_._personList))
+			.bindSelectionMode(bindOnPresenter().get(ShowcaseTableActivity_._selectionMode))
+			.bindSelection(bindOnPresenter().get(ShowcaseTableActivity_._selection))
 			.appendTo(container);
 		new ModalDialog()
 			.withHeader("Selection")
-			.addContent(new Label().bind(bindOnPresenter().get(ShowcaseActivity_._modalContent)))
-			.bindDialogVisible(bindOnPresenter().get(ShowcaseActivity_._modalVisible)).appendTo(container);
+			.addContent(new Label().bind(bindOnPresenter().get(ShowcaseTableActivity_._modalContent)))
+			.bindDialogVisible(bindOnPresenter().get(ShowcaseTableActivity_._modalVisible)).appendTo(container);
 		new HtmlContent("<hr/>").appendTo(container);
 		new Label("Change selection mode:").appendTo(container);
 		new Select<SelectionMode>()
-			.bind(bindOnPresenter().get(ShowcaseActivity_._selectionMode))
+			.bind(bindOnPresenter().get(ShowcaseTableActivity_._selectionMode))
 			.withSelectItems(SelectItems.fromEnum(SelectionMode.values()))
 			.appendTo(container);
-		new Label("", "div").bind(bindOnPresenter().get(ShowcaseActivity_._selectionString)).appendTo(container);
+		new Label("", "div").bind(bindOnPresenter().get(ShowcaseTableActivity_._selectionString)).appendTo(container);
 			
 	}
 

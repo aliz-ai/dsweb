@@ -27,15 +27,15 @@ import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.Container;
 import com.doctusoft.dsw.client.comp.DropdownLink;
-import com.doctusoft.dsw.client.comp.HasComponentModel;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.Link;
 import com.doctusoft.dsw.client.comp.Navs;
 import com.doctusoft.dsw.client.comp.Navs.NavsItemType;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
+import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
-public class ShowcaseNavsView implements HasComponentModel {
+public class ShowcaseNavsView extends ContainerWithPresenter<ShowcaseNavsActivity> {
 
 	private Container container = new Container();
 	private DropdownLink menuDropdown;

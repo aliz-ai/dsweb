@@ -23,9 +23,9 @@ package com.doctusoft.dsw.sample.client.showcase;
  */
 
 
+import com.doctusoft.bean.binding.ParametricEventHandler;
 import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.Container;
-import com.doctusoft.dsw.client.comp.HasComponentModel;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.InplaceText;
 import com.doctusoft.dsw.client.comp.InputText;
@@ -34,9 +34,9 @@ import com.doctusoft.dsw.client.comp.PasswordField;
 import com.doctusoft.dsw.client.comp.Textarea;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.event.KeyEvent;
-import com.doctusoft.bean.binding.ParametricEventHandler;
+import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
-public class ShowcaseInputsView implements HasComponentModel {
+public class ShowcaseInputsView extends ContainerWithPresenter<ShowcaseInputsActivity> {
 	
 	private Container container = new Container();
 	

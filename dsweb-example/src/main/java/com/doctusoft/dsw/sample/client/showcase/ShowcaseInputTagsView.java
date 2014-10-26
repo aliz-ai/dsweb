@@ -31,7 +31,7 @@ import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 import com.google.common.collect.ImmutableList;
 
-public class ShowcaseInputTagsView extends ContainerWithPresenter<ShowcaseActivity>{
+public class ShowcaseInputTagsView extends ContainerWithPresenter<ShowcaseInputTagsActivity>{
 	
 	public ShowcaseInputTagsView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(container)
@@ -39,17 +39,17 @@ public class ShowcaseInputTagsView extends ContainerWithPresenter<ShowcaseActivi
 		
 		new Label("Typeahead", "h3").appendTo(container);
 		new InputTags()
-			.bind(bindOnPresenter().get(ShowcaseActivity_._tags))
-			.bindTagSuggestions(bindOnPresenter().get(ShowcaseActivity_._tagSuggestions))
+			.bind(bindOnPresenter().get(ShowcaseInputTagsActivity_._tags))
+			.bindTagSuggestions(bindOnPresenter().get(ShowcaseInputTagsActivity_._tagSuggestions))
 			.appendTo(container);
 		
-		new Label("","div").bind(bindOnPresenter().get(ShowcaseActivity_._tagsJoined))
+		new Label("","div").bind(bindOnPresenter().get(ShowcaseInputTagsActivity_._tagsJoined))
 			.appendTo(container);
 		
 		new Label("Categorizing tags", "h3").appendTo(container);	
 		new InputTags()
-			.bindTagOption(bindOnPresenter().get(ShowcaseActivity_._tagOptions))
-			.bindTagOptionSuggestions(bindOnPresenter().get(ShowcaseActivity_._tagOptionSuggestions)).
+			.bindTagOption(bindOnPresenter().get(ShowcaseInputTagsActivity_._tagOptions))
+			.bindTagOptionSuggestions(bindOnPresenter().get(ShowcaseInputTagsActivity_._tagOptionSuggestions)).
 		appendTo(container);
 	}
 

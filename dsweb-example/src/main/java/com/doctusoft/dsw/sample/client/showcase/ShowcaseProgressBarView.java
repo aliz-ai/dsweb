@@ -25,14 +25,14 @@ package com.doctusoft.dsw.sample.client.showcase;
 
 import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.Container;
-import com.doctusoft.dsw.client.comp.HasComponentModel;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.ProgressBar;
 import com.doctusoft.dsw.client.comp.ProgressBar.ProgressBarType;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
+import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
-public class ShowcaseProgressBarView implements HasComponentModel {
+public class ShowcaseProgressBarView extends ContainerWithPresenter<ShowcaseProgressBarActivity> {
 	
 	private Container container = new Container();
 	

@@ -29,13 +29,13 @@ import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
-public class ShowcaseExceptionsView extends ContainerWithPresenter<ShowcaseActivity> {
+public class ShowcaseExceptionsView extends ContainerWithPresenter<ShowcaseExceptionsActivity> {
 	
 	public ShowcaseExceptionsView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(container)
 			.add(new HtmlContent("<h1>Exceptions</h1>"));
 		new Button("Dangerous button")
-			.click(presenterMethod(ShowcaseActivity_.__dangerousMethod))
+			.click(presenterMethod(ShowcaseExceptionsActivity_.__dangerousMethod))
 			.appendTo(container);
 		new HtmlContent("<hr/>").appendTo(container);
 		new Button("Cause sync error")

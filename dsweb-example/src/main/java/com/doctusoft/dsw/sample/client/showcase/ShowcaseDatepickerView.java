@@ -30,24 +30,24 @@ import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
-public class ShowcaseDatepickerView extends ContainerWithPresenter<ShowcaseActivity> {
+public class ShowcaseDatepickerView extends ContainerWithPresenter<ShowcaseDatepickerActivity> {
 
 	public ShowcaseDatepickerView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(container)
 		.add(new HtmlContent("<h1>Datepicker</h1>"));
 
-		new Datepicker().bind( bindOnPresenter().get(ShowcaseActivity_._dateTimeTest) )
+		new Datepicker().bind( bindOnPresenter().get(ShowcaseDatepickerActivity_._dateTimeTest) )
 		.withFormat( "yyyy.MM.dd" )
 		.withPlaceHolder("Pick a date!")
 		.appendTo(container);
 
 		new HtmlContent("<br>").appendTo(container);
 
-		new Label().bind(bindOnPresenter().get(ShowcaseActivity_._timeTest)).appendTo(container);
+		new Label().bind(bindOnPresenter().get(ShowcaseDatepickerActivity_._timeTest)).appendTo(container);
 
 		new HtmlContent("<br>").appendTo(container);
 
-		new Button("Check binding").click(presenterMethod(ShowcaseActivity_.__datePickerBindingTest)).appendTo(container);
+		new Button("Check binding").click(presenterMethod(ShowcaseDatepickerActivity_.__datePickerBindingTest)).appendTo(container);
 	}
 
 
