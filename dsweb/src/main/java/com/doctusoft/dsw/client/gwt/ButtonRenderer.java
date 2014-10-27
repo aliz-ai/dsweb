@@ -26,8 +26,8 @@ package com.doctusoft.dsw.client.gwt;
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.dsw.client.comp.model.ButtonModel;
 import com.doctusoft.dsw.client.comp.model.ButtonModel_;
+import com.doctusoft.html4j.jquery.JQuery;
 import com.google.common.base.Objects;
-import com.xedge.jquery.client.JQuery;
 
 public class ButtonRenderer extends BaseComponentRenderer {
 	
@@ -53,8 +53,10 @@ public class ButtonRenderer extends BaseComponentRenderer {
 					}
 					icon.attr("class", newValue);
 					// ensure that the button text begins with a space
-					// using jquery text() would override the inserted icon, so we have to 'hack' on the text node 
+					// using jquery text() would override the inserted icon, so we have to 'hack' on the text node
+					/* FIXME teavm
 					widget.contents().get(1).setNodeValue(" " + Objects.firstNonNull(button.getCaption(), ""));
+					*/
 				}
 			}
 		});

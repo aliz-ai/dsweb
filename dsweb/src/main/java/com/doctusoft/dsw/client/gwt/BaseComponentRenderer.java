@@ -42,12 +42,12 @@ import com.doctusoft.dsw.client.comp.model.ContainerModel;
 import com.doctusoft.dsw.client.comp.model.LinkModel;
 import com.doctusoft.dsw.client.comp.model.event.KeyPressedEvent;
 import com.doctusoft.dsw.client.util.Deferred;
+import com.doctusoft.html4j.jquery.EventHandler;
+import com.doctusoft.html4j.jquery.JQEvent;
+import com.doctusoft.html4j.jquery.JQuery;
+import com.doctusoft.html4j.jquery.JQuery.EventType;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
-import com.xedge.jquery.client.JQEvent;
-import com.xedge.jquery.client.JQuery;
-import com.xedge.jquery.client.JQuery.EventType;
-import com.xedge.jquery.client.handlers.EventHandler;
 
 public class BaseComponentRenderer implements Renderer<JQuery> {
 	

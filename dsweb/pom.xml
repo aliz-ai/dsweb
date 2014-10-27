@@ -3,7 +3,7 @@
 	<parent>
 	 	<groupId>com.doctusoft</groupId>
 	 	<artifactId>dsweb-parent</artifactId>
-		<version>0.0.6-SNAPSHOT</version>
+		<version>0.0.6-teavm-SNAPSHOT</version>
 	</parent>
 	<artifactId>dsweb</artifactId>
 	<name>dsweb</name>
@@ -201,6 +201,12 @@
 			<version>${project.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.doctusoft</groupId>
+			<artifactId>html4j-jquery</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
