@@ -35,11 +35,11 @@ import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-public class PersonListActivity extends AbstractActivity {
+public class PersonListPresenter extends AbstractActivity {
 
 	private ClientFactory clientFactory;
 
-	public PersonListActivity(ClientFactory clientFactory) {
+	public PersonListPresenter(ClientFactory clientFactory) {
 		this.clientFactory = clientFactory;
 	}
 
@@ -48,7 +48,7 @@ public class PersonListActivity extends AbstractActivity {
 
 	@Override
 	public void start(AcceptsOneWidget panel, EventBus eventBus) {
-		ViewOf<PersonListActivity> view = clientFactory.getPersonListView();
+		ViewOf<PersonListPresenter> view = clientFactory.getPersonListView();
 		view.setPresenter(this);
 		panel.setWidget(view);
 		loadList();

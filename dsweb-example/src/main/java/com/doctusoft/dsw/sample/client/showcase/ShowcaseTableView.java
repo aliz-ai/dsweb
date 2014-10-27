@@ -36,8 +36,9 @@ import com.doctusoft.dsw.client.comp.model.SelectionMode;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 import com.doctusoft.dsw.sample.client.person.PersonDto;
 import com.doctusoft.dsw.sample.client.person.PersonDto_;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseTableActivity_;
 
-public class ShowcaseTableView extends ContainerWithPresenter<ShowcaseTableActivity> {
+public class ShowcaseTableView extends ContainerWithPresenter<ShowcaseTablePresenter> {
 
 	public ShowcaseTableView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(container)

@@ -13,57 +13,55 @@ package com.doctusoft.dsw.sample.client.person;
  * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  * 
  * You should have received a copy of the GNU General Public
- * License along with this program. If not, see
+ * License along with this program.  If not, see
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
 
-import java.math.BigDecimal;
 
-import com.doctusoft.MethodRef;
+import lombok.Getter;
+
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.dsw.mvp.client.ViewOf;
+import com.doctusoft.dsw.sample.client.AbstractCallback;
 import com.doctusoft.dsw.sample.client.ClientFactory;
 import com.google.gwt.activity.shared.AbstractActivity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-public class SandboxActivity extends AbstractActivity {
-
-	private final ClientFactory clientFactory;
-
-	@ObservableProperty
-	private BigDecimal inputNumberValue;
+public class PersonDetailPresenter extends AbstractActivity {
 	
-	@ObservableProperty
-	private Boolean disabled = false;
+	private ClientFactory clientFactory;
 	
-	@ObservableProperty
-	private String button1 = "Set Disabled all inputs";
-	
-	@ObservableProperty
-	private String button2 = "test Button";
+	@ObservableProperty @Getter
+	private PersonDto personDto;
 
-	public SandboxActivity(ClientFactory clientFactory) {
+	private long personId;
+
+	public PersonDetailPresenter(ClientFactory clientFactory, long personId) {
 		this.clientFactory = clientFactory;
-
+		this.personId = personId;
+		loadPersonDto();
 	}
-
+	
 	@Override
 	public void start(AcceptsOneWidget panel, EventBus eventBus) {
-		ViewOf<SandboxActivity> view = clientFactory.getSandboxView();
+		ViewOf<PersonDetailPresenter> view = clientFactory.getPersonDetailView();
 		view.setPresenter(this);
 		panel.setWidget(view);
-		view.viewPresented();
 	}
 	
-	@MethodRef
-	public void changeDisabled() {
-		setDisabled(!getDisabled());
+	protected void loadPersonDto() {
+		clientFactory.getPersonRemoteServiceAsync().getPerson(personId, new AbstractCallback<PersonDto>(clientFactory) {
+			@Override
+			public void onSuccess(PersonDto result) {
+				setPersonDto(result);
+			}
+		});
 	}
 
 }

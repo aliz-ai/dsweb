@@ -35,7 +35,7 @@ import com.doctusoft.dsw.client.comp.Navs.NavsItemType;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
-public class ShowcaseNavsView extends ContainerWithPresenter<ShowcaseNavsActivity> {
+public class ShowcaseNavsView extends ContainerWithPresenter<ShowcaseNavsPresenter> {
 
 	private Container container = new Container();
 	private DropdownLink menuDropdown;

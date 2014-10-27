@@ -43,6 +43,7 @@ import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.ClientFactory;
 import com.doctusoft.dsw.sample.client.person.PersonDto;
 import com.doctusoft.dsw.sample.client.person.PersonDto_;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseActivity_;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
@@ -141,11 +142,6 @@ public class ShowcaseActivity extends com.doctusoft.dsw.client.mvp.AbstractPrese
 		options.add("Nora");
 		options.add("ELemer");
 	}
-
-//	@Override
-//	protected ViewOf<ShowcaseActivity> createView() {
-//		return clientFactory.getShowcaseView();
-//	}
 
 	@MethodRef
 	public void dangerousMethod() {

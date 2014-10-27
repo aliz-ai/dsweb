@@ -38,6 +38,7 @@ import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter_;
 import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.person.ChartView;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseActivity_;
 import com.google.common.collect.Maps;
 
 public class ShowcaseView extends ContainerWithPresenter<ShowcaseActivity> {
@@ -49,18 +50,19 @@ public class ShowcaseView extends ContainerWithPresenter<ShowcaseActivity> {
 		Row row = new Row().appendTo(container);
 		Cell menuCell = new Cell().withSpan(3).appendTo(row);
 		new Navs().stacked()
-		.addMenuItem(new Link("Buttons", "#ShowcasePlace:Buttons"))
-		.addMenuItem(new Link("Datepicker", "#ShowcasePlace:Datepicker"))
-		.addMenuItem(new Link("Select", "#ShowcasePlace:Select"))
-		.addMenuItem(new Link("Typeahead", "#ShowcasePlace:Typeahead"))
-		.addMenuItem(new Link("Inputs", "#ShowcasePlace:Inputs"))
-		.addMenuItem(new Link("Input Tags", "#ShowcasePlace:InputTags"))
-		.addMenuItem(new Link("Navs", "#ShowcasePlace:Navs"))
-		.addMenuItem(new Link("Tables", "#ShowcasePlace:Tables"))
-		.addMenuItem(new Link("Progress Bars", "#ShowcasePlace:ProgressBars"))
-		.addMenuItem(new Link("Exceptions", "#ShowcasePlace:Exceptions"))
-		.addMenuItem(new Link("Charts", "#ShowcasePlace:Charts"))
-		.addMenuItem(new Link("RichText editor", "#ShowcasePlace:RichTextEditor"))
+		.addMenuItem(new Link("Buttons", "#showcasebuttons"))
+		.addMenuItem(new Link("Datepicker", "#showcasedatepicker"))
+		.addMenuItem(new Link("Select", "#showcaseselect"))
+		.addMenuItem(new Link("Typeahead", "#showcasetypeahead"))
+		.addMenuItem(new Link("Inputs", "#showcaseinputs"))
+		.addMenuItem(new Link("Input Tags", "#showcaseinputtags"))
+		.addMenuItem(new Link("Navs", "#showcasenavs"))
+		.addMenuItem(new Link("Tabsheet", "#showcasetabsheet"))
+		.addMenuItem(new Link("Tables", "#showcasetables"))
+		.addMenuItem(new Link("Progress Bars", "#showcaseprogressbars"))
+		.addMenuItem(new Link("Exceptions", "#showcaseexceptions"))
+		.addMenuItem(new Link("Charts", "#showcasecharts"))
+		.addMenuItem(new Link("RichText editor", "#showcaserichtexteditor"))
 		.appendTo(menuCell);
 		subcontainer = new Container().appendTo(new Cell().withSpan(9).appendTo(row));
 		// a lazy initialization would be nicer, but that's okay for now

@@ -25,60 +25,63 @@ package com.doctusoft.dsw.sample.client;
 
 import com.doctusoft.dsw.client.mvp.PlaceController;
 import com.doctusoft.dsw.mvp.client.ViewOf;
-import com.doctusoft.dsw.sample.client.person.PersonDetailActivity;
-import com.doctusoft.dsw.sample.client.person.PersonListActivity;
+import com.doctusoft.dsw.sample.client.person.PersonDetailPresenter;
+import com.doctusoft.dsw.sample.client.person.PersonListPresenter;
 import com.doctusoft.dsw.sample.client.person.PersonRemoteServiceAsync;
-import com.doctusoft.dsw.sample.client.person.SandboxActivity;
+import com.doctusoft.dsw.sample.client.person.SandboxPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseActivity;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseButtonsActivity;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseDatepickerActivity;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseExceptionsActivity;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputTagsActivity;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputsActivity;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseNavsActivity;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseProgressBarActivity;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseRichTextEditorActivity;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseSelectActivity;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseTableActivity;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseTabsheetActivity;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseTypeaheadActivity;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseButtonsPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseChartsPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseDatepickerPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseExceptionsPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputTagsPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputsPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseNavsPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseProgressBarPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseRichTextEditorPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseSelectPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseTablePresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseTabsheetPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseTypeaheadPresenter;
 import com.google.web.bindery.event.shared.EventBus;
 
 public interface ClientFactory {
 	
 	public EventBus getEventBus();
 	
-	public ViewOf<PersonListActivity> getPersonListView();
+	public ViewOf<PersonListPresenter> getPersonListView();
 	
-	public ViewOf<PersonDetailActivity> getPersonDetailView();
+	public ViewOf<PersonDetailPresenter> getPersonDetailView();
 	
 	public ViewOf<ShowcaseActivity> getShowcaseView();
 	
-	public ViewOf<SandboxActivity> getSandboxView();
+	public ViewOf<SandboxPresenter> getSandboxView();
 	
-	public ViewOf<ShowcaseButtonsActivity> getShowcaseButtonsView();
+	public ViewOf<ShowcaseButtonsPresenter> getShowcaseButtonsView();
 	
-	public ViewOf<ShowcaseDatepickerActivity> getShowcaseDatepickerView();
+	public ViewOf<ShowcaseDatepickerPresenter> getShowcaseDatepickerView();
 	
-	public ViewOf<ShowcaseExceptionsActivity> getShowcaseExceptionsView();
+	public ViewOf<ShowcaseExceptionsPresenter> getShowcaseExceptionsView();
 	
-	public ViewOf<ShowcaseInputsActivity> getShowcaseInputsView();
+	public ViewOf<ShowcaseInputsPresenter> getShowcaseInputsView();
 
-	public ViewOf<ShowcaseInputTagsActivity> getShowcaseInputTagsView();
+	public ViewOf<ShowcaseInputTagsPresenter> getShowcaseInputTagsView();
 	
-	public ViewOf<ShowcaseNavsActivity> getShowcaseNavsView();
+	public ViewOf<ShowcaseNavsPresenter> getShowcaseNavsView();
 	
-	public ViewOf<ShowcaseProgressBarActivity> getShowcaseProgressBarView();
+	public ViewOf<ShowcaseProgressBarPresenter> getShowcaseProgressBarView();
 	
-	public ViewOf<ShowcaseRichTextEditorActivity> getShowcaseRichTextEditorView();
+	public ViewOf<ShowcaseRichTextEditorPresenter> getShowcaseRichTextEditorView();
 	
-	public ViewOf<ShowcaseSelectActivity> getShowcaseSelectView();
+	public ViewOf<ShowcaseSelectPresenter> getShowcaseSelectView();
 	
-	public ViewOf<ShowcaseTableActivity> getShowcaseTableView();
+	public ViewOf<ShowcaseTablePresenter> getShowcaseTableView();
 	
-	public ViewOf<ShowcaseTabsheetActivity> getShowcaseTabsheetView();
+	public ViewOf<ShowcaseTabsheetPresenter> getShowcaseTabsheetView();
 	
-	public ViewOf<ShowcaseTypeaheadActivity> getShowcaseTypeaheadView();
+	public ViewOf<ShowcaseTypeaheadPresenter> getShowcaseTypeaheadView();
+	
+	public ViewOf<ShowcaseChartsPresenter> getShowcaseChartsView();
 	
 	public PersonRemoteServiceAsync getPersonRemoteServiceAsync();
 

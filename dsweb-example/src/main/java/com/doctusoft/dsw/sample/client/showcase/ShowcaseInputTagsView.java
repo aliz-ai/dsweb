@@ -27,11 +27,10 @@ import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.InputTags;
 import com.doctusoft.dsw.client.comp.Label;
-import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
-import com.google.common.collect.ImmutableList;
+import com.doctusoft.dsw.sample.client.showcase.presenter.ShowcaseInputTagsPresenter_;
 
-public class ShowcaseInputTagsView extends ContainerWithPresenter<ShowcaseInputTagsActivity>{
+public class ShowcaseInputTagsView extends ContainerWithPresenter<ShowcaseInputTagsPresenter>{
 	
 	public ShowcaseInputTagsView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(container)
@@ -39,28 +38,18 @@ public class ShowcaseInputTagsView extends ContainerWithPresenter<ShowcaseInputT
 		
 		new Label("Typeahead", "h3").appendTo(container);
 		new InputTags()
-			.bind(bindOnPresenter().get(ShowcaseInputTagsActivity_._tags))
-			.bindTagSuggestions(bindOnPresenter().get(ShowcaseInputTagsActivity_._tagSuggestions))
+			.bind(bindOnPresenter().get(ShowcaseInputTagsPresenter_._tags))
+			.bindTagSuggestions(bindOnPresenter().get(ShowcaseInputTagsPresenter_._tagSuggestions))
 			.appendTo(container);
 		
-		new Label("","div").bind(bindOnPresenter().get(ShowcaseInputTagsActivity_._tagsJoined))
+		new Label("","div").bind(bindOnPresenter().get(ShowcaseInputTagsPresenter_._tagsJoined))
 			.appendTo(container);
 		
 		new Label("Categorizing tags", "h3").appendTo(container);	
 		new InputTags()
-			.bindTagOption(bindOnPresenter().get(ShowcaseInputTagsActivity_._tagOptions))
-			.bindTagOptionSuggestions(bindOnPresenter().get(ShowcaseInputTagsActivity_._tagOptionSuggestions)).
+			.bindTagOption(bindOnPresenter().get(ShowcaseInputTagsPresenter_._tagOptions))
+			.bindTagOptionSuggestions(bindOnPresenter().get(ShowcaseInputTagsPresenter_._tagOptionSuggestions)).
 		appendTo(container);
 	}
 
-	@Override
-	public BaseComponentModel getComponentModel() {
-		return container.getModel();
-	}
-
-	@Override
-	public void viewPresented() {
-		getPresenter().getTagSuggestions().clear();
-		getPresenter().getTagSuggestions().addAll(ImmutableList.of("first", "second", "third"));
-	}
 }

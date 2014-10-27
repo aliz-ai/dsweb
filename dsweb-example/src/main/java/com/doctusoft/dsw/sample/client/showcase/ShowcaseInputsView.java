@@ -36,7 +36,7 @@ import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.event.KeyEvent;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
-public class ShowcaseInputsView extends ContainerWithPresenter<ShowcaseInputsActivity> {
+public class ShowcaseInputsView extends ContainerWithPresenter<ShowcaseInputsPresenter> {
 	
 	private Container container = new Container();
 	

@@ -38,7 +38,7 @@ import com.doctusoft.dsw.client.comp.Textarea;
 import com.doctusoft.dsw.client.comp.Typeahead;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
-public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
+public class SandboxView extends ContainerWithPresenter<SandboxPresenter> {
 
 	public SandboxView() {
 		

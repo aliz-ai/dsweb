@@ -6,8 +6,9 @@ import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.InputText;
 import com.doctusoft.dsw.client.comp.RichTextEditor;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseRichTextEditorActivity_;
 
-public class ShowcaseRichTextEditorView extends ContainerWithPresenter<ShowcaseRichTextEditorActivity> {
+public class ShowcaseRichTextEditorView extends ContainerWithPresenter<ShowcaseRichTextEditorPresenter> {
 
 	public ShowcaseRichTextEditorView() {
 		new Alert(

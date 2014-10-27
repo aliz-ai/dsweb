@@ -35,7 +35,7 @@ import com.doctusoft.dsw.client.comp.Typeahead;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
-public class ShowcaseTypeaheadView extends ContainerWithPresenter<ShowcaseTypeaheadActivity> {
+public class ShowcaseTypeaheadView extends ContainerWithPresenter<ShowcaseTypeaheadPresenter> {
 	
 	private Container container = new Container();
 	

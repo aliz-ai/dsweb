@@ -24,17 +24,13 @@ package com.doctusoft.dsw.sample.client.showcase;
 
 
 import com.doctusoft.dsw.client.comp.BaseContainer;
-import com.doctusoft.dsw.client.comp.Container;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.ProgressBar;
 import com.doctusoft.dsw.client.comp.ProgressBar.ProgressBarType;
-import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
-public class ShowcaseProgressBarView extends ContainerWithPresenter<ShowcaseProgressBarActivity> {
-	
-	private Container container = new Container();
+public class ShowcaseProgressBarView extends ContainerWithPresenter<ShowcaseProgressBarPresenter> {
 	
 	public ShowcaseProgressBarView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(container)
@@ -53,11 +49,6 @@ public class ShowcaseProgressBarView extends ContainerWithPresenter<ShowcaseProg
 		new ProgressBar().setType(ProgressBarType.Success).setType(ProgressBarType.Striped).appendTo(container);
 		new ProgressBar().setType(ProgressBarType.Warning).setType(ProgressBarType.StripedActive).appendTo(container);
 		new ProgressBar().setType(ProgressBarType.Danger).setType(ProgressBarType.StripedActive).appendTo(container);
-	}
-	
-	@Override
-	public BaseComponentModel getComponentModel() {
-		return container.getModel();
 	}
 
 }

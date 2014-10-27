@@ -27,7 +27,6 @@ import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.dsw.client.comp.Alert;
 import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.Button;
-import com.doctusoft.dsw.client.comp.Container;
 import com.doctusoft.dsw.client.comp.DropdownLink;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.Label;
@@ -36,12 +35,12 @@ import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 import com.doctusoft.dsw.client.gwt.BootstrapIcon;
 import com.doctusoft.dsw.client.gwt.BootstrapStyleClasses;
 
-public class ShowcaseButtonsView extends ContainerWithPresenter<ShowcaseButtonsActivity> {
+public class ShowcaseButtonsView extends ContainerWithPresenter<ShowcaseButtonsPresenter> {
 	
-	private Container container = new Container();
 	private DropdownLink menuDropdown;
 	
 	public ShowcaseButtonsView() {
+		
 		new BaseContainer().withStyleClass("page-header").appendTo(container)
 			.add(new HtmlContent("<h1>Buttons</h1>"));
 		new Button("Normal button").appendTo(container);
@@ -60,10 +59,5 @@ public class ShowcaseButtonsView extends ContainerWithPresenter<ShowcaseButtonsA
 				})).appendTo(container);
 		new Button("Button with icon").withIcon(BootstrapIcon.ICON_BOOK).appendTo(container);
 	}
-	
-//	@Override
-//	public BaseComponentModel getComponentModel() {
-//		return container.getModel();
-//	}
 
 }

@@ -28,8 +28,9 @@ import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseExceptionsActivity_;
 
-public class ShowcaseExceptionsView extends ContainerWithPresenter<ShowcaseExceptionsActivity> {
+public class ShowcaseExceptionsView extends ContainerWithPresenter<ShowcaseExceptionsPresenter> {
 	
 	public ShowcaseExceptionsView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(container)

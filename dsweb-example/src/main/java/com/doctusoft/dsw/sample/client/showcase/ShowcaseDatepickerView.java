@@ -29,8 +29,9 @@ import com.doctusoft.dsw.client.comp.Datepicker;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseDatepickerActivity_;
 
-public class ShowcaseDatepickerView extends ContainerWithPresenter<ShowcaseDatepickerActivity> {
+public class ShowcaseDatepickerView extends ContainerWithPresenter<ShowcaseDatepickerPresenter> {
 
 	public ShowcaseDatepickerView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(container)

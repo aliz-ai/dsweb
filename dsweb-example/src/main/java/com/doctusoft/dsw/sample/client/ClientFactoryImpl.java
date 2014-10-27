@@ -28,38 +28,40 @@ import lombok.Setter;
 
 import com.doctusoft.dsw.client.mvp.PlaceController;
 import com.doctusoft.dsw.mvp.client.ViewOf;
-import com.doctusoft.dsw.sample.client.person.PersonDetailActivity;
+import com.doctusoft.dsw.sample.client.person.PersonDetailPresenter;
 import com.doctusoft.dsw.sample.client.person.PersonDetailView;
-import com.doctusoft.dsw.sample.client.person.PersonListActivity;
+import com.doctusoft.dsw.sample.client.person.PersonListPresenter;
 import com.doctusoft.dsw.sample.client.person.PersonListView;
 import com.doctusoft.dsw.sample.client.person.PersonRemoteService;
 import com.doctusoft.dsw.sample.client.person.PersonRemoteServiceAsync;
-import com.doctusoft.dsw.sample.client.person.SandboxActivity;
+import com.doctusoft.dsw.sample.client.person.SandboxPresenter;
 import com.doctusoft.dsw.sample.client.person.SandboxView;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseActivity;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseButtonsActivity;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseButtonsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseButtonsView;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseDatepickerActivity;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseChartsPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseChartsView;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseDatepickerPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseDatepickerView;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseExceptionsActivity;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseExceptionsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseExceptionsView;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputTagsActivity;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputTagsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputTagsView;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputsActivity;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputsView;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseNavsActivity;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseNavsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseNavsView;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseProgressBarActivity;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseProgressBarPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseProgressBarView;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseRichTextEditorActivity;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseRichTextEditorPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseRichTextEditorView;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseSelectActivity;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseSelectPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseSelectView;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseTableActivity;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseTablePresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseTableView;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseTabsheetActivity;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseTabsheetPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseTabsheetView;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseTypeaheadActivity;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseTypeaheadPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseTypeaheadView;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseView;
 import com.google.gwt.core.client.GWT;
@@ -72,55 +74,58 @@ public class ClientFactoryImpl implements ClientFactory {
 	private final EventBus eventBus = new SimpleEventBus();
 	
 	@Setter @Getter 
-	private  PlaceController placeController; //= new GwtPlaceControllerWrapper(new PlaceController(eventBus));
+	private  PlaceController placeController;
 	
 	@Getter
-	private final ViewOf<PersonListActivity> personListView = new PersonListView();
+	private final ViewOf<PersonListPresenter> personListView = new PersonListView();
 	
 	@Getter
-	private final ViewOf<PersonDetailActivity> personDetailView = new PersonDetailView();
+	private final ViewOf<PersonDetailPresenter> personDetailView = new PersonDetailView();
 	
 	@Getter
 	private final ViewOf<ShowcaseActivity> showcaseView = new ShowcaseView();
 	
 	@Getter
-	private final ViewOf<ShowcaseButtonsActivity> showcaseButtonsView = new ShowcaseButtonsView();
+	private final ViewOf<ShowcaseButtonsPresenter> showcaseButtonsView = new ShowcaseButtonsView();
 	
 	@Getter
-	private final ViewOf<ShowcaseDatepickerActivity> showcaseDatepickerView = new ShowcaseDatepickerView();
+	private final ViewOf<ShowcaseDatepickerPresenter> showcaseDatepickerView = new ShowcaseDatepickerView();
 	
 	@Getter
-	private final ViewOf<ShowcaseExceptionsActivity> showcaseExceptionsView = new ShowcaseExceptionsView();
+	private final ViewOf<ShowcaseExceptionsPresenter> showcaseExceptionsView = new ShowcaseExceptionsView();
 	
 	@Getter
-	private final ViewOf<ShowcaseInputsActivity> showcaseInputsView = new ShowcaseInputsView();
+	private final ViewOf<ShowcaseInputsPresenter> showcaseInputsView = new ShowcaseInputsView();
 	
 	@Getter
-	private final ViewOf<ShowcaseInputTagsActivity> showcaseInputTagsView = new ShowcaseInputTagsView();
+	private final ViewOf<ShowcaseInputTagsPresenter> showcaseInputTagsView = new ShowcaseInputTagsView();
 	
 	@Getter
-	private final ViewOf<ShowcaseNavsActivity> showcaseNavsView = new ShowcaseNavsView();
+	private final ViewOf<ShowcaseNavsPresenter> showcaseNavsView = new ShowcaseNavsView();
 	
 	@Getter
-	private final ViewOf<ShowcaseProgressBarActivity> showcaseProgressBarView = new ShowcaseProgressBarView();
+	private final ViewOf<ShowcaseProgressBarPresenter> showcaseProgressBarView = new ShowcaseProgressBarView();
 	
 	@Getter
-	private final ViewOf<ShowcaseRichTextEditorActivity> showcaseRichTextEditorView = new ShowcaseRichTextEditorView();
+	private final ViewOf<ShowcaseRichTextEditorPresenter> showcaseRichTextEditorView = new ShowcaseRichTextEditorView();
 	
 	@Getter
-	private final ViewOf<ShowcaseSelectActivity> showcaseSelectView = new ShowcaseSelectView();
+	private final ViewOf<ShowcaseSelectPresenter> showcaseSelectView = new ShowcaseSelectView();
 	
 	@Getter
-	private final ViewOf<ShowcaseTableActivity> showcaseTableView = new ShowcaseTableView();
+	private final ViewOf<ShowcaseTablePresenter> showcaseTableView = new ShowcaseTableView();
 	
 	@Getter
-	private final ViewOf<ShowcaseTabsheetActivity> showcaseTabsheetView = new ShowcaseTabsheetView();
+	private final ViewOf<ShowcaseTabsheetPresenter> showcaseTabsheetView = new ShowcaseTabsheetView();
 	
 	@Getter
-	private final ViewOf<ShowcaseTypeaheadActivity> showcaseTypeaheadView = new ShowcaseTypeaheadView();
+	private final ViewOf<ShowcaseTypeaheadPresenter> showcaseTypeaheadView = new ShowcaseTypeaheadView();
 	
 	@Getter
-	private final ViewOf<SandboxActivity> sandboxView = new SandboxView();
+	private final ViewOf<ShowcaseChartsPresenter> showcaseChartsView = new ShowcaseChartsView();
+	
+	@Getter
+	private final ViewOf<SandboxPresenter> sandboxView = new SandboxView();
 	
 	@Getter
 	private final PersonRemoteServiceAsync personRemoteServiceAsync = GWT.create(PersonRemoteService.class);

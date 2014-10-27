@@ -31,7 +31,7 @@ import com.doctusoft.dsw.client.comp.SelectItems;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
-public class ShowcaseSelectView extends ContainerWithPresenter<ShowcaseSelectActivity> {
+public class ShowcaseSelectView extends ContainerWithPresenter<ShowcaseSelectPresenter> {
 	
 	private Container container = new Container();
 	

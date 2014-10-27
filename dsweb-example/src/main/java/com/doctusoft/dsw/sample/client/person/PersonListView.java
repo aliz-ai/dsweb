@@ -33,7 +33,7 @@ import com.doctusoft.dsw.client.comp.Repeat;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 import com.doctusoft.dsw.sample.client.custom.CustomComponent;
 
-public class PersonListView extends ContainerWithPresenter<PersonListActivity> {
+public class PersonListView extends ContainerWithPresenter<PersonListPresenter> {
 
 	public PersonListView() {
 		final Label label = new Label("Person list:");

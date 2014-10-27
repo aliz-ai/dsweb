@@ -10,10 +10,10 @@ import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.ClientFactory;
 
-public class ShowcaseRichTextEditorActivity extends com.doctusoft.dsw.client.mvp.AbstractPresenter<ShowcaseRichTextEditorActivity>{
+public class ShowcaseRichTextEditorPresenter extends com.doctusoft.dsw.client.mvp.AbstractPresenter<ShowcaseRichTextEditorPresenter>{
 	
 	@Getter
-	private ViewOf<ShowcaseRichTextEditorActivity> view;
+	private ViewOf<ShowcaseRichTextEditorPresenter> view;
 	
 	@ObservableProperty
 	private String content2 = "<p>ohplease</p><p>hello</p>";
@@ -28,13 +28,21 @@ public class ShowcaseRichTextEditorActivity extends com.doctusoft.dsw.client.mvp
 		options.add(1, "option" + counter++);
 	}
 	
-	public ShowcaseRichTextEditorActivity(Place place, ClientFactory clientFactory ) {
+	public ShowcaseRichTextEditorPresenter(Place place, ClientFactory clientFactory ) {
 		view = clientFactory.getShowcaseRichTextEditorView();
+		init();
 	}
 	
-	public static class Place extends com.doctusoft.dsw.client.mvp.AbstractPlace<ShowcaseRichTextEditorActivity> implements Serializable {
+	public static class Place extends com.doctusoft.dsw.client.mvp.AbstractPlace<ShowcaseRichTextEditorPresenter> implements Serializable {
 		public Place() {
-			super("showcaserichtexteditor", ShowcaseRichTextEditorActivity.class );
+			super("showcaserichtexteditor", ShowcaseRichTextEditorPresenter.class );
 		}
+	}
+	
+	private void init() {
+		options.add("Bela");
+		options.add("jozsi");
+		options.add("Nora");
+		options.add("ELemer");
 	}
 }

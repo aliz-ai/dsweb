@@ -33,7 +33,7 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 	public TabSheetRenderer(final TabSheetModel model) {
 		super(JQuery.select("<div class='tabsheet' />"), model);
 		
-		tabHolder = JQuery.select("<ul class='nav nav-tabs' />").appendTo(widget); 
+		tabHolder = JQuery.select("<ul class='nav nav-tabs tabsheet' />").appendTo(widget); 
 		
 		Bindings.obs(model)
 				.get(TabSheetModel_._activeTab)
