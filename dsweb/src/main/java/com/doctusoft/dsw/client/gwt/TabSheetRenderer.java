@@ -74,7 +74,7 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 				tabCaptionList.add(tabCaption);
 				JQuery tabContent;
 				if (widget.find(".tab-container").length() == 0) {
-					widget.after(JQuery.select("ul")).append(JQuery.select("<div>").addClass("tab-container"));
+					widget.after(JQuery.select(".tabsheet")).append(JQuery.select("<div>").addClass("tab-container"));
 					tabCaption.addClass("active");
 					tabContent = JQuery.select("<div>");
 				} else {

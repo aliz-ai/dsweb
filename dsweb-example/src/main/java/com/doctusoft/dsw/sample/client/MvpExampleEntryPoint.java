@@ -41,7 +41,7 @@ public class MvpExampleEntryPoint implements EntryPoint {
 		clientFactory = GWT.create(ClientFactory.class);
 
 		final ExampleApplication app = new ExampleApplication(clientFactory);
-		applicationFrame = app.createFrameWidgets();
+		applicationFrame = app.getComponentModel();
 		JQuery.select("#content").append(rendererFactory.getRenderer(applicationFrame.getComponentModel()).getWidget());
 
 	}

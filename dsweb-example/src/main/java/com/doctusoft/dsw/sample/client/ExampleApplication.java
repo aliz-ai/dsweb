@@ -32,13 +32,13 @@ import com.doctusoft.dsw.client.comp.Link;
 import com.doctusoft.dsw.client.comp.Navs;
 import com.doctusoft.dsw.client.comp.Row;
 import com.doctusoft.dsw.client.comp.TopNavbar;
+import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.exc.BasicExceptionDisplayer;
 import com.doctusoft.dsw.client.mvp.AbstractPlace;
 import com.doctusoft.dsw.client.mvp.NavigationHandler;
 import com.doctusoft.dsw.client.mvp.PlaceController;
 import com.doctusoft.dsw.client.mvp.PlaceController.PresenterStartedListener;
 import com.doctusoft.dsw.client.mvp.Presenter;
-import com.doctusoft.dsw.sample.client.person.PersonListPlace;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseButtonsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseChartsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseDatepickerPresenter;
@@ -52,9 +52,8 @@ import com.doctusoft.dsw.sample.client.showcase.ShowcaseSelectPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseTablePresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseTabsheetPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseTypeaheadPresenter;
-import com.google.gwt.place.shared.Place;
 
-public class ExampleApplication extends AbstractMVPApplication {
+public class ExampleApplication implements HasComponentModel {
 
 	private BaseContainer rootContainer;
 	
@@ -64,9 +63,20 @@ public class ExampleApplication extends AbstractMVPApplication {
 	
 	public ExampleApplication(ClientFactory clientFactory) {
 		this.clientFactory = clientFactory;
+		init();
 	}
 	
 	private void init() {
+		rootContainer = new BaseContainer();
+		new TopNavbar("dsweb example")
+			.addMenuItem(new Link("Example MVP List", "#PersonListPlace:null"))
+			.addMenuItem(new Link("Component showcase", "#showcasebuttons"))
+			.withStyleClasses("navbar-inverse", "navbar-fixed-top")
+			.appendTo(rootContainer);
+		BaseContainer bottomPart = new BaseContainer().appendTo(rootContainer).withStyle("padding-top: 40px");
+		new BasicExceptionDisplayer(clientFactory.getEventBus(), new BaseContainer().appendTo(bottomPart));
+		contentContainer = new Container().appendTo(bottomPart);
+		
 		Row row = new Row().appendTo(contentContainer);
 		Cell menuCell = new Cell().withSpan(3).appendTo(row);
 		new Navs().stacked()
@@ -119,31 +129,10 @@ public class ExampleApplication extends AbstractMVPApplication {
 	                );
 	        navigationHandler.handleCurrentHistory();
 	}
-	
+
 	@Override
-	public HasComponentModel createFrameWidgets() {
-		rootContainer = new BaseContainer();
-		new TopNavbar("dsweb example")
-			.addMenuItem(new Link("Example MVP List", "#PersonListPlace:null"))
-			.addMenuItem(new Link("Component showcase", "#showcasebuttons"))
-			.withStyleClasses("navbar-inverse", "navbar-fixed-top")
-			.appendTo(rootContainer);
-		BaseContainer bottomPart = new BaseContainer().appendTo(rootContainer).withStyle("padding-top: 40px");
-		new BasicExceptionDisplayer(clientFactory.getEventBus(), new BaseContainer().appendTo(bottomPart));
-		contentContainer = new Container().appendTo(bottomPart);
-		init();
-		return rootContainer;
-	}
-	@Override
-	public void showView(HasComponentModel view) {
-		contentContainer.clear();
-		if (view != null) {
-			contentContainer.add(view);
-		}
-	}
-	@Override
-	public Place getDefaultPlace() {
-		return new PersonListPlace();
+	public BaseComponentModel getComponentModel() {
+		return rootContainer.getComponentModel();
 	}
 
 }
