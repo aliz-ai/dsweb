@@ -24,13 +24,10 @@ package com.doctusoft.dsw.sample.client;
 
 
 import com.doctusoft.dsw.client.comp.BaseContainer;
-import com.doctusoft.dsw.client.comp.Cell;
 import com.doctusoft.dsw.client.comp.Container;
 import com.doctusoft.dsw.client.comp.HasComponentModel;
 import com.doctusoft.dsw.client.comp.HistoryHandler;
 import com.doctusoft.dsw.client.comp.Link;
-import com.doctusoft.dsw.client.comp.Navs;
-import com.doctusoft.dsw.client.comp.Row;
 import com.doctusoft.dsw.client.comp.TopNavbar;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.exc.BasicExceptionDisplayer;
@@ -39,6 +36,9 @@ import com.doctusoft.dsw.client.mvp.NavigationHandler;
 import com.doctusoft.dsw.client.mvp.PlaceController;
 import com.doctusoft.dsw.client.mvp.PlaceController.PresenterStartedListener;
 import com.doctusoft.dsw.client.mvp.Presenter;
+import com.doctusoft.dsw.sample.client.person.PersonDetailPresenter;
+import com.doctusoft.dsw.sample.client.person.PersonListPresenter;
+import com.doctusoft.dsw.sample.client.person.SandboxPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseButtonsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseChartsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseDatepickerPresenter;
@@ -69,7 +69,7 @@ public class ExampleApplication implements HasComponentModel {
 	private void init() {
 		rootContainer = new BaseContainer();
 		new TopNavbar("dsweb example")
-			.addMenuItem(new Link("Example MVP List", "#PersonListPlace:null"))
+			.addMenuItem(new Link("Example MVP List", "#personlist"))
 			.addMenuItem(new Link("Component showcase", "#showcasebuttons"))
 			.withStyleClasses("navbar-inverse", "navbar-fixed-top")
 			.appendTo(rootContainer);
@@ -77,34 +77,13 @@ public class ExampleApplication implements HasComponentModel {
 		new BasicExceptionDisplayer(clientFactory.getEventBus(), new BaseContainer().appendTo(bottomPart));
 		contentContainer = new Container().appendTo(bottomPart);
 		
-		Row row = new Row().appendTo(contentContainer);
-		Cell menuCell = new Cell().withSpan(3).appendTo(row);
-		new Navs().stacked()
-		.addMenuItem(new Link("Buttons", "#showcasebuttons"))
-		.addMenuItem(new Link("Datepicker", "#showcasedatepicker"))
-		.addMenuItem(new Link("Select", "#showcaseselect"))
-		.addMenuItem(new Link("Typeahead", "#showcasetypeahead"))
-		.addMenuItem(new Link("Inputs", "#showcaseinputs"))
-		.addMenuItem(new Link("Input Tags", "#showcaseinputtags"))
-		.addMenuItem(new Link("Navs", "#showcasenavs"))
-		.addMenuItem(new Link("Tabsheet", "#showcasetabsheet"))
-		.addMenuItem(new Link("Tables", "#showcasetables"))
-		.addMenuItem(new Link("Progress Bars", "#showcaseprogressbars"))
-		.addMenuItem(new Link("Exceptions", "#showcaseexceptions"))
-		.addMenuItem(new Link("Charts", "#showcasecharts"))
-		.addMenuItem(new Link("RichText editor", "#showcaserichtexteditor"))
-		.addMenuItem(new Link("Context Menu", "#showcasecontextmenu"))
-		.appendTo(menuCell);
-		
-		final Container subcontainer = new Container().appendTo(new Cell().withSpan(9).appendTo(row));
-		subcontainer.css("width","auto");
 		PlaceController placeController = new PlaceController(new ExamplePlacePresenterMapper(clientFactory));
         clientFactory.setPlaceController(placeController);
         placeController.addPresenterStartedListener(new PresenterStartedListener() {
             @Override
             public void presenterStarted(Presenter<?> presenter, AbstractPlace<?> place) {
-            	subcontainer.getComponentModel().getChildren().clear();
-            	subcontainer.add(((HasComponentModel) presenter.getView()));
+            	contentContainer.getComponentModel().getChildren().clear();
+            	contentContainer.add(((HasComponentModel) presenter.getView()));
             }
         });
         
@@ -125,7 +104,10 @@ public class ExampleApplication implements HasComponentModel {
 	                new ShowcaseTypeaheadPresenter.Place(),
 	                new ShowcaseProgressBarPresenter.Place(),
 	                new ShowcaseChartsPresenter.Place(),
-	                new ShowcaseInputsPresenter.Place()
+	                new ShowcaseInputsPresenter.Place(),
+	                new SandboxPresenter.Place(),
+	                new PersonListPresenter.Place(),
+	                new PersonDetailPresenter.Place()
 	                );
 	        navigationHandler.handleCurrentHistory();
 	}

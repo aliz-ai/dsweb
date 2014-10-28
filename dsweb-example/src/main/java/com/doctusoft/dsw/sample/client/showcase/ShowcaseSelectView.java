@@ -24,28 +24,19 @@ package com.doctusoft.dsw.sample.client.showcase;
 
 
 import com.doctusoft.dsw.client.comp.BaseContainer;
-import com.doctusoft.dsw.client.comp.Container;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.Select;
 import com.doctusoft.dsw.client.comp.SelectItems;
-import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
-import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
+import com.doctusoft.dsw.sample.client.AbstractViewWithNavBar;
 
-public class ShowcaseSelectView extends ContainerWithPresenter<ShowcaseSelectPresenter> {
-	
-	private Container container = new Container();
+public class ShowcaseSelectView extends AbstractViewWithNavBar<ShowcaseSelectPresenter> {
 	
 	public ShowcaseSelectView() {
-		new BaseContainer().withStyleClass("page-header").appendTo(container)
+		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)
 			.add(new HtmlContent("<h1>Select</h1>"));
 		new Select<String>()
-			.appendTo(container)
+			.appendTo(subContainer)
 			.setSelectItems(SelectItems.fromStrings("First item","Second item","Third item"));
-	}
-	
-	@Override
-	public BaseComponentModel getComponentModel() {
-		return container.getModel();
 	}
 
 }

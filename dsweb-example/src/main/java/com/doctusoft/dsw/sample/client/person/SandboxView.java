@@ -44,70 +44,70 @@ public class SandboxView extends ContainerWithPresenter<SandboxPresenter> {
 		
 		new Button()
 			.bindCaption(bindOnPresenter()
-					.get(SandboxActivity_._button1))
-			.click(presenterMethod(SandboxActivity_.__changeDisabled))
+					.get(SandboxPresenter_._button1))
+			.click(presenterMethod(SandboxPresenter_.__changeDisabled))
 			.appendTo(container);
 		new Button()
 			.bindCaption(bindOnPresenter()
-					.get(SandboxActivity_._button2))
-			.bindDisabled(bindOnPresenter().get(SandboxActivity_._disabled))
+					.get(SandboxPresenter_._button2))
+			.bindDisabled(bindOnPresenter().get(SandboxPresenter_._disabled))
 			.appendTo(container);
 		new Link("test Link")
 		.withStyleClasses("btn", "btn-default", "btn-lg")
 		.bindDisabled(bindOnPresenter()
-				.get(SandboxActivity_._disabled))
+				.get(SandboxPresenter_._disabled))
 		.appendTo(container);
 		new InputText()
 			.withPlaceHolder("input text")
 			.bindDisabled(bindOnPresenter()
-					.get(SandboxActivity_._disabled))
+					.get(SandboxPresenter_._disabled))
 			.appendTo(container);
 		new PasswordField()
 			.withPlaceHolder("password field")
 			.bindDisabled(bindOnPresenter()
-				.get(SandboxActivity_._disabled))
+				.get(SandboxPresenter_._disabled))
 			.appendTo(container);
 		new InplaceText()
 			.bindDisabled(bindOnPresenter()
-					.get(SandboxActivity_._disabled))
+					.get(SandboxPresenter_._disabled))
 			.insertTo(2,container);
 		new InputNumber()
 			.withPlaceHolder("input number")
 			.bindDisabled(bindOnPresenter()
-					.get(SandboxActivity_._disabled))
+					.get(SandboxPresenter_._disabled))
 			.appendTo(container);
 		new InputTags()
 			.bindDisabled(bindOnPresenter()
-					.get(SandboxActivity_._disabled))
+					.get(SandboxPresenter_._disabled))
 			.appendTo(container);
 		Textarea textarea = new Textarea()
 			.withPlaceHolder("TextArea")
 			.bindDisabled(bindOnPresenter()
-					.get(SandboxActivity_._disabled));
+					.get(SandboxPresenter_._disabled));
 			//.appendTo(container);
 		new Typeahead<String>()
 			.withSelectItems(SelectItems.fromStrings("First item","Second item","Third item"))
 			.bindDisabled(bindOnPresenter()
-					.get(SandboxActivity_._disabled))
+					.get(SandboxPresenter_._disabled))
 			.appendTo(container);
 		new InputTime()
 			.bindDisabled(bindOnPresenter()
-					.get(SandboxActivity_._disabled))
+					.get(SandboxPresenter_._disabled))
 			.withPlaceHolder("time aaa..")
 			.appendTo(container);
 		new Datepicker()
 			.withPlaceHolder("Datepicker")
 			.bindDisabled(bindOnPresenter()
-					.get(SandboxActivity_._disabled))
+					.get(SandboxPresenter_._disabled))
 			.insertTo(9, container);
 		new Select<String>()
 			.prependTo(container)
 			.bindDisabled(bindOnPresenter()
-					.get(SandboxActivity_._disabled))
+					.get(SandboxPresenter_._disabled))
 			.setSelectItems(SelectItems.fromStrings("First item","Second item","Third item"));
-		RichTextEditor richTextEditor = new RichTextEditor().bindContent(bindOnPresenter().get(SandboxActivity_._button1))
+		RichTextEditor richTextEditor = new RichTextEditor().bindContent(bindOnPresenter().get(SandboxPresenter_._button1))
 			.bindDisabled(bindOnPresenter()
-				.get(SandboxActivity_._disabled));		
+				.get(SandboxPresenter_._disabled));		
 		
 		container.prepend(richTextEditor);
 		

@@ -44,14 +44,14 @@ public class PersonListView extends ContainerWithPresenter<PersonListPresenter> 
 			protected BaseComponent<?, ?> renderItem(PersonDto item, int rowNum) {
 				BaseContainer row = new BaseContainer();
 				row.add(new Label("" + item.getId()));
-				row.add(new Link(item.getName(), "#PersonDetailPlace:" + item.getId()));
-				row.add(new Button("Delete").click(presenterMethod(PersonListActivity_.__deletePerson, item)));
+				row.add(new Link(item.getName(), "#pesondetail:" + item.getId()));
+				row.add(new Button("Delete").click(presenterMethod(PersonListPresenter_.__deletePerson, item)));
 				return row;
 			}
-		}.bind(bindOnPresenter().get(PersonListActivity_._personList));
+		}.bind(bindOnPresenter().get(PersonListPresenter_._personList));
 		container.add(repeat);
 		new Button("Add person")
-				.click(presenterMethod(PersonListActivity_.__addPerson))
+				.click(presenterMethod(PersonListPresenter_.__addPerson))
 				.withStyleClass("btn-primary")
 				.appendTo(container);
 		ModalDialog dialog = new ModalDialog();

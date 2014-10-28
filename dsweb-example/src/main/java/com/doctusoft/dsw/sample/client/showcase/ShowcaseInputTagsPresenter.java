@@ -12,7 +12,6 @@ import com.doctusoft.dsw.client.comp.TagOption;
 import com.doctusoft.dsw.client.comp.TagOptions;
 import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.ClientFactory;
-import com.doctusoft.dsw.sample.client.showcase.presenter.ShowcaseInputTagsPresenter_;
 import com.google.common.base.Joiner;
 
 public class ShowcaseInputTagsPresenter extends com.doctusoft.dsw.client.mvp.AbstractPresenter<ShowcaseInputTagsPresenter> {

@@ -28,27 +28,27 @@ import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.ProgressBar;
 import com.doctusoft.dsw.client.comp.ProgressBar.ProgressBarType;
-import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
+import com.doctusoft.dsw.sample.client.AbstractViewWithNavBar;
 
-public class ShowcaseProgressBarView extends ContainerWithPresenter<ShowcaseProgressBarPresenter> {
+public class ShowcaseProgressBarView extends AbstractViewWithNavBar<ShowcaseProgressBarPresenter> {
 	
 	public ShowcaseProgressBarView() {
-		new BaseContainer().withStyleClass("page-header").appendTo(container)
+		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)
 			.add(new HtmlContent("<h1>Progress Bars</h1>"));
-		new Label("Basic", "h3").appendTo(container);
-		new ProgressBar().appendTo(container);
-		new Label("Animated", "h3").appendTo(container);
-		new ProgressBar().setType(ProgressBarType.StripedActive).appendTo(container);
-		new Label("Colored", "h3").appendTo(container);
-		new ProgressBar().setType(ProgressBarType.Info).appendTo(container);
-		new ProgressBar().setType(ProgressBarType.Success).appendTo(container);
-		new ProgressBar().setType(ProgressBarType.Warning).appendTo(container);
-		new ProgressBar().setType(ProgressBarType.Danger).appendTo(container);
-		new Label("Striped", "h3").appendTo(container);
-		new ProgressBar().setType(ProgressBarType.Info).setType(ProgressBarType.Striped).appendTo(container);
-		new ProgressBar().setType(ProgressBarType.Success).setType(ProgressBarType.Striped).appendTo(container);
-		new ProgressBar().setType(ProgressBarType.Warning).setType(ProgressBarType.StripedActive).appendTo(container);
-		new ProgressBar().setType(ProgressBarType.Danger).setType(ProgressBarType.StripedActive).appendTo(container);
+		new Label("Basic", "h3").appendTo(subContainer);
+		new ProgressBar().appendTo(subContainer);
+		new Label("Animated", "h3").appendTo(subContainer);
+		new ProgressBar().setType(ProgressBarType.StripedActive).appendTo(subContainer);
+		new Label("Colored", "h3").appendTo(subContainer);
+		new ProgressBar().setType(ProgressBarType.Info).appendTo(subContainer);
+		new ProgressBar().setType(ProgressBarType.Success).appendTo(subContainer);
+		new ProgressBar().setType(ProgressBarType.Warning).appendTo(subContainer);
+		new ProgressBar().setType(ProgressBarType.Danger).appendTo(subContainer);
+		new Label("Striped", "h3").appendTo(subContainer);
+		new ProgressBar().setType(ProgressBarType.Info).setType(ProgressBarType.Striped).appendTo(subContainer);
+		new ProgressBar().setType(ProgressBarType.Success).setType(ProgressBarType.Striped).appendTo(subContainer);
+		new ProgressBar().setType(ProgressBarType.Warning).setType(ProgressBarType.StripedActive).appendTo(subContainer);
+		new ProgressBar().setType(ProgressBarType.Danger).setType(ProgressBarType.StripedActive).appendTo(subContainer);
 	}
 
 }

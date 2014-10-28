@@ -27,29 +27,28 @@ import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.InputTags;
 import com.doctusoft.dsw.client.comp.Label;
-import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
-import com.doctusoft.dsw.sample.client.showcase.presenter.ShowcaseInputTagsPresenter_;
+import com.doctusoft.dsw.sample.client.AbstractViewWithNavBar;
 
-public class ShowcaseInputTagsView extends ContainerWithPresenter<ShowcaseInputTagsPresenter>{
+public class ShowcaseInputTagsView extends AbstractViewWithNavBar<ShowcaseInputTagsPresenter>{
 	
 	public ShowcaseInputTagsView() {
-		new BaseContainer().withStyleClass("page-header").appendTo(container)
+		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)
 		.add(new HtmlContent("<h1>Input Tags</h1>"));
 		
-		new Label("Typeahead", "h3").appendTo(container);
+		new Label("Typeahead", "h3").appendTo(subContainer);
 		new InputTags()
 			.bind(bindOnPresenter().get(ShowcaseInputTagsPresenter_._tags))
 			.bindTagSuggestions(bindOnPresenter().get(ShowcaseInputTagsPresenter_._tagSuggestions))
-			.appendTo(container);
+			.appendTo(subContainer);
 		
 		new Label("","div").bind(bindOnPresenter().get(ShowcaseInputTagsPresenter_._tagsJoined))
-			.appendTo(container);
+			.appendTo(subContainer);
 		
-		new Label("Categorizing tags", "h3").appendTo(container);	
+		new Label("Categorizing tags", "h3").appendTo(subContainer);	
 		new InputTags()
 			.bindTagOption(bindOnPresenter().get(ShowcaseInputTagsPresenter_._tagOptions))
 			.bindTagOptionSuggestions(bindOnPresenter().get(ShowcaseInputTagsPresenter_._tagOptionSuggestions)).
-		appendTo(container);
+		appendTo(subContainer);
 	}
 
 }

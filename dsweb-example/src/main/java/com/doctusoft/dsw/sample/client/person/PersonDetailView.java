@@ -30,7 +30,7 @@ public class PersonDetailView extends ContainerWithPresenter<PersonDetailPresent
 	
 	public PersonDetailView() {
 		new Label()
-			.bind(bindOnPresenter().get(PersonDetailActivity_._personDto).get(PersonDto_._name))
+			.bind(bindOnPresenter().get(PersonDetailPresenter_._personDto).get(PersonDto_._name))
 			.appendTo(container);
 	}
 

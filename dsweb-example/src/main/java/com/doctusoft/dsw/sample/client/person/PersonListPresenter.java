@@ -23,42 +23,48 @@ package com.doctusoft.dsw.sample.client.person;
  */
 
 
+import java.io.Serializable;
 import java.util.List;
+
+import lombok.Getter;
 
 import com.doctusoft.MethodRef;
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.binding.observable.ObservableList;
+import com.doctusoft.dsw.client.mvp.AbstractPresenter;
 import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.AbstractCallback;
 import com.doctusoft.dsw.sample.client.ClientFactory;
-import com.google.gwt.activity.shared.AbstractActivity;
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-public class PersonListPresenter extends AbstractActivity {
+public class PersonListPresenter extends AbstractPresenter<PersonListPresenter>{
 
 	private ClientFactory clientFactory;
-
-	public PersonListPresenter(ClientFactory clientFactory) {
-		this.clientFactory = clientFactory;
-	}
 
 	@ObservableProperty
 	private ObservableList<PersonDto> personList = new ObservableList<PersonDto>();
 
-	@Override
-	public void start(AcceptsOneWidget panel, EventBus eventBus) {
-		ViewOf<PersonListPresenter> view = clientFactory.getPersonListView();
-		view.setPresenter(this);
-		panel.setWidget(view);
+	@Getter
+	private ViewOf<PersonListPresenter> view;
+
+	public PersonListPresenter(Place place, ClientFactory clientFactory) {
+		view = clientFactory.getPersonListView();
+		this.clientFactory = clientFactory;
 		loadList();
+	}
+	
+	public static class Place extends com.doctusoft.dsw.client.mvp.AbstractPlace<PersonListPresenter> implements Serializable {
+		public Place() {
+			super("personlist", PersonListPresenter.class );
+		}
 	}
 
 	private void loadList() {
 		clientFactory.getPersonRemoteServiceAsync().getPersonDtos(new AbstractCallback<List<PersonDto>>(clientFactory) {
 			public void onSuccess(List<PersonDto> result) {
 				personList.clear();
-				personList.addAll(result);
+				if (result != null) {
+					personList.addAll(result);
+				}
 			};
 		});
 	}

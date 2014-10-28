@@ -15,10 +15,9 @@ import com.doctusoft.dsw.client.comp.model.AbstractChartModel.LegendPosition;
 import com.doctusoft.dsw.client.comp.model.BarChartItemModel;
 import com.doctusoft.dsw.client.comp.model.BarChartModel.BarDirection;
 import com.doctusoft.dsw.client.comp.model.PieChartItemModel;
-import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
-import com.doctusoft.dsw.sample.client.showcase.presenter.ShowcaseChartsPresenter_;
+import com.doctusoft.dsw.sample.client.AbstractViewWithNavBar;
 
-public class ShowcaseChartsView extends ContainerWithPresenter<ShowcaseChartsPresenter> {
+public class ShowcaseChartsView extends AbstractViewWithNavBar<ShowcaseChartsPresenter> {
 
 	@Getter
 	private final BarChart barChart;
@@ -32,14 +31,14 @@ public class ShowcaseChartsView extends ContainerWithPresenter<ShowcaseChartsPre
 		modalContent = new Label();
 		modalContent.bind(bindOnPresenter().get(ShowcaseChartsPresenter_._modalContent));
 		
-		new ModalDialog().addContent(modalContent).withHeader("Chart item selection").bindDialogVisible(bindOnPresenter().get(ShowcaseChartsPresenter_._modalVisible)).appendTo(container);
+		new ModalDialog().addContent(modalContent).withHeader("Chart item selection").bindDialogVisible(bindOnPresenter().get(ShowcaseChartsPresenter_._modalVisible)).appendTo(subContainer);
 		
 		List<PieChartItemModel> items = new ArrayList<PieChartItemModel>();
 		items.add( new PieChartItemModel( 12, "Gyula" ) );
 		items.add( new PieChartItemModel( 22, "Béla" ) );
 		pieChart = new PieChart()
 		.withId( "proba2" )
-		.appendTo( container )
+		.appendTo( subContainer )
 		.withItems( items )
 		.withLegendPosition( LegendPosition.EAST )
 		.withTitle( "Proba chart" )
@@ -58,14 +57,14 @@ public class ShowcaseChartsView extends ContainerWithPresenter<ShowcaseChartsPre
 		seriesTitles.add( "ket" );
 		seriesTitles.add( "ha" );
 		barChart = new BarChart()
-		.appendTo( container )
+		.appendTo( subContainer )
 		.withItems( items2 )
 		.withTitle( "hello" )
 		.rowClick( presenterMethod( ShowcaseChartsPresenter_.__chartClicked ) )
 		.withBarDirection( BarDirection.HORIZONTAL)
 		.withSeriesTitles( seriesTitles )
 		.withId( "hello" );
-		new Button("Add new chart value").appendTo(container).click( new EmptyEventHandler() {
+		new Button("Add new chart value").appendTo(subContainer).click( new EmptyEventHandler() {
 			
 			@Override
 			public void handle() {

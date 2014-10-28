@@ -22,19 +22,21 @@ package com.doctusoft.dsw.sample.client.person;
  * #L%
  */
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+
+import lombok.Getter;
 
 import com.doctusoft.MethodRef;
 import com.doctusoft.ObservableProperty;
+import com.doctusoft.dsw.client.mvp.AbstractPresenter;
 import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.ClientFactory;
-import com.google.gwt.activity.shared.AbstractActivity;
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-public class SandboxPresenter extends AbstractActivity {
+public class SandboxPresenter extends AbstractPresenter<SandboxPresenter> {
 
-	private final ClientFactory clientFactory;
+	@Getter
+	private ViewOf<SandboxPresenter> view;
 
 	@ObservableProperty
 	private BigDecimal inputNumberValue;
@@ -48,17 +50,14 @@ public class SandboxPresenter extends AbstractActivity {
 	@ObservableProperty
 	private String button2 = "test Button";
 
-	public SandboxPresenter(ClientFactory clientFactory) {
-		this.clientFactory = clientFactory;
-
+	public SandboxPresenter(Place place, ClientFactory clientFactory ) {
+		view = clientFactory.getSandboxView();
 	}
-
-	@Override
-	public void start(AcceptsOneWidget panel, EventBus eventBus) {
-		ViewOf<SandboxPresenter> view = clientFactory.getSandboxView();
-		view.setPresenter(this);
-		panel.setWidget(view);
-		view.viewPresented();
+	
+	public static class Place extends com.doctusoft.dsw.client.mvp.AbstractPlace<SandboxPresenter> implements Serializable {
+		public Place() {
+			super("sandbox", SandboxPresenter.class );
+		}
 	}
 	
 	@MethodRef

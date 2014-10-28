@@ -31,33 +31,33 @@ import com.doctusoft.dsw.client.comp.DropdownLink;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.Link;
-import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 import com.doctusoft.dsw.client.gwt.BootstrapIcon;
 import com.doctusoft.dsw.client.gwt.BootstrapStyleClasses;
+import com.doctusoft.dsw.sample.client.AbstractViewWithNavBar;
 
-public class ShowcaseButtonsView extends ContainerWithPresenter<ShowcaseButtonsPresenter> {
+public class ShowcaseButtonsView extends AbstractViewWithNavBar<ShowcaseButtonsPresenter> {
 	
 	private DropdownLink menuDropdown;
 	
 	public ShowcaseButtonsView() {
 		
-		new BaseContainer().withStyleClass("page-header").appendTo(container)
+		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)
 			.add(new HtmlContent("<h1>Buttons</h1>"));
-		new Button("Normal button").appendTo(container);
+		new Button("Normal button").appendTo(subContainer);
 		new Button("Small success button")
-				.withStyleClasses(BootstrapStyleClasses.BTN_SUCCESS, BootstrapStyleClasses.BTN_SMALL).appendTo(container);
+				.withStyleClasses(BootstrapStyleClasses.BTN_SUCCESS, BootstrapStyleClasses.BTN_SMALL).appendTo(subContainer);
 		new Button("Large primary button")
-				.withStyleClasses(BootstrapStyleClasses.BTN_PRIMARY, BootstrapStyleClasses.BTN_LARGE).appendTo(container);
-		new Label("Dropdown button", "h3").appendTo(container);
+				.withStyleClasses(BootstrapStyleClasses.BTN_PRIMARY, BootstrapStyleClasses.BTN_LARGE).appendTo(subContainer);
+		new Label("Dropdown button", "h3").appendTo(subContainer);
 		menuDropdown = new DropdownLink("Dropdown button").
 				addLink(new Link("External link", "http://www.tehcute.com/pics/201201/Pug-wants-cookie.jpg").newWindow())
 				.addLink(new Link("Link with handler").click(new EmptyEventHandler() {
 					@Override
 					public void handle() {
-						container.add(new Alert("Clicked"));
+						subContainer.add(new Alert("Clicked"));
 					}
-				})).appendTo(container);
-		new Button("Button with icon").withIcon(BootstrapIcon.ICON_BOOK).appendTo(container);
+				})).appendTo(subContainer);
+		new Button("Button with icon").withIcon(BootstrapIcon.ICON_BOOK).appendTo(subContainer);
 	}
 
 }
