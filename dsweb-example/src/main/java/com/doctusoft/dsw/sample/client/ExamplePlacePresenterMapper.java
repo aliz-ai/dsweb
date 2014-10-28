@@ -7,6 +7,7 @@ import com.doctusoft.dsw.sample.client.person.PersonListPresenter;
 import com.doctusoft.dsw.sample.client.person.SandboxPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseButtonsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseChartsPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseContextMenuPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseDatepickerPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseExceptionsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputTagsPresenter;
@@ -57,6 +58,8 @@ public class ExamplePlacePresenterMapper implements PlacePresenterMapper {
 			return (Presenter) new ShowcaseTabsheetPresenter((ShowcaseTabsheetPresenter.Place) place, clientFactory);
 		if (place instanceof ShowcaseTypeaheadPresenter.Place)
 			return (Presenter) new ShowcaseTypeaheadPresenter((ShowcaseTypeaheadPresenter.Place) place, clientFactory);
+		if (place instanceof ShowcaseContextMenuPresenter.Place)
+			return (Presenter) new ShowcaseContextMenuPresenter((ShowcaseContextMenuPresenter.Place) place, clientFactory);
 		if (place instanceof SandboxPresenter.Place)
 			return (Presenter) new SandboxPresenter((SandboxPresenter.Place) place, clientFactory);
 		if (place instanceof PersonListPresenter.Place)

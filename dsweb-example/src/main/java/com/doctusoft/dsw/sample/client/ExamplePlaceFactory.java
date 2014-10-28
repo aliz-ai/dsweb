@@ -10,6 +10,7 @@ import com.doctusoft.dsw.sample.client.person.PersonListPresenter;
 import com.doctusoft.dsw.sample.client.person.SandboxPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseButtonsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseChartsPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseContextMenuPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseDatepickerPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseExceptionsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputTagsPresenter;
@@ -53,6 +54,8 @@ public class ExamplePlaceFactory implements PlaceFactory, Serializable {
 			return (AbstractPlace<P>) new ShowcaseTabsheetPresenter.Place();
 		if (ShowcaseTypeaheadPresenter.Place.class.equals(placeClass))
 			return (AbstractPlace<P>) new ShowcaseTypeaheadPresenter.Place();
+		if (ShowcaseContextMenuPresenter.Place.class.equals(placeClass))
+			return (AbstractPlace<P>) new ShowcaseContextMenuPresenter.Place();
 		if (SandboxPresenter.Place.class.equals(placeClass))
 			return (AbstractPlace<P>) new SandboxPresenter.Place();
 		if (PersonListPresenter.Place.class.equals(placeClass))

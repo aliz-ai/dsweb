@@ -41,6 +41,7 @@ import com.doctusoft.dsw.sample.client.person.PersonListPresenter;
 import com.doctusoft.dsw.sample.client.person.SandboxPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseButtonsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseChartsPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseContextMenuPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseDatepickerPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseExceptionsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputTagsPresenter;
@@ -105,6 +106,7 @@ public class ExampleApplication implements HasComponentModel {
 	                new ShowcaseProgressBarPresenter.Place(),
 	                new ShowcaseChartsPresenter.Place(),
 	                new ShowcaseInputsPresenter.Place(),
+	                new ShowcaseContextMenuPresenter.Place(),
 	                new SandboxPresenter.Place(),
 	                new PersonListPresenter.Place(),
 	                new PersonDetailPresenter.Place()

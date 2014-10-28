@@ -41,6 +41,8 @@ import com.doctusoft.dsw.sample.client.showcase.ShowcaseButtonsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseButtonsView;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseChartsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseChartsView;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseContextMenuPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseContextMenuView;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseDatepickerPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseDatepickerView;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseExceptionsPresenter;
@@ -123,6 +125,9 @@ public class ClientFactoryImpl implements ClientFactory {
 	
 	@Getter
 	private final ViewOf<ShowcaseChartsPresenter> showcaseChartsView = new ShowcaseChartsView();
+	
+	@Getter
+	private final ViewOf<ShowcaseContextMenuPresenter> showcaseContextMenuView = new ShowcaseContextMenuView();
 	
 	@Getter
 	private final ViewOf<SandboxPresenter> sandboxView = new SandboxView();

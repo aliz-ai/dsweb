@@ -32,6 +32,7 @@ import com.doctusoft.dsw.sample.client.person.SandboxPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseActivity;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseButtonsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseChartsPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseContextMenuPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseDatepickerPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseExceptionsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputTagsPresenter;
@@ -86,6 +87,8 @@ public interface ClientFactory {
 	public PersonRemoteServiceAsync getPersonRemoteServiceAsync();
 
 	public void setPlaceController(PlaceController placeController);
+	
+	public ViewOf<ShowcaseContextMenuPresenter> getShowcaseContextMenuView();
 	
 	public PlaceController getPlaceController();
 	
