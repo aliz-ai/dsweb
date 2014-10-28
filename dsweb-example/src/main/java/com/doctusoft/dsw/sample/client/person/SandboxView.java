@@ -22,6 +22,7 @@ package com.doctusoft.dsw.sample.client.person;
  * #L%
  */
 
+import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.Datepicker;
 import com.doctusoft.dsw.client.comp.InplaceText;
@@ -37,6 +38,7 @@ import com.doctusoft.dsw.client.comp.SelectItems;
 import com.doctusoft.dsw.client.comp.Textarea;
 import com.doctusoft.dsw.client.comp.Typeahead;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
+import com.google.gwt.user.client.Window;
 
 public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 
@@ -51,6 +53,12 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 			.bindCaption(bindOnPresenter()
 					.get(SandboxActivity_._button2))
 			.bindDisabled(bindOnPresenter().get(SandboxActivity_._disabled))
+			.click(new EmptyEventHandler() {
+				@Override
+				public void handle() {
+					Window.alert("clicked");
+				}
+			})
 			.appendTo(container);
 		new Link("test Link")
 		.withStyleClasses("btn", "btn-default", "btn-lg")

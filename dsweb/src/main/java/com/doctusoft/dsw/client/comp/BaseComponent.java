@@ -226,6 +226,11 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 		Bindings.bind(disabledBinding, Bindings.obs(model).get(BaseComponentModel_._disabled));
 		return (Actual) this;
 	}
+
+	public Actual withDisabled(boolean disabled) {
+		model.setDisabled(disabled);
+		return (Actual) this;
+	}
 	
 	public Actual bindStyle(final ObservableValueBinding<String> styleBinding) {
 		styleBinding.addValueChangeListener(new ValueChangeListener<String>() {

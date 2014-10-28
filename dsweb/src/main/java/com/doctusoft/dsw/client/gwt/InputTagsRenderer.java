@@ -172,6 +172,7 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 				}
 			}
 		});
+		new DisabledAttributeRenderer(widget, inputTagsModel);
 		
 	}
 	private native static void setTagsIpnut(JQuery element) /*-{

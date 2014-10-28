@@ -82,6 +82,7 @@ public class SelectRenderer extends BaseComponentRenderer {
 				select.setSelectedIndex(index);
 			}
 		});
+		new DisabledAttributeRenderer(widget, select);
 	}
 	
 	protected void applySelectedIndex() {

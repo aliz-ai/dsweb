@@ -58,6 +58,7 @@ public class ButtonRenderer extends BaseComponentRenderer {
 				}
 			}
 		});
+		new DisabledAttributeRenderer(widget, button);
 	}
 	
 }

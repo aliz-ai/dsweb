@@ -106,6 +106,7 @@ public class DatepickerRenderer extends BaseComponentRenderer {
 				initDatepickerNative(widget, model.getFormat().toLowerCase());
 			}
 		});
+		new DisabledAttributeRenderer(widget, model);
 	}
 
 	private native void setDatepickerValueNative(JQuery widget, String value) /*-{

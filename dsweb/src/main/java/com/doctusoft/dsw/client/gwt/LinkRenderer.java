@@ -70,6 +70,7 @@ public class LinkRenderer extends BaseComponentRenderer {
 				}
 			});
 		}
+		new DisabledStyleClassRenderer(widget, link);
 	}
 	
 	protected void clearHref() {

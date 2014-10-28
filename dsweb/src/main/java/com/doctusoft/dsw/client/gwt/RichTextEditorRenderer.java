@@ -61,13 +61,12 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 			}
 		};
 		
-		addChangeListener(BaseComponentModel_._disabled, model, new ValueChangeListener<Boolean>() {
+		addChangeListenerAndApply(BaseComponentModel_._disabled, model, new ValueChangeListener<Boolean>() {
 
 			@Override
 			public void valueChanged(Boolean newValue) {
-				if (newValue != null) {
-					setEnabled(!newValue, model.getId());
-				}
+				// FIXME
+				//setEnabled(!Objects.firstNonNull(newValue, false), model.getId());
 			}
 		});
 

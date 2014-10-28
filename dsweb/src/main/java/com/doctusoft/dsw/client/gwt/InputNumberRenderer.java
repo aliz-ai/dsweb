@@ -47,6 +47,7 @@ public class InputNumberRenderer extends BaseComponentRenderer {
 				widget.attr("placeholder", placeHolder);
 			}
 		});
+		new DisabledAttributeRenderer(widget, model);
 	}
 
 }
