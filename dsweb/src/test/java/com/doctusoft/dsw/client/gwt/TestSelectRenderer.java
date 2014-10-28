@@ -55,11 +55,11 @@ public class TestSelectRenderer extends AbstractDswebTest {
 	}
 
 	/**
-	 * Only test if disabling works. Other aspects of {@link DisabledAttributeRenderer} are tested in {@link TestInputTextRenderer}
+	 * Only test if disabling works. Other aspects of {@link EnabledAttributeRenderer} are tested in {@link TestInputTextRenderer}
 	 */
 	@Test
 	public void testDisabledFirst() {
-		final InputText inputText = new InputText().withId("input").withDisabled(true);
+		final InputText inputText = new InputText().withId("input").withEnabled(false);
 		registerApp(inputText);
 		assertTrue(JQuery.select("#input").is(":disabled"));
 	}

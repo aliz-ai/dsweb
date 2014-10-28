@@ -6,13 +6,14 @@ import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
 import com.google.common.base.Objects;
 import com.xedge.jquery.client.JQuery;
 
-public class DisabledAttributeRenderer {
+public class EnabledAttributeRenderer {
 	
-	public DisabledAttributeRenderer(final JQuery input, BaseComponentModel model) {
-		BaseComponentRenderer.addChangeListenerAndApply(BaseComponentModel_._disabled, model, new ValueChangeListener<Boolean>() {
+	public EnabledAttributeRenderer(final JQuery input, BaseComponentModel model) {
+		BaseComponentRenderer.addChangeListenerAndApply(BaseComponentModel_._enabled, model, new ValueChangeListener<Boolean>() {
 			@Override
 			public void valueChanged(Boolean newValue) {
-				if (Objects.firstNonNull(newValue, false)) {
+				// null value defaults to true here
+				if (!Objects.firstNonNull(newValue, true)) {
 					input.attr("disabled", "disabled");
 				} else {
 					input.removeAttr("disabled");

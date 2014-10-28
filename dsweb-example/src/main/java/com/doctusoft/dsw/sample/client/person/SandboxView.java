@@ -47,12 +47,12 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 		new Button()
 			.bindCaption(bindOnPresenter()
 					.get(SandboxActivity_._button1))
-			.click(presenterMethod(SandboxActivity_.__changeDisabled))
+			.click(presenterMethod(SandboxActivity_.__changeEnabled))
 			.appendTo(container);
 		new Button()
 			.bindCaption(bindOnPresenter()
 					.get(SandboxActivity_._button2))
-			.bindDisabled(bindOnPresenter().get(SandboxActivity_._disabled))
+			.bindEnabled(bindOnPresenter().get(SandboxActivity_._enabled))
 			.click(new EmptyEventHandler() {
 				@Override
 				public void handle() {
@@ -62,60 +62,60 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 			.appendTo(container);
 		new Link("test Link")
 		.withStyleClasses("btn", "btn-default", "btn-lg")
-		.bindDisabled(bindOnPresenter()
-				.get(SandboxActivity_._disabled))
+		.bindEnabled(bindOnPresenter()
+				.get(SandboxActivity_._enabled))
 		.appendTo(container);
 		new InputText()
 			.withPlaceHolder("input text")
-			.bindDisabled(bindOnPresenter()
-					.get(SandboxActivity_._disabled))
+			.bindEnabled(bindOnPresenter()
+					.get(SandboxActivity_._enabled))
 			.appendTo(container);
 		new PasswordField()
 			.withPlaceHolder("password field")
-			.bindDisabled(bindOnPresenter()
-				.get(SandboxActivity_._disabled))
+			.bindEnabled(bindOnPresenter()
+				.get(SandboxActivity_._enabled))
 			.appendTo(container);
 		new InplaceText()
-			.bindDisabled(bindOnPresenter()
-					.get(SandboxActivity_._disabled))
+			.bindEnabled(bindOnPresenter()
+					.get(SandboxActivity_._enabled))
 			.insertTo(2,container);
 		new InputNumber()
 			.withPlaceHolder("input number")
-			.bindDisabled(bindOnPresenter()
-					.get(SandboxActivity_._disabled))
+			.bindEnabled(bindOnPresenter()
+					.get(SandboxActivity_._enabled))
 			.appendTo(container);
 		new InputTags()
-			.bindDisabled(bindOnPresenter()
-					.get(SandboxActivity_._disabled))
+			.bindEnabled(bindOnPresenter()
+					.get(SandboxActivity_._enabled))
 			.appendTo(container);
 		Textarea textarea = new Textarea()
 			.withPlaceHolder("TextArea")
-			.bindDisabled(bindOnPresenter()
-					.get(SandboxActivity_._disabled));
+			.bindEnabled(bindOnPresenter()
+					.get(SandboxActivity_._enabled));
 			//.appendTo(container);
 		new Typeahead<String>()
 			.withSelectItems(SelectItems.fromStrings("First item","Second item","Third item"))
-			.bindDisabled(bindOnPresenter()
-					.get(SandboxActivity_._disabled))
+			.bindEnabled(bindOnPresenter()
+					.get(SandboxActivity_._enabled))
 			.appendTo(container);
 		new InputTime()
-			.bindDisabled(bindOnPresenter()
-					.get(SandboxActivity_._disabled))
+			.bindEnabled(bindOnPresenter()
+					.get(SandboxActivity_._enabled))
 			.withPlaceHolder("time aaa..")
 			.appendTo(container);
 		new Datepicker()
 			.withPlaceHolder("Datepicker")
-			.bindDisabled(bindOnPresenter()
-					.get(SandboxActivity_._disabled))
+			.bindEnabled(bindOnPresenter()
+					.get(SandboxActivity_._enabled))
 			.insertTo(9, container);
 		new Select<String>()
 			.prependTo(container)
-			.bindDisabled(bindOnPresenter()
-					.get(SandboxActivity_._disabled))
+			.bindEnabled(bindOnPresenter()
+					.get(SandboxActivity_._enabled))
 			.setSelectItems(SelectItems.fromStrings("First item","Second item","Third item"));
 		RichTextEditor richTextEditor = new RichTextEditor().bindContent(bindOnPresenter().get(SandboxActivity_._button1))
-			.bindDisabled(bindOnPresenter()
-				.get(SandboxActivity_._disabled));		
+			.bindEnabled(bindOnPresenter()
+				.get(SandboxActivity_._enabled));		
 		
 		container.prepend(richTextEditor);
 		

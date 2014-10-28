@@ -71,7 +71,7 @@ public class InputTextRenderer extends BaseComponentRenderer {
 				inputText.setValue(widget.val());
 			}
 		});
-		new DisabledAttributeRenderer(widget, inputText);
+		new EnabledAttributeRenderer(widget, inputText);
 	}
 
 	private static String createWidgetText(String inputType, String placeHolder) {

@@ -40,7 +40,7 @@ public class SandboxActivity extends AbstractActivity {
 	private BigDecimal inputNumberValue;
 	
 	@ObservableProperty
-	private Boolean disabled = false;
+	private boolean enabled = true;
 	
 	@ObservableProperty
 	private String button1 = "Set Disabled all inputs";
@@ -62,8 +62,8 @@ public class SandboxActivity extends AbstractActivity {
 	}
 	
 	@MethodRef
-	public void changeDisabled() {
-		setDisabled(!getDisabled());
+	public void changeEnabled() {
+		setEnabled(!isEnabled());
 	}
 
 }

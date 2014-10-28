@@ -61,7 +61,7 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 			}
 		};
 		
-		addChangeListenerAndApply(BaseComponentModel_._disabled, model, new ValueChangeListener<Boolean>() {
+		addChangeListenerAndApply(BaseComponentModel_._enabled, model, new ValueChangeListener<Boolean>() {
 
 			@Override
 			public void valueChanged(Boolean newValue) {

@@ -222,13 +222,13 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 		return (Actual) this;
 	}
 	
-	public Actual bindDisabled(final ValueBinding<Boolean> disabledBinding) {
-		Bindings.bind(disabledBinding, Bindings.obs(model).get(BaseComponentModel_._disabled));
+	public Actual bindEnabled(final ValueBinding<Boolean> enabledBinding) {
+		Bindings.bind(enabledBinding, Bindings.obs(model).get(BaseComponentModel_._enabled));
 		return (Actual) this;
 	}
 
-	public Actual withDisabled(boolean disabled) {
-		model.setDisabled(disabled);
+	public Actual withEnabled(boolean enabled) {
+		model.setEnabled(enabled);
 		return (Actual) this;
 	}
 	

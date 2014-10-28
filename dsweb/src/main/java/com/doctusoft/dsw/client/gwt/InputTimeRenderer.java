@@ -66,7 +66,7 @@ public class InputTimeRenderer extends BaseComponentRenderer {
 				widget.attr("placeholder", placeHolder);
 			}
 		});
-		new DisabledAttributeRenderer(widget, model);
+		new EnabledAttributeRenderer(widget, model);
 	}
 
 	public static String checkAndFormatTime(String time) {

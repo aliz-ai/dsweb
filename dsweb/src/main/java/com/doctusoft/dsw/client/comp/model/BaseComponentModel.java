@@ -61,7 +61,7 @@ public class BaseComponentModel implements ModelObject, HasComponentModel, Seria
 	private ObservableList<Integer> restrictToKeyCodes = null;
 	
 	@ObservableProperty
-	private Boolean disabled;
+	private Boolean enabled = true;
 	
 	@Override
 	public BaseComponentModel getComponentModel() {

@@ -9,10 +9,11 @@ import com.xedge.jquery.client.JQuery;
 public class DisabledStyleClassRenderer {
 
 	public DisabledStyleClassRenderer(final JQuery target, BaseComponentModel model) {
-		BaseComponentRenderer.addChangeListenerAndApply(BaseComponentModel_._disabled, model, new ValueChangeListener<Boolean>() {
+		BaseComponentRenderer.addChangeListenerAndApply(BaseComponentModel_._enabled, model, new ValueChangeListener<Boolean>() {
 			@Override
 			public void valueChanged(Boolean newValue) {
-				if (Objects.firstNonNull(newValue, false)) {
+				// null value defaults to true here
+				if (!Objects.firstNonNull(newValue, true)) {
 					target.addClass("disabled");
 				} else {
 					target.removeClass("disabled");

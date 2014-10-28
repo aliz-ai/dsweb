@@ -52,7 +52,7 @@ public class TestInputTextRenderer extends AbstractDswebTest {
 	
 	@Test
 	public void testDisabledFirst() {
-		final InputText inputText = new InputText().withId("input").withDisabled(true);
+		final InputText inputText = new InputText().withId("input").withEnabled(false);
 		registerApp(inputText);
 		assertTrue(JQuery.select("#input").is(":disabled"));
 	}
@@ -69,9 +69,9 @@ public class TestInputTextRenderer extends AbstractDswebTest {
 		final InputText inputText = new InputText().withId("input");
 		registerApp(inputText);
 		assertFalse(JQuery.select("#input").is(":disabled"));
-		inputText.withDisabled(true);
+		inputText.withEnabled(false);
 		assertTrue(JQuery.select("#input").is(":disabled"));
-		inputText.withDisabled(false);
+		inputText.withEnabled(true);
 		assertFalse(JQuery.select("#input").is(":disabled"));
 	}
 }
