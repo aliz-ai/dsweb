@@ -84,7 +84,7 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 		TypeaheadModel_._customText.addChangeListener(typeaheadModel, new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
-				if (newValue != widget.val()) {
+				if (newValue != widget.val() && !typeaheadModel.getSelectItemsModel().contains(newValue)) {
 					widget.val(newValue);
 				}
 			}
@@ -111,13 +111,17 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 				String widgetVal = widget.val();
 				int newIndex = optionCaptions.indexOf(widgetVal);
 								
-				if (!typeaheadModel.isAllowCustomText() && newIndex == -1 && typeaheadModel.getSelectedIndex() != -1) {
+				/*
+				 * we need to set up index in every case
+				 */
+				typeaheadModel.setSelectedIndex(newIndex);
+				
+				if (newIndex > -1) {
 					//reset to previous selection
-					widget.val(typeaheadModel.getSelectItemsModel().get(typeaheadModel.getSelectedIndex()).getCaption());
-				}
-				else{	
+					widget.val(typeaheadModel.getSelectItemsModel().get(newIndex).getCaption());
+					typeaheadModel.setCustomText(null);
+				} else if (typeaheadModel.isAllowCustomText() && newIndex == -1) {
 					typeaheadModel.setCustomText(widgetVal);
-					typeaheadModel.setSelectedIndex(newIndex);
 				}
 			}
 		});
