@@ -10,7 +10,6 @@ import org.junit.Test;
 
 import com.doctusoft.dsw.client.comp.SelectItem;
 import com.doctusoft.dsw.client.comp.Typeahead;
-import com.doctusoft.dsw.client.comp.model.TypeaheadModel;
 import com.xedge.jquery.client.JQuery;
 
 @Log
@@ -19,7 +18,6 @@ public class TestTypeaheadRenderer extends AbstractDswebTest {
 	@Test
 	public void testSelectItems() {
 		Typeahead<String> typeahead = new Typeahead<String>().withId( "typeahead" ).withSelectItems( createDummySelectItems() );
-		TypeaheadModel model = typeahead.getModel();
 		registerApp( typeahead );
 		JQuery jqRoot = JQuery.select( ":root" );
 		log.info( jqRoot.html() );
