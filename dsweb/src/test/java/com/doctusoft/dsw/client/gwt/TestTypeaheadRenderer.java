@@ -38,4 +38,19 @@ public class TestTypeaheadRenderer extends AbstractDswebTest {
 		item.setValue( name );
 		return item;
 	}
+	
+	@Test
+	public void testCostumTextTyping() {
+		Typeahead<String> typeahead = new Typeahead<String>().allowCustomText().withId("typeahead_costumtext").withSelectItems(createDummySelectItems());
+		registerApp(typeahead);
+		JQuery jqTypeahead = JQuery.select("#typeahead_costumtext");
+		jqTypeahead.val("Proba");
+		jqTypeahead.change();
+		assertEquals("Proba", typeahead.getModel().getCustomText());
+		assertEquals(-1, typeahead.getModel().getSelectedIndex());
+		jqTypeahead.val("1");
+		jqTypeahead.change();
+		assertEquals(null, typeahead.getModel().getCustomText());
+		assertEquals(0,typeahead.getModel().getSelectedIndex());
+	}
 }
