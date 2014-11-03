@@ -41,7 +41,6 @@ import com.doctusoft.dsw.client.comp.model.ComponentEvent_;
 import com.doctusoft.dsw.client.comp.model.ContainerModel;
 import com.doctusoft.dsw.client.comp.model.LinkModel;
 import com.doctusoft.dsw.client.comp.model.event.KeyPressedEvent;
-import com.doctusoft.dsw.client.util.Deferred;
 import com.doctusoft.html4j.jquery.EventHandler;
 import com.doctusoft.html4j.jquery.JQEvent;
 import com.doctusoft.html4j.jquery.JQuery;
@@ -71,6 +70,8 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 		if (model.getId() != null) {
 			widget.attr("id", model.getId());
 		}
+		// TODO teavm
+		/*
 		Deferred.defer(new Runnable() {
 			@Override
 			public void run() {
@@ -78,7 +79,7 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 				applyVisible(model.getVisible());
 			}
 		}); 
-		
+		*/
 		addChangeListener(BaseComponentModel_._disabled, model, new ValueChangeListener<Boolean>() {
 
 			@Override

@@ -31,13 +31,13 @@ import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 import com.doctusoft.dsw.client.RendererFactory;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
+import com.doctusoft.html4j.jquery.JQuery;
 import com.google.common.collect.Maps;
-import com.google.gwt.core.client.GWT;
-import com.xedge.jquery.client.JQuery;
 
 public class ChildrenRenderer {
-	
-	public static RendererFactory<JQuery> rendererFactory = GWT.create( RendererFactory.class );
+
+	// TODO teavm
+	public static RendererFactory<JQuery> rendererFactory = new RendererFactoryImpl();
 	
 	private Map<BaseComponentModel, JQuery> renderedWidgets = Maps.newHashMap();
 	
@@ -71,7 +71,8 @@ public class ChildrenRenderer {
 			widget.append( rendered );
 		}
 		else {
-			rendered.insertBefore( children.get( index ) );
+			// TODO teavm
+			//rendered.insertBefore( children.get( index ) );
 		}
 		renderedWidgets.put( baseWidget, rendered );
 	}

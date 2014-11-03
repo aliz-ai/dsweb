@@ -27,7 +27,7 @@ import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 import com.doctusoft.dsw.client.comp.model.AbstractContainerModel_;
 import com.doctusoft.dsw.client.comp.model.ContainerModel;
-import com.xedge.jquery.client.JQuery;
+import com.doctusoft.html4j.jquery.JQuery;
 
 public class ContainerRenderer extends BaseComponentRenderer {
 	
