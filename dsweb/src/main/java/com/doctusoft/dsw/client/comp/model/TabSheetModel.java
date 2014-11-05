@@ -10,13 +10,10 @@ public class TabSheetModel extends BaseComponentModel implements ModelObject{
 	@ObservableProperty
 	private ObservableList<Tab> tabList = new ObservableList<Tab>();
 	
+	/**
+	 * -1 if no tab is selected
+	 */
 	@ObservableProperty
-	private Tab activeTab;
-	
-	@ObservableProperty
-	private ComponentEvent eventBeforeTabShown = new ComponentEvent();
-
-	@ObservableProperty
-	private ComponentEvent eventAfterTabHidden = new ComponentEvent();
+	private Integer activeTab = 0;
 
 }
