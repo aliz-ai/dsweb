@@ -30,11 +30,13 @@ import com.doctusoft.dsw.client.comp.InputNumber;
 import com.doctusoft.dsw.client.comp.InputTags;
 import com.doctusoft.dsw.client.comp.InputText;
 import com.doctusoft.dsw.client.comp.InputTime;
+import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.Link;
 import com.doctusoft.dsw.client.comp.PasswordField;
 import com.doctusoft.dsw.client.comp.RichTextEditor;
 import com.doctusoft.dsw.client.comp.Select;
 import com.doctusoft.dsw.client.comp.SelectItems;
+import com.doctusoft.dsw.client.comp.TabSheet;
 import com.doctusoft.dsw.client.comp.Textarea;
 import com.doctusoft.dsw.client.comp.Typeahead;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
@@ -120,5 +122,15 @@ public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 		container.prepend(richTextEditor);
 		
 		container.insert(6, textarea);
+		
+		final TabSheet ts = new TabSheet();
+		ts.withDefaultTab("hello", new Button().click(new EmptyEventHandler() {
+				@Override
+				public void handle() {
+					ts.withDefaultTabOnSpecifiedIndex("third", new Label("xx"), 0);
+				}
+			}))
+			.withDefaultTab("hello2", new Label("world2"))
+			.appendTo(container);
 	}
 }

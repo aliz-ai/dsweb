@@ -11,6 +11,7 @@ import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.RendererFactory;
 import com.doctusoft.dsw.client.comp.Tab;
+import com.doctusoft.dsw.client.comp.Tab_;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.TabSheetModel;
 import com.doctusoft.dsw.client.comp.model.TabSheetModel_;
@@ -28,73 +29,91 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 
 	private List<JQuery> tabCaptionList = new ArrayList<JQuery>();
 	private List<JQuery> tabContentList = new ArrayList<JQuery>();
-	private JQuery tabHolder;
+	private JQuery tabButtonsHolder;
+	private JQuery tabSheetContainer;
 
 	public TabSheetRenderer(final TabSheetModel model) {
 		super(JQuery.select("<div class='tabsheet' />"), model);
 		
-		tabHolder = JQuery.select("<ul class='nav nav-tabs' />").appendTo(widget); 
+		tabButtonsHolder = JQuery.select("<ul class='nav nav-tabs' />").appendTo(widget);
+		tabSheetContainer = JQuery.select("<div>").addClass("tab-content").appendTo(widget);
 		
 		Bindings.obs(model)
 				.get(TabSheetModel_._activeTab)
 				.addValueChangeListener(
-						new ValueChangeListener<Tab>() {
+						new ValueChangeListener<Integer>() {
 							@Override
-							public void valueChanged(Tab newValue) {
-								JQuery.select("li").removeClass("active");
-								int tabIndex = model.getTabList().indexOf(newValue);
-								tabCaptionList.get(tabIndex).addClass("active");
-								widget.find(".tab-container").children().hide();
-								tabContentList.get(tabIndex).show();
+							public void valueChanged(Integer newValue) {
+								if (newValue == null)
+									return;
+								refreshActiveClass(newValue);
 							}
 						});
 		
 		new ListBindingListener<Tab>(Bindings.obs(model).get((ObservableProperty) TabSheetModel_._tabList)) {
 
 			@Override
-			public void inserted(ObservableList<Tab> list,
-					int index, final Tab element) {
+			public void inserted(ObservableList<Tab> list, int index, final Tab element) {
 				JQuery tabCaption =  JQuery.select( "<li>" );
-				int numberOfTabs = tabHolder.find("li").length();
-				if (numberOfTabs >= index || index == 0) {
-					tabHolder.append(tabCaption);
+				int numberOfTabs = tabButtonsHolder.children().length();
+				if (numberOfTabs == index || numberOfTabs == 0) {
+					tabButtonsHolder.append(tabCaption);
 				} else {
-					tabHolder.children("li:nth-child("+index+")").prepend(tabCaption);
+					tabCaption.insertBefore(tabButtonsHolder.children().get(index));
 				}
 				
-				JQuery tabLink = JQuery.select( "<a>" ).appendTo(tabCaption);
+				final JQuery tabLink = JQuery.select( "<a>" ).appendTo(tabCaption);
 				tabLink.text(element.getTitle());
+				Tab_._title.addChangeListener(element, new ValueChangeListener<String>() {
+					@Override
+					public void valueChanged(String newValue) {
+						tabLink.text(newValue);
+					}
+				});
 				tabLink.click(new EventHandler() {
 					
 					@Override
 					public void eventComplete(JQEvent event, JQuery currentJQuery) {
-						model.setActiveTab(element);
+						// we have to recalculate the index because it might have changed since the insertion of the tab
+						model.setActiveTab(model.getTabList().indexOf(element));
 					}
 				});
-				tabCaptionList.add(tabCaption);
-				JQuery tabContent;
-				if (widget.find(".tab-container").length() == 0) {
-					widget.after(JQuery.select("ul")).append(JQuery.select("<div>").addClass("tab-container"));
-					tabCaption.addClass("active");
-					tabContent = JQuery.select("<div>");
+				
+				JQuery tabPane = JQuery.select("<div>").addClass("tab-pane").hide();
+				int childrenCount = tabCaptionList.size();
+				// well, the actual order doesn't matter that much, but it'll be easier to debug on the client side if it's correct
+				if (childrenCount == 0 || index == childrenCount) {
+					tabSheetContainer.append(tabPane);
 				} else {
-					tabContent = JQuery.select("<div>").hide();
+					tabPane.insertBefore(tabSheetContainer.children().get(index));
 				}
-				tabContentList.add(tabContent);
-				widget.find(".tab-container").append(tabContent);
-				tabWidgetAdded(tabContent, element.getContent());
+				
+				tabContentList.add(index, tabPane);
+				tabCaptionList.add(index, tabCaption);
+				tabWidgetAdded(tabPane, element.getContent());
+				refreshActiveClass(model.getActiveTab());
 			}
 
 			@Override
-			public void removed(ObservableList<Tab> list,
-					int index, Tab element) {
+			public void removed(ObservableList<Tab> list, int index, Tab element) {
 				tabCaptionList.get(index).remove();
 				tabContentList.get(index).remove();
+				rendererFactory.dispose(element.getContent());
 				tabContentList.remove(index);
 				tabCaptionList.remove(index);
 
 			}
 		};
+	}
+	
+	protected void refreshActiveClass(int tabIndex) {
+		tabButtonsHolder.find("li").removeClass("active");
+		tabSheetContainer.children().hide();
+		if (tabIndex != -1 && tabIndex < tabCaptionList.size()) {
+			tabCaptionList.get(tabIndex).addClass("active");
+			tabContentList.get(tabIndex).show();
+		}
+		
 	}
 	
 	protected void tabWidgetAdded(JQuery parentWidget, BaseComponentModel baseWidget) {
