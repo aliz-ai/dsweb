@@ -36,4 +36,7 @@ public class TypeaheadModel extends SelectModel implements ModelObject {
 	
 	@ObservableProperty
 	private String customText;
+	
+	@ObservableProperty
+	private String placeHolder;
 }

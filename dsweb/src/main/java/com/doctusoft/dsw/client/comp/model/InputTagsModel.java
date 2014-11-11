@@ -42,5 +42,8 @@ public class InputTagsModel extends BaseComponentModel implements ModelObject {
 	@ObservableProperty
 	private ObservableList<String> tagSuggestions = new ObservableList<String>();
 	
+	@ObservableProperty
+	private String placeHolder = "Add tags";
+	
 
 }

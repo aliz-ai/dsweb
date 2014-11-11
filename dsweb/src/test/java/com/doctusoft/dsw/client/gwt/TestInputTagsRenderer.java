@@ -16,4 +16,13 @@ public class TestInputTagsRenderer extends AbstractDswebTest {
 		assertEquals(1, JQuery.select("#inputTags").length());
 	}
 	
+	@Test
+	public void testWithPlaceHolder() {
+		InputTags inputTags = new InputTags()
+		.withId("inputTags")
+		.widthPlaceHolder("ph1");
+		registerApp(inputTags);
+		assertEquals("ph1", JQuery.select("#inputTags").attr("placeholder"));
+	}
+	
 }

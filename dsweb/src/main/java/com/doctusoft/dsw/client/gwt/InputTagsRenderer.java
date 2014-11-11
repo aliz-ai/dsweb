@@ -26,6 +26,7 @@ package com.doctusoft.dsw.client.gwt;
 import java.util.List;
 
 import com.doctusoft.bean.ObservableProperty;
+import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
@@ -50,7 +51,6 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 	
 	public InputTagsRenderer(final InputTagsModel inputTagsModel) {
 		super(JQuery.select("<input type=\"text\" />"), inputTagsModel);
-		widget.attr("placeholder","Add-tags");
 		widget.attr("data-role", "tagsinput");
 		
 		if (inputTagsModel.getTagList() != null && !inputTagsModel.getTagList().isEmpty()) {
@@ -131,6 +131,18 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 				changedFromModel = false;
 			}
 		};
+		
+		addChangeListenerAndApply(InputTagsModel_._placeHolder, inputTagsModel, new ValueChangeListener<String>() {
+
+			@Override
+			public void valueChanged(String newValue) {
+				if (newValue == null) {
+					widget.attr("placeholder", "");
+				} else {
+					widget.attr("placeholder", newValue);
+				}
+			}
+		});
 		
 		/*
 		 * we need this if we don't bind on any tag suggestion list
