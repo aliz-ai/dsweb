@@ -42,7 +42,7 @@ public class InputTags extends BaseComponent<InputTags, InputTagsModel>{
 		return this;
 	}
 	
-	public InputTags widthPlaceHolder(String placeHolderText) {
+	public InputTags withPlaceHolder(String placeHolderText) {
 		model.setPlaceHolder(placeHolderText);
 		return this;
 	}
