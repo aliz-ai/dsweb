@@ -1,11 +1,13 @@
 package com.doctusoft.dsw.client.gwt;
 
+import org.junit.Ignore;
+
 
 public class TestInputTagsRenderer extends AbstractDswebTest {
 	
 //	@Test
-//	@Ignore
-//	public void testDefaultTagsPresent() {
+	@Ignore
+	public void testDefaultTagsPresent() {
 //		InputTags inputTags = new InputTags().withId("inputTags");
 //		ObservableList<String> tagList = inputTags.getModel().getTagList();
 //		tagList.add("a");
@@ -21,7 +23,7 @@ public class TestInputTagsRenderer extends AbstractDswebTest {
 //			}
 //		}.schedule(200);
 //		delayTestFinish(500);
-//	}
+	}
 	
 //	@Test
 //	@Ignore
