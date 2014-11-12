@@ -25,10 +25,6 @@ package com.doctusoft.dsw.client.comp;
 
 import com.doctusoft.ObservableProperty;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
 public class TagOption {
 	
 	@ObservableProperty
@@ -36,5 +32,13 @@ public class TagOption {
 	
 	@ObservableProperty
 	private String styleClass = "label label-info";
+	
+	public TagOption() {
+	}
+	
+	public TagOption(String name) {
+		this.name = name;
+	}
+	
 
 }

@@ -41,13 +41,16 @@ import com.xedge.jquery.client.handlers.EventHandler;
 
 public class TypeaheadRenderer extends BaseComponentRenderer {
 	
-	private List<String> optionCaptions = Lists.newArrayList();
+	private final List<String> optionCaptions = Lists.newArrayList();
 	
-	private TypeaheadModel typeaheadModel;
+	private final TypeaheadModel typeaheadModel;
 	
 	public TypeaheadRenderer(final TypeaheadModel select) {
 		super(JQuery.select("<input type=\"text\" data-provide=\"typeahead\"/>"), select);
 		init(widget);
+		if (select.getPlaceHolder() != null) {
+			widget.attr("placeholder", select.getPlaceHolder());
+		}
 		typeaheadModel = select;
 		if (typeaheadModel.isAllVisibleOnFocus()) {
 			setShowAllOnFocus(widget);
@@ -86,6 +89,18 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 			public void valueChanged(String newValue) {
 				if (newValue != null && newValue != widget.val() && !typeaheadModel.getSelectItemsModel().contains(newValue)) {
 					widget.val(newValue);
+				}
+			}
+		});
+		
+		addChangeListenerAndApply(TypeaheadModel_._placeHolder, select, new ValueChangeListener<String>() {
+
+			@Override
+			public void valueChanged(String newValue) {
+				if (newValue == null) {
+					widget.attr("placeholder", "");
+				} else {
+					widget.attr("placeholder", newValue);
 				}
 			}
 		});
