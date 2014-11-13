@@ -49,6 +49,8 @@ public abstract class AbstractRendererFactory<ActualBaseComponent> implements Re
 		if (renderer == null) {
 			renderer = resolveRenderer(baseWidget);
 			renderers.put(baseWidget, renderer);
+		} else {
+			renderer.reattach();
 			disposableComponents.remove(baseWidget);
 		}
 		if (renderer == null)
@@ -57,6 +59,8 @@ public abstract class AbstractRendererFactory<ActualBaseComponent> implements Re
 	}
 	
 	public void dispose(BaseComponentModel baseComponentModel) {
+		Renderer<ActualBaseComponent> renderer = (Renderer<ActualBaseComponent>) renderers.get(baseComponentModel);
+		renderer.detach();
 		disposableComponents.add(baseComponentModel);
 	}
 

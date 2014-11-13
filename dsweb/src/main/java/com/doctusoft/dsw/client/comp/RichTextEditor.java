@@ -16,7 +16,7 @@ public class RichTextEditor extends BaseComponent<RichTextEditor, RichTextEditor
 		this(new RichTextEditorModel());
 	}
 
-	public RichTextEditor bindContent(ValueBinding<String> binding) {
+	public RichTextEditor bind(ValueBinding<String> binding) {
 		Bindings.bind(binding, Bindings.obs(model).get(RichTextEditorModel_._content));
 		return this;
 	}

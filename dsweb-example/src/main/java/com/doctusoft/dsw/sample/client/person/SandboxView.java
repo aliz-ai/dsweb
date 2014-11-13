@@ -24,29 +24,26 @@ package com.doctusoft.dsw.sample.client.person;
 
 import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.dsw.client.comp.Button;
-import com.doctusoft.dsw.client.comp.InputTags;
+import com.doctusoft.dsw.client.comp.Label;
+import com.doctusoft.dsw.client.comp.RichTextEditor;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
 public class SandboxView extends ContainerWithPresenter<SandboxActivity> {
 
 	public SandboxView() {
-		
-		new InputTags().withPlaceHolder("xxx").withId("inputTags")
-			.bindTagOptionSuggestions(bindOnPresenter().get(SandboxActivity_._suggestions))
-			.bindTagOption(bindOnPresenter().get(SandboxActivity_._selectedOptions))
+		new RichTextEditor().withId("rte")
+			.bind(bindOnPresenter().get(SandboxActivity_._richTextContent))
 			.appendTo(container);
 		
-		new InputTags().withPlaceHolder("xxx").withId("inputTags")
-			.bindTagSuggestions(bindOnPresenter().get(SandboxActivity_._stringSuggestions))
-			.bind(bindOnPresenter().get(SandboxActivity_._selectedStrings))
-			.appendTo(container);
-		
-		new Button("xx").appendTo(container)
+		new Button("change").appendTo(container)
 			.click(new EmptyEventHandler() {
 				@Override
 				public void handle() {
-					getPresenter().getStringSuggestions().add("4");
+					getPresenter().setRichTextContent("changed <i>content</i>");
 				}
 			});
+		
+		new Label().appendTo(container)
+			.bind(bindOnPresenter().get(SandboxActivity_._richTextContent));
 	}
 }
