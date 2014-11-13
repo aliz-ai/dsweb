@@ -28,7 +28,6 @@ import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.person.PersonDetailPresenter;
 import com.doctusoft.dsw.sample.client.person.PersonListPresenter;
 import com.doctusoft.dsw.sample.client.person.PersonRemoteServiceAsync;
-import com.doctusoft.dsw.sample.client.person.SandboxPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseActivity;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseButtonsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseChartsPresenter;
@@ -55,8 +54,6 @@ public interface ClientFactory {
 	public ViewOf<PersonDetailPresenter> getPersonDetailView();
 	
 	public ViewOf<ShowcaseActivity> getShowcaseView();
-	
-	public ViewOf<SandboxPresenter> getSandboxView();
 	
 	public ViewOf<ShowcaseButtonsPresenter> getShowcaseButtonsView();
 	

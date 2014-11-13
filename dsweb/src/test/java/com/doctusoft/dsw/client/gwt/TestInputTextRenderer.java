@@ -49,4 +49,29 @@ public class TestInputTextRenderer extends AbstractDswebTest {
 		actualPlaceholder = jqInput.attr("placeholder");
 		assertEquals("changed", actualPlaceholder);
 	}
+	
+	@Test
+	public void testDisabledFirst() {
+		final InputText inputText = new InputText().withId("input").withEnabled(false);
+		registerApp(inputText);
+		assertTrue(JQuery.select("#input").is(":disabled"));
+	}
+
+	@Test
+	public void testDisableDefault() {
+		final InputText inputText = new InputText().withId("input");
+		registerApp(inputText);
+		assertFalse(JQuery.select("#input").is(":disabled"));
+	}
+
+	@Test
+	public void testDisableLater() {
+		final InputText inputText = new InputText().withId("input");
+		registerApp(inputText);
+		assertFalse(JQuery.select("#input").is(":disabled"));
+		inputText.withEnabled(false);
+		assertTrue(JQuery.select("#input").is(":disabled"));
+		inputText.withEnabled(true);
+		assertFalse(JQuery.select("#input").is(":disabled"));
+	}
 }

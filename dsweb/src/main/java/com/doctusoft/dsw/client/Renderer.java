@@ -22,9 +22,25 @@ package com.doctusoft.dsw.client;
  * #L%
  */
 
-
+/**
+ * Renderers should create their widgets in the constructor, and return the prepared result in the {@link Renderer#getWidget()} method.
+ */
 public interface Renderer<ActualBaseComponent> {
 	
+	/**
+	 * @return the already prepared widget
+	 */
 	public ActualBaseComponent getWidget();
+	
+
+	/**
+	 * Notifies the renderer when the component is removed from the DOM 
+	 */
+	public void detach();
+	
+	/**
+	 * When a widget is re-attached to the DOM
+	 */
+	public void reattach();
 
 }

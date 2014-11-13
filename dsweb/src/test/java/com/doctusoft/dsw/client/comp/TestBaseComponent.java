@@ -1,6 +1,8 @@
 package com.doctusoft.dsw.client.comp;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -82,11 +84,21 @@ public class TestBaseComponent {
 		label.keypress(globalMock);
 		label.keypress(specificMock, 21);
 		label.getModel().getKeyPressed().fire(22);
-		Assert.assertEquals(22, globalMock.getReceivedKeyCode());
-		Assert.assertEquals(0, specificMock.getReceivedKeyCode());
+		assertEquals(22, globalMock.getReceivedKeyCode());
+		assertEquals(0, specificMock.getReceivedKeyCode());
 		label.getModel().getKeyPressed().fire(21);
-		Assert.assertEquals(21, globalMock.getReceivedKeyCode());
-		Assert.assertEquals(21, specificMock.getReceivedKeyCode());
+		assertEquals(21, globalMock.getReceivedKeyCode());
+		assertEquals(21, specificMock.getReceivedKeyCode());
+	}
+	
+	@Test
+	public void testCssBuilding() {
+		Label label = new Label();
+		label.css("name1", "value1");
+		assertEquals("name1:value1;", label.getModel().getStyle());
+		label.css("name2", "value2");
+		assertTrue(label.getModel().getStyle().contains("name2:value2;"));
+		assertTrue(label.getModel().getStyle().contains("name1:value1;"));
 	}
 
 }

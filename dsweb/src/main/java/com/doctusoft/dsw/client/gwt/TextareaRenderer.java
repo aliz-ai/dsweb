@@ -58,6 +58,7 @@ public class TextareaRenderer extends BaseComponentRenderer {
 				widget.attr("placeholder", placeHolder);
 			}
 		});
+		new EnabledAttributeRenderer(widget, textarea);
 	}
 
 }

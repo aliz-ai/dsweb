@@ -8,43 +8,38 @@ import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
 import com.doctusoft.dsw.client.comp.model.RichTextEditorModel;
 import com.doctusoft.dsw.client.comp.model.RichTextEditorModel_;
 import com.doctusoft.dsw.client.util.JsArrayExtended;
-import com.google.common.base.Objects;
-import com.google.common.base.Strings;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.xedge.jquery.client.JQuery;
 
 public class RichTextEditorRenderer extends BaseComponentRenderer {
 
-	private static Integer editorIdSequence = 0;
-
-	private static final String RICH_TEXT_ID_PREFIX = "richtext";
-
 	private RichTextEditorModel model;
 
 	private JsArrayExtended<JavaScriptObject> autoCompleteValues = JavaScriptObject.createArray().cast();
+	
+	private boolean isAttached = true;
+	
+	protected JavaScriptObject editor;
+	
+	private static long innerIdCounter = 1;
+	private String innerIdClass = "dsweb-tinymce-" + (innerIdCounter ++);
 
 	public RichTextEditorRenderer(final RichTextEditorModel model) {
-		super(JQuery.select("<textarea name=\"content\" id=\""
-				+ Objects.firstNonNull(model.getId(), RICH_TEXT_ID_PREFIX + editorIdSequence)
-				+ "\" style=\"width:100%\"></textarea>"),
+		super(JQuery.select("<textarea name=\"content\"></textarea>"),
 				model);
 		this.model = model;
-		if (Strings.isNullOrEmpty(model.getId())) {
-			model.setId(RICH_TEXT_ID_PREFIX + (editorIdSequence).toString());
-			editorIdSequence++;
-		}
-		String content = model.getContent();
-		widget.html(content);
 
-		init(widget, model.getId(), content, autoCompleteValues, model.getAutocompleteTriggerCharacter().toString(),
-				model.getTextToInsertBeforeAutoCompleteValue(), model.getTextToInsertAfterAutoCompleteValue());
+		widget.addClass(innerIdClass);
+		reinit();
 
 		RichTextEditorModel_._content.addChangeListener(model, new ValueChangeListener<String>() {
 
 			@Override
 			public void valueChanged(String content) {
-				setContent(content, model.getId());
+				if (isAttached) {
+					setContent(content);
+				}
 			}
 		});
 
@@ -61,16 +56,33 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 			}
 		};
 		
-		addChangeListener(BaseComponentModel_._disabled, model, new ValueChangeListener<Boolean>() {
+		addChangeListenerAndApply(BaseComponentModel_._enabled, model, new ValueChangeListener<Boolean>() {
 
 			@Override
 			public void valueChanged(Boolean newValue) {
-				if (newValue != null) {
-					setEnabled(!newValue, model.getId());
-				}
+				// FIXME
+				//setEnabled(!Objects.firstNonNull(newValue, false), model.getId());
 			}
 		});
 
+	}
+	
+	protected void reinit() {
+		init(widget, innerIdClass, model.getContent(), autoCompleteValues, model.getAutocompleteTriggerCharacter().toString(),
+				model.getTextToInsertBeforeAutoCompleteValue(), model.getTextToInsertAfterAutoCompleteValue());
+	}
+	
+	@Override
+	public void reattach() {
+		reinit();
+		isAttached = true;
+	}
+	
+	@Override
+	public void detach() {
+		isAttached = false;
+		removeEditor();
+		editor = null;
 	}
 
 	private native JavaScriptObject createOption(String optionName)/*-{
@@ -82,29 +94,40 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 	private void editorContentChanged(String content) {
 		model.setContent(content);
 	}
+	
+	public void setEditor(JavaScriptObject editor) {
+		this.editor = editor;
+	}
 
-	private native void setContent(String content, String id)/*-{
-		if ($wnd.tinymce.get(id).getContent() != content) {
-			$wnd.tinymce.get(id).setContent(content);
+	private native void setContent(String content) /*-{
+		var editor = this.@com.doctusoft.dsw.client.gwt.RichTextEditorRenderer::editor;
+		if (editor.getContent() != content) {
+			editor.setContent(content);
 		}
 	}-*/;
 	
-	private native void setEnabled(boolean enabled, String id) /*-{
-		$wnd.tinymce.get(id).getBody().setAttribute('contenteditable', enabled);
+	private native void setEnabled(boolean enabled) /*-{
+		var editor = this.@com.doctusoft.dsw.client.gwt.RichTextEditorRenderer::editor;
+		editor.getBody().setAttribute('contenteditable', enabled);
 	}-*/;
 
-	private native void init(JQuery widget, String id, String content, JsArray<JavaScriptObject> mentionSources,
+	private native void removeEditor() /*-{
+		var editor = this.@com.doctusoft.dsw.client.gwt.RichTextEditorRenderer::editor;
+		editor.remove();
+	}-*/;
+
+	private native void init(JQuery widget, String idClass, String content, JsArray<JavaScriptObject> mentionSources,
 			String autoCompleteTriggerCharacter, String textToInsertBeforeAutoCompleteValue,
 			String textToInsertAfterAutoCompleteValue) /*-{
 		var that = this;
+		widget.val(content);
 		setTimeout(function() {
 			$wnd.tinymce.init({
-				selector : "textarea#" + id,
+				selector : "." + idClass,
 				theme : "modern",
 				plugins : "mention",
 				toolbar: 
 			        "undo redo | styleselect | bold italic | link image | alignleft aligncenter alignright | sizeselect | fontselect |  fontsizeselect",
-				content: content,
 				mentions: {
 				    source: mentionSources,
 				    insert: function(item) {
@@ -113,13 +136,13 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 					delimiter: autoCompleteTriggerCharacter
 				},
 				setup : function(editor) {
+					that.@com.doctusoft.dsw.client.gwt.RichTextEditorRenderer::setEditor(Lcom/google/gwt/core/client/JavaScriptObject;)(editor);
 					editor.on('change', function(e) {
 						that.@com.doctusoft.dsw.client.gwt.RichTextEditorRenderer::editorContentChanged(Ljava/lang/String;)(editor.getContent());
 					});
 				}
 			});
-			$wnd.proba = mentionSources;
-		}, 0);
+		}, 1);
 	}-*/;
 
 }

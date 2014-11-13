@@ -61,6 +61,16 @@ public abstract class AbstractContainer<Actual, Model extends AbstractContainerM
 		list.add(index, (T) model);
 	}
 	
+	@Override
+	public Actual remove(HasComponentModel component) {
+		removeWithWildCardCapture(model.getChildren(),component.getComponentModel());
+		return (Actual) this;
+	}
+	
+	private <T> void removeWithWildCardCapture(ObservableList<T> list, BaseComponentModel model) {
+		list.remove((T) model);
+	}
+	
 	private <T> void addWithWildCardCapture(ObservableList<T> list, BaseComponentModel model) {
 		list.add((T) model);
 	}

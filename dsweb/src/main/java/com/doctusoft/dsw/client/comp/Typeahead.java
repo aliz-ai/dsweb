@@ -23,7 +23,10 @@ package com.doctusoft.dsw.client.comp;
  */
 
 
+import com.doctusoft.bean.binding.Bindings;
+import com.doctusoft.bean.binding.ValueBinding;
 import com.doctusoft.dsw.client.comp.model.TypeaheadModel;
+import com.doctusoft.dsw.client.comp.model.TypeaheadModel_;
 
 
 public class Typeahead<T> extends AbstractSelect<Typeahead<T>, TypeaheadModel, T> {
@@ -37,4 +40,28 @@ public class Typeahead<T> extends AbstractSelect<Typeahead<T>, TypeaheadModel, T
 		return this;
 	}
 	
+	public Typeahead<T> withAllowCustomText(boolean allow) {
+		model.setAllowCustomText(allow);
+		return this;
+	}
+	
+	public Typeahead<T> withPlaceHolder(String placeHolder) {
+		model.setPlaceHolder(placeHolder);
+		return this;
+	}
+	
+	public Typeahead<T> allowCustomText() {
+		model.setAllowCustomText(true);
+		return this;
+	}
+	
+	public Typeahead<T> bindCustomText(final ValueBinding<String> valueBinding) {
+		Bindings.bind(valueBinding, Bindings.obs(model).get(TypeaheadModel_._customText));
+		return this;
+	}
+	
+	public Typeahead<T> bindPlaceHolder(ValueBinding<String> placeHolderBinding) {
+		Bindings.bind(placeHolderBinding, Bindings.obs(model).get(TypeaheadModel_._placeHolder));
+		return this;
+	}
 }

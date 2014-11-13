@@ -8,6 +8,7 @@ import lombok.Getter;
 
 import org.junit.Test;
 
+import com.doctusoft.dsw.client.comp.InputText;
 import com.doctusoft.dsw.client.comp.Select;
 import com.doctusoft.dsw.client.comp.SelectItem;
 import com.doctusoft.dsw.client.comp.model.SelectItemModel;
@@ -52,6 +53,18 @@ public class TestSelectRenderer extends AbstractDswebTest {
 		first.setCaption( firstModel.getName() );
 		return first;
 	}
+
+	/**
+	 * Only test if disabling works. Other aspects of {@link EnabledAttributeRenderer} are tested in {@link TestInputTextRenderer}
+	 */
+	@Test
+	public void testDisabledFirst() {
+		final InputText inputText = new InputText().withId("input").withEnabled(false);
+		registerApp(inputText);
+		assertTrue(JQuery.select("#input").is(":disabled"));
+	}
+
+
 	
 	@Getter
 	@AllArgsConstructor

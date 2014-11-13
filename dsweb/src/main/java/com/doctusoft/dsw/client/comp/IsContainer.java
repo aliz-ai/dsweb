@@ -31,4 +31,6 @@ public interface IsContainer {
 	
 	public Object insert(int index, HasComponentModel component);
 
+	public Object remove(HasComponentModel componentModel);
+
 }

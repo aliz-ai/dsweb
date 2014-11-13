@@ -42,6 +42,11 @@ public class InputTags extends BaseComponent<InputTags, InputTagsModel>{
 		return this;
 	}
 	
+	public InputTags withPlaceHolder(String placeHolderText) {
+		model.setPlaceHolder(placeHolderText);
+		return this;
+	}
+	
 	public InputTags bind(final ObservableValueBinding<? extends ObservableList<String>> listBinding) {
 		Bindings.bind((ObservableValueBinding) listBinding, Bindings.obs(model).get(InputTagsModel_._tagList));
 		return this;
@@ -59,6 +64,11 @@ public class InputTags extends BaseComponent<InputTags, InputTagsModel>{
 	
 	public InputTags bindTagOptionSuggestions(final ObservableValueBinding<? extends ObservableList<TagOption>> listBinding) {
 		Bindings.bind((ObservableValueBinding) listBinding, Bindings.obs(model).get(InputTagsModel_._tagOptionSuggestions));
+		return this;
+	}
+	
+	public InputTags bindPlaceHolder(ObservableValueBinding<String> placeHolderBinding) {
+		Bindings.bind(placeHolderBinding, Bindings.obs(model).get(InputTagsModel_._placeHolder));
 		return this;
 	}
 	

@@ -6,7 +6,7 @@ import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.ModelObject;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 
-public class Tab implements Serializable, ModelObject{
+public class Tab implements Serializable, ModelObject {
 
 	@ObservableProperty
 	private String title = "";
@@ -24,8 +24,8 @@ public class Tab implements Serializable, ModelObject{
 		return this;
 	}
 
-	public Tab withContent(BaseComponentModel content) {
-		this.content = content;
+	public Tab withContent(HasComponentModel content) {
+		this.content = content.getComponentModel();
 		return this;
 	}
 

@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.doctusoft</groupId>
 	<artifactId>dsweb-parent</artifactId>
-	<version>0.0.6-SNAPSHOT</version>
+	<version>0.0.8-SNAPSHOT</version>
 	<name>dsweb-parent</name>
 	<packaging>pom</packaging>
 
@@ -15,7 +15,7 @@
 	<properties>
 		<version.guava>16.0.1</version.guava>
 		<lombok.ds.version>0.4.4</lombok.ds.version>
-		<ds.bean.version>0.4.4</ds.bean.version>
+		<ds.bean.version>0.4.5</ds.bean.version>
 
 		<gwt.version>2.6.0</gwt.version>
 		<gae.version>1.9.4</gae.version>

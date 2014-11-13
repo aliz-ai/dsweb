@@ -31,9 +31,20 @@ import com.xedge.jquery.client.JQuery;
 
 public class ContainerRenderer extends BaseComponentRenderer {
 	
+	private ChildrenRenderer childrenRenderer;
+
 	public ContainerRenderer(ContainerModel container) {
 		super(JQuery.select("<" + container.getElementType() + "/>"), container);
-		new ChildrenRenderer(widget, (ObservableValueBinding) Bindings.obs(container).get(AbstractContainerModel_._children));
+		childrenRenderer = new ChildrenRenderer(widget, (ObservableValueBinding) Bindings.obs(container).get(AbstractContainerModel_._children));
 	}
 	
+	@Override
+	public void detach() {
+		childrenRenderer.detach();
+	}
+	
+	@Override
+	public void reattach() {
+		childrenRenderer.reattach();
+	}
 }

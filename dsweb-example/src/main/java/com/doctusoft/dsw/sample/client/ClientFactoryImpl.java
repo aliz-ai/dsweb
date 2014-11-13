@@ -34,8 +34,6 @@ import com.doctusoft.dsw.sample.client.person.PersonListPresenter;
 import com.doctusoft.dsw.sample.client.person.PersonListView;
 import com.doctusoft.dsw.sample.client.person.PersonRemoteService;
 import com.doctusoft.dsw.sample.client.person.PersonRemoteServiceAsync;
-import com.doctusoft.dsw.sample.client.person.SandboxPresenter;
-import com.doctusoft.dsw.sample.client.person.SandboxView;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseActivity;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseButtonsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseButtonsView;
@@ -128,9 +126,6 @@ public class ClientFactoryImpl implements ClientFactory {
 	
 	@Getter
 	private final ViewOf<ShowcaseContextMenuPresenter> showcaseContextMenuView = new ShowcaseContextMenuView();
-	
-	@Getter
-	private final ViewOf<SandboxPresenter> sandboxView = new SandboxView();
 	
 	@Getter
 	private final PersonRemoteServiceAsync personRemoteServiceAsync = GWT.create(PersonRemoteService.class);

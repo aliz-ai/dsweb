@@ -41,26 +41,29 @@ import com.xedge.jquery.client.handlers.EventHandler;
 
 public class TypeaheadRenderer extends BaseComponentRenderer {
 	
-	private List<String> optionCaptions = Lists.newArrayList();
+	private final List<String> optionCaptions = Lists.newArrayList();
 	
-	private TypeaheadModel typeaheadModel;
+	private final TypeaheadModel typeaheadModel;
 	
 	public TypeaheadRenderer(final TypeaheadModel select) {
 		super(JQuery.select("<input type=\"text\" data-provide=\"typeahead\"/>"), select);
 		init(widget);
+		if (select.getPlaceHolder() != null) {
+			widget.attr("placeholder", select.getPlaceHolder());
+		}
 		typeaheadModel = select;
-		if (select.isAllVisibleOnFocus()) {
+		if (typeaheadModel.isAllVisibleOnFocus()) {
 			setShowAllOnFocus(widget);
 		}
 		
-		if (select.getSelectedIndex() != -1) {
-			int selectedIndex = select.getSelectedIndex();
-			if (selectedIndex >= 0 && selectedIndex < select.getSelectItemsModel().size()) {
-				widget.val(select.getSelectItemsModel().get(select.getSelectedIndex()).getCaption());
+		if (typeaheadModel.getSelectedIndex() != -1) {
+			int selectedIndex = typeaheadModel.getSelectedIndex();
+			if (selectedIndex >= 0 && selectedIndex < typeaheadModel.getSelectItemsModel().size()) {
+				widget.val(typeaheadModel.getSelectItemsModel().get(typeaheadModel.getSelectedIndex()).getCaption());
 			}
 		}
 		
-		TypeaheadModel_._allVisibleOnFocus.addChangeListener(select, new ValueChangeListener<Boolean>() {
+		TypeaheadModel_._allVisibleOnFocus.addChangeListener(typeaheadModel, new ValueChangeListener<Boolean>() {
 			@Override
 			public void valueChanged(Boolean newValue) {
 				if (newValue) {
@@ -69,20 +72,44 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 			}
 		});
 		
-		SelectModel_._selectedIndex.addChangeListener(select, new ValueChangeListener<Integer>() {
+		SelectModel_._selectedIndex.addChangeListener(typeaheadModel, new ValueChangeListener<Integer>() {
 			@Override
 			public void valueChanged(Integer newValue) {
-				if (select.getSelectedIndex() != -1) {
-					widget.val(select.getSelectItemsModel().get(newValue).getCaption());
+				if (typeaheadModel.getSelectedIndex() != -1) {
+					String selectedValue = typeaheadModel.getSelectItemsModel().get(newValue).getCaption();
+					if (widget.val() != selectedValue) {
+						widget.val(typeaheadModel.getSelectItemsModel().get(newValue).getCaption());
+					}
 				}
 			}
 		});
 		
-		new ListBindingListener<SelectItemModel>(Bindings.obs(select).get((ObservableProperty) SelectModel_._selectItemsModel)) {
+		TypeaheadModel_._customText.addChangeListener(typeaheadModel, new ValueChangeListener<String>() {
+			@Override
+			public void valueChanged(String newValue) {
+				if (newValue != null && newValue != widget.val() && !typeaheadModel.getSelectItemsModel().contains(newValue)) {
+					widget.val(newValue);
+				}
+			}
+		});
+		
+		addChangeListenerAndApply(TypeaheadModel_._placeHolder, select, new ValueChangeListener<String>() {
+
+			@Override
+			public void valueChanged(String newValue) {
+				if (newValue == null) {
+					widget.attr("placeholder", "");
+				} else {
+					widget.attr("placeholder", newValue);
+				}
+			}
+		});
+		
+		new ListBindingListener<SelectItemModel>(Bindings.obs(typeaheadModel).get((ObservableProperty) SelectModel_._selectItemsModel)) {
 			@Override
 			public void inserted(ObservableList<SelectItemModel> list, int index, SelectItemModel element) {
 				updateOptions(widget, itemsToString(list));
-				if (index == select.getSelectedIndex()) {
+				if (index == typeaheadModel.getSelectedIndex()) {
 					// the selected value just got inserted
 					widget.val(element.getCaption());
 				}
@@ -96,22 +123,28 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 		widget.change(new EventHandler() {
 			@Override
 			public void eventComplete(JQEvent event, JQuery currentJQuery) {
-				widget.val(typeaheadModel.getSelectItemsModel().get(typeaheadModel.getSelectedIndex()).getCaption());				
+				String widgetVal = widget.val();
+				int newIndex = optionCaptions.indexOf(widgetVal);
+								
+				/*
+				 * we need to set up index in every case
+				 */
+				typeaheadModel.setSelectedIndex(newIndex);
+				
+				if (newIndex > -1) {
+					//reset to previous selection
+					widget.val(typeaheadModel.getSelectItemsModel().get(newIndex).getCaption());
+					typeaheadModel.setCustomText(null);
+				} else if (typeaheadModel.isAllowCustomText() && newIndex == -1) {
+					typeaheadModel.setCustomText(widgetVal);
+				}
 			}
 		});
-	}
-	
-	private void itemSelected(String item) {
-		int index = optionCaptions.indexOf(item);
-		typeaheadModel.setSelectedIndex(index);
 	}
 	
 	private native void init(JQuery widget) /*-{
 		var that = this;
 		widget.typeahead({
-			updater: function(item) {
-				$entry(that.@com.doctusoft.dsw.client.gwt.TypeaheadRenderer::itemSelected(Ljava/lang/String;)(item));
-			}
 		});
 	}-*/;
 	
@@ -138,9 +171,10 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 		        return "<div>" + item + "</div>"
 		    };
 		widget.click(function(event) {
+			var temp = widget.val();
 			widget.val('*');
 			widget.typeahead('lookup');
-			widget.val('');
+			widget.val(temp);
 	 	});
 	}-*/;
 	

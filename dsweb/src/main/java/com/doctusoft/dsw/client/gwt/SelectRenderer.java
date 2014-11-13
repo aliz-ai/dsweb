@@ -82,6 +82,7 @@ public class SelectRenderer extends BaseComponentRenderer {
 				select.setSelectedIndex(index);
 			}
 		});
+		new EnabledAttributeRenderer(widget, select);
 	}
 	
 	protected void applySelectedIndex() {

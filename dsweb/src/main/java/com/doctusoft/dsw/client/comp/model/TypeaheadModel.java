@@ -31,4 +31,12 @@ public class TypeaheadModel extends SelectModel implements ModelObject {
 	@ObservableProperty
 	private boolean allVisibleOnFocus = false;
 
+	@ObservableProperty
+	private boolean allowCustomText = false;
+	
+	@ObservableProperty
+	private String customText;
+	
+	@ObservableProperty
+	private String placeHolder;
 }

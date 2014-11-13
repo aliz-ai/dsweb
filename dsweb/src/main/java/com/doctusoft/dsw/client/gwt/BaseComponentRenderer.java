@@ -35,11 +35,8 @@ import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 import com.doctusoft.dsw.client.Renderer;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
-import com.doctusoft.dsw.client.comp.model.ButtonModel;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent_;
-import com.doctusoft.dsw.client.comp.model.ContainerModel;
-import com.doctusoft.dsw.client.comp.model.LinkModel;
 import com.doctusoft.dsw.client.comp.model.event.KeyPressedEvent;
 import com.doctusoft.dsw.client.util.Deferred;
 import com.google.common.base.Objects;
@@ -51,12 +48,12 @@ import com.xedge.jquery.client.handlers.EventHandler;
 
 public class BaseComponentRenderer implements Renderer<JQuery> {
 	
-	protected static <T, K> void addChangeListenerAndApply(ObservableProperty<K, T> property, BaseComponentModel model, ValueChangeListener<T> listener) {
+	public static <T, K> void addChangeListenerAndApply(ObservableProperty<K, T> property, BaseComponentModel model, ValueChangeListener<T> listener) {
 		addChangeListener(property, model, listener);
 		listener.valueChanged(property.getValue((K) model));
 	}
 	
-	protected static <T, K> void addChangeListener(ObservableProperty<K, T> property, BaseComponentModel model, ValueChangeListener<T> listener) {
+	public static <T, K> void addChangeListener(ObservableProperty<K, T> property, BaseComponentModel model, ValueChangeListener<T> listener) {
 		property.addChangeListener((K) model, listener);
 	}
 	
@@ -78,32 +75,6 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 				applyVisible(model.getVisible());
 			}
 		}); 
-		
-		addChangeListener(BaseComponentModel_._disabled, model, new ValueChangeListener<Boolean>() {
-
-			@Override
-			public void valueChanged(Boolean newValue) {
-				if (newValue != null) {
-					if (newValue) {
-						if (model.getClass().equals(ContainerModel.class) && !widget.is("input")) {
-							widget.select("input").attr("disabled", "disabled");
-						} else if (model.getClass().equals(LinkModel.class) || model.getClass().equals(ButtonModel.class)) {
-							widget.addClass("disabled");
-						} else {
-							widget.attr("disabled", "disabled");
-						}
-					} else {
-						if (model.getClass().equals(ContainerModel.class) && !widget.is("input")) {  
-							widget.select("input").removeAttr("disabled");
-						} else if (model.getClass().equals(LinkModel.class) || model.getClass().equals(ButtonModel.class)) {
-							widget.removeClass("disabled");
-						} else {
-							widget.removeAttr("disabled");
-						}
-					}
-				}
-			}
-		});
 		
 		addChangeListener(BaseComponentModel_._visible, model, new ValueChangeListener<Boolean>() {
 			@Override
@@ -151,6 +122,13 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 		});
 		
 		bindFocus(model);
+	}
+	
+	/**
+	 * TODO disabled should not really be in BaseComponentModel. We should have some base class for edit components 
+	 */
+	protected void applyDisabled(boolean disabled) {
+		
 	}
 	
 	protected void applyVisible(Boolean visible) {
@@ -223,5 +201,13 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 		public void triggerEvent(E event, JQEvent jqEvent);
 	}
 	
+	@Override
+	public void detach() {
+		// empty default implementation
+	}
 	
+	@Override
+	public void reattach() {
+		// empty default implementation
+	}
 }
