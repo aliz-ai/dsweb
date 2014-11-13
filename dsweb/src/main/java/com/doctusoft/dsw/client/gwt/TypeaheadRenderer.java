@@ -171,9 +171,10 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 		        return "<div>" + item + "</div>"
 		    };
 		widget.click(function(event) {
+			var temp = widget.val();
 			widget.val('*');
 			widget.typeahead('lookup');
-			widget.val('');
+			widget.val(temp);
 	 	});
 	}-*/;
 	
