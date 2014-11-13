@@ -201,5 +201,13 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 		public void triggerEvent(E event, JQEvent jqEvent);
 	}
 	
+	@Override
+	public void detach() {
+		// empty default implementation
+	}
 	
+	@Override
+	public void reattach() {
+		// empty default implementation
+	}
 }

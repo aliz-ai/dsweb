@@ -26,8 +26,6 @@ import java.math.BigDecimal;
 
 import com.doctusoft.MethodRef;
 import com.doctusoft.ObservableProperty;
-import com.doctusoft.bean.binding.observable.ObservableList;
-import com.doctusoft.dsw.client.comp.TagOption;
 import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.ClientFactory;
 import com.google.gwt.activity.shared.AbstractActivity;
@@ -51,17 +49,8 @@ public class SandboxActivity extends AbstractActivity {
 	private String button2 = "test Button";
 	
 	@ObservableProperty
-	private ObservableList<TagOption> selectedOptions = new ObservableList<TagOption>();
+	private String richTextContent = "example <b>rich</b> text content";
 	
-	@ObservableProperty
-	private ObservableList<TagOption> suggestions = new ObservableList<TagOption>();
-
-	@ObservableProperty
-	private ObservableList<String> selectedStrings = new ObservableList<String>();
-	
-	@ObservableProperty
-	private ObservableList<String> stringSuggestions = new ObservableList<String>();
-
 	public SandboxActivity(ClientFactory clientFactory) {
 		this.clientFactory = clientFactory;
 	}
@@ -72,20 +61,6 @@ public class SandboxActivity extends AbstractActivity {
 		view.setPresenter(this);
 		panel.setWidget(view);
 		view.viewPresented();
-		TagOption tag2 = new TagOption("2");
-		selectedOptions.clear();
-		selectedOptions.add(tag2);
-		suggestions.clear();
-		suggestions.add(new TagOption("1"));
-		suggestions.add(tag2);
-		suggestions.add(new TagOption("3"));
-		//---
-		selectedStrings.clear();
-		selectedStrings.add("2");
-		stringSuggestions.clear();
-		stringSuggestions.add("1");
-		stringSuggestions.add("2");
-		stringSuggestions.add("3");
 	}
 	
 	@MethodRef

@@ -29,6 +29,7 @@ import java.util.Map;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.bean.binding.observable.ObservableValueBinding;
+import com.doctusoft.dsw.client.Renderer;
 import com.doctusoft.dsw.client.RendererFactory;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.google.common.collect.Maps;
@@ -39,7 +40,7 @@ public class ChildrenRenderer {
 	
 	public static RendererFactory<JQuery> rendererFactory = GWT.create( RendererFactory.class );
 	
-	private Map<BaseComponentModel, JQuery> renderedWidgets = Maps.newHashMap();
+	private Map<BaseComponentModel, Renderer<JQuery>> renderedWidgets = Maps.newHashMap();
 	
 	private JQuery widget;
 	
@@ -64,7 +65,8 @@ public class ChildrenRenderer {
 	}
 	
 	protected void widgetAdded( BaseComponentModel baseWidget, int index ) {
-		JQuery rendered = rendererFactory.getRenderer( baseWidget ).getWidget();
+		Renderer<JQuery> renderer = rendererFactory.getRenderer( baseWidget );
+		JQuery rendered = renderer.getWidget();
 		JQuery children = widget.children();
 		int addedWidgetsCount = children.length();
 		if (addedWidgetsCount == 0 || addedWidgetsCount == index) {
@@ -73,6 +75,18 @@ public class ChildrenRenderer {
 		else {
 			rendered.insertBefore( children.get( index ) );
 		}
-		renderedWidgets.put( baseWidget, rendered );
+		renderedWidgets.put( baseWidget, renderer );
+	}
+	
+	public void detach() {
+		for (Renderer<JQuery> renderer : renderedWidgets.values()) {
+			renderer.detach();
+		}
+	}
+	
+	public void reattach() {
+		for (Renderer<JQuery> renderer : renderedWidgets.values()) {
+			renderer.reattach();
+		}
 	}
 }
