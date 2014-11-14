@@ -23,8 +23,11 @@ package com.doctusoft.dsw.sample.client.showcase;
  */
 
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
+import lombok.Getter;
 
 import com.doctusoft.MethodRef;
 import com.doctusoft.ObservableProperty;
@@ -37,15 +40,18 @@ import com.doctusoft.dsw.client.comp.TagOptions;
 import com.doctusoft.dsw.client.comp.model.ChartItemClickParam;
 import com.doctusoft.dsw.client.comp.model.SelectionMode;
 import com.doctusoft.dsw.mvp.client.ViewOf;
-import com.doctusoft.dsw.sample.client.BaseActivity;
 import com.doctusoft.dsw.sample.client.ClientFactory;
 import com.doctusoft.dsw.sample.client.person.PersonDto;
 import com.doctusoft.dsw.sample.client.person.PersonDto_;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseActivity_;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
-public class ShowcaseActivity extends BaseActivity<ShowcaseActivity, ShowcasePlace> {
+public class ShowcaseActivity extends com.doctusoft.dsw.client.mvp.AbstractPresenter<ShowcaseActivity> {
 
+	@Getter
+	private ViewOf<ShowcaseActivity> view;
+	
 	@ObservableProperty
 	private ShowcaseItem item;
 
@@ -95,10 +101,16 @@ public class ShowcaseActivity extends BaseActivity<ShowcaseActivity, ShowcasePla
 
 	@ObservableProperty
 	ObservableList<String> options = new ObservableList<String>();
-
-	public ShowcaseActivity(ClientFactory clientFactory, ShowcasePlace showcasePlace) {
-		super(clientFactory, showcasePlace);
-		setItem(place.getItem());
+	
+	public static class Place extends com.doctusoft.dsw.client.mvp.AbstractPlace<ShowcaseActivity> implements Serializable {
+		public Place() {
+			super("showcase", ShowcaseActivity.class );
+		}
+	}
+	
+	public ShowcaseActivity(Place place, ClientFactory clientFactory) {
+		view = clientFactory.getShowcaseView();
+		//setItem(place.getItem());
 		personList.add(new PersonDto(1l, "Compay Segundo", "compay@buena.cu", new Date(7, 10, 18)));
 		personList.add(new PersonDto(2l, "Omara Portuondo", "omara@buena.cu", new Date(30, 9, 29)));
 		personList.add(new PersonDto(3l, "Ibrahim Ferrer", "ibrahim@buena.cu", new Date(6, 7, 27)));
@@ -129,11 +141,6 @@ public class ShowcaseActivity extends BaseActivity<ShowcaseActivity, ShowcasePla
 		options.add("jozsi");
 		options.add("Nora");
 		options.add("ELemer");
-	}
-
-	@Override
-	protected ViewOf<ShowcaseActivity> createView() {
-		return clientFactory.getShowcaseView();
 	}
 
 	@MethodRef

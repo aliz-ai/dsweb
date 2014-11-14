@@ -23,36 +23,42 @@ package com.doctusoft.dsw.sample.client.person;
  */
 
 
+import java.io.Serializable;
+
 import lombok.Getter;
 
 import com.doctusoft.ObservableProperty;
+import com.doctusoft.dsw.client.mvp.AbstractPresenter;
 import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.AbstractCallback;
 import com.doctusoft.dsw.sample.client.ClientFactory;
-import com.google.gwt.activity.shared.AbstractActivity;
-import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.user.client.ui.AcceptsOneWidget;
 
-public class PersonDetailActivity extends AbstractActivity {
+public class PersonDetailPresenter extends AbstractPresenter<PersonDetailPresenter> {
+	
+	@Getter
+	private ViewOf<PersonDetailPresenter> view;
 	
 	private ClientFactory clientFactory;
 	
-	@ObservableProperty @Getter
-	private PersonDto personDto;
+	@ObservableProperty
+	public PersonDto personDto;
 
 	private long personId;
 
-	public PersonDetailActivity(ClientFactory clientFactory, long personId) {
+	public PersonDetailPresenter(Place place, ClientFactory clientFactory) {
+		view = clientFactory.getPersonDetailView();
 		this.clientFactory = clientFactory;
-		this.personId = personId;
+		/*
+		 * TODO get personId from place param
+		 */
+		//this.personId = personId;
 		loadPersonDto();
 	}
 	
-	@Override
-	public void start(AcceptsOneWidget panel, EventBus eventBus) {
-		ViewOf<PersonDetailActivity> view = clientFactory.getPersonDetailView();
-		view.setPresenter(this);
-		panel.setWidget(view);
+	public static class Place extends com.doctusoft.dsw.client.mvp.AbstractPlace<PersonDetailPresenter> implements Serializable {
+		public Place() {
+			super("persondetail", PersonDetailPresenter.class );
+		}
 	}
 	
 	protected void loadPersonDto() {

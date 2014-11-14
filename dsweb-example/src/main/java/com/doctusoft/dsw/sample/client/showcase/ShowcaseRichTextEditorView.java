@@ -5,21 +5,20 @@ import com.doctusoft.dsw.client.comp.Alert.AlertType;
 import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.InputText;
 import com.doctusoft.dsw.client.comp.RichTextEditor;
-import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
+import com.doctusoft.dsw.sample.client.AbstractViewWithNavBar;
 
-public class ShowcaseRichTextEditorView extends ContainerWithPresenter<ShowcaseActivity> {
+public class ShowcaseRichTextEditorView extends AbstractViewWithNavBar<ShowcaseRichTextEditorPresenter> {
 
 	public ShowcaseRichTextEditorView() {
 		new Alert(
 				"Ha egy új szót a @ karakterrel kezdesz, feljön az autocomplete menü. Az Add option gombbal bővül a választható option-ök listája további dummy opciókkal.")
-				.setAlertType(AlertType.Information).appendTo(container);
-		new RichTextEditor().bind(bindOnPresenter().get(ShowcaseActivity_._content2))
-		.bindAutoCompleteOptions(bindOnPresenter().get(ShowcaseActivity_._options))
+				.setAlertType(AlertType.Information).appendTo(subContainer);
+		new RichTextEditor().bind(bindOnPresenter().get(ShowcaseRichTextEditorPresenter_._content2))
+		.bindAutoCompleteOptions(bindOnPresenter().get(ShowcaseRichTextEditorPresenter_._options))
 		.withAutocompleteTriggerCharacter('@').withTextToInsertBeforeAutoCompleteValue("@{")
-		.appendTo(container);
-		new InputText().bind(bindOnPresenter().get(ShowcaseActivity_._content2)).appendTo(container);
-		new Button("Add option").click(presenterMethod(ShowcaseActivity_.__addOption))
-				.appendTo(
-						container);
+		.appendTo(subContainer);
+		new InputText().bind(bindOnPresenter().get(ShowcaseRichTextEditorPresenter_._content2)).appendTo(subContainer);
+		new Button("Add option").click(presenterMethod(ShowcaseRichTextEditorPresenter_.__addOption))
+				.appendTo(subContainer);
 	}
 }

@@ -33,36 +33,36 @@ import com.doctusoft.dsw.client.comp.SelectItems;
 import com.doctusoft.dsw.client.comp.datatable.Columns;
 import com.doctusoft.dsw.client.comp.datatable.DateFormatter;
 import com.doctusoft.dsw.client.comp.model.SelectionMode;
-import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
+import com.doctusoft.dsw.sample.client.AbstractViewWithNavBar;
 import com.doctusoft.dsw.sample.client.person.PersonDto;
 import com.doctusoft.dsw.sample.client.person.PersonDto_;
 
-public class ShowcaseTableView extends ContainerWithPresenter<ShowcaseActivity> {
+public class ShowcaseTableView extends AbstractViewWithNavBar<ShowcaseTablePresenter> {
 
 	public ShowcaseTableView() {
-		new BaseContainer().withStyleClass("page-header").appendTo(container)
+		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)
 			.add(new HtmlContent("<h1>Tables</h1>"));
 		new DataTable<PersonDto>()
 			.addColumn(Columns.from("Id", PersonDto_._id))
 			.addColumn(Columns.obs("Name", PersonDto_._name))
 			.addColumn(Columns.from("Email", PersonDto_._email))
 			.addColumn(Columns.from("Born", PersonDto_._birthDate).format(new DateFormatter("yyyy-MM-dd")))
-			.addColumn(Columns.actionButton(this, ShowcaseActivity_.__personClicked, "View"))
-			.bind(bindOnPresenter().get(ShowcaseActivity_._personList))
-			.bindSelectionMode(bindOnPresenter().get(ShowcaseActivity_._selectionMode))
-			.bindSelection(bindOnPresenter().get(ShowcaseActivity_._selection))
-			.appendTo(container);
+			.addColumn(Columns.actionButton(this, ShowcaseTablePresenter_.__personClicked, "View"))
+			.bind(bindOnPresenter().get(ShowcaseTablePresenter_._personList))
+			.bindSelectionMode(bindOnPresenter().get(ShowcaseTablePresenter_._selectionMode))
+			.bindSelection(bindOnPresenter().get(ShowcaseTablePresenter_._selection))
+			.appendTo(subContainer);
 		new ModalDialog()
 			.withHeader("Selection")
-			.addContent(new Label().bind(bindOnPresenter().get(ShowcaseActivity_._modalContent)))
-			.bindDialogVisible(bindOnPresenter().get(ShowcaseActivity_._modalVisible)).appendTo(container);
-		new HtmlContent("<hr/>").appendTo(container);
-		new Label("Change selection mode:").appendTo(container);
+			.addContent(new Label().bind(bindOnPresenter().get(ShowcaseTablePresenter_._modalContent)))
+			.bindDialogVisible(bindOnPresenter().get(ShowcaseTablePresenter_._modalVisible)).appendTo(subContainer);
+		new HtmlContent("<hr/>").appendTo(subContainer);
+		new Label("Change selection mode:").appendTo(subContainer);
 		new Select<SelectionMode>()
-			.bind(bindOnPresenter().get(ShowcaseActivity_._selectionMode))
+			.bind(bindOnPresenter().get(ShowcaseTablePresenter_._selectionMode))
 			.withSelectItems(SelectItems.fromEnum(SelectionMode.values()))
-			.appendTo(container);
-		new Label("", "div").bind(bindOnPresenter().get(ShowcaseActivity_._selectionString)).appendTo(container);
+			.appendTo(subContainer);
+		new Label("", "div").bind(bindOnPresenter().get(ShowcaseTablePresenter_._selectionString)).appendTo(subContainer);
 			
 	}
 

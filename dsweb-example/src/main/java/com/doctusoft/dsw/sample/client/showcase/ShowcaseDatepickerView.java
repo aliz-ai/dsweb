@@ -28,26 +28,26 @@ import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.Datepicker;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.Label;
-import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
+import com.doctusoft.dsw.sample.client.AbstractViewWithNavBar;
 
-public class ShowcaseDatepickerView extends ContainerWithPresenter<ShowcaseActivity> {
+public class ShowcaseDatepickerView extends AbstractViewWithNavBar<ShowcaseDatepickerPresenter> {
 
 	public ShowcaseDatepickerView() {
-		new BaseContainer().withStyleClass("page-header").appendTo(container)
+		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)
 		.add(new HtmlContent("<h1>Datepicker</h1>"));
 
-		new Datepicker().bind( bindOnPresenter().get(ShowcaseActivity_._dateTimeTest) )
+		new Datepicker().bind( bindOnPresenter().get(ShowcaseDatepickerPresenter_._dateTimeTest) )
 		.withFormat( "yyyy.MM.dd" )
 		.withPlaceHolder("Pick a date!")
-		.appendTo(container);
+		.appendTo(subContainer);
 
-		new HtmlContent("<br>").appendTo(container);
+		new HtmlContent("<br>").appendTo(subContainer);
 
-		new Label().bind(bindOnPresenter().get(ShowcaseActivity_._timeTest)).appendTo(container);
+		new Label().bind(bindOnPresenter().get(ShowcaseDatepickerPresenter_._timeTest)).appendTo(subContainer);
 
-		new HtmlContent("<br>").appendTo(container);
+		new HtmlContent("<br>").appendTo(subContainer);
 
-		new Button("Check binding").click(presenterMethod(ShowcaseActivity_.__datePickerBindingTest)).appendTo(container);
+		new Button("Check binding").click(presenterMethod(ShowcaseDatepickerPresenter_.__datePickerBindingTest)).appendTo(subContainer);
 	}
 
 

@@ -27,17 +27,17 @@ import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.HtmlContent;
-import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
+import com.doctusoft.dsw.sample.client.AbstractViewWithNavBar;
 
-public class ShowcaseExceptionsView extends ContainerWithPresenter<ShowcaseActivity> {
+public class ShowcaseExceptionsView extends AbstractViewWithNavBar<ShowcaseExceptionsPresenter> {
 	
 	public ShowcaseExceptionsView() {
-		new BaseContainer().withStyleClass("page-header").appendTo(container)
+		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)
 			.add(new HtmlContent("<h1>Exceptions</h1>"));
 		new Button("Dangerous button")
-			.click(presenterMethod(ShowcaseActivity_.__dangerousMethod))
-			.appendTo(container);
-		new HtmlContent("<hr/>").appendTo(container);
+			.click(presenterMethod(ShowcaseExceptionsPresenter_.__dangerousMethod))
+			.appendTo(subContainer);
+		new HtmlContent("<hr/>").appendTo(subContainer);
 		new Button("Cause sync error")
 			.click(new EmptyEventHandler() {
 				@Override
@@ -45,7 +45,7 @@ public class ShowcaseExceptionsView extends ContainerWithPresenter<ShowcaseActiv
 					throw new RuntimeException("sync error caused");
 				}
 			})
-			.appendTo(container);
+			.appendTo(subContainer);
 	}
 
 }
