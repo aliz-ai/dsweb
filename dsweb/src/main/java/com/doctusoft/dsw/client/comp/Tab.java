@@ -20,12 +20,12 @@ public class Tab implements Serializable, ModelObject {
 	}
 	
 	public Tab withTitle(String title) {
-		this.title = title;
+		setTitle(title);
 		return this;
 	}
 
 	public Tab withContent(HasComponentModel content) {
-		this.content = content.getComponentModel();
+		setContent(content.getComponentModel());
 		return this;
 	}
 
