@@ -38,6 +38,7 @@ import com.doctusoft.dsw.client.mvp.PlaceController.PresenterStartedListener;
 import com.doctusoft.dsw.client.mvp.Presenter;
 import com.doctusoft.dsw.sample.client.person.PersonDetailPresenter;
 import com.doctusoft.dsw.sample.client.person.PersonListPresenter;
+import com.doctusoft.dsw.sample.client.sandbox.SandboxPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseButtonsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseChartsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseContextMenuPresenter;
@@ -107,7 +108,8 @@ public class ExampleApplication implements HasComponentModel {
 	                new ShowcaseInputsPresenter.Place(),
 	                new ShowcaseContextMenuPresenter.Place(),
 	                new PersonListPresenter.Place(),
-	                new PersonDetailPresenter.Place()
+	                new PersonDetailPresenter.Place(),
+	                new SandboxPresenter.Place()
 	                );
 	        navigationHandler.handleCurrentHistory();
 	}

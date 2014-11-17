@@ -4,6 +4,8 @@ import com.doctusoft.dsw.client.mvp.AbstractPlace;
 import com.doctusoft.dsw.client.mvp.PlacePresenterMapper;
 import com.doctusoft.dsw.sample.client.person.PersonDetailPresenter;
 import com.doctusoft.dsw.sample.client.person.PersonListPresenter;
+import com.doctusoft.dsw.sample.client.sandbox.SandboxPresenter;
+import com.doctusoft.dsw.sample.client.sandbox.SandboxPresenter.Place;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseButtonsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseChartsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseContextMenuPresenter;
@@ -63,6 +65,8 @@ public class ExamplePlacePresenterMapper implements PlacePresenterMapper {
 			return (Presenter) new PersonListPresenter((PersonListPresenter.Place) place, clientFactory);
 		if (place instanceof PersonDetailPresenter.Place)
 			return (Presenter) new PersonDetailPresenter((PersonDetailPresenter.Place) place, clientFactory);
+		if (place instanceof SandboxPresenter.Place)
+			return (Presenter) new SandboxPresenter((Place) place, clientFactory);
 		throw new RuntimeException("No place-presenter mapper given for: " + place);
 	}
 
