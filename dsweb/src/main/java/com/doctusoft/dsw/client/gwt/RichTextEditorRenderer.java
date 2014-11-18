@@ -14,16 +14,16 @@ import com.xedge.jquery.client.JQuery;
 
 public class RichTextEditorRenderer extends BaseComponentRenderer {
 
-	private RichTextEditorModel model;
+	private final RichTextEditorModel model;
 
-	private JsArrayExtended<JavaScriptObject> autoCompleteValues = JavaScriptObject.createArray().cast();
+	private final JsArrayExtended<JavaScriptObject> autoCompleteValues = JavaScriptObject.createArray().cast();
 	
 	private boolean isAttached = true;
 	
 	protected JavaScriptObject editor;
 	
 	private static long innerIdCounter = 1;
-	private String innerIdClass = "dsweb-tinymce-" + (innerIdCounter ++);
+	private final String innerIdClass = "dsweb-tinymce-" + (innerIdCounter ++);
 
 	public RichTextEditorRenderer(final RichTextEditorModel model) {
 		super(JQuery.select("<textarea name=\"content\"></textarea>"),
@@ -97,13 +97,19 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 	
 	public void setEditor(JavaScriptObject editor) {
 		this.editor = editor;
+		setContent(model.getContent());
 	}
 
 	private native void setContent(String content) /*-{
 		var editor = this.@com.doctusoft.dsw.client.gwt.RichTextEditorRenderer::editor;
-		if (editor.getContent() != content) {
-			editor.setContent(content);
+		if (editor === null || (typeof editor === 'undefined')) {
+			return;
 		}
+		setTimeout(function() {
+			if (editor.getContent() != content) {
+				editor.setContent(content);
+			}
+		}, 100);
 	}-*/;
 	
 	private native void setEnabled(boolean enabled) /*-{
