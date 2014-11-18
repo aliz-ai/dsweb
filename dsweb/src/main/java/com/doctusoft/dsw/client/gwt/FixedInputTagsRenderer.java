@@ -35,8 +35,6 @@ import com.doctusoft.dsw.client.comp.model.FixedInputTagsModel_;
 import com.doctusoft.dsw.client.comp.model.TagOptionModel;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -207,27 +205,6 @@ public class FixedInputTagsRenderer extends BaseComponentRenderer {
 	private native static void removeTag(JQuery element, TagOptionItem item) /*-{
 		element.tagsinput('remove', item);
 	}-*/;
-	
-	List<String> getWidgetTagList(String widgetTags) {
-		List<String> tagList = Lists.newArrayList();
-		for (String s : widgetTags.split(",")) {
-			if (!Strings.isNullOrEmpty(s) && !s.trim().isEmpty()) {
-				tagList.add(s.replaceAll("^\\s+|\\s+$", ""));
-			}
-		}
-		return tagList; 
-	}
-	
-	String tagListToString(List<String> tagList) {
-		String tagString = "";
-		for (String tag : tagList) {
-			tagString = tagString + tag.replaceAll("^\\s+|\\s+$", "") + ",";
-		}
-		if (tagString.length() > 0) {
-			tagString = tagString.substring(0, tagString.length()-1);
-		}
-		return tagString;
-	}
 	
 	JsArray<TagOptionItem> tagOptionListToItems(List<TagOptionModel> tagList) {
 		itemsByModel.clear();
