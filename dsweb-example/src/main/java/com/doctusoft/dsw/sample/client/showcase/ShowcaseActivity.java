@@ -35,10 +35,10 @@ import com.doctusoft.bean.Properties;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListChangeListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
-import com.doctusoft.dsw.client.comp.TagOption;
 import com.doctusoft.dsw.client.comp.TagOptions;
 import com.doctusoft.dsw.client.comp.model.ChartItemClickParam;
 import com.doctusoft.dsw.client.comp.model.SelectionMode;
+import com.doctusoft.dsw.client.comp.model.TagOptionModel;
 import com.doctusoft.dsw.mvp.client.ViewOf;
 import com.doctusoft.dsw.sample.client.ClientFactory;
 import com.doctusoft.dsw.sample.client.person.PersonDto;
@@ -74,10 +74,10 @@ public class ShowcaseActivity extends com.doctusoft.dsw.client.mvp.AbstractPrese
 	private String selectionString = "";
 
 	@ObservableProperty
-	private ObservableList<TagOption> tagOptions = new ObservableList<TagOption>();
+	private ObservableList<TagOptionModel> tagOptions = new ObservableList<TagOptionModel>();
 
 	@ObservableProperty
-	private ObservableList<TagOption> tagOptionSuggestions = new ObservableList<TagOption>();
+	private ObservableList<TagOptionModel> tagOptionSuggestions = new ObservableList<TagOptionModel>();
 
 	@ObservableProperty
 	private ObservableList<String> tags = new ObservableList<String>();
@@ -123,10 +123,10 @@ public class ShowcaseActivity extends com.doctusoft.dsw.client.mvp.AbstractPrese
 		};
 		tagSuggestions.add("Valami");
 		tagOptionSuggestions.addAll( TagOptions.fromStrings( "Ez", "Az", "mi", "sas" ) );
-		TagOption tagOp = new TagOption();
+		TagOptionModel tagOp = new TagOptionModel();
 		tagOp.setName( "Ez már más" );
 		tagOp.setStyleClass( "label label-warning" );
-		TagOption tagOp2 = new TagOption();
+		TagOptionModel tagOp2 = new TagOptionModel();
 		tagOp2.setName( "Ez már megint más" );
 		tagOp2.setStyleClass( "label label-success" );
 		tagOptionSuggestions.add( tagOp2 );

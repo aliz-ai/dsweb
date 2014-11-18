@@ -33,9 +33,9 @@ import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.Link;
 import com.doctusoft.dsw.client.gwt.BootstrapIcon;
 import com.doctusoft.dsw.client.gwt.BootstrapStyleClasses;
-import com.doctusoft.dsw.sample.client.AbstractViewWithNavBar;
+import com.doctusoft.dsw.sample.client.BaseShowcaseView;
 
-public class ShowcaseButtonsView extends AbstractViewWithNavBar<ShowcaseButtonsPresenter> {
+public class ShowcaseButtonsView extends BaseShowcaseView<ShowcaseButtonsPresenter> {
 	
 	private DropdownLink menuDropdown;
 	

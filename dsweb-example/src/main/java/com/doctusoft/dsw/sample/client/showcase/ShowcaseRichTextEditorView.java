@@ -5,9 +5,9 @@ import com.doctusoft.dsw.client.comp.Alert.AlertType;
 import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.InputText;
 import com.doctusoft.dsw.client.comp.RichTextEditor;
-import com.doctusoft.dsw.sample.client.AbstractViewWithNavBar;
+import com.doctusoft.dsw.sample.client.BaseShowcaseView;
 
-public class ShowcaseRichTextEditorView extends AbstractViewWithNavBar<ShowcaseRichTextEditorPresenter> {
+public class ShowcaseRichTextEditorView extends BaseShowcaseView<ShowcaseRichTextEditorPresenter> {
 
 	public ShowcaseRichTextEditorView() {
 		new Alert(

@@ -36,12 +36,13 @@ import com.doctusoft.dsw.client.comp.model.DataTableModel;
 import com.doctusoft.dsw.client.comp.model.DatepickerModel;
 import com.doctusoft.dsw.client.comp.model.DropdownButtonModel;
 import com.doctusoft.dsw.client.comp.model.ExecuteJavascriptModel;
+import com.doctusoft.dsw.client.comp.model.FixedInputTagsModel;
+import com.doctusoft.dsw.client.comp.model.FreeInputTagsModel;
 import com.doctusoft.dsw.client.comp.model.HistoryHandlerModel;
 import com.doctusoft.dsw.client.comp.model.HtmlContentModel;
 import com.doctusoft.dsw.client.comp.model.IconModel;
 import com.doctusoft.dsw.client.comp.model.ImageModel;
 import com.doctusoft.dsw.client.comp.model.InputNumberModel;
-import com.doctusoft.dsw.client.comp.model.InputTagsModel;
 import com.doctusoft.dsw.client.comp.model.InputTextModel;
 import com.doctusoft.dsw.client.comp.model.InputTimeModel;
 import com.doctusoft.dsw.client.comp.model.LabelModel;
@@ -82,8 +83,11 @@ public class RendererFactoryImpl extends AbstractGwtRendererFactory {
 		if (model instanceof TabSheetModel) {
 			return new TabSheetRenderer( (TabSheetModel) model );
 		}
-		if (model instanceof InputTagsModel) {
-			return new InputTagsRenderer( (InputTagsModel) model );
+		if (model instanceof FreeInputTagsModel) {
+			return new FreeInputTagsRenderer( (FreeInputTagsModel) model );
+		}
+		if (model instanceof FixedInputTagsModel) {
+			return new FixedInputTagsRenderer( (FixedInputTagsModel) model );
 		}
 		if (model instanceof LabelModel) {
 			return new LabelRenderer( (LabelModel) model );

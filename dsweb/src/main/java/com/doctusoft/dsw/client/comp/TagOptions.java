@@ -26,21 +26,22 @@ package com.doctusoft.dsw.client.comp;
 import java.util.Arrays;
 import java.util.List;
 
+import com.doctusoft.dsw.client.comp.model.TagOptionModel;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 public class TagOptions {
-	public static List<TagOption> fromStrings(String ... strings) {
+	public static List<TagOptionModel> fromStrings(String ... strings) {
 		return fromStrings(Arrays.asList(strings));
 	}
 	
-	public static List<TagOption> fromStrings(Iterable<String> string) {
-		return Lists.newArrayList(Iterables.transform(string, new Function<String, TagOption>() {
+	public static List<TagOptionModel> fromStrings(Iterable<String> string) {
+		return Lists.newArrayList(Iterables.transform(string, new Function<String, TagOptionModel>() {
 
 			@Override
-			public TagOption apply(String input) {
-				TagOption item = new TagOption();
+			public TagOptionModel apply(String input) {
+				TagOptionModel item = new TagOptionModel();
 				item.setName(input);
 				return item;
 			}
@@ -48,11 +49,11 @@ public class TagOptions {
 		}));
 	}
 	
-	public static <E extends Enum<E>> List<TagOption> fromEnum(E [] values) {
-		return Lists.newArrayList(Lists.transform(Arrays.asList(values), new Function<E, TagOption>() {
+	public static <E extends Enum<E>> List<TagOptionModel> fromEnum(E [] values) {
+		return Lists.newArrayList(Lists.transform(Arrays.asList(values), new Function<E, TagOptionModel>() {
 			@Override
-			public TagOption apply(E input) {
-				TagOption item = new TagOption();
+			public TagOptionModel apply(E input) {
+				TagOptionModel item = new TagOptionModel();
 				item.setName(input.name());
 				item.setStyleClass(input.toString());
 				return item;
