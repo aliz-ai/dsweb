@@ -23,14 +23,17 @@ package com.doctusoft.dsw.client.comp.datatable;
  */
 
 
+import lombok.Getter;
+
 import com.doctusoft.bean.Property;
 import com.doctusoft.bean.binding.Converter;
 import com.doctusoft.dsw.client.comp.model.DataTableCellModel;
 import com.doctusoft.dsw.client.comp.model.DataTableColumnModel;
 
-public class PropertyColumn<Item, Value> implements Column<Item> {
+public class PropertyColumn<Item, Value> extends AbstractColumn<PropertyColumn<Item, Value>,Item> {
 	
 	private DataTableColumnModel columnModel;
+	@Getter
 	private Property<Item, Value> property;
 	private Converter<Value, String> converter = null;
 

@@ -22,8 +22,9 @@ package com.doctusoft.dsw.client.comp.model;
  * #L%
  */
 
-
 import java.io.Serializable;
+
+import javax.annotation.Nullable;
 
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.ModelObject;
@@ -32,5 +33,18 @@ public class DataTableColumnModel implements ModelObject, Serializable {
 	
 	@ObservableProperty
 	private String title;
+	
+	@ObservableProperty
+	private boolean orderable;
+	
+	@ObservableProperty @Nullable
+	private Ordering ordering;
+	
+	@ObservableProperty
+	private ComponentEvent click;
 
+	public enum Ordering {
+		Ascending,
+		Descending
+	}
 }
