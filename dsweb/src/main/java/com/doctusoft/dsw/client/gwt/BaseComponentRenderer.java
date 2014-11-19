@@ -48,12 +48,12 @@ import com.xedge.jquery.client.handlers.EventHandler;
 
 public class BaseComponentRenderer implements Renderer<JQuery> {
 	
-	public static <T, K> void addChangeListenerAndApply(ObservableProperty<K, T> property, BaseComponentModel model, ValueChangeListener<T> listener) {
+	public static <T, K> void addChangeListenerAndApply(ObservableProperty<K, T> property, K model, ValueChangeListener<T> listener) {
 		addChangeListener(property, model, listener);
 		listener.valueChanged(property.getValue((K) model));
 	}
 	
-	public static <T, K> void addChangeListener(ObservableProperty<K, T> property, BaseComponentModel model, ValueChangeListener<T> listener) {
+	public static <T, K> void addChangeListener(ObservableProperty<K, T> property, K model, ValueChangeListener<T> listener) {
 		property.addChangeListener((K) model, listener);
 	}
 	
@@ -151,26 +151,33 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 	}
 	
 	protected void bindEvent(final EventType eventType, final ObservableChainedValueBindingBuilder<ComponentEvent> eventBinding) {
-		bindEvent(eventType, eventBinding, new EventTriggerer<ComponentEvent>() {
+		bindEvent(widget, eventType, eventBinding);
+	}
+	
+	protected void bindEvent(JQuery target, final EventType eventType, final ObservableChainedValueBindingBuilder<ComponentEvent> eventBinding) {
+		bindEvent(target, eventType, eventBinding, new EventTriggerer<ComponentEvent>() {
 			@Override
 			public void triggerEvent(ComponentEvent event, JQEvent jqEvent) {
 				event.fire();
 			}
 		});
 	}
-	
+
 	protected <T extends ComponentEvent> void bindEvent(final EventType eventType, final ObservableChainedValueBindingBuilder<T> eventBinding, final EventTriggerer<T> triggerer) {
+		bindEvent(widget, eventType, eventBinding, triggerer);
+	}
+	protected <T extends ComponentEvent> void bindEvent(final JQuery target, final EventType eventType, final ObservableChainedValueBindingBuilder<T> eventBinding, final EventTriggerer<T> triggerer) {
 		// if we already know that this event has handlers in the UI code
 		ComponentEvent currentEventValue = eventBinding.getValue();
 		if (currentEventValue != null && currentEventValue.isHasListeners()) {
-			doBindEventInner(eventType, eventBinding, triggerer);
+			doBindEventInner(target, eventType, eventBinding, triggerer);
 		} else {
 			// if not yet, we add a listener por si acaso later one will be attached
 			eventBinding.get(ComponentEvent_._hasListeners).addValueChangeListener(new ValueChangeListener<Boolean>() {
 				@Override
 				public void valueChanged(Boolean newValue) {
 					if (Objects.firstNonNull(newValue, false)) {
-						doBindEventInner(eventType, eventBinding, triggerer);
+						doBindEventInner(target, eventType, eventBinding, triggerer);
 					}
 				}
 			});
@@ -188,8 +195,8 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 		});
 	}
 	
-	protected <T extends ComponentEvent> void doBindEventInner(EventType eventType, final ObservableValueBinding<T> eventBinding, final EventTriggerer<T> triggerer) {
-		widget.bind(eventType, new EventHandler() {
+	protected <T extends ComponentEvent> void doBindEventInner(JQuery target, EventType eventType, final ObservableValueBinding<T> eventBinding, final EventTriggerer<T> triggerer) {
+		target.bind(eventType, new EventHandler() {
 			@Override
 			public void eventComplete(JQEvent jqEvent, JQuery currentJQuery) {
 				triggerer.triggerEvent(eventBinding.getValue(), jqEvent);
@@ -197,7 +204,7 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 		});
 	}
 	
-	private interface EventTriggerer<E extends ComponentEvent> {
+	public interface EventTriggerer<E extends ComponentEvent> {
 		public void triggerEvent(E event, JQEvent jqEvent);
 	}
 	

@@ -28,6 +28,7 @@ import javax.annotation.Nullable;
 
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.ModelObject;
+import com.doctusoft.dsw.client.comp.datatable.OrderingDirection;
 
 public class DataTableColumnModel implements ModelObject, Serializable {
 	
@@ -38,13 +39,8 @@ public class DataTableColumnModel implements ModelObject, Serializable {
 	private boolean orderable;
 	
 	@ObservableProperty @Nullable
-	private Ordering ordering;
+	private OrderingDirection ordering;
 	
 	@ObservableProperty
 	private ComponentEvent click;
-
-	public enum Ordering {
-		Ascending,
-		Descending
-	}
 }
