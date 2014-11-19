@@ -24,26 +24,21 @@ package com.doctusoft.dsw.client.comp.model;
 
 
 import com.doctusoft.ObservableProperty;
-import com.doctusoft.bean.ModelObject;
-import com.doctusoft.bean.binding.observable.ObservableList;
-import com.doctusoft.dsw.client.comp.TagOption;
 
-public class InputTagsModel extends BaseComponentModel implements ModelObject {
+public class TagOptionModel {
 	
 	@ObservableProperty
-	private ObservableList<TagOption> tagOptionList = new ObservableList<TagOption>();
+	private String name;
 	
 	@ObservableProperty
-	private ObservableList<TagOption> tagOptionSuggestions = new ObservableList<TagOption>();
+	private String styleClass;
 	
-	@ObservableProperty
-	private ObservableList<String> tagList = new ObservableList<String>();
+	public TagOptionModel() {
+	}
 	
-	@ObservableProperty
-	private ObservableList<String> tagSuggestions = new ObservableList<String>();
-	
-	@ObservableProperty
-	private String placeHolder = "Add tags";
+	public TagOptionModel(String name) {
+		this.name = name;
+	}
 	
 
 }

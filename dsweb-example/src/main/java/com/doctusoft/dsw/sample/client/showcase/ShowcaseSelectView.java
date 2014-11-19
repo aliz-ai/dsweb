@@ -27,9 +27,9 @@ import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.Select;
 import com.doctusoft.dsw.client.comp.SelectItems;
-import com.doctusoft.dsw.sample.client.AbstractViewWithNavBar;
+import com.doctusoft.dsw.sample.client.BaseShowcaseView;
 
-public class ShowcaseSelectView extends AbstractViewWithNavBar<ShowcaseSelectPresenter> {
+public class ShowcaseSelectView extends BaseShowcaseView<ShowcaseSelectPresenter> {
 	
 	public ShowcaseSelectView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)

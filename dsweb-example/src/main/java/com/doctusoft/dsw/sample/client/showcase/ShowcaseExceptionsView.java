@@ -27,9 +27,9 @@ import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.HtmlContent;
-import com.doctusoft.dsw.sample.client.AbstractViewWithNavBar;
+import com.doctusoft.dsw.sample.client.BaseShowcaseView;
 
-public class ShowcaseExceptionsView extends AbstractViewWithNavBar<ShowcaseExceptionsPresenter> {
+public class ShowcaseExceptionsView extends BaseShowcaseView<ShowcaseExceptionsPresenter> {
 	
 	public ShowcaseExceptionsView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)

@@ -47,8 +47,10 @@ import com.doctusoft.dsw.sample.client.showcase.ShowcaseDatepickerPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseDatepickerView;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseExceptionsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseExceptionsView;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputTagsPresenter;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputTagsView;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseFixedInputTagsPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseFixedInputTagsView;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseFreeInputTagsPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseFreeInputTagsView;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputsView;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseNavsPresenter;
@@ -100,8 +102,11 @@ public class ClientFactoryImpl implements ClientFactory {
 	private final ViewOf<ShowcaseInputsPresenter> showcaseInputsView = new ShowcaseInputsView();
 	
 	@Getter(lazy=true)
-	private final ViewOf<ShowcaseInputTagsPresenter> showcaseInputTagsView = new ShowcaseInputTagsView();
+	private final ViewOf<ShowcaseFreeInputTagsPresenter> showcaseFreeInputTagsView = new ShowcaseFreeInputTagsView();
 	
+	@Getter(lazy=true)
+	private final ViewOf<ShowcaseFixedInputTagsPresenter> showcaseFixedInputTagsView = new ShowcaseFixedInputTagsView();
+
 	@Getter(lazy=true)
 	private final ViewOf<ShowcaseNavsPresenter> showcaseNavsView = new ShowcaseNavsView();
 	

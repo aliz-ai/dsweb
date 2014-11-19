@@ -1,6 +1,8 @@
+package com.doctusoft.dsw.client.comp.model;
+
 /*
  * #%L
- * dsweb-example
+ * dsweb
  * %%
  * Copyright (C) 2014 Doctusoft Ltd.
  * %%
@@ -19,14 +21,22 @@
  * <http://www.gnu.org/licenses/gpl-3.0.html>.
  * #L%
  */
-.table tr.selected, .table tr.selected td,
-.table-striped tbody > tr.selected:nth-child(2n+1) > td, .table-striped tbody > tr.selected:nth-child(2n+1) {
-	background-color: #0088cc;
-}
 
-.bootstrap-tagsinput {
-	width: 100%;
-}
-.bootstrap-tagsinput input {
-	min-width: 60px;
+
+import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ModelObject;
+import com.doctusoft.bean.binding.observable.ObservableList;
+
+public class FreeInputTagsModel extends BaseComponentModel implements ModelObject {
+	
+	@ObservableProperty
+	private ObservableList<String> tagList = new ObservableList<String>();
+	
+	@ObservableProperty
+	private ObservableList<String> tagSuggestions = new ObservableList<String>();
+	
+	@ObservableProperty
+	private String placeHolder = "Add tags";
+	
+
 }

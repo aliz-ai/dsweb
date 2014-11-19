@@ -81,7 +81,7 @@ public class ShowcaseView extends ContainerWithPresenter<ShowcaseActivity> {
 		Bindings.bind(bindOnPresenter(), (ValueBinding) Bindings.obs(tableView).get(ContainerWithPresenter_._presenter));
 		subitems.put(ShowcaseItem.Tables, tableView);
 
-		ShowcaseInputTagsView inputTagsView = new ShowcaseInputTagsView();
+		ShowcaseFreeInputTagsView inputTagsView = new ShowcaseFreeInputTagsView();
 		Bindings.bind(bindOnPresenter(), (ValueBinding)Bindings.obs(inputTagsView).get(ContainerWithPresenter_._presenter));
 		subitems.put(ShowcaseItem.InputTags, inputTagsView);
 

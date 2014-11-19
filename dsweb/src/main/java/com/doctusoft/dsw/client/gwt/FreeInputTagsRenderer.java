@@ -30,30 +30,24 @@ import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
-import com.doctusoft.dsw.client.comp.TagOption;
-import com.doctusoft.dsw.client.comp.model.InputTagsModel;
-import com.doctusoft.dsw.client.comp.model.InputTagsModel_;
+import com.doctusoft.dsw.client.comp.model.FreeInputTagsModel;
+import com.doctusoft.dsw.client.comp.model.FreeInputTagsModel_;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArray;
-import com.google.gwt.user.client.Timer;
 import com.xedge.jquery.client.JQEvent;
 import com.xedge.jquery.client.JQuery;
 import com.xedge.jquery.client.handlers.EventHandler;
 
-public class InputTagsRenderer extends BaseComponentRenderer {
+public class FreeInputTagsRenderer extends BaseComponentRenderer {
 	
 	private boolean changedFromModel = false;
 	
 	private boolean changedFromWidget = false;
 	
-	private InputTagsModel inputTagsModel;
+	private FreeInputTagsModel inputTagsModel;
 	
-	private boolean tagSuggestionsInvalidated = false;
-	
-	public InputTagsRenderer(final InputTagsModel inputTagsModel) {
+	public FreeInputTagsRenderer(final FreeInputTagsModel inputTagsModel) {
 		super(JQuery.select("<input type=\"text\" />"), inputTagsModel);
 		this.inputTagsModel = inputTagsModel;
 		widget.attr("data-role", "tagsinput");
@@ -64,8 +58,7 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 	}
 	
 	public void nativeInitialized() {
-		/****** String tags ******/
-		new ListBindingListener<String>(Bindings.obs(inputTagsModel).get((ObservableProperty) InputTagsModel_._tagList)) {
+		new ListBindingListener<String>(Bindings.obs(inputTagsModel).get((ObservableProperty) FreeInputTagsModel_._tagList)) {
 			@Override
 			public void inserted(ObservableList<String> list, int index, String element) {
 				if (changedFromWidget) {
@@ -87,7 +80,7 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 			}
 		};
 		
-		new ListBindingListener<String>(Bindings.obs(inputTagsModel).get((ObservableProperty) InputTagsModel_._tagSuggestions)) {
+		new ListBindingListener<String>(Bindings.obs(inputTagsModel).get((ObservableProperty) FreeInputTagsModel_._tagSuggestions)) {
 			@Override
 			public void inserted(ObservableList<String> list, int index, String element) {
 				setTagSuggestions(widget, tagListToString(list));
@@ -99,47 +92,7 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 			}
 		};
 		
-		/****** TagOption tags ******/
-		new ListBindingListener<TagOption>(Bindings.obs(inputTagsModel).get((ObservableProperty) InputTagsModel_._tagOptionSuggestions)) {
-			@Override
-			public void inserted(ObservableList<TagOption> list, int index,
-					TagOption element) {
-				invalidateTagOptionSuggestions();
-			}
-
-			@Override
-			public void removed(ObservableList<TagOption> list, int index,
-					TagOption element) {
-				invalidateTagOptionSuggestions();
-			}
-		};
-		
-		new ListBindingListener<TagOption>(Bindings.obs(inputTagsModel).get((ObservableProperty) InputTagsModel_._tagOptionList)) {
-
-
-			@Override
-			public void inserted(ObservableList<TagOption> list, int index, TagOption element) {
-				// if the tag suggestions are invalidated, then we don't have to add the option, because all the items will be added later when the timer fires
-				if (changedFromWidget || tagSuggestionsInvalidated) {
-					return;
-				}
-				changedFromModel = true;
-				addTagOption(widget, element.getName(), element.getStyleClass());
-				changedFromModel = false;
-			}
-
-			@Override
-			public void removed(ObservableList<TagOption> list, int index,	TagOption element) {
-				if (changedFromWidget || tagSuggestionsInvalidated) {
-					return;
-				}
-				changedFromModel = true;
-				removeTag(widget, element.getName());
-				changedFromModel = false;
-			}
-		};
-		
-		addChangeListenerAndApply(InputTagsModel_._placeHolder, inputTagsModel, new ValueChangeListener<String>() {
+		addChangeListenerAndApply(FreeInputTagsModel_._placeHolder, inputTagsModel, new ValueChangeListener<String>() {
 
 			@Override
 			public void valueChanged(String newValue) {
@@ -183,22 +136,6 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 		});
 	}
 	
-	private void invalidateTagOptionSuggestions() {
-		if (!tagSuggestionsInvalidated) {
-			tagSuggestionsInvalidated = true;
-			new Timer() {
-				@Override
-				public void run() {
-					tagSuggestionsInvalidated = false;
-					setTagOptionSuggestions(widget, tagOptionListToString(inputTagsModel.getTagOptionSuggestions()));
-					for (TagOption option : inputTagsModel.getTagOptionList()) {
-						addTagOption(widget, option.getName(), option.getStyleClass());
-					}
-				}
-			}.schedule(1);
-		}
-	}
-		
 	private native void firstInit(JQuery element) /*-{
 		var that = this;
 		setTimeout(function () {
@@ -207,7 +144,7 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 					freeInput: true
 				}
 			});
-			that.@com.doctusoft.dsw.client.gwt.InputTagsRenderer::nativeInitialized()();
+			that.@com.doctusoft.dsw.client.gwt.FreeInputTagsRenderer::nativeInitialized()();
 		}, 1); 
 	}-*/;
 
@@ -221,28 +158,10 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 		}); 
 	}-*/;
 	
-	private native static void setTagOptionSuggestions(JQuery element, JsArray<Item> tagSuggestions) /*-{
-		element.tagsinput('destroy');
-		element.tagsinput({
-				tagClass: function(item) {
-			    		return item.style;
-			    },
-			    itemValue: 'value',
-  				itemText: 'text',
-			  	typeahead: {
-			    	source: tagSuggestions
-			  }
-		}); 
-	}-*/;
-	
 	private native static void addTag(JQuery element, String newTag) /*-{
 		element.tagsinput('add', newTag);
 	}-*/;
 	
-	private native static void addTagOption(JQuery element, String tagName, String styleClass) /*-{
-		element.tagsinput('add', {value : tagName, text : tagName , style : styleClass});
-	}-*/;
-
 	private native static void removeTag(JQuery element, String removeTag) /*-{
 		element.tagsinput('remove', removeTag);
 	}-*/;
@@ -268,50 +187,6 @@ public class InputTagsRenderer extends BaseComponentRenderer {
 		return tagString;
 	}
 	
-	JsArray<Item> tagOptionListToString(List<TagOption> tagList) {
-		JsArray<Item> array= JavaScriptObject.createArray().cast();
-		for (TagOption tag : tagList) {
-			Item item = (Item)JavaScriptObject.createObject().cast();
-			item.setValue(tag.getName());
-			item.setText(tag.getName());
-			item.setStyle(tag.getStyleClass());
-			array.push(item);
-		}
-		return array;
-	}
-	
-	/*
-	 * Helper class to build JavascriptObjects from TagOption
-	 */
-	static class Item extends JavaScriptObject
-	{
-	    protected Item(){}
-
-	    public final native String setValue(String value)/*-{ 
-	        this.value = value; 
-	    }-*/;
-
-	    public final native String setStyle(String style)/*-{ 
-	        this.style = style; 
-	    }-*/;
-	    
-	    public final native String setText(String text)/*-{ 
-        	this.text = text; 
-    	}-*/;
-
-		public final native String getValue()/*-{ 
-	        return this.value; 
-	    }-*/;
-
-	    public final native String getStyle()/*-{ 
-	        return this.style; 
-	    }-*/;
-	    
-	    public final native String getText()/*-{ 
-        return this.text; 
-    	}-*/;
-
-	}
 	
 }
 
