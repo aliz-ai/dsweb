@@ -321,20 +321,7 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 	}
 	
 	protected void bindEvent(ObservableProperty<? super Model, ComponentEvent> eventProperty, final EmptyEventHandler handler) {
-		ComponentEvent event = eventProperty.getValue(model);
-		if (event == null) {
-			event = new ComponentEvent();
-			eventProperty.setValue(model, event);
-		}
-		event.setHasListeners(true);
-		Bindings.obs(model).get(eventProperty).get(ComponentEvent_._fired).addValueChangeListener(new ValueChangeListener<Boolean>() {
-			@Override
-			public void valueChanged(Boolean newValue) {
-				if (Objects.firstNonNull(newValue, false)) {
-					handler.handle();
-				}
-			}
-		});
+		ComponentEvent.bindEvent(model, eventProperty, handler);
 	}
 
 	protected <T, E extends ComponentEvent & ParametricEvent<T>> void bindEvent(final ObservableProperty<? super Model, E> eventProperty, final ParametricEventHandler<T> handler, Supplier<E> eventObjectSupplier) {

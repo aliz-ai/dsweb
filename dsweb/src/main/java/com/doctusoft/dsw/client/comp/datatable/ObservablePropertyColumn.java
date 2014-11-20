@@ -23,6 +23,8 @@ package com.doctusoft.dsw.client.comp.datatable;
  */
 
 
+import lombok.Getter;
+
 import com.doctusoft.bean.ObservableProperty;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.Converter;
@@ -32,9 +34,10 @@ import com.doctusoft.dsw.client.comp.model.DataTableCellModel;
 import com.doctusoft.dsw.client.comp.model.DataTableCellModel_;
 import com.doctusoft.dsw.client.comp.model.DataTableColumnModel;
 
-public class ObservablePropertyColumn<Item, Value> implements Column<Item> {
+public class ObservablePropertyColumn<Item, Value> extends AbstractColumn<ObservablePropertyColumn<Item, Value>, Item> {
 	
 	private DataTableColumnModel columnModel;
+	@Getter
 	private ObservableProperty<Item, Value> property;
 	private Converter<Value, String> converter = null;
 

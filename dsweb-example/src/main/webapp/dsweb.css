@@ -24,6 +24,15 @@
 	background-color: #0088cc;
 }
 
+table.table th.orderable {
+	cursor: pointer;
+}
+
+table.table th.orderable .ordering-icon {
+	float: right;
+}
+}
+
 .bootstrap-tagsinput {
 	width: 100%;
 }

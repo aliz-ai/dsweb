@@ -31,16 +31,20 @@ import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.RendererFactory;
+import com.doctusoft.dsw.client.comp.datatable.OrderingDirection;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
+import com.doctusoft.dsw.client.comp.model.ComponentEvent;
 import com.doctusoft.dsw.client.comp.model.DataTableCellModel;
 import com.doctusoft.dsw.client.comp.model.DataTableCellModel_;
 import com.doctusoft.dsw.client.comp.model.DataTableColumnModel;
+import com.doctusoft.dsw.client.comp.model.DataTableColumnModel_;
 import com.doctusoft.dsw.client.comp.model.DataTableModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel_;
 import com.doctusoft.dsw.client.comp.model.DataTableRowModel;
 import com.google.common.collect.Lists;
 import com.google.gwt.core.shared.GWT;
 import com.xedge.jquery.client.JQuery;
+import com.xedge.jquery.client.JQuery.EventType;
 
 public class DataTableRenderer extends BaseComponentRenderer {
 	
@@ -55,8 +59,29 @@ public class DataTableRenderer extends BaseComponentRenderer {
 		this.model = model;
 		// apply columns, no change supported currently
 		JQuery headerRow = JQuery.select( "<tr>" ).appendTo( JQuery.select( "<thead>" ).appendTo( widget ) );
-		for (DataTableColumnModel columnModel : model.getColumns()) {
-			JQuery.select( "<th>" + columnModel.getTitle() + "</th>" ).appendTo( headerRow );
+		for (final DataTableColumnModel columnModel : model.getColumns()) {
+			JQuery th = JQuery.select( "<th>" + columnModel.getTitle() + "</th>" ).appendTo( headerRow );
+			if (columnModel.isOrderable()) {
+				th.addClass("orderable");
+				final JQuery icon = JQuery.select("<i class='ordering-icon'/>").appendTo(th);
+				addChangeListenerAndApply(DataTableColumnModel_._orderingDirection, columnModel, new ValueChangeListener<OrderingDirection>() {
+					@Override
+					public void valueChanged(OrderingDirection newValue) {
+						if (newValue == null) {
+							icon.attr("class", "ordering-icon"); //remove all other classes
+						} else {
+							icon.attr("class", "ordering-icon " + newValue.name().toLowerCase() + " " + (((newValue == OrderingDirection.Ascending)?BootstrapIcon.ICON_ARROW_DOWN:BootstrapIcon.ICON_ARROW_UP)).getClassName());
+						}
+					}
+				});
+			}
+			bindEvent(th, EventType.click, Bindings.obs(columnModel).get(DataTableColumnModel_._click), new EventTriggerer<ComponentEvent>() {
+				public void triggerEvent(ComponentEvent event, com.xedge.jquery.client.JQEvent jqEvent) {
+					if (columnModel.isOrderable()) {
+						event.fire();
+					}
+				};
+			});
 		}
 		final JQuery tbody = JQuery.select( "<tbody/>" ).appendTo( widget );
 		new ListBindingListener<DataTableRowModel>( Bindings.obs( model ).get( DataTableModel_._rows ) ) {

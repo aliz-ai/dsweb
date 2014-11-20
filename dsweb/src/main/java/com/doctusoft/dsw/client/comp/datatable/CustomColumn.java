@@ -28,7 +28,7 @@ import com.doctusoft.dsw.client.comp.model.DataTableColumnModel;
 /**
  * Extend this class and implement the getComponent method to return any kind of cell content you need.  
  */
-public abstract class CustomColumn<Item> implements Column<Item> {
+public abstract class CustomColumn<Item> extends AbstractColumn<CustomColumn<Item>, Item> {
 	
 	private DataTableColumnModel columnModel;
 
