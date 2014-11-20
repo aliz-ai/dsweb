@@ -37,11 +37,11 @@ import com.doctusoft.dsw.client.comp.datatable.Columns;
 import com.doctusoft.dsw.client.comp.datatable.DateFormatter;
 import com.doctusoft.dsw.client.comp.datatable.SingleColumnOrderingBehaviour;
 import com.doctusoft.dsw.client.comp.model.SelectionMode;
-import com.doctusoft.dsw.sample.client.AbstractViewWithNavBar;
+import com.doctusoft.dsw.sample.client.BaseShowcaseView;
 import com.doctusoft.dsw.sample.client.person.PersonDto;
 import com.doctusoft.dsw.sample.client.person.PersonDto_;
 
-public class ShowcaseTableView extends AbstractViewWithNavBar<ShowcaseTablePresenter> {
+public class ShowcaseTableView extends BaseShowcaseView<ShowcaseTablePresenter> {
 
 	public ShowcaseTableView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)

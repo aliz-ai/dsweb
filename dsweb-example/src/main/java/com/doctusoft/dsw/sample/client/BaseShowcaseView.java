@@ -7,11 +7,11 @@ import com.doctusoft.dsw.client.comp.Navs;
 import com.doctusoft.dsw.client.comp.Row;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
-public abstract class AbstractViewWithNavBar<Presenter> extends ContainerWithPresenter<Presenter> {
+public abstract class BaseShowcaseView<Presenter> extends ContainerWithPresenter<Presenter> {
 	
 	protected Container subContainer;
 	
-	public AbstractViewWithNavBar() {
+	public BaseShowcaseView() {
 		
 		Row row = new Row().appendTo(container);
 		Cell menuCell = new Cell().withSpan(3).appendTo(row);
@@ -21,7 +21,8 @@ public abstract class AbstractViewWithNavBar<Presenter> extends ContainerWithPre
 		.addMenuItem(new Link("Select", "#showcaseselect"))
 		.addMenuItem(new Link("Typeahead", "#showcasetypeahead"))
 		.addMenuItem(new Link("Inputs", "#showcaseinputs"))
-		.addMenuItem(new Link("Input Tags", "#showcaseinputtags"))
+		.addMenuItem(new Link("Input Tags (Free)", "#showcasefreeinputtags"))
+		.addMenuItem(new Link("Input Tags (Fixed)", "#showcasefixedinputtags"))
 		.addMenuItem(new Link("Navs", "#showcasenavs"))
 		.addMenuItem(new Link("Tabsheet", "#showcasetabsheet"))
 		.addMenuItem(new Link("Tables", "#showcasetables"))

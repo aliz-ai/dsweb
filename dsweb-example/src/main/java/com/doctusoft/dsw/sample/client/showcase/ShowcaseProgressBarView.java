@@ -28,9 +28,9 @@ import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.ProgressBar;
 import com.doctusoft.dsw.client.comp.ProgressBar.ProgressBarType;
-import com.doctusoft.dsw.sample.client.AbstractViewWithNavBar;
+import com.doctusoft.dsw.sample.client.BaseShowcaseView;
 
-public class ShowcaseProgressBarView extends AbstractViewWithNavBar<ShowcaseProgressBarPresenter> {
+public class ShowcaseProgressBarView extends BaseShowcaseView<ShowcaseProgressBarPresenter> {
 	
 	public ShowcaseProgressBarView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)

@@ -4,9 +4,9 @@ import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.TabSheet;
-import com.doctusoft.dsw.sample.client.AbstractViewWithNavBar;
+import com.doctusoft.dsw.sample.client.BaseShowcaseView;
 
-public class ShowcaseTabsheetView extends AbstractViewWithNavBar<ShowcaseTabsheetPresenter> {
+public class ShowcaseTabsheetView extends BaseShowcaseView<ShowcaseTabsheetPresenter> {
 
 	public ShowcaseTabsheetView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)

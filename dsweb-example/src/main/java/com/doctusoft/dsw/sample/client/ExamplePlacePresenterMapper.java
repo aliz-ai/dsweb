@@ -11,7 +11,8 @@ import com.doctusoft.dsw.sample.client.showcase.ShowcaseChartsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseContextMenuPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseDatepickerPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseExceptionsPresenter;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputTagsPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseFixedInputTagsPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseFreeInputTagsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseNavsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseProgressBarPresenter;
@@ -41,8 +42,10 @@ public class ExamplePlacePresenterMapper implements PlacePresenterMapper {
 			return (Presenter) new ShowcaseExceptionsPresenter((ShowcaseExceptionsPresenter.Place) place, clientFactory);
 		if (place instanceof ShowcaseInputsPresenter.Place)
 			return (Presenter) new ShowcaseInputsPresenter((ShowcaseInputsPresenter.Place) place, clientFactory);
-		if (place instanceof ShowcaseInputTagsPresenter.Place)
-			return (Presenter) new ShowcaseInputTagsPresenter((ShowcaseInputTagsPresenter.Place) place, clientFactory);
+		if (place instanceof ShowcaseFreeInputTagsPresenter.Place)
+			return (Presenter) new ShowcaseFreeInputTagsPresenter((ShowcaseFreeInputTagsPresenter.Place) place, clientFactory);
+		if (place instanceof ShowcaseFixedInputTagsPresenter.Place)
+			return (Presenter) new ShowcaseFixedInputTagsPresenter((ShowcaseFixedInputTagsPresenter.Place) place, clientFactory);
 		if (place instanceof ShowcaseNavsPresenter.Place)
 			return (Presenter) new ShowcaseNavsPresenter((ShowcaseNavsPresenter.Place) place, clientFactory);
 		if (place instanceof ShowcaseProgressBarPresenter.Place)

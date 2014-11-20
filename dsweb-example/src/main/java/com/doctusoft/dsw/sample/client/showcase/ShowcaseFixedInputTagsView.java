@@ -24,31 +24,32 @@ package com.doctusoft.dsw.sample.client.showcase;
 
 
 import com.doctusoft.dsw.client.comp.BaseContainer;
-import com.doctusoft.dsw.client.comp.HtmlContent;
-import com.doctusoft.dsw.client.comp.InputTags;
+import com.doctusoft.dsw.client.comp.Button;
+import com.doctusoft.dsw.client.comp.FixedInputTags;
 import com.doctusoft.dsw.client.comp.Label;
-import com.doctusoft.dsw.sample.client.AbstractViewWithNavBar;
+import com.doctusoft.dsw.sample.client.BaseShowcaseView;
 
-public class ShowcaseInputTagsView extends AbstractViewWithNavBar<ShowcaseInputTagsPresenter>{
+public class ShowcaseFixedInputTagsView extends BaseShowcaseView<ShowcaseFixedInputTagsPresenter>{
 	
-	public ShowcaseInputTagsView() {
+	public ShowcaseFixedInputTagsView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)
-		.add(new HtmlContent("<h1>Input Tags</h1>"));
+		.add(new Label("Fixed Input Tags", "h1"));
 		
-		new Label("Typeahead", "h3").appendTo(subContainer);
-		new InputTags()
-			.bind(bindOnPresenter().get(ShowcaseInputTagsPresenter_._tags))
-			.bindTagSuggestions(bindOnPresenter().get(ShowcaseInputTagsPresenter_._tagSuggestions))
+		new FixedInputTags()
+			.bind(bindOnPresenter().get(ShowcaseFixedInputTagsPresenter_._tags))
+			.bindTagSuggestions(bindOnPresenter().get(ShowcaseFixedInputTagsPresenter_._tagSuggestions))
 			.appendTo(subContainer);
 		
-		new Label("","div").bind(bindOnPresenter().get(ShowcaseInputTagsPresenter_._tagsJoined))
+		new Label("","div").bind(bindOnPresenter().get(ShowcaseFixedInputTagsPresenter_._tagsJoined))
 			.appendTo(subContainer);
 		
-		new Label("Categorizing tags", "h3").appendTo(subContainer);	
-		new InputTags()
-			.bindTagOption(bindOnPresenter().get(ShowcaseInputTagsPresenter_._tagOptions))
-			.bindTagOptionSuggestions(bindOnPresenter().get(ShowcaseInputTagsPresenter_._tagOptionSuggestions)).
-		appendTo(subContainer);
+		new Button("Clear all")
+			.click(presenterMethod(ShowcaseFixedInputTagsPresenter_.__clearTags))
+			.appendTo(subContainer);
+		new Button("Add random")
+			.click(presenterMethod(ShowcaseFixedInputTagsPresenter_.__addRandom))
+			.appendTo(subContainer);
+		
 	}
 
 }

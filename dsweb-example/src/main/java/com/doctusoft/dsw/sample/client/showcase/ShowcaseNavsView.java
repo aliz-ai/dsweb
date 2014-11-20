@@ -31,9 +31,9 @@ import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.Link;
 import com.doctusoft.dsw.client.comp.Navs;
 import com.doctusoft.dsw.client.comp.Navs.NavsItemType;
-import com.doctusoft.dsw.sample.client.AbstractViewWithNavBar;
+import com.doctusoft.dsw.sample.client.BaseShowcaseView;
 
-public class ShowcaseNavsView extends AbstractViewWithNavBar<ShowcaseNavsPresenter> {
+public class ShowcaseNavsView extends BaseShowcaseView<ShowcaseNavsPresenter> {
 
 	private DropdownLink menuDropdown;
 

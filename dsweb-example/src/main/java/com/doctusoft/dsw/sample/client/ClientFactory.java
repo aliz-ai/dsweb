@@ -35,7 +35,8 @@ import com.doctusoft.dsw.sample.client.showcase.ShowcaseChartsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseContextMenuPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseDatepickerPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseExceptionsPresenter;
-import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputTagsPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseFixedInputTagsPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseFreeInputTagsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseNavsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseProgressBarPresenter;
@@ -64,7 +65,9 @@ public interface ClientFactory {
 	
 	public ViewOf<ShowcaseInputsPresenter> getShowcaseInputsView();
 
-	public ViewOf<ShowcaseInputTagsPresenter> getShowcaseInputTagsView();
+	public ViewOf<ShowcaseFreeInputTagsPresenter> getShowcaseFreeInputTagsView();
+
+	public ViewOf<ShowcaseFixedInputTagsPresenter> getShowcaseFixedInputTagsView();
 	
 	public ViewOf<ShowcaseNavsPresenter> getShowcaseNavsView();
 	

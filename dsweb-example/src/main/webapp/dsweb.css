@@ -31,3 +31,11 @@ table.table th.orderable {
 table.table th.orderable .ordering-icon {
 	float: right;
 }
+}
+
+.bootstrap-tagsinput {
+	width: 100%;
+}
+.bootstrap-tagsinput input {
+	min-width: 60px;
+}

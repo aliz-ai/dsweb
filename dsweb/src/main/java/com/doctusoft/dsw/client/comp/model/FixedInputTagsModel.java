@@ -1,8 +1,8 @@
-package com.doctusoft.dsw.sample.client.showcase;
+package com.doctusoft.dsw.client.comp.model;
 
 /*
  * #%L
- * dsweb-example
+ * dsweb
  * %%
  * Copyright (C) 2014 Doctusoft Ltd.
  * %%
@@ -23,20 +23,20 @@ package com.doctusoft.dsw.sample.client.showcase;
  */
 
 
-import com.doctusoft.dsw.client.comp.BaseContainer;
-import com.doctusoft.dsw.client.comp.HtmlContent;
-import com.doctusoft.dsw.client.comp.Select;
-import com.doctusoft.dsw.client.comp.SelectItems;
-import com.doctusoft.dsw.sample.client.BaseShowcaseView;
+import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ModelObject;
+import com.doctusoft.bean.binding.observable.ObservableList;
 
-public class ShowcaseSelectView extends BaseShowcaseView<ShowcaseSelectPresenter> {
+public class FixedInputTagsModel extends BaseComponentModel implements ModelObject {
 	
-	public ShowcaseSelectView() {
-		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)
-			.add(new HtmlContent("<h1>Select</h1>"));
-		new Select<String>()
-			.appendTo(subContainer)
-			.setSelectItems(SelectItems.fromStrings("First item","Second item","Third item"));
-	}
+	@ObservableProperty
+	private ObservableList<TagOptionModel> tagOptionList = new ObservableList<TagOptionModel>();
+	
+	@ObservableProperty
+	private ObservableList<TagOptionModel> tagOptionSuggestions = new ObservableList<TagOptionModel>();
+	
+	@ObservableProperty
+	private String placeHolder = "Add tags";
+	
 
 }

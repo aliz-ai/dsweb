@@ -32,9 +32,9 @@ import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.PasswordField;
 import com.doctusoft.dsw.client.comp.Textarea;
 import com.doctusoft.dsw.client.comp.model.event.KeyEvent;
-import com.doctusoft.dsw.sample.client.AbstractViewWithNavBar;
+import com.doctusoft.dsw.sample.client.BaseShowcaseView;
 
-public class ShowcaseInputsView extends AbstractViewWithNavBar<ShowcaseInputsPresenter> {
+public class ShowcaseInputsView extends BaseShowcaseView<ShowcaseInputsPresenter> {
 	
 	public ShowcaseInputsView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)

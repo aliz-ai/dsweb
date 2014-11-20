@@ -15,9 +15,9 @@ import com.doctusoft.dsw.client.comp.model.AbstractChartModel.LegendPosition;
 import com.doctusoft.dsw.client.comp.model.BarChartItemModel;
 import com.doctusoft.dsw.client.comp.model.BarChartModel.BarDirection;
 import com.doctusoft.dsw.client.comp.model.PieChartItemModel;
-import com.doctusoft.dsw.sample.client.AbstractViewWithNavBar;
+import com.doctusoft.dsw.sample.client.BaseShowcaseView;
 
-public class ShowcaseChartsView extends AbstractViewWithNavBar<ShowcaseChartsPresenter> {
+public class ShowcaseChartsView extends BaseShowcaseView<ShowcaseChartsPresenter> {
 
 	@Getter
 	private final BarChart barChart;
