@@ -64,7 +64,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 			if (columnModel.isOrderable()) {
 				th.addClass("orderable");
 				final JQuery icon = JQuery.select("<i class='ordering-icon'/>").appendTo(th);
-				addChangeListenerAndApply(DataTableColumnModel_._ordering, columnModel, new ValueChangeListener<OrderingDirection>() {
+				addChangeListenerAndApply(DataTableColumnModel_._orderingDirection, columnModel, new ValueChangeListener<OrderingDirection>() {
 					@Override
 					public void valueChanged(OrderingDirection newValue) {
 						if (newValue == null) {

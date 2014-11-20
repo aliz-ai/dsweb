@@ -54,14 +54,14 @@ public class SingleColumnOrderingBehaviour implements Serializable {
 				// clear all ordering information on columns
 				ObservableList<DataTableColumnModel> columns = dataTable.getComponentModel().getColumns();
 				for (DataTableColumnModel columnModel : columns) {
-					if (columnModel.getOrdering() != null) {
-						columnModel.setOrdering(null);
+					if (columnModel.getOrderingDirection() != null) {
+						columnModel.setOrderingDirection(null);
 					}
 				}
 				if (newValue != null) {
 					DataTableColumnModel columnModel = columns.get(newValue.getOrderColumnIndex());
 					if (columnModel.isOrderable()) {
-						columnModel.setOrdering(newValue.getDirection());
+						columnModel.setOrderingDirection(newValue.getDirection());
 					}
 				}
 			}

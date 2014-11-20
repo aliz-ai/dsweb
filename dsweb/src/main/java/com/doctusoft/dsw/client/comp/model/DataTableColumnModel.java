@@ -39,7 +39,7 @@ public class DataTableColumnModel implements ModelObject, Serializable {
 	private boolean orderable;
 	
 	@ObservableProperty @Nullable
-	private OrderingDirection ordering;
+	private OrderingDirection orderingDirection;
 	
 	@ObservableProperty
 	private ComponentEvent click;
