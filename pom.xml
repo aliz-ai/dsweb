@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.doctusoft</groupId>
 	<artifactId>dsweb-parent</artifactId>
-	<version>0.0.9-SNAPSHOT</version>
+	<version>0.0.9</version>
 	<name>dsweb-parent</name>
 	<packaging>pom</packaging>
 
@@ -281,6 +281,6 @@
 
 	<scm>
 		<connection>scm:git:https://github.com/Doctusoft/dsweb</connection>
-    	<tag>HEAD</tag>
+    	<tag>v0.0.9</tag>
   </scm>
 </project>
