@@ -132,6 +132,7 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 				selector : "." + idClass,
 				theme : "modern",
 				plugins : "mention",
+				menubar : false,
 				toolbar: 
 			        "undo redo | styleselect | bold italic | link image | alignleft aligncenter alignright | sizeselect | fontselect |  fontsizeselect",
 				mentions: {
