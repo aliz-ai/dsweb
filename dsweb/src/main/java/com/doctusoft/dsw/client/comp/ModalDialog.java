@@ -39,6 +39,11 @@ public class ModalDialog extends BaseComponent<ModalDialog, ModalDialogModel> {
 		return this;
 	}
 	
+	public ModalDialog bindHeader(final ValueBinding<String> headerBinding) {
+		Bindings.bind(headerBinding, Bindings.obs(model).get(ModalDialogModel_._header));
+		return this;
+	}
+	
 	public ModalDialog addFooter(HasComponentModel component) {
 		model.getFooterContainer().getChildren().add(component.getComponentModel());
 		return this;
