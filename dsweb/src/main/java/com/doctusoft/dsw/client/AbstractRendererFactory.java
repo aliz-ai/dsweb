@@ -35,13 +35,15 @@ public abstract class AbstractRendererFactory<ActualBaseComponent> implements Re
 	/**
 	 * Note that this basically prevents multiple distinct dsweb applications to run at the same page
 	 */
-	protected static Map<BaseComponentModel, Renderer<?>> renderers = Maps.newIdentityHashMap();
+//	protected static Map<BaseComponentModel, Renderer<?>> renderers = Maps.newIdentityHashMap();
+	protected static Map<BaseComponentModel, Renderer<?>> renderers = Maps.newHashMap();
 
 	/**
 	 * We might use some GC algorithm that sometimes clears up disposable components from the DOM.
 	 * This requires DSWeb renderers to specify whether they are disposable or not, and a dispose method to perform any necessary operation (destroying custom jquery components for example)
 	 */
-	protected static Set<BaseComponentModel> disposableComponents = Sets.newIdentityHashSet();
+//	protected static Set<BaseComponentModel> disposableComponents = Sets.newIdentityHashSet();
+	protected static Set<BaseComponentModel> disposableComponents = Sets.newHashSet();
 	
 	@Override
 	public Renderer<ActualBaseComponent> getRenderer(BaseComponentModel baseWidget) {

@@ -27,6 +27,8 @@ import com.doctusoft.dsw.client.AbstractRendererFactory;
 import com.doctusoft.dsw.client.Renderer;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.ButtonModel;
+import com.doctusoft.dsw.client.comp.model.InputTextModel;
+import com.doctusoft.dsw.client.comp.model.LabelModel;
 import com.doctusoft.html4j.jquery.JQuery;
 
 public class RendererFactoryImpl extends AbstractRendererFactory<JQuery> {
@@ -48,6 +50,10 @@ public class RendererFactoryImpl extends AbstractRendererFactory<JQuery> {
 	public Renderer<JQuery> resolveRenderer( BaseComponentModel model ) {
 		if (model instanceof ButtonModel)
 			return new ButtonRenderer((ButtonModel) model);
+		if (model instanceof LabelModel)
+			return new LabelRenderer((LabelModel) model);
+		if (model instanceof InputTextModel)
+			return new InputTextRenderer((InputTextModel) model);
 		return null;
 	}
 }
