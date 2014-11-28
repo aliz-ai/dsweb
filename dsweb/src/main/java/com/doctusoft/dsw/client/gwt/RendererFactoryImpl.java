@@ -29,6 +29,7 @@ import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.ButtonModel;
 import com.doctusoft.dsw.client.comp.model.InputTextModel;
 import com.doctusoft.dsw.client.comp.model.LabelModel;
+import com.doctusoft.dsw.client.comp.model.SelectModel;
 import com.doctusoft.html4j.jquery.JQuery;
 
 public class RendererFactoryImpl extends AbstractRendererFactory<JQuery> {
@@ -54,6 +55,8 @@ public class RendererFactoryImpl extends AbstractRendererFactory<JQuery> {
 			return new LabelRenderer((LabelModel) model);
 		if (model instanceof InputTextModel)
 			return new InputTextRenderer((InputTextModel) model);
+		if (model instanceof SelectModel)
+			return new SelectRenderer((SelectModel) model);
 		return null;
 	}
 }

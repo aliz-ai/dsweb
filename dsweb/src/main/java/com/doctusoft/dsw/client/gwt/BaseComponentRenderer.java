@@ -35,11 +35,8 @@ import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 import com.doctusoft.dsw.client.Renderer;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
-import com.doctusoft.dsw.client.comp.model.ButtonModel;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent_;
-import com.doctusoft.dsw.client.comp.model.ContainerModel;
-import com.doctusoft.dsw.client.comp.model.LinkModel;
 import com.doctusoft.dsw.client.comp.model.event.KeyPressedEvent;
 import com.doctusoft.html4j.jquery.EventHandler;
 import com.doctusoft.html4j.jquery.JQEvent;
@@ -80,31 +77,6 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 			}
 		}); 
 		*/
-		addChangeListener(BaseComponentModel_._disabled, model, new ValueChangeListener<Boolean>() {
-
-			@Override
-			public void valueChanged(Boolean newValue) {
-				if (newValue != null) {
-					if (newValue) {
-						if (model.getClass().equals(ContainerModel.class) && !widget.is("input")) {
-							widget.select("input").attr("disabled", "disabled");
-						} else if (model.getClass().equals(LinkModel.class) || model.getClass().equals(ButtonModel.class)) {
-							widget.addClass("disabled");
-						} else {
-							widget.attr("disabled", "disabled");
-						}
-					} else {
-						if (model.getClass().equals(ContainerModel.class) && !widget.is("input")) {  
-							widget.select("input").removeAttr("disabled");
-						} else if (model.getClass().equals(LinkModel.class) || model.getClass().equals(ButtonModel.class)) {
-							widget.removeClass("disabled");
-						} else {
-							widget.removeAttr("disabled");
-						}
-					}
-				}
-			}
-		});
 		
 		addChangeListener(BaseComponentModel_._visible, model, new ValueChangeListener<Boolean>() {
 			@Override

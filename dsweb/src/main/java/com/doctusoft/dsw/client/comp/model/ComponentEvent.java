@@ -26,7 +26,12 @@ package com.doctusoft.dsw.client.comp.model;
 import java.io.Serializable;
 
 import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ListenerRegistration;
 import com.doctusoft.bean.ModelObject;
+import com.doctusoft.bean.ValueChangeListener;
+import com.doctusoft.bean.binding.Bindings;
+import com.doctusoft.bean.binding.EmptyEventHandler;
+import com.google.common.base.Objects;
 
 /**
  * This is a temporal 'hack' class to make parameterless events go through the observation based synchronization layer.
@@ -52,4 +57,21 @@ public class ComponentEvent implements ModelObject, Serializable {
 		}
 	}
 	
+	public static <Model> ListenerRegistration bindEvent(Model model, com.doctusoft.bean.ObservableProperty<Model, ComponentEvent> eventProperty, final EmptyEventHandler handler) {
+		ComponentEvent event = eventProperty.getValue(model);
+		if (event == null) {
+			event = new ComponentEvent();
+			eventProperty.setValue(model, event);
+		}
+		event.setHasListeners(true);
+		return Bindings.obs(model).get(eventProperty).get(ComponentEvent_._fired).addValueChangeListener(new ValueChangeListener<Boolean>() {
+			@Override
+			public void valueChanged(Boolean newValue) {
+				if (Objects.firstNonNull(newValue, false)) {
+					handler.handle();
+				}
+			}
+		});
+	}
+
 }

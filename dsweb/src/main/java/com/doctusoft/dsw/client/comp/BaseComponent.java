@@ -222,8 +222,13 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 		return (Actual) this;
 	}
 	
-	public Actual bindDisabled(final ValueBinding<Boolean> disabledBinding) {
-		Bindings.bind(disabledBinding, Bindings.obs(model).get(BaseComponentModel_._disabled));
+	public Actual bindEnabled(final ValueBinding<Boolean> enabledBinding) {
+		Bindings.bind(enabledBinding, Bindings.obs(model).get(BaseComponentModel_._enabled));
+		return (Actual) this;
+	}
+
+	public Actual withEnabled(boolean enabled) {
+		model.setEnabled(enabled);
 		return (Actual) this;
 	}
 	
@@ -316,20 +321,7 @@ public abstract class BaseComponent<Actual, Model extends BaseComponentModel> im
 	}
 	
 	protected void bindEvent(ObservableProperty<? super Model, ComponentEvent> eventProperty, final EmptyEventHandler handler) {
-		ComponentEvent event = eventProperty.getValue(model);
-		if (event == null) {
-			event = new ComponentEvent();
-			eventProperty.setValue(model, event);
-		}
-		event.setHasListeners(true);
-		Bindings.obs(model).get(eventProperty).get(ComponentEvent_._fired).addValueChangeListener(new ValueChangeListener<Boolean>() {
-			@Override
-			public void valueChanged(Boolean newValue) {
-				if (Objects.firstNonNull(newValue, false)) {
-					handler.handle();
-				}
-			}
-		});
+		ComponentEvent.bindEvent(model, eventProperty, handler);
 	}
 
 	protected <T, E extends ComponentEvent & ParametricEvent<T>> void bindEvent(final ObservableProperty<? super Model, E> eventProperty, final ParametricEventHandler<T> handler, Supplier<E> eventObjectSupplier) {
