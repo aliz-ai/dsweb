@@ -57,7 +57,7 @@ public class TestAbstractSelect {
 	}
 
 	@Test
-	public void testXX() {
+	public void testSelectedItemRemoved() {
 		List<SelectItem<String>> defaultSelectItems = SelectItems.fromStrings("b", "a", "c");
 		ObservableList<SelectItem<String>> selectItems = new ObservableList<SelectItem<String>>(defaultSelectItems);
 		Select<String> select = new Select<String>().bind(Bindings.obs(this).get(TestAbstractSelect_._selectValue));
@@ -65,8 +65,11 @@ public class TestAbstractSelect {
 		select.setValue("a");
 		assertEquals(1, select.getModel().getSelectedIndex());
 		selectItems.clear();
-		assertEquals("a", select.getValue());
+		// as the selectable items are removed, the user would see no value, so the model value has to be null.
+		assertEquals(null, select.getValue());
+		assertEquals(-1, select.getModel().getSelectedIndex());
 		selectItems.addAll(defaultSelectItems);
-		assertEquals("a", select.getValue());
+		// the first item gets selected, to properly reflect what the user sees.
+		assertEquals("b", select.getValue());
 	}
 }

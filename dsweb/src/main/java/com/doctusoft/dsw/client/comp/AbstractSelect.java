@@ -152,6 +152,9 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 			}
 			@Override
 			public void removed(ObservableList<SelectItem<T>> list, int index, SelectItem<T> element) {
+				if (Objects.equal(element.getValue(), value)) {
+					setValue(null);
+				}
 				itemsByValue.remove(element.getValue());
 				modelsByValue.remove(element.getValue());
 				model.getSelectItemsModel().remove(index);
