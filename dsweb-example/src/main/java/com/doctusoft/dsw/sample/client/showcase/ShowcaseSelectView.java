@@ -25,8 +25,8 @@ package com.doctusoft.dsw.sample.client.showcase;
 
 import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.HtmlContent;
+import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.Select;
-import com.doctusoft.dsw.client.comp.SelectItems;
 import com.doctusoft.dsw.sample.client.BaseShowcaseView;
 
 public class ShowcaseSelectView extends BaseShowcaseView<ShowcaseSelectPresenter> {
@@ -36,7 +36,11 @@ public class ShowcaseSelectView extends BaseShowcaseView<ShowcaseSelectPresenter
 			.add(new HtmlContent("<h1>Select</h1>"));
 		new Select<String>()
 			.appendTo(subContainer)
-			.setSelectItems(SelectItems.fromStrings("First item","Second item","Third item"));
+			.bind(bindOnPresenter().get(ShowcaseSelectPresenter_._selectedItem))
+			.bindSelectItems(bindOnPresenter().get(ShowcaseSelectPresenter_._selectableItems));
+		new Label()
+			.bind(bindOnPresenter().get(ShowcaseSelectPresenter_._selectedItem))
+			.appendTo(subContainer);
 	}
 
 }
