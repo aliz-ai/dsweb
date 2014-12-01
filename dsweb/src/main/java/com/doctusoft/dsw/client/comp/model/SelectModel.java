@@ -30,7 +30,7 @@ import com.doctusoft.bean.binding.observable.ObservableList;
 public class SelectModel extends BaseComponentModel implements ModelObject {
 
 	@ObservableProperty
-	private int selectedIndex;
+	private int selectedIndex = -1;
 
 	@ObservableProperty
 	private ObservableList<SelectItemModel> selectItemsModel = new ObservableList<SelectItemModel>();
