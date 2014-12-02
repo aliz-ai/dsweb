@@ -23,13 +23,9 @@ package com.doctusoft.dsw.sample.client.showcase;
  */
 
 
-import java.util.List;
-
 import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.Label;
-import com.doctusoft.dsw.client.comp.SelectItem;
-import com.doctusoft.dsw.client.comp.SelectItems;
 import com.doctusoft.dsw.client.comp.Typeahead;
 import com.doctusoft.dsw.sample.client.BaseShowcaseView;
 
@@ -39,18 +35,16 @@ public class ShowcaseTypeaheadView extends BaseShowcaseView<ShowcaseTypeaheadPre
 		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)
 			.add(new HtmlContent("<h1>Typeahead</h1>"));
 		new Label("Simple typeahead", "h3").appendTo(subContainer);
-		List<SelectItem<String>> stringOptions =
-				SelectItems.fromStrings("First item", "Second item", "Third item", "Fourth item",
-							"Fifth item", "Sixth item", "Septimo dia", "Huiteme truc",
-							"Ninth something", "Tenth teeth");
 		new Typeahead<String>()
 			.appendTo(subContainer)
-			.setSelectItems(stringOptions);
+			.bind(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._value))
+			.bindSelectItems(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._stringOptions));
 		new Label("Typeahead with dropdown", "h3").appendTo(subContainer);
 		new Typeahead<String>()
 			.showAllOnFocus()
+			.bind(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._value))
 			.appendTo(subContainer)
-			.setSelectItems(stringOptions);
+			.bindSelectItems(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._stringOptions));
 	}
 
 }

@@ -84,7 +84,7 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 			}
 		});
 		
-		TypeaheadModel_._customText.addChangeListener(typeaheadModel, new ValueChangeListener<String>() {
+		addChangeListenerAndApply(TypeaheadModel_._customText, typeaheadModel, new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
 				if (newValue != null && newValue != widget.val() && !typeaheadModel.getSelectItemsModel().contains(newValue)) {

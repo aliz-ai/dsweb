@@ -46,7 +46,7 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 	
 	private Map<T, SelectItem<T>> itemsByValue = Maps.newHashMap();
 	private Map<T, SelectItemModel> modelsByValue = Maps.newHashMap();
-	private List<SelectItem<T>> items = Lists.newArrayList();
+	protected List<SelectItem<T>> items = Lists.newArrayList();
 
 	public AbstractSelect(final Model model) {
 		super(model);
@@ -133,14 +133,10 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 		reapplyValue();
 	}
 
-	private void reapplyValue() {
+	protected void reapplyValue() {
 		// the value might have been set earlier. Now that we have the possible select items, we re-fire the listeners so that the proper value is set
 		if (model.getSelectedIndex() == -1) {
 			setValue(value);
-			if (value == null && model.getSelectedIndex() == -1 && !items.isEmpty()) {
-				// if the value is null and there's still no default option
-				setValue(items.get(0).getValue());
-			}
 		}
 	}
 	
@@ -152,6 +148,7 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 			}
 			@Override
 			public void removed(ObservableList<SelectItem<T>> list, int index, SelectItem<T> element) {
+				// TODO this should not be done in case of Typeahead for example, when select options are merely suggestions
 				if (Objects.equal(element.getValue(), value)) {
 					setValue(null);
 				}
