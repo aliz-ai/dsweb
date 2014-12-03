@@ -18,7 +18,8 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 
 	private final JsArrayExtended<JavaScriptObject> autoCompleteValues = JavaScriptObject.createArray().cast();
 	
-	private boolean isAttached = true;
+	private boolean isAttached = false;
+	
 	
 	protected JavaScriptObject editor;
 	
@@ -95,8 +96,9 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 		model.setContent(content);
 	}
 	
-	public void setEditor(JavaScriptObject editor) {
+	public void editorLoaded(JavaScriptObject editor) {
 		this.editor = editor;
+		isAttached = true;
 		setContent(model.getContent());
 	}
 
@@ -121,7 +123,7 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 		var editor = this.@com.doctusoft.dsw.client.gwt.RichTextEditorRenderer::editor;
 		editor.remove();
 	}-*/;
-
+	
 	private native void init(JQuery widget, String idClass, String content, JsArray<JavaScriptObject> mentionSources,
 			String autoCompleteTriggerCharacter, String textToInsertBeforeAutoCompleteValue,
 			String textToInsertAfterAutoCompleteValue) /*-{
@@ -142,8 +144,10 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 					}, 
 					delimiter: autoCompleteTriggerCharacter
 				},
+				init_instance_callback: function(editor) {
+					that.@com.doctusoft.dsw.client.gwt.RichTextEditorRenderer::editorLoaded(Lcom/google/gwt/core/client/JavaScriptObject;)(editor);
+				},
 				setup : function(editor) {
-					that.@com.doctusoft.dsw.client.gwt.RichTextEditorRenderer::setEditor(Lcom/google/gwt/core/client/JavaScriptObject;)(editor);
 					editor.on('change', function(e) {
 						that.@com.doctusoft.dsw.client.gwt.RichTextEditorRenderer::editorContentChanged(Ljava/lang/String;)(editor.getContent());
 					});
