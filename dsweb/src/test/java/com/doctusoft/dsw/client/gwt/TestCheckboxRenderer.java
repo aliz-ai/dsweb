@@ -40,4 +40,14 @@ public class TestCheckboxRenderer extends AbstractDswebTest {
 		JQuery.select( "#checkbox > input" ).click();
 		assertTrue( model.getChecked() );
 	}
+	
+	/**
+         * Only test if disabling works. Other aspects of {@link EnabledAttributeRenderer} are tested in {@link TestInputTextRenderer}
+         */
+        @Test
+        public void testDisabledFirst() {
+                final Checkbox checkbox = new Checkbox().withId("checkbox").withEnabled(false);
+                registerApp(checkbox);
+                assertTrue(JQuery.select("#checkbox > input").is(":disabled"));
+        }
 }
