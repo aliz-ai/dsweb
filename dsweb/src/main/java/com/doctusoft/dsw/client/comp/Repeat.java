@@ -48,7 +48,7 @@ public abstract class Repeat<T> extends BaseComponent<Repeat<T>, ContainerModel>
 		new ListBindingListener<T>((ObservableValueBinding) Bindings.obs(this).get(Repeat_._items)) {
 			@Override
 			public void inserted(ObservableList<T> list, int index, T element) {
-				BaseComponent<?, ?> newRow = renderItem(element, index);
+				HasComponentModel newRow = renderItem(element, index);
 				model.getChildren().add(index, newRow.getComponentModel());
 			}
 			
@@ -59,7 +59,7 @@ public abstract class Repeat<T> extends BaseComponent<Repeat<T>, ContainerModel>
 		};
 	}
 	
-	protected abstract BaseComponent<?, ?> renderItem(T item, int rowNum);
+	protected abstract HasComponentModel renderItem(T item, int rowNum);
 	
 	/**
 	 * If an observablelist is bound, it's insert and remove events will also propagate
