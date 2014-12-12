@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.doctusoft.ObservableProperty;
@@ -84,4 +85,16 @@ public class TestAbstractSelect {
 		assertEquals(null, selectValue);
 	}
 
+	// this currently fails. It will be fixed when the deferred stuff is handled too
+	@Test
+	@Ignore
+	public void testInvalidValueSet() {
+		Select<String> select = new Select<String>().bind(Bindings.obs(this).get(TestAbstractSelect_._selectValue));
+		setSelectValue("a");
+		select.setSelectItems(SelectItems.fromStrings("b", "a", "c"));
+		assertEquals(1, select.getModel().getSelectedIndex());
+		setSelectValue(null);
+		assertEquals(0, select.getModel().getSelectedIndex());
+		assertEquals("b", selectValue);
+	}
 }

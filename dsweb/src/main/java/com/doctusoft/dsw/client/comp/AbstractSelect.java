@@ -44,8 +44,8 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 	@com.doctusoft.ObservableProperty
 	private T value;
 	
-	private Map<T, SelectItem<T>> itemsByValue = Maps.newHashMap();
-	private Map<T, SelectItemModel> modelsByValue = Maps.newHashMap();
+	protected Map<T, SelectItem<T>> itemsByValue = Maps.newHashMap();
+	protected Map<T, SelectItemModel> modelsByValue = Maps.newHashMap();
 	protected List<SelectItem<T>> items = Lists.newArrayList();
 
 	public AbstractSelect(final Model model) {
