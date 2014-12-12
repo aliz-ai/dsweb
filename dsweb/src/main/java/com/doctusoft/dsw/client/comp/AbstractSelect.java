@@ -97,8 +97,6 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 	}
 	
 	protected int getValueIndex(T value) {
-		if (value == null)
-			return -1;
 		SelectItemModel itemModel = modelsByValue.get(value);
 		if (itemModel == null) {
 			return -1;

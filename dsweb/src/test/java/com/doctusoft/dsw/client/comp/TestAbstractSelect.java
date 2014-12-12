@@ -72,4 +72,16 @@ public class TestAbstractSelect {
 		// the first item gets selected, to properly reflect what the user sees.
 		assertEquals("b", select.getValue());
 	}
+	
+	@Test
+	public void testValueUpdatedToNull() {
+		Select<String> select = new Select<String>().bind(Bindings.obs(this).get(TestAbstractSelect_._selectValue));
+		setSelectValue("a");
+		select.setSelectItems(SelectItems.fromStrings(null, "b", "a", "c"));
+		assertEquals(2, select.getModel().getSelectedIndex());
+		setSelectValue(null);
+		assertEquals(0, select.getModel().getSelectedIndex());
+		assertEquals(null, selectValue);
+	}
+
 }
