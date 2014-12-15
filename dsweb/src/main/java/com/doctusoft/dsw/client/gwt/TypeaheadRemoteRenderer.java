@@ -22,12 +22,12 @@ package com.doctusoft.dsw.client.gwt;
  * #L%
  */
 
-
 import java.util.List;
 
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.dsw.client.comp.model.TypeaheadRemoteModel;
 import com.doctusoft.dsw.client.comp.model.TypeaheadRemoteModel_;
+import com.google.common.base.Objects;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 import com.xedge.jquery.client.JQEvent;
@@ -47,10 +47,12 @@ public class TypeaheadRemoteRenderer extends BaseComponentRenderer {
 
 		init(widget);
 
-		if (typeaheadRemoteModel.getPlaceHolder() != null) {
-			widget.attr("placeholder", typeaheadRemoteModel.getPlaceHolder());
-		}
-
+		addChangeListener(TypeaheadRemoteModel_._value, typeaheadRemoteModel, new ValueChangeListener<String>() {
+			@Override
+			public void valueChanged(String newValue) {
+				widget.val(Objects.firstNonNull(typeaheadRemoteModel.getValue(), ""));
+			}
+		});
 		if (typeaheadRemoteModel.getValue() != null) {
 			widget.val(typeaheadRemoteModel.getValue());
 		}
@@ -59,11 +61,7 @@ public class TypeaheadRemoteRenderer extends BaseComponentRenderer {
 
 			@Override
 			public void valueChanged(final String newValue) {
-				if (newValue == null) {
-					widget.attr("placeholder", "");
-				} else {
-					widget.attr("placeholder", newValue);
-				}
+				widget.attr("placeholder", Objects.firstNonNull(newValue, ""));
 			}
 		});
 
@@ -73,11 +71,11 @@ public class TypeaheadRemoteRenderer extends BaseComponentRenderer {
 
 			@Override
 			public void valueChanged(final List<String> newValue) {
-				if(newValue == null || callbackMethod == null) {
+				if (newValue == null || callbackMethod == null) {
 					return;
 				}
 
-				if(!newValue.equals(oldValue)) {
+				if (!newValue.equals(oldValue)) {
 					oldValue = newValue;
 
 					invokeCallback(getOptions(), callbackMethod);
@@ -110,13 +108,10 @@ public class TypeaheadRemoteRenderer extends BaseComponentRenderer {
 
 		JsArrayString optionList = JavaScriptObject.createArray().cast();
 
-		if(options != null) {
-
-			for(String option : options) {
+		if (options != null) {
+			for (String option : options) {
 				optionList.push(option);
 			}
-
-			return optionList;
 		}
 
 		return optionList;
