@@ -55,10 +55,11 @@ import com.doctusoft.dsw.client.comp.model.SelectModel;
 import com.doctusoft.dsw.client.comp.model.TabSheetModel;
 import com.doctusoft.dsw.client.comp.model.TextareaModel;
 import com.doctusoft.dsw.client.comp.model.TypeaheadModel;
+import com.doctusoft.dsw.client.comp.model.TypeaheadRemoteModel;
 import com.xedge.jquery.client.JQuery;
 
 public class RendererFactoryImpl extends AbstractGwtRendererFactory {
-	
+
 	public RendererFactoryImpl() {
 		/*
 		 * not currently used, needs some more clarification
@@ -71,14 +72,17 @@ public class RendererFactoryImpl extends AbstractGwtRendererFactory {
 		 * loadStylesheet("jquery.dataTables.css");
 		 */
 	}
-	
+
 	@Override
-	public Renderer<JQuery> resolveRenderer( BaseComponentModel model ) {
+	public Renderer<JQuery> resolveRenderer( final BaseComponentModel model ) {
 		if (model instanceof InputTimeModel) {
 			return new InputTimeRenderer( (InputTimeModel) model );
 		}
 		if (model instanceof TypeaheadModel) {
 			return new TypeaheadRenderer( (TypeaheadModel) model );
+		}
+		if (model instanceof TypeaheadRemoteModel) {
+			return new TypeaheadRemoteRenderer( (TypeaheadRemoteModel) model );
 		}
 		if (model instanceof TabSheetModel) {
 			return new TabSheetRenderer( (TabSheetModel) model );
