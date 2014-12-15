@@ -175,6 +175,12 @@ public class FixedInputTagsRenderer extends BaseComponentRenderer {
 			});
 			that.@com.doctusoft.dsw.client.gwt.FixedInputTagsRenderer::nativeInitialized()();
 		}, 1); 
+		element.on("itemAdded", function(event) {
+			that.@com.doctusoft.dsw.client.gwt.FixedInputTagsRenderer::itemAdded(Lcom/doctusoft/dsw/client/gwt/TagOptionItem;)(event.item);
+		});
+		element.on("itemRemoved", function(event) {
+			that.@com.doctusoft.dsw.client.gwt.FixedInputTagsRenderer::itemRemoved(Lcom/doctusoft/dsw/client/gwt/TagOptionItem;)(event.item);
+		});
 	}-*/;
 
 	private native void setTagOptionSuggestions(JQuery element, JsArray<TagOptionItem> tagSuggestions) /*-{
@@ -190,12 +196,6 @@ public class FixedInputTagsRenderer extends BaseComponentRenderer {
 			    	source: tagSuggestions
 			  }
 		}); 
-		element.on("itemAdded", function(event) {
-			that.@com.doctusoft.dsw.client.gwt.FixedInputTagsRenderer::itemAdded(Lcom/doctusoft/dsw/client/gwt/TagOptionItem;)(event.item);
-		});
-		element.on("itemRemoved", function(event) {
-			that.@com.doctusoft.dsw.client.gwt.FixedInputTagsRenderer::itemRemoved(Lcom/doctusoft/dsw/client/gwt/TagOptionItem;)(event.item);
-		});
 	}-*/;
 	
 	private native static void addTagOption(JQuery element, TagOptionItem item) /*-{
