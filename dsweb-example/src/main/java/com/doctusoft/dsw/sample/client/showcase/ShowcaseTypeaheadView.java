@@ -48,7 +48,7 @@ public class ShowcaseTypeaheadView extends BaseShowcaseView<ShowcaseTypeaheadPre
 		.bindSelectItems(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._stringOptions));
 
 		new Label("Typeahead with query logic", "h3").appendTo(subContainer);
-		new TypeaheadRemote()
+		new TypeaheadRemote<String>()
 		.bind(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._remoteValue))
 		.bindQueryString(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._queryString))
 		.bindOptions(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._options))

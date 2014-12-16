@@ -29,13 +29,13 @@ public class ShowcaseTypeaheadPresenter extends com.doctusoft.dsw.client.mvp.Abs
 	private String value;
 
 	@ObservableProperty
-	private String remoteValue;
+	private String remoteValue = "alma";
 
 	@ObservableProperty
 	private String queryString;
 
 	@ObservableProperty
-	private List<String> options = Lists.newArrayList();
+	private List<SelectItem<String>> options = Lists.newArrayList();
 
 	public ShowcaseTypeaheadPresenter(final Place place, final ClientFactory clientFactory ) {
 		view = clientFactory.getShowcaseTypeaheadView();
@@ -55,10 +55,10 @@ public class ShowcaseTypeaheadPresenter extends com.doctusoft.dsw.client.mvp.Abs
 
 					int newValueLength = newValue.length();
 					if(newValueLength > 2) {
-						List<String> tempList = createFakeSelectList(queryString, newValueLength);
+						List<SelectItem<String>> tempList = createFakeSelectList(queryString, newValueLength);
 						setOptions(tempList);
 					} else {
-						List<String> tempList = Lists.newArrayList();
+						List<SelectItem<String>> tempList = Lists.newArrayList();
 						setOptions(tempList);
 					}
 
@@ -74,11 +74,16 @@ public class ShowcaseTypeaheadPresenter extends com.doctusoft.dsw.client.mvp.Abs
 		}
 	}
 
-	private static List<String> createFakeSelectList(final String beginWith, final int length) {
-		List<String> fakeList = Lists.newArrayList();
+	private static List<SelectItem<String>> createFakeSelectList(final String beginWith, final int length) {
+		List<SelectItem<String>> fakeList = Lists.newArrayList();
 
 		for(int i = 0; i < 20; i++) {
-			fakeList.add(beginWith + length + i);
+			SelectItem<String> selectItem = new SelectItem<String>();
+
+			selectItem.setCaption(beginWith + length + i);
+			selectItem.setId(Integer.toString(i));
+
+			fakeList.add(selectItem);
 		}
 
 		return fakeList;

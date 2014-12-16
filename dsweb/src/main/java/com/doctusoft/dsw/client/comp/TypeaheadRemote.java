@@ -1,42 +1,149 @@
 package com.doctusoft.dsw.client.comp;
 
 import java.util.List;
+import java.util.Map;
 
+import lombok.Setter;
+
+import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.ValueBinding;
 import com.doctusoft.bean.binding.observable.ObservableValueBinding;
+import com.doctusoft.dsw.client.comp.model.SelectItemModel;
 import com.doctusoft.dsw.client.comp.model.TypeaheadRemoteModel;
 import com.doctusoft.dsw.client.comp.model.TypeaheadRemoteModel_;
+import com.doctusoft.dsw.client.util.Deferred;
+import com.doctusoft.dsw.client.util.Deferred.DeferredRunnable;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
-public class TypeaheadRemote extends BaseComponent<TypeaheadRemote, TypeaheadRemoteModel>{
+public class TypeaheadRemote<T> extends BaseComponent<TypeaheadRemote<T>, TypeaheadRemoteModel>{
+
+	@ObservableProperty
+	private T value;
+
+	private Map<SelectItem<T>, T> itemsToModel = Maps.newHashMap();
+
+	private TypeaheadRemoteDeferRunnable typeaheadRemoteDeferRunnable = new TypeaheadRemoteDeferRunnable();
+
+	private DeferredRunnable deferredRunnable;
+
+	private boolean valueChanged;
+
+	private boolean optionsChanged;
 
 	public TypeaheadRemote() {
 		super(new TypeaheadRemoteModel());
+
+		Bindings.obs(model).get(TypeaheadRemoteModel_._value).addValueChangeListener(new ValueChangeListener<SelectItemModel>() {
+
+			@Override
+			public void valueChanged(final SelectItemModel newValue) {
+				setValue(itemsToModel.get(newValue));
+			}
+		});
+
+		TypeaheadRemote_._value.addChangeListener(this, new ValueChangeListener<Object>() {
+
+			@Override
+			public void valueChanged(final Object newValue) {
+				valueChanged = true;
+
+				typeaheadRemoteDeferRunnable.setValue((T) newValue);
+				deferredRunnable = Deferred.defer(deferredRunnable, typeaheadRemoteDeferRunnable);
+			}
+		});
 	}
 
-	public TypeaheadRemote bindQueryString(final ValueBinding<String> queryStringBinding) {
+	public TypeaheadRemote<T> bindQueryString(final ValueBinding<String> queryStringBinding) {
 		Bindings.bind(queryStringBinding, Bindings.obs(model).get(TypeaheadRemoteModel_._query));
 		return this;
 	}
 
-	public TypeaheadRemote bind(final ValueBinding<String> valueBinding) {
-		Bindings.bind(valueBinding, Bindings.obs(model).get(TypeaheadRemoteModel_._value));
+	public TypeaheadRemote<T> bind(final ValueBinding<T> valueBinding) {
+		Bindings.bind(valueBinding, (ObservableValueBinding) Bindings.obs(this).get(TypeaheadRemote_._value));
 		return this;
 	}
 
-	public TypeaheadRemote bindOptions(final ObservableValueBinding<List<String>> optionsBinding) {
-		Bindings.bind(optionsBinding, Bindings.obs(model).get(TypeaheadRemoteModel_._options));
+	public TypeaheadRemote<T> bindOptions(final ObservableValueBinding<List<SelectItem<T>>> optionsBinding) {
+		optionsBinding.addValueChangeListener(new ValueChangeListener<List<SelectItem<T>>>() {
+
+			@Override
+			public void valueChanged(final List<SelectItem<T>> newValue) {
+				if(newValue == null) {
+					return;
+				}
+
+				optionsChanged = true;
+				typeaheadRemoteDeferRunnable.setOptionsSelectItems(newValue);
+				deferredRunnable = Deferred.defer(deferredRunnable, typeaheadRemoteDeferRunnable);
+			}
+		});
+
 		return this;
 	}
 
-	public TypeaheadRemote withPlaceHolder(final String placeHolder) {
+	public TypeaheadRemote<T> withPlaceHolder(final String placeHolder) {
 		model.setPlaceHolder(placeHolder);
 		return this;
 	}
 
-	public TypeaheadRemote bindPlaceHolder(final ValueBinding<String> placeHolderBinding) {
+	public TypeaheadRemote<T> bindPlaceHolder(final ValueBinding<String> placeHolderBinding) {
 		Bindings.bind(placeHolderBinding, Bindings.obs(model).get(TypeaheadRemoteModel_._placeHolder));
 		return this;
+	}
+
+	private static SelectItemModel createSelectItemModel(final String id, final String caption) {
+		SelectItemModel itemModel = new SelectItemModel();
+
+		itemModel.setId(id);
+		itemModel.setCaption(caption);
+
+		return itemModel;
+	}
+
+	@Setter
+	public class TypeaheadRemoteDeferRunnable implements Runnable {
+
+		private List<SelectItem<T>> optionsSelectItems;
+		private T value;
+
+		@Override
+		public void run() {
+
+			if (optionsChanged) {
+				optionsChanged = false;
+
+				List<SelectItemModel> options = Lists.newArrayList();
+
+				for (SelectItem<T> item: optionsSelectItems) {
+					SelectItemModel itemModel = createSelectItemModel(item.getId(), item.getCaption());
+
+					itemsToModel.put(item, value);
+					options.add(itemModel);
+				}
+
+				model.setOptions(options);
+			}
+
+			if (valueChanged) {
+				valueChanged = false;
+
+				SelectItemModel selectItemModel = new SelectItemModel();
+				selectItemModel.setId("");
+
+				if (value == null) {
+					selectItemModel.setCaption("");
+				} else {
+					selectItemModel.setCaption(value.toString());
+				}
+
+				model.setValue(selectItemModel);
+			}
+
+		}
+
 	}
 
 }
