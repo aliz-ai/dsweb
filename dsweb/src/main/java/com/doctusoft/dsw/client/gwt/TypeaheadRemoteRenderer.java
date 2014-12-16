@@ -40,7 +40,7 @@ public class TypeaheadRemoteRenderer extends BaseComponentRenderer {
 	private TypeaheadRemoteModel typeaheadRemoteModel;
 	private JavaScriptObject callbackMethod;
 
-	private Map<SelectItemModelItem, SelectItemModel> itemToModel = Maps.newHashMap();
+	private Map<SelectItemModelItem, SelectItemModel> itemsToModel = Maps.newHashMap();
 
 	public TypeaheadRemoteRenderer(final TypeaheadRemoteModel model) {
 		super(JQuery.select("<input type=\"text\" data-provide=\"typeahead\"/>"), model);
@@ -100,6 +100,7 @@ public class TypeaheadRemoteRenderer extends BaseComponentRenderer {
 
 	private JsArray<SelectItemModelItem> getOptions() {
 		List<SelectItemModel> options = typeaheadRemoteModel.getOptions();
+		itemsToModel.clear();
 
 		JsArray<SelectItemModelItem> optionList = JavaScriptObject.createArray().cast();
 
@@ -112,7 +113,7 @@ public class TypeaheadRemoteRenderer extends BaseComponentRenderer {
 				optionObject.setId(option.getId());
 				optionObject.setMapId(Integer.toString(mapIdCounter++));
 
-				itemToModel.put(optionObject, option);
+				itemsToModel.put(optionObject, option);
 
 				optionList.push(optionObject);
 			}
@@ -122,7 +123,7 @@ public class TypeaheadRemoteRenderer extends BaseComponentRenderer {
 	}
 
 	private void updater(final SelectItemModelItem item) {
-		typeaheadRemoteModel.setValue(itemToModel.get(item));
+		typeaheadRemoteModel.setValue(itemsToModel.get(item));
 	}
 
 	/**

@@ -23,7 +23,7 @@ public class TypeaheadRemote<T> extends BaseComponent<TypeaheadRemote<T>, Typeah
 	@ObservableProperty
 	private T value;
 
-	private Map<SelectItem<T>, T> itemsToModel = Maps.newHashMap();
+	private Map<SelectItemModel, T> itemsToModel = Maps.newHashMap();
 
 	private TypeaheadRemoteDeferRunnable typeaheadRemoteDeferRunnable = new TypeaheadRemoteDeferRunnable();
 
@@ -33,6 +33,8 @@ public class TypeaheadRemote<T> extends BaseComponent<TypeaheadRemote<T>, Typeah
 
 	private boolean optionsChanged;
 
+	private boolean settingDisplayOnlyValue = false;
+
 	public TypeaheadRemote() {
 		super(new TypeaheadRemoteModel());
 
@@ -40,7 +42,9 @@ public class TypeaheadRemote<T> extends BaseComponent<TypeaheadRemote<T>, Typeah
 
 			@Override
 			public void valueChanged(final SelectItemModel newValue) {
-				setValue(itemsToModel.get(newValue));
+				if (!settingDisplayOnlyValue) {
+					setValue(itemsToModel.get(newValue));
+				}
 			}
 		});
 
@@ -111,16 +115,18 @@ public class TypeaheadRemote<T> extends BaseComponent<TypeaheadRemote<T>, Typeah
 
 		@Override
 		public void run() {
+			deferredRunnable = null;
 
 			if (optionsChanged) {
 				optionsChanged = false;
 
 				List<SelectItemModel> options = Lists.newArrayList();
 
+				itemsToModel.clear();
 				for (SelectItem<T> item: optionsSelectItems) {
 					SelectItemModel itemModel = createSelectItemModel(item.getId(), item.getCaption());
 
-					itemsToModel.put(item, value);
+					itemsToModel.put(itemModel, item.getValue());
 					options.add(itemModel);
 				}
 
@@ -139,7 +145,9 @@ public class TypeaheadRemote<T> extends BaseComponent<TypeaheadRemote<T>, Typeah
 					selectItemModel.setCaption(value.toString());
 				}
 
+				settingDisplayOnlyValue = true;
 				model.setValue(selectItemModel);
+				settingDisplayOnlyValue = false;
 			}
 
 		}

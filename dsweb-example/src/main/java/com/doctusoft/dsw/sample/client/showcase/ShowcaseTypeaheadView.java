@@ -29,6 +29,7 @@ import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.Typeahead;
 import com.doctusoft.dsw.client.comp.TypeaheadRemote;
 import com.doctusoft.dsw.sample.client.BaseShowcaseView;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseTypeaheadPresenter.TypeaheadRemoteTestModel;
 
 public class ShowcaseTypeaheadView extends BaseShowcaseView<ShowcaseTypeaheadPresenter> {
 
@@ -48,11 +49,12 @@ public class ShowcaseTypeaheadView extends BaseShowcaseView<ShowcaseTypeaheadPre
 		.bindSelectItems(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._stringOptions));
 
 		new Label("Typeahead with query logic", "h3").appendTo(subContainer);
-		new TypeaheadRemote<String>()
+		new TypeaheadRemote<TypeaheadRemoteTestModel>()
 		.bind(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._remoteValue))
 		.bindQueryString(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._queryString))
 		.bindOptions(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._options))
 		.appendTo(subContainer);
+
 	}
 
 }
