@@ -41,7 +41,7 @@ public class TestAbstractSelect {
 	}
 	
 	@Test
-	public void testValueRetainOnSelectItemsSet() {
+	public void testValueRetainOnFirstSelectItemsSet() {
 		setSelectValue("a");
 		Select<String> select = new Select<String>().bind(Bindings.obs(this).get(TestAbstractSelect_._selectValue));
 		// as the value is not selectable yet, the selectedIndex is -1
@@ -50,6 +50,21 @@ public class TestAbstractSelect {
 		JUnitDeferrerImpl.fireScheduledRunnables();
 		// but after the selectItems is set, the selectIndex is set to 1
 		assertEquals(1, select.getModel().getSelectedIndex());
+	}
+
+	@Test
+	public void testValueRetainOnFurtherSelectItemsSet() {
+		Select<String> select = new Select<String>().bind(Bindings.obs(this).get(TestAbstractSelect_._selectValue));
+		setSelectValue("a");
+		select.setSelectItems(SelectItems.fromStrings("b", "a", "c"));
+		JUnitDeferrerImpl.fireScheduledRunnables();
+		assertEquals(1, select.getModel().getSelectedIndex());
+		// set the the same select items again, but with new instances, and in a different order, keeping the value intact
+		select.setSelectItems(SelectItems.fromStrings("a", "b", "c"));
+		JUnitDeferrerImpl.fireScheduledRunnables();
+		assertEquals(0, select.getModel().getSelectedIndex());
+		assertEquals("a", getSelectValue());
+
 	}
 
 	@Test

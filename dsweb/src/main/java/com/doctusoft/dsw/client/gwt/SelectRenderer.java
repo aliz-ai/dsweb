@@ -59,6 +59,9 @@ public class SelectRenderer extends BaseComponentRenderer {
 					option.insertAfter(options.get(index - 1));
 					options.add(index, option);
 				}
+				if (index == select.getSelectedIndex()) {
+					applySelectedIndex();
+				}
 			}
 			@Override
 			public void removed(ObservableList<SelectItemModel> list, int index, SelectItemModel element) {
