@@ -13,8 +13,8 @@ import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 import com.doctusoft.dsw.client.comp.model.SelectItemModel;
 import com.doctusoft.dsw.client.comp.model.TypeaheadRemoteModel;
 import com.doctusoft.dsw.client.comp.model.TypeaheadRemoteModel_;
-import com.doctusoft.dsw.client.util.Deferred;
-import com.doctusoft.dsw.client.util.Deferred.DeferredRunnable;
+import com.doctusoft.dsw.client.util.DeferredFactory;
+import com.doctusoft.dsw.client.util.DeferredRunnable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -55,7 +55,7 @@ public class TypeaheadRemote<T> extends BaseComponent<TypeaheadRemote<T>, Typeah
 				valueChanged = true;
 
 				typeaheadRemoteDeferRunnable.setValue((T) newValue);
-				deferredRunnable = Deferred.defer(deferredRunnable, typeaheadRemoteDeferRunnable);
+				deferredRunnable = DeferredFactory.defer(deferredRunnable, typeaheadRemoteDeferRunnable);
 			}
 		});
 	}
@@ -81,7 +81,7 @@ public class TypeaheadRemote<T> extends BaseComponent<TypeaheadRemote<T>, Typeah
 
 				optionsChanged = true;
 				typeaheadRemoteDeferRunnable.setOptionsSelectItems(newValue);
-				deferredRunnable = Deferred.defer(deferredRunnable, typeaheadRemoteDeferRunnable);
+				deferredRunnable = DeferredFactory.defer(deferredRunnable, typeaheadRemoteDeferRunnable);
 			}
 		});
 

@@ -56,11 +56,14 @@ import com.doctusoft.dsw.client.comp.model.TabSheetModel;
 import com.doctusoft.dsw.client.comp.model.TextareaModel;
 import com.doctusoft.dsw.client.comp.model.TypeaheadModel;
 import com.doctusoft.dsw.client.comp.model.TypeaheadRemoteModel;
+import com.doctusoft.dsw.client.util.GWTTimerDeferrerImpl;
 import com.xedge.jquery.client.JQuery;
 
 public class RendererFactoryImpl extends AbstractGwtRendererFactory {
 
 	public RendererFactoryImpl() {
+		// now we can be quite sure that we run in GWT
+		new GWTTimerDeferrerImpl();
 		/*
 		 * not currently used, needs some more clarification
 		 * loadScript("js/jqery-1.10.2.js");

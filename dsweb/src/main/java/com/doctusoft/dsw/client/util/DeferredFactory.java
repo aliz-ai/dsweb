@@ -1,5 +1,7 @@
 package com.doctusoft.dsw.client.util;
 
+import com.google.common.base.Preconditions;
+
 /*
  * #%L
  * dsweb
@@ -23,32 +25,16 @@ package com.doctusoft.dsw.client.util;
  */
 
 
-import com.google.gwt.user.client.Timer;
 
-public class Deferred {
-
-	/**
-	 * Runs the action in a deferred way, with an 1ms timeoout.
-	 * It's usually useful when you want to wait for the DOM to be rendered before running an action
-	 */
-	public static DeferredRunnable defer(final Runnable runnable) {
-		final Timer timer = new Timer() {
-			@Override
-			public void run() {
-				runnable.run();
-			}
-		};
-
-		timer.schedule(1);
-
-		return new DeferredRunnable() {
-
-			@Override
-			public void cancel() {
-				timer.cancel();
-			}
-		};
+public class DeferredFactory {
+	
+	/* package visible stuff */
+	interface Deferrer {
+		public DeferredRunnable defer(Runnable runnable);
 	}
+	
+	static Deferrer deferrer = null;
+
 
 	/**
 	 * Run the action in a deferred way as above, but runs it at most once. The task is identified by the given id
@@ -57,19 +43,14 @@ public class Deferred {
 		if (deferredRunnable != null) {
 			return deferredRunnable;
 		}
+		Preconditions.checkNotNull(deferrer, "No deferrer implementations is set, please initialize GWTTimerDeferrerImpl or JUnitDeferrerImpl");
 
-		return defer(new Runnable() {
+		return deferrer.defer(new Runnable() {
 			@Override
 			public void run() {
 				runnable.run();
 			}
 		});
-	}
-
-	public static interface DeferredRunnable {
-
-		void cancel();
-
 	}
 
 }

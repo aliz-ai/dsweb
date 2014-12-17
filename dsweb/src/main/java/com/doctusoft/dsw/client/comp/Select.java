@@ -36,14 +36,13 @@ public class Select<T> extends AbstractSelect<Select<T>, SelectModel, T> {
 	}
 
 	@Override
-	protected void reapplyValue() {
-		// the value might have been set earlier. Now that we have the possible select items, we re-fire the listeners so that the proper value is set
-		if (model.getSelectedIndex() == -1) {
-			setValue(getValue());
-			if (getValue() == null && model.getSelectedIndex() == -1 && !items.isEmpty()) {
-				// if the value is null and there's still no default option
-				setValue(items.get(0).getValue());
-			}
+	protected void applyValueChange() {
+		int candidate = getValueIndex(getValue());
+		if (candidate == -1 && !model.getSelectItemsModel().isEmpty()) {
+			candidate = 0;
+		}
+		if (candidate != model.getSelectedIndex()) {
+			model.setSelectedIndex(candidate);
 		}
 	}
 

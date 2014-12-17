@@ -26,15 +26,18 @@ package com.doctusoft.dsw.client.comp;
 import java.util.List;
 import java.util.Map;
 
+import lombok.Setter;
+
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.ValueBinding;
-import com.doctusoft.bean.binding.observable.ListBindingListener;
-import com.doctusoft.bean.binding.observable.ObservableList;
+import com.doctusoft.bean.binding.observable.ListChangeListener;
 import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 import com.doctusoft.dsw.client.comp.model.SelectItemModel;
 import com.doctusoft.dsw.client.comp.model.SelectModel;
 import com.doctusoft.dsw.client.comp.model.SelectModel_;
+import com.doctusoft.dsw.client.util.DeferredFactory;
+import com.doctusoft.dsw.client.util.DeferredRunnable;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -47,6 +50,10 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 	protected Map<T, SelectItem<T>> itemsByValue = Maps.newHashMap();
 	protected Map<T, SelectItemModel> modelsByValue = Maps.newHashMap();
 	protected List<SelectItem<T>> items = Lists.newArrayList();
+	
+	private boolean valueChanged = false;
+	private DeferredRunnable deferredRunnable = null;
+	private DeferredChangeListeners deferredChangeListeners = new DeferredChangeListeners();
 
 	public AbstractSelect(final Model model) {
 		super(model);
@@ -54,10 +61,9 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 		AbstractSelect_._value.addChangeListener(this, new ValueChangeListener<Object>() {
 			@Override
 			public void valueChanged(Object newValue) {
-				int candidate = getValueIndex((T) newValue);
-				if (candidate != model.getSelectedIndex()) {
-					model.setSelectedIndex(candidate);
-				}
+				valueChanged = true;
+				// hmm this will need some redesign
+				deferredRunnable = DeferredFactory.defer(deferredRunnable, deferredChangeListeners);
 			}
 		});
 		// if the selectedIndex changes, set the correct value
@@ -84,6 +90,34 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 				}
 			}
 		});
+	}
+	
+	private class DeferredChangeListeners implements Runnable {
+		
+		@Setter
+		private List<SelectItem<T>> items = null; 
+		
+		public void run() {
+			deferredRunnable = null;
+			boolean selectItemsChanged = false;
+			if (items != null) {
+				setSelectItems(items);
+				items = null;
+				selectItemsChanged = true;
+			}
+			// we reapply the value in this case to ensure consistency
+			if (valueChanged || selectItemsChanged) {
+				valueChanged = false;
+				applyValueChange();
+			}
+		}
+	}
+	
+	protected void applyValueChange() {
+		int candidate = getValueIndex(value);
+		if (candidate != model.getSelectedIndex()) {
+			model.setSelectedIndex(candidate);
+		}
 	}
 	
 	public Actual change(ValueChangeListener<T> changeListener) {
@@ -117,7 +151,6 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 		itemsByValue.put(item.getValue(), item);
 		modelsByValue.put(item.getValue(), itemModel);
 		items.add(index, item);
-		reapplyValue();
 	}
 	
 	public void setSelectItems(List<SelectItem<T>> selectItems) {
@@ -128,32 +161,15 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 		for (SelectItem<T> item : selectItems) {
 			registerSelectItem(index ++, item);
 		}
-		reapplyValue();
 	}
 
-	protected void reapplyValue() {
-		// the value might have been set earlier. Now that we have the possible select items, we re-fire the listeners so that the proper value is set
-		if (model.getSelectedIndex() == -1) {
-			setValue(value);
-		}
-	}
-	
-	public Actual bindSelectItems(ObservableValueBinding<? extends List<SelectItem<T>>> selectItemsBinding) {
-		new ListBindingListener<SelectItem<T>>(selectItemsBinding) {
+	public Actual bindSelectItems(final ObservableValueBinding<? extends List<SelectItem<T>>> selectItemsBinding) {
+		new ListChangeListener(selectItemsBinding) {
+			
 			@Override
-			public void inserted(ObservableList<SelectItem<T>> list, int index, SelectItem<T> element) {
-				registerSelectItem(index, element);
-			}
-			@Override
-			public void removed(ObservableList<SelectItem<T>> list, int index, SelectItem<T> element) {
-				// TODO this should not be done in case of Typeahead for example, when select options are merely suggestions
-				if (Objects.equal(element.getValue(), value)) {
-					setValue(null);
-				}
-				itemsByValue.remove(element.getValue());
-				modelsByValue.remove(element.getValue());
-				model.getSelectItemsModel().remove(index);
-				items.remove(index);
+			protected void changed() {
+				deferredChangeListeners.setItems(selectItemsBinding.getValue());
+				deferredRunnable = DeferredFactory.defer(deferredRunnable, deferredChangeListeners);
 			}
 		};
 		return (Actual) this;
