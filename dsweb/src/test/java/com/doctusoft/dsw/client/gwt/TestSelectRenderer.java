@@ -89,6 +89,27 @@ public class TestSelectRenderer extends AbstractDswebTest {
 		}.schedule(50);
 		delayTestFinish(100);
 	}
+
+	@Test
+	public void testValueRetainOnItemsReplaced() {
+		new GWTTimerDeferrerImpl();	// @Before doesn't seem to work
+		final Select<MockSelectModel> select = createSelectWithTwoOptions();
+		new Timer() {
+			@Override
+			public void run() {
+				select.getModel().setSelectedIndex(1);
+				select.getModel().setSelectItemsModel(select.getModel().getSelectItemsModel());
+			}
+		}.schedule(25);
+		new Timer() {
+			@Override
+			public void run() {
+				assertEquals("second", JQuery.select( "#select" ).val());
+				finishTest();
+			}
+		}.schedule(50);
+		delayTestFinish(100);
+	}
 	
 	private Select<MockSelectModel> createSelectWithTwoOptions() {
 		ArrayList<SelectItem<MockSelectModel>> selectItems = new ArrayList<SelectItem<MockSelectModel>>();
