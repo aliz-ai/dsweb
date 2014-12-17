@@ -3,6 +3,7 @@ package com.doctusoft.dsw.sample.client.showcase;
 import java.io.Serializable;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import com.doctusoft.ObservableProperty;
@@ -93,15 +94,10 @@ public class ShowcaseTypeaheadPresenter extends com.doctusoft.dsw.client.mvp.Abs
 	}
 
 	@Getter
+	@AllArgsConstructor
 	public static class TypeaheadRemoteTestModel implements Serializable {
 
 		private String caption;
-
-		public TypeaheadRemoteTestModel(final String caption) {
-			super();
-
-			this.caption = caption;
-		}
 
 		@Override
 		public String toString() {

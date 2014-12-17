@@ -35,25 +35,25 @@ public class ShowcaseTypeaheadView extends BaseShowcaseView<ShowcaseTypeaheadPre
 
 	public ShowcaseTypeaheadView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)
-		.add(new HtmlContent("<h1>Typeahead</h1>"));
+			.add(new HtmlContent("<h1>Typeahead</h1>"));
 		new Label("Simple typeahead", "h3").appendTo(subContainer);
 		new Typeahead<String>()
-		.appendTo(subContainer)
-		.bind(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._value))
-		.bindSelectItems(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._stringOptions));
+			.appendTo(subContainer)
+			.bind(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._value))
+			.bindSelectItems(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._stringOptions));
 		new Label("Typeahead with dropdown", "h3").appendTo(subContainer);
 		new Typeahead<String>()
-		.showAllOnFocus()
-		.bind(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._value))
-		.appendTo(subContainer)
-		.bindSelectItems(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._stringOptions));
+			.showAllOnFocus()
+			.bind(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._value))
+			.appendTo(subContainer)
+			.bindSelectItems(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._stringOptions));
 
 		new Label("Typeahead with query logic", "h3").appendTo(subContainer);
 		new TypeaheadRemote<TypeaheadRemoteTestModel>()
-		.bind(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._remoteValue))
-		.bindQueryString(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._queryString))
-		.bindOptions(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._options))
-		.appendTo(subContainer);
+			.bind(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._remoteValue))
+			.bindQueryString(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._queryString))
+			.bindOptions(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._options))
+			.appendTo(subContainer);
 
 	}
 
