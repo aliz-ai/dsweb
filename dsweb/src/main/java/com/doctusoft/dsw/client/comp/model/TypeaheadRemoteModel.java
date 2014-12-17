@@ -34,10 +34,10 @@ public class TypeaheadRemoteModel extends BaseComponentModel implements ModelObj
 	private String query;
 
 	@ObservableProperty
-	private List<String> options;
+	private List<SelectItemModel> options;
 
 	@ObservableProperty
-	private String value;
+	private SelectItemModel value;
 
 	@ObservableProperty
 	private String placeHolder;

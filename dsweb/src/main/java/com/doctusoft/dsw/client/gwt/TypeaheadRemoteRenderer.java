@@ -23,38 +23,41 @@ package com.doctusoft.dsw.client.gwt;
  */
 
 import java.util.List;
+import java.util.Map;
 
 import com.doctusoft.bean.ValueChangeListener;
+import com.doctusoft.dsw.client.comp.model.SelectItemModel;
 import com.doctusoft.dsw.client.comp.model.TypeaheadRemoteModel;
 import com.doctusoft.dsw.client.comp.model.TypeaheadRemoteModel_;
 import com.google.common.base.Objects;
+import com.google.common.collect.Maps;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArrayString;
-import com.xedge.jquery.client.JQEvent;
+import com.google.gwt.core.client.JsArray;
 import com.xedge.jquery.client.JQuery;
-import com.xedge.jquery.client.handlers.EventHandler;
 
 public class TypeaheadRemoteRenderer extends BaseComponentRenderer {
 
 	private TypeaheadRemoteModel typeaheadRemoteModel;
 	private JavaScriptObject callbackMethod;
 
+	private Map<SelectItemModelItem, SelectItemModel> itemsToModel = Maps.newHashMap();
 
-	public TypeaheadRemoteRenderer(final TypeaheadRemoteModel typeaheadRemoteModel) {
-		super(JQuery.select("<input type=\"text\" data-provide=\"typeahead\"/>"), typeaheadRemoteModel);
+	public TypeaheadRemoteRenderer(final TypeaheadRemoteModel model) {
+		super(JQuery.select("<input type=\"text\" data-provide=\"typeahead\"/>"), model);
 
-		this.typeaheadRemoteModel = typeaheadRemoteModel;
+		this.typeaheadRemoteModel = model;
 
 		init(widget);
 
-		addChangeListener(TypeaheadRemoteModel_._value, typeaheadRemoteModel, new ValueChangeListener<String>() {
+		addChangeListener(TypeaheadRemoteModel_._value, typeaheadRemoteModel, new ValueChangeListener<SelectItemModel>() {
 			@Override
-			public void valueChanged(String newValue) {
-				widget.val(Objects.firstNonNull(typeaheadRemoteModel.getValue(), ""));
+			public void valueChanged(final SelectItemModel newValue) {
+				widget.val(typeaheadRemoteModel.getValue().getCaption());
 			}
 		});
+
 		if (typeaheadRemoteModel.getValue() != null) {
-			widget.val(typeaheadRemoteModel.getValue());
+			widget.val(typeaheadRemoteModel.getValue().getCaption());
 		}
 
 		addChangeListenerAndApply(TypeaheadRemoteModel_._placeHolder, typeaheadRemoteModel, new ValueChangeListener<String>() {
@@ -65,12 +68,12 @@ public class TypeaheadRemoteRenderer extends BaseComponentRenderer {
 			}
 		});
 
-		addChangeListenerAndApply(TypeaheadRemoteModel_._options, typeaheadRemoteModel, new ValueChangeListener<List<String>>() {
+		addChangeListenerAndApply(TypeaheadRemoteModel_._options, typeaheadRemoteModel, new ValueChangeListener<List<SelectItemModel>>() {
 
-			private List<String> oldValue;
+			private List<SelectItemModel> oldValue;
 
 			@Override
-			public void valueChanged(final List<String> newValue) {
+			public void valueChanged(final List<SelectItemModel> newValue) {
 				if (newValue == null || callbackMethod == null) {
 					return;
 				}
@@ -85,14 +88,6 @@ public class TypeaheadRemoteRenderer extends BaseComponentRenderer {
 			}
 		});
 
-		widget.change(new EventHandler() {
-			@Override
-			public void eventComplete(final JQEvent event, final JQuery currentJQuery) {
-				String widgetVal = widget.val();
-
-				typeaheadRemoteModel.setValue(widgetVal);
-			}
-		});
 	}
 
 	private void setCallback(final JavaScriptObject callbackMethod) {
@@ -103,35 +98,90 @@ public class TypeaheadRemoteRenderer extends BaseComponentRenderer {
 		typeaheadRemoteModel.setQuery(query);
 	}
 
-	private JsArrayString getOptions() {
-		List<String> options = typeaheadRemoteModel.getOptions();
+	private JsArray<SelectItemModelItem> getOptions() {
+		List<SelectItemModel> options = typeaheadRemoteModel.getOptions();
+		itemsToModel.clear();
 
-		JsArrayString optionList = JavaScriptObject.createArray().cast();
+		JsArray<SelectItemModelItem> optionList = JavaScriptObject.createArray().cast();
 
+		int mapIdCounter = 0;
 		if (options != null) {
-			for (String option : options) {
-				optionList.push(option);
+			for (SelectItemModel option : options) {
+				SelectItemModelItem optionObject = JavaScriptObject.createObject().cast();
+
+				optionObject.setCaption(option.getCaption());
+				optionObject.setId(option.getId());
+				optionObject.setMapId(Integer.toString(mapIdCounter++));
+
+				itemsToModel.put(optionObject, option);
+
+				optionList.push(optionObject);
 			}
 		}
 
 		return optionList;
 	}
 
+	private void updater(final SelectItemModelItem item) {
+		typeaheadRemoteModel.setValue(itemsToModel.get(item));
+	}
+
+	/**
+	 * Workaround: http://stackoverflow.com/questions/14901535/bootstrap-typeahead-ajax-result-format-example
+	 */
+
 	private native void init(final JQuery widget) /*-{
 		var that = this;
+
 		widget.typeahead({
 			source : function(query, callback) {
 		    	that.@com.doctusoft.dsw.client.gwt.TypeaheadRemoteRenderer::setCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(callback);
 		    	that.@com.doctusoft.dsw.client.gwt.TypeaheadRemoteRenderer::updateQuery(Ljava/lang/String;)(query);
 
 				return null;
+		    },
+		    highlighter : function(item) {
+		    	var currentItem = map[item];
+		    	return '<div id="' + currentItem.id + '">' + currentItem.caption + '</div>';
+		    },
+		    updater : function(item) {
+		    	var currentItem = map[item];
+		    	that.@com.doctusoft.dsw.client.gwt.TypeaheadRemoteRenderer::updater(Lcom/doctusoft/dsw/client/gwt/SelectItemModelItem;)(currentItem);
+		    	return currentItem.caption;
+		    },
+		    matcher : function(item) {
+		    	var currentItem = map[item];
+           		return ~currentItem.caption.toLowerCase().indexOf(this.query.toLowerCase());
+		    },
+		    sorter : function (items) {
+		      var beginswith = []
+		        , caseSensitive = []
+		        , caseInsensitive = []
+		        , item;
+
+		      while (item = items.shift()) {
+		    	var currentItem = map[item];
+		        if (!currentItem.caption.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(item)
+		        else if (~currentItem.caption.indexOf(this.query)) caseSensitive.push(item)
+		        else caseInsensitive.push(item)
+		      }
+
+		      return beginswith.concat(caseSensitive, caseInsensitive)
 		    }
 
 		});
 	}-*/;
 
-	private native void invokeCallback(final JsArrayString items, final JavaScriptObject callbackMethod) /*-{
-		callbackMethod(items);
+	private native void invokeCallback(final JsArray<SelectItemModelItem> items, final JavaScriptObject callbackMethod) /*-{
+		objects = [];
+		map = {};
+
+		items.map(function(item) {
+			map[item.mapId] = item;
+            objects.push(item.mapId);
+		});
+
+		callbackMethod(objects);
 	}-*/;
 
 }

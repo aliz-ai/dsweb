@@ -29,13 +29,13 @@ public class ShowcaseTypeaheadPresenter extends com.doctusoft.dsw.client.mvp.Abs
 	private String value;
 
 	@ObservableProperty
-	private String remoteValue;
+	private TypeaheadRemoteTestModel remoteValue;
 
 	@ObservableProperty
 	private String queryString;
 
 	@ObservableProperty
-	private List<String> options = Lists.newArrayList();
+	private List<SelectItem<TypeaheadRemoteTestModel>> options = Lists.newArrayList();
 
 	public ShowcaseTypeaheadPresenter(final Place place, final ClientFactory clientFactory ) {
 		view = clientFactory.getShowcaseTypeaheadView();
@@ -55,10 +55,10 @@ public class ShowcaseTypeaheadPresenter extends com.doctusoft.dsw.client.mvp.Abs
 
 					int newValueLength = newValue.length();
 					if(newValueLength > 2) {
-						List<String> tempList = createFakeSelectList(queryString, newValueLength);
+						List<SelectItem<TypeaheadRemoteTestModel>> tempList = createFakeSelectList(queryString, newValueLength);
 						setOptions(tempList);
 					} else {
-						List<String> tempList = Lists.newArrayList();
+						List<SelectItem<TypeaheadRemoteTestModel>> tempList = Lists.newArrayList();
 						setOptions(tempList);
 					}
 
@@ -74,14 +74,40 @@ public class ShowcaseTypeaheadPresenter extends com.doctusoft.dsw.client.mvp.Abs
 		}
 	}
 
-	private static List<String> createFakeSelectList(final String beginWith, final int length) {
-		List<String> fakeList = Lists.newArrayList();
+	private static List<SelectItem<TypeaheadRemoteTestModel>> createFakeSelectList(final String beginWith, final int length) {
+		List<SelectItem<TypeaheadRemoteTestModel>> fakeTypeaheadRemoteList = Lists.newArrayList();
 
 		for(int i = 0; i < 20; i++) {
-			fakeList.add(beginWith + length + i);
+			SelectItem<TypeaheadRemoteTestModel> selectItem = new SelectItem<TypeaheadRemoteTestModel>();
+
+			String value = beginWith + length + i;
+
+			selectItem.setCaption(value);
+			selectItem.setId(Integer.toString(i));
+			selectItem.setValue(new TypeaheadRemoteTestModel(value));
+
+			fakeTypeaheadRemoteList.add(selectItem);
 		}
 
-		return fakeList;
+		return fakeTypeaheadRemoteList;
+	}
+
+	@Getter
+	public static class TypeaheadRemoteTestModel implements Serializable {
+
+		private String caption;
+
+		public TypeaheadRemoteTestModel(final String caption) {
+			super();
+
+			this.caption = caption;
+		}
+
+		@Override
+		public String toString() {
+			return caption;
+		}
+
 	}
 
 }
