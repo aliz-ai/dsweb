@@ -101,7 +101,7 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 			deferredRunnable = null;
 			boolean selectItemsChanged = false;
 			if (items != null) {
-				setSelectItems(items);
+				applySelectItems(items);
 				items = null;
 				selectItemsChanged = true;
 			}
@@ -153,7 +153,7 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 		items.add(index, item);
 	}
 	
-	public void setSelectItems(List<SelectItem<T>> selectItems) {
+	protected void applySelectItems(List<SelectItem<T>> selectItems) {
 		model.getSelectItemsModel().clear();
 		itemsByValue.clear();
 		modelsByValue.clear();
@@ -161,6 +161,11 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 		for (SelectItem<T> item : selectItems) {
 			registerSelectItem(index ++, item);
 		}
+	}
+	
+	public void setSelectItems(List<SelectItem<T>> selectItems) {
+		deferredChangeListeners.setItems(selectItems);
+		deferredRunnable = DeferredFactory.defer(deferredRunnable, deferredChangeListeners);
 	}
 
 	public Actual bindSelectItems(final ObservableValueBinding<? extends List<SelectItem<T>>> selectItemsBinding) {

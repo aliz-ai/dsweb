@@ -12,29 +12,82 @@ import com.doctusoft.dsw.client.comp.InputText;
 import com.doctusoft.dsw.client.comp.Select;
 import com.doctusoft.dsw.client.comp.SelectItem;
 import com.doctusoft.dsw.client.comp.model.SelectItemModel;
+import com.doctusoft.dsw.client.util.GWTTimerDeferrerImpl;
+import com.google.gwt.user.client.Timer;
 import com.xedge.jquery.client.JQuery;
 
 public class TestSelectRenderer extends AbstractDswebTest {
 	
 	@Test
 	public void testAreOptionsRendered() {
+		new GWTTimerDeferrerImpl();	// @Before doesn't seem to work
 		Select<MockSelectModel> select = createSelectWithTwoOptions();
-		assertEquals( "first", JQuery.select( "select > option:first-child" ).text() );
-		assertEquals( "second", JQuery.select( "select > option:nth-child(2)" ).text() );
-		SelectItemModel third = new SelectItemModel();
-		third.setCaption( "third" );
-		select.getModel().getSelectItemsModel().add( third );
-		assertEquals( "third", JQuery.select( "select > option:nth-child(3)" ).text() );
+		new Timer() {
+			@Override
+			public void run() {
+				assertEquals( "first", JQuery.select( "select > option:first-child" ).text() );
+				assertEquals( "second", JQuery.select( "select > option:nth-child(2)" ).text() );
+				finishTest();
+			}
+		}.schedule(50);
+		delayTestFinish(100);
 	}
 	
 	@Test
-	public void testSelectedIndex() {
-		Select<MockSelectModel> select = createSelectWithTwoOptions();
-		assertEquals( 0, select.getModel().getSelectedIndex() );
-		JQuery.select( "#select" ).val( "second" ).change();
-		assertEquals( 1, select.getModel().getSelectedIndex() );
-		JQuery.select( "#select" ).val( "first" ).change();
-		assertEquals( 0, select.getModel().getSelectedIndex() );
+	public void testOptionInsertedLater() {
+		new GWTTimerDeferrerImpl();	// @Before doesn't seem to work
+		final Select<MockSelectModel> select = createSelectWithTwoOptions();
+		new Timer() {
+			@Override
+			public void run() {
+				// add an item to the model (we have to do it in a timer though)
+				SelectItemModel third = new SelectItemModel();
+				third.setCaption( "third" );
+				select.getModel().getSelectItemsModel().add( third );
+			}
+		}.schedule(25);
+		new Timer() {
+			@Override
+			public void run() {
+				assertEquals( "third", JQuery.select( "select > option:nth-child(3)" ).text() );
+				finishTest();
+			}
+		}.schedule(50);
+		delayTestFinish(100);
+	}
+	
+	@Test
+	public void testSelectedIndexDefaultValue() {
+		new GWTTimerDeferrerImpl();	// @Before doesn't seem to work
+		final Select<MockSelectModel> select = createSelectWithTwoOptions();
+		new Timer() {
+			@Override
+			public void run() {
+				assertEquals( 0, select.getModel().getSelectedIndex() );
+				finishTest();
+			}
+		}.schedule(50);
+		delayTestFinish(100);
+	}
+	
+	@Test
+	public void testSelectByClicking() {
+		new GWTTimerDeferrerImpl();	// @Before doesn't seem to work
+		final Select<MockSelectModel> select = createSelectWithTwoOptions();
+		new Timer() {
+			@Override
+			public void run() {
+				JQuery.select( "#select" ).val( "second" ).change();
+			}
+		}.schedule(25);
+		new Timer() {
+			@Override
+			public void run() {
+				assertEquals( 1, select.getModel().getSelectedIndex() );
+				finishTest();
+			}
+		}.schedule(50);
+		delayTestFinish(100);
 	}
 	
 	private Select<MockSelectModel> createSelectWithTwoOptions() {
@@ -63,8 +116,6 @@ public class TestSelectRenderer extends AbstractDswebTest {
 		registerApp(inputText);
 		assertTrue(JQuery.select("#input").is(":disabled"));
 	}
-
-
 	
 	@Getter
 	@AllArgsConstructor
