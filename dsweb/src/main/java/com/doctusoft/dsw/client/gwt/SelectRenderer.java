@@ -30,6 +30,8 @@ import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
+import com.doctusoft.dsw.client.comp.model.AbstractSelectModel;
+import com.doctusoft.dsw.client.comp.model.AbstractSelectModel_;
 import com.doctusoft.dsw.client.comp.model.SelectItemModel;
 import com.doctusoft.dsw.client.comp.model.SelectModel;
 import com.doctusoft.dsw.client.comp.model.SelectModel_;
@@ -41,12 +43,13 @@ import com.xedge.jquery.client.handlers.EventHandler;
 public class SelectRenderer extends BaseComponentRenderer {
 	
 	private List<JQuery> options = Lists.newArrayList();
-	private SelectModel select;
+	private JQuery nullOption = null;
+	private AbstractSelectModel select;
 	
 	public SelectRenderer(final SelectModel select) {
 		super(JQuery.select("<select/>"), select);
 		this.select = select;
-		new ListBindingListener<SelectItemModel>(Bindings.obs(select).get((ObservableProperty) SelectModel_._selectItemsModel)) {
+		new ListBindingListener<SelectItemModel>(Bindings.obs(select).get((ObservableProperty) AbstractSelectModel_._selectItemsModel)) {
 			@Override
 			public void inserted(ObservableList<SelectItemModel> list, int index, SelectItemModel element) {
 				JQuery option = JQuery.select("<option/>");
@@ -59,7 +62,7 @@ public class SelectRenderer extends BaseComponentRenderer {
 					option.insertAfter(options.get(index - 1));
 					options.add(index, option);
 				}
-				if (index == select.getSelectedIndex()) {
+				if (element == select.getSelectedItem()) {
 					applySelectedIndex();
 				}
 			}
@@ -71,31 +74,50 @@ public class SelectRenderer extends BaseComponentRenderer {
 				options.remove(index);
 			}
 		};
-		applySelectedIndex();
-		SelectModel_._selectedIndex.addChangeListener(select, new ValueChangeListener<Integer>() {
+		addChangeListenerAndApply(AbstractSelectModel_._selectedItem, select, new ValueChangeListener<SelectItemModel>() {
 			@Override
-			public void valueChanged(Integer newValue) {
+			public void valueChanged(SelectItemModel newValue) {
 				applySelectedIndex();
+			}
+		});
+		addChangeListenerAndApply(SelectModel_._nullOptionCaption, select, new ValueChangeListener<String>() {
+			@Override
+			public void valueChanged(String newValue) {
+				if (newValue == null && nullOption != null) {
+					nullOption.remove();
+					nullOption = null;
+				} else if (newValue != null) {
+					if (nullOption == null) {
+						nullOption = JQuery.select("<option/>").prependTo(widget);
+					}
+					nullOption.text(newValue);
+				}
 			}
 		});
 		widget.change(new EventHandler() {
 			@Override
 			public void eventComplete(JQEvent event, JQuery currentJQuery) {
 				int index = widget.children().index(widget.find("option:selected").get(0));
-				select.setSelectedIndex(index);
+				if (nullOption != null) {
+					index --;
+				}
+				if (index < 0) {
+					select.setSelectedItem(null);
+				} else {
+					select.setSelectedItem(select.getSelectItemsModel().get(index));
+				}
 			}
 		});
 		new EnabledAttributeRenderer(widget, select);
 	}
 	
 	protected void applySelectedIndex() {
-		int index = select.getSelectedIndex();
-		if (index == -1) {
-			// do nothing
+		SelectItemModel item = select.getSelectedItem();
+		if (item == null) {
 			return;
 		}
 		widget.find("option[selected]").removeAttr("selected");
-		setSelectedNative(options.get(index));
+		setSelectedNative(options.get(select.getSelectItemsModel().indexOf(item)));
 	}
 	
 	public static native void setSelectedNative(JQuery option) /*-{

@@ -24,7 +24,9 @@ package com.doctusoft.dsw.sample.client.showcase;
 
 
 import com.doctusoft.dsw.client.comp.BaseContainer;
+import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.HtmlContent;
+import com.doctusoft.dsw.client.comp.InputText;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.Select;
 import com.doctusoft.dsw.sample.client.BaseShowcaseView;
@@ -37,10 +39,17 @@ public class ShowcaseSelectView extends BaseShowcaseView<ShowcaseSelectPresenter
 		new Select<String>()
 			.appendTo(subContainer)
 			.bind(bindOnPresenter().get(ShowcaseSelectPresenter_._selectedItem))
+			.bindNullOptionCaption(bindOnPresenter().get(ShowcaseSelectPresenter_._nullOptionCaption))
 			.bindSelectItems(bindOnPresenter().get(ShowcaseSelectPresenter_._selectableItems));
+		BaseContainer nullOptionRow = new BaseContainer().appendTo(subContainer);
+		new Label("Null option: ").appendTo(nullOptionRow);
+		new InputText().bind(bindOnPresenter().get(ShowcaseSelectPresenter_._nullOptionCaption)).appendTo(nullOptionRow);
+		new Button("Erase").click(presenterMethod(ShowcaseSelectPresenter_.__eraseNullOptionCaption)).appendTo(nullOptionRow);
+		BaseContainer valueRow = new BaseContainer().appendTo(subContainer);
+		new Label("Selected value: ").appendTo(valueRow);
 		new Label()
 			.bind(bindOnPresenter().get(ShowcaseSelectPresenter_._selectedItem))
-			.appendTo(subContainer);
+			.appendTo(valueRow);
 	}
 
 }

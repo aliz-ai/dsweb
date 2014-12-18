@@ -5,6 +5,7 @@ import java.util.List;
 
 import lombok.Getter;
 
+import com.doctusoft.MethodRef;
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.dsw.client.comp.SelectItem;
 import com.doctusoft.dsw.client.comp.SelectItems;
@@ -23,6 +24,9 @@ public class ShowcaseSelectPresenter extends com.doctusoft.dsw.client.mvp.Abstra
 	@ObservableProperty
 	private String selectedItem;
 	
+	@ObservableProperty
+	private String nullOptionCaption;
+	
 	public ShowcaseSelectPresenter(Place place, ClientFactory clientFactory ) {
 		view = clientFactory.getShowcaseSelectView();
 	}
@@ -39,4 +43,8 @@ public class ShowcaseSelectPresenter extends com.doctusoft.dsw.client.mvp.Abstra
 		setSelectableItems(SelectItems.fromStrings("First item","Second item","Third item"));
 	}
 
+	@MethodRef
+	public void eraseNullOptionCaption() {
+		setNullOptionCaption(null);
+	}
 }

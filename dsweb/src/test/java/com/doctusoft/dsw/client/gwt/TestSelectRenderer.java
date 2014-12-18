@@ -63,7 +63,7 @@ public class TestSelectRenderer extends AbstractDswebTest {
 		new Timer() {
 			@Override
 			public void run() {
-				assertEquals( 0, select.getModel().getSelectedIndex() );
+				assertEquals( select.getModel().getSelectItemsModel().get(0), select.getModel().getSelectedItem() );
 				finishTest();
 			}
 		}.schedule(50);
@@ -83,7 +83,7 @@ public class TestSelectRenderer extends AbstractDswebTest {
 		new Timer() {
 			@Override
 			public void run() {
-				assertEquals( 1, select.getModel().getSelectedIndex() );
+				assertEquals( select.getModel().getSelectItemsModel().get(1), select.getModel().getSelectedItem() );
 				finishTest();
 			}
 		}.schedule(50);
@@ -97,7 +97,7 @@ public class TestSelectRenderer extends AbstractDswebTest {
 		new Timer() {
 			@Override
 			public void run() {
-				select.getModel().setSelectedIndex(1);
+				select.getModel().setSelectedItem(select.getModel().getSelectItemsModel().get(1));
 				select.getModel().setSelectItemsModel(select.getModel().getSelectItemsModel());
 			}
 		}.schedule(25);
@@ -105,6 +105,64 @@ public class TestSelectRenderer extends AbstractDswebTest {
 			@Override
 			public void run() {
 				assertEquals("second", JQuery.select( "#select" ).val());
+				finishTest();
+			}
+		}.schedule(50);
+		delayTestFinish(100);
+	}
+	
+	@Test
+	public void testNullOptionCaptionRendered() {
+		new GWTTimerDeferrerImpl();
+		final Select<MockSelectModel> select = createSelectWithTwoOptions().withNullOptionCaption("Please select");
+		new Timer() {
+			@Override
+			public void run() {
+				assertEquals("Please select", JQuery.select( "#select" ).val());
+				finishTest();
+			}
+		}.schedule(50);
+		delayTestFinish(100);
+	}
+
+	@Test
+	public void testSelectNullOption() {
+		new GWTTimerDeferrerImpl();
+		final Select<MockSelectModel> select = createSelectWithTwoOptions().withNullOptionCaption("Please select");
+		new Timer() {
+			@Override
+			public void run() {
+				select.getModel().setSelectedItem(select.getModel().getSelectItemsModel().get(0));
+			}
+		}.schedule(25);
+		new Timer() {
+			@Override
+			public void run() {
+				assertEquals("first", JQuery.select( "#select" ).val());
+				JQuery.select( "#select" ).val( (String) null ).change();
+				assertEquals(null, select.getModel().getSelectedItem());
+				finishTest();
+			}
+		}.schedule(50);
+		delayTestFinish(100);
+	}
+
+	@Test
+	public void testNullOptionRemoved() {
+		new GWTTimerDeferrerImpl();
+		final Select<MockSelectModel> select = createSelectWithTwoOptions().withNullOptionCaption("Please select");
+		new Timer() {
+			@Override
+			public void run() {
+				assertEquals("Please select", JQuery.select( "#select" ).val());
+				select.withNullOptionCaption(null);
+			}
+		}.schedule(25);
+		new Timer() {
+			@Override
+			public void run() {
+				assertEquals("first", JQuery.select( "#select" ).val());
+				assertEquals(2, JQuery.select( "#select option" ).length());
 				finishTest();
 			}
 		}.schedule(50);

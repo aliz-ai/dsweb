@@ -54,11 +54,11 @@ public class TestTypeaheadRenderer extends AbstractDswebTest {
 				jqTypeahead.val("Proba");
 				jqTypeahead.change();
 				assertEquals("Proba", typeahead.getModel().getCustomText());
-				assertEquals(-1, typeahead.getModel().getSelectedIndex());
+				assertEquals(null, typeahead.getModel().getSelectedItem());
 				jqTypeahead.val("1");
 				jqTypeahead.change();
 				assertEquals(null, typeahead.getModel().getCustomText());
-				assertEquals(0,typeahead.getModel().getSelectedIndex());
+				assertEquals(typeahead.getModel().getSelectItemsModel().get(0), typeahead.getModel().getSelectedItem());
 				finishTest();
 			}
 		}.schedule(25);

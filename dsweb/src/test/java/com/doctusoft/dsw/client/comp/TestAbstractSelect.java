@@ -32,11 +32,11 @@ public class TestAbstractSelect {
 	public void testFirstOptionSelectedOnNoDefault() {
 		setSelectValue(null);
 		Select<String> select = new Select<String>().bind(Bindings.obs(this).get(TestAbstractSelect_._selectValue));
-		assertEquals(-1, select.getModel().getSelectedIndex());
+		assertEquals(null, select.getModel().getSelectedItem());
 		select.setSelectItems(SelectItems.fromStrings("b", "a", "c"));
 		// there was no null option included in the select items, so the value is updated to the first selectable option
 		JUnitDeferrerImpl.fireScheduledRunnables();
-		assertEquals(0, select.getModel().getSelectedIndex());
+		assertEquals(select.getModel().getSelectItemsModel().get(0), select.getModel().getSelectedItem());
 		assertEquals("b", selectValue);
 	}
 	
@@ -45,11 +45,11 @@ public class TestAbstractSelect {
 		setSelectValue("a");
 		Select<String> select = new Select<String>().bind(Bindings.obs(this).get(TestAbstractSelect_._selectValue));
 		// as the value is not selectable yet, the selectedIndex is -1
-		assertEquals(-1, select.getModel().getSelectedIndex());
+		assertEquals(null, select.getModel().getSelectedItem());
 		select.setSelectItems(SelectItems.fromStrings("b", "a", "c"));
 		JUnitDeferrerImpl.fireScheduledRunnables();
 		// but after the selectItems is set, the selectIndex is set to 1
-		assertEquals(1, select.getModel().getSelectedIndex());
+		assertEquals(select.getModel().getSelectItemsModel().get(1), select.getModel().getSelectedItem());
 	}
 
 	@Test
@@ -58,11 +58,11 @@ public class TestAbstractSelect {
 		setSelectValue("a");
 		select.setSelectItems(SelectItems.fromStrings("b", "a", "c"));
 		JUnitDeferrerImpl.fireScheduledRunnables();
-		assertEquals(1, select.getModel().getSelectedIndex());
+		assertEquals(select.getModel().getSelectItemsModel().get(1), select.getModel().getSelectedItem());
 		// set the the same select items again, but with new instances, and in a different order, keeping the value intact
 		select.setSelectItems(SelectItems.fromStrings("a", "b", "c"));
 		JUnitDeferrerImpl.fireScheduledRunnables();
-		assertEquals(0, select.getModel().getSelectedIndex());
+		assertEquals(select.getModel().getSelectItemsModel().get(0), select.getModel().getSelectedItem());
 		assertEquals("a", getSelectValue());
 
 	}
@@ -74,11 +74,11 @@ public class TestAbstractSelect {
 		Select<String> select = new Select<String>().bind(Bindings.obs(this).get(TestAbstractSelect_._selectValue))
 					.bindSelectItems(Bindings.obs(this).get(TestAbstractSelect_._selectItems));
 		// as the value is not selectable yet, the selectedIndex is -1
-		assertEquals(-1, select.getModel().getSelectedIndex());
+		assertEquals(null, select.getModel().getSelectedItem());
 		setSelectItems(SelectItems.fromStrings("b", "a", "c"));
 		JUnitDeferrerImpl.fireScheduledRunnables();
 		// but after the selectItems is set, the selectIndex is set to 1
-		assertEquals(1, select.getModel().getSelectedIndex());
+		assertEquals(select.getModel().getSelectItemsModel().get(1), select.getModel().getSelectedItem());
 	}
 
 	@Test
@@ -89,12 +89,12 @@ public class TestAbstractSelect {
 		select.bindSelectItems(Bindings.obs(selectItems));
 		select.setValue("a");
 		JUnitDeferrerImpl.fireScheduledRunnables();
-		assertEquals(1, select.getModel().getSelectedIndex());
+		assertEquals(select.getModel().getSelectItemsModel().get(1), select.getModel().getSelectedItem());
 		selectItems.clear();
 		JUnitDeferrerImpl.fireScheduledRunnables();
 		// as the selectable items are removed, the user would see no value, so the model value has to be null.
 		assertEquals(null, select.getValue());
-		assertEquals(-1, select.getModel().getSelectedIndex());
+		assertEquals(null, select.getModel().getSelectedItem());
 		selectItems.addAll(defaultSelectItems);
 		JUnitDeferrerImpl.fireScheduledRunnables();
 		// the first item gets selected, to properly reflect what the user sees.
@@ -107,10 +107,10 @@ public class TestAbstractSelect {
 		setSelectValue("a");
 		select.setSelectItems(SelectItems.fromStrings(null, "b", "a", "c"));
 		JUnitDeferrerImpl.fireScheduledRunnables();
-		assertEquals(2, select.getModel().getSelectedIndex());
+		assertEquals(select.getModel().getSelectItemsModel().get(2), select.getModel().getSelectedItem());
 		setSelectValue(null);
 		JUnitDeferrerImpl.fireScheduledRunnables();
-		assertEquals(0, select.getModel().getSelectedIndex());
+		assertEquals(select.getModel().getSelectItemsModel().get(0), select.getModel().getSelectedItem());
 		assertEquals(null, selectValue);
 	}
 
@@ -120,10 +120,43 @@ public class TestAbstractSelect {
 		setSelectValue("a");
 		select.setSelectItems(SelectItems.fromStrings("b", "a", "c"));
 		JUnitDeferrerImpl.fireScheduledRunnables();
-		assertEquals(1, select.getModel().getSelectedIndex());
+		assertEquals(select.getModel().getSelectItemsModel().get(1), select.getModel().getSelectedItem());
 		setSelectValue(null);
 		JUnitDeferrerImpl.fireScheduledRunnables();
-		assertEquals(0, select.getModel().getSelectedIndex());
+		assertEquals(select.getModel().getSelectItemsModel().get(0), select.getModel().getSelectedItem());
 		assertEquals("b", selectValue);
+	}
+	
+	@Test
+	public void testNullValueAllowedWithNulOption() {
+		Select<String> select = new Select<String>().bind(Bindings.obs(this).get(TestAbstractSelect_._selectValue))
+					.withNullOptionCaption("Please select");
+		JUnitDeferrerImpl.fireScheduledRunnables();
+		assertEquals(null, getSelectValue());
+	}
+	
+	@Test
+	public void testSetNullValueAndAllow() {
+		Select<String> select = new Select<String>().bind(Bindings.obs(this).get(TestAbstractSelect_._selectValue));
+		select.setSelectItems(SelectItems.fromStrings("b", "a", "c"));
+		JUnitDeferrerImpl.fireScheduledRunnables();
+		assertEquals("b", getSelectValue());
+		// now set the null value and allow it
+		setSelectValue(null);
+		select.withNullOptionCaption("Please select");
+		JUnitDeferrerImpl.fireScheduledRunnables();
+		assertEquals(null, getSelectValue());
+	}
+	
+	@Test
+	public void testRemoveNullValueWhenDisallowed() {
+		Select<String> select = new Select<String>().bind(Bindings.obs(this).get(TestAbstractSelect_._selectValue))
+				.withNullOptionCaption("Please select");
+		select.setSelectItems(SelectItems.fromStrings("b", "a", "c"));
+		JUnitDeferrerImpl.fireScheduledRunnables();
+		assertEquals(null, getSelectValue());
+		select.withNullOptionCaption(null);
+		JUnitDeferrerImpl.fireScheduledRunnables();
+		assertEquals("b", getSelectValue());
 	}
 }

@@ -30,8 +30,8 @@ import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
+import com.doctusoft.dsw.client.comp.model.AbstractSelectModel_;
 import com.doctusoft.dsw.client.comp.model.SelectItemModel;
-import com.doctusoft.dsw.client.comp.model.SelectModel_;
 import com.doctusoft.dsw.client.comp.model.TypeaheadModel;
 import com.doctusoft.dsw.client.comp.model.TypeaheadModel_;
 import com.google.common.collect.Lists;
@@ -56,11 +56,8 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 			setShowAllOnFocus(widget);
 		}
 		
-		if (typeaheadModel.getSelectedIndex() != -1) {
-			int selectedIndex = typeaheadModel.getSelectedIndex();
-			if (selectedIndex >= 0 && selectedIndex < typeaheadModel.getSelectItemsModel().size()) {
-				widget.val(typeaheadModel.getSelectItemsModel().get(typeaheadModel.getSelectedIndex()).getCaption());
-			}
+		if (typeaheadModel.getSelectedItem() != null) {
+			widget.val(typeaheadModel.getSelectedItem().getCaption());
 		}
 		
 		TypeaheadModel_._allVisibleOnFocus.addChangeListener(typeaheadModel, new ValueChangeListener<Boolean>() {
@@ -72,13 +69,13 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 			}
 		});
 		
-		SelectModel_._selectedIndex.addChangeListener(typeaheadModel, new ValueChangeListener<Integer>() {
+		AbstractSelectModel_._selectedItem.addChangeListener(typeaheadModel, new ValueChangeListener<SelectItemModel>() {
 			@Override
-			public void valueChanged(Integer newValue) {
-				if (typeaheadModel.getSelectedIndex() != -1) {
-					String selectedValue = typeaheadModel.getSelectItemsModel().get(newValue).getCaption();
+			public void valueChanged(SelectItemModel newValue) {
+				if (typeaheadModel.getSelectedItem() != null) {
+					String selectedValue = typeaheadModel.getSelectedItem().getCaption();
 					if (widget.val() != selectedValue) {
-						widget.val(typeaheadModel.getSelectItemsModel().get(newValue).getCaption());
+						widget.val(selectedValue);
 					}
 				}
 			}
@@ -105,11 +102,11 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 			}
 		});
 		
-		new ListBindingListener<SelectItemModel>(Bindings.obs(typeaheadModel).get((ObservableProperty) SelectModel_._selectItemsModel)) {
+		new ListBindingListener<SelectItemModel>(Bindings.obs(typeaheadModel).get((ObservableProperty) AbstractSelectModel_._selectItemsModel)) {
 			@Override
 			public void inserted(ObservableList<SelectItemModel> list, int index, SelectItemModel element) {
 				updateOptions(widget, itemsToString(list));
-				if (index == typeaheadModel.getSelectedIndex()) {
+				if (element == typeaheadModel.getSelectedItem()) {
 					// the selected value just got inserted
 					widget.val(element.getCaption());
 				}
@@ -129,7 +126,11 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 				/*
 				 * we need to set up index in every case
 				 */
-				typeaheadModel.setSelectedIndex(newIndex);
+				if (newIndex == -1) {
+					typeaheadModel.setSelectedItem(null);
+				} else {
+					typeaheadModel.setSelectedItem(typeaheadModel.getSelectItemsModel().get(newIndex));
+				}
 				
 				if (newIndex > -1) {
 					//reset to previous selection

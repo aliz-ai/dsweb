@@ -22,7 +22,6 @@ package com.doctusoft.dsw.client.comp;
  * #L%
  */
 
-
 import java.util.List;
 import java.util.Map;
 
@@ -33,27 +32,28 @@ import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.ValueBinding;
 import com.doctusoft.bean.binding.observable.ListChangeListener;
 import com.doctusoft.bean.binding.observable.ObservableValueBinding;
+import com.doctusoft.dsw.client.comp.model.AbstractSelectModel;
+import com.doctusoft.dsw.client.comp.model.AbstractSelectModel_;
 import com.doctusoft.dsw.client.comp.model.SelectItemModel;
-import com.doctusoft.dsw.client.comp.model.SelectModel;
-import com.doctusoft.dsw.client.comp.model.SelectModel_;
 import com.doctusoft.dsw.client.util.DeferredFactory;
 import com.doctusoft.dsw.client.util.DeferredRunnable;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-public abstract class AbstractSelect<Actual, Model extends SelectModel, T> extends BaseComponent<Actual, Model> {
+public abstract class AbstractSelect<Actual, Model extends AbstractSelectModel, T> extends BaseComponent<Actual, Model> {
 	
 	@com.doctusoft.ObservableProperty
 	private T value;
 	
 	protected Map<T, SelectItem<T>> itemsByValue = Maps.newHashMap();
 	protected Map<T, SelectItemModel> modelsByValue = Maps.newHashMap();
+	protected Map<SelectItemModel, SelectItem<T>> itemsByModel = Maps.newHashMap();
 	protected List<SelectItem<T>> items = Lists.newArrayList();
 	
 	private boolean valueChanged = false;
-	private DeferredRunnable deferredRunnable = null;
-	private DeferredChangeListeners deferredChangeListeners = new DeferredChangeListeners();
+	protected DeferredRunnable deferredRunnable = null;
+	protected DeferredChangeListeners deferredChangeListeners = new DeferredChangeListeners();
 
 	public AbstractSelect(final Model model) {
 		super(model);
@@ -67,10 +67,10 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 			}
 		});
 		// if the selectedIndex changes, set the correct value
-		SelectModel_._selectedIndex.addChangeListener(model, new ValueChangeListener<Integer>() {
+		AbstractSelectModel_._selectedItem.addChangeListener(model, new ValueChangeListener<SelectItemModel>() {
 			@Override
-			public void valueChanged(Integer newValue) {
-				if (newValue == null || newValue == -1) {
+			public void valueChanged(SelectItemModel newValue) {
+				if (newValue == null) {
 					if (value != null) {
 						setValue(null);
 					}
@@ -78,7 +78,7 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 					if (items.isEmpty()) {
 						return;
 					}
-					SelectItem<T> candidate = items.get(newValue);
+					SelectItem<T> candidate = itemsByModel.get(newValue);
 					if (candidate == null) {
 						setValue(null);
 					} else {
@@ -110,13 +110,18 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 				valueChanged = false;
 				applyValueChange();
 			}
+			deferredRunnableExtensions();
 		}
 	}
 	
+	protected void deferredRunnableExtensions() {
+		
+	}
+	
 	protected void applyValueChange() {
-		int candidate = getValueIndex(value);
-		if (candidate != model.getSelectedIndex()) {
-			model.setSelectedIndex(candidate);
+		SelectItemModel candidate = modelsByValue.get(value);
+		if (candidate != model.getSelectedItem()) {
+			model.setSelectedItem(candidate);
 		}
 	}
 	
@@ -128,14 +133,6 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 	public Actual bind(final ValueBinding<T> valueBinding) {
 		Bindings.bind(valueBinding, (ObservableValueBinding) Bindings.obs(this).get(AbstractSelect_._value));
 		return (Actual) this;
-	}
-	
-	protected int getValueIndex(T value) {
-		SelectItemModel itemModel = modelsByValue.get(value);
-		if (itemModel == null) {
-			return -1;
-		}
-		return model.getSelectItemsModel().indexOf(itemModel);
 	}
 	
 	public Actual withSelectItems(List<SelectItem<T>> selectItems) {
@@ -150,6 +147,7 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 		model.getSelectItemsModel().add(index, itemModel);
 		itemsByValue.put(item.getValue(), item);
 		modelsByValue.put(item.getValue(), itemModel);
+		itemsByModel.put(itemModel, item);
 		items.add(index, item);
 	}
 	
@@ -157,6 +155,7 @@ public abstract class AbstractSelect<Actual, Model extends SelectModel, T> exten
 		model.getSelectItemsModel().clear();
 		itemsByValue.clear();
 		modelsByValue.clear();
+		itemsByModel.clear();
 		int index = 0;
 		for (SelectItem<T> item : selectItems) {
 			registerSelectItem(index ++, item);
