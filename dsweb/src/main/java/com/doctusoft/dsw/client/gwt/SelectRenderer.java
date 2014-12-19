@@ -57,7 +57,11 @@ public class SelectRenderer extends BaseComponentRenderer {
 				option.attr("name", element.getId());
 				if (index == 0) {
 					options.add(0, option);
-					option.prependTo(widget);
+					if (nullOption == null) {
+						option.prependTo(widget);
+					} else {
+						option.insertAfter(nullOption);
+					}
 				} else {
 					option.insertAfter(options.get(index - 1));
 					options.add(index, option);

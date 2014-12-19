@@ -169,6 +169,28 @@ public class TestSelectRenderer extends AbstractDswebTest {
 		delayTestFinish(100);
 	}
 	
+	@Test
+	public void testNewOptionsAddedAfterTheNullOption() {
+		new GWTTimerDeferrerImpl();
+		final Select<MockSelectModel> select = createSelectWithTwoOptions().withNullOptionCaption("Please select");
+		new Timer() {
+			@Override
+			public void run() {
+				SelectItemModel newItem = new SelectItemModel();
+				newItem.setCaption("hello world");
+				select.getModel().getSelectItemsModel().add(0, newItem);
+			}
+		}.schedule(25);
+		new Timer() {
+			@Override
+			public void run() {
+				assertEquals("hello world", JQuery.select( "#select option:nth-child(2)" ).text());
+				finishTest();
+			}
+		}.schedule(50);
+		delayTestFinish(100);
+	}
+	
 	private Select<MockSelectModel> createSelectWithTwoOptions() {
 		ArrayList<SelectItem<MockSelectModel>> selectItems = new ArrayList<SelectItem<MockSelectModel>>();
 		selectItems.add( createSelectItemWithName( "first" ) );
