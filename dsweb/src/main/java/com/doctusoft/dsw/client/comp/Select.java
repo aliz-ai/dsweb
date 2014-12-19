@@ -73,7 +73,7 @@ public class Select<T> extends AbstractSelect<Select<T>, SelectModel, T> {
 	 * If the null option caption is not null, a first option will be rendered that is associated with the null value.
 	 * In this case, null value should not be among a the SelectItems (that is allowed otherwise in case you need it that way). 
 	 */
-	public Select withNullOptionCaption(String nullOptionCaption) {
+	public Select<T> withNullOptionCaption(String nullOptionCaption) {
 		model.setNullOptionCaption(nullOptionCaption);
 		return this;
 	}
@@ -81,7 +81,7 @@ public class Select<T> extends AbstractSelect<Select<T>, SelectModel, T> {
 	/**
 	 * @see AbstractSelect#withNullOptionCaption(String)
 	 */
-	public Select bindNullOptionCaption(ValueBinding<String> nullOptionCaptionBinding) {
+	public Select<T> bindNullOptionCaption(ValueBinding<String> nullOptionCaptionBinding) {
 		Bindings.bind(nullOptionCaptionBinding, Bindings.obs(model).get(SelectModel_._nullOptionCaption));
 		return this;
 	}
