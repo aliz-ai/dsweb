@@ -1,4 +1,4 @@
-package com.doctusoft.dsw.client.comp;
+package com.doctusoft.dsw.client.comp.model;
 
 /*
  * #%L
@@ -25,30 +25,21 @@ package com.doctusoft.dsw.client.comp;
 
 import java.util.Date;
 
-import com.doctusoft.bean.binding.Bindings;
-import com.doctusoft.bean.binding.ValueBinding;
-import com.doctusoft.dsw.client.comp.model.DatepickerModel;
-import com.doctusoft.dsw.client.comp.model.DatepickerModel_;
+import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ModelObject;
 
-public class Datepicker extends BaseComponent<Datepicker, DatepickerModel> {
+public class DatePickerModel extends BaseComponentModel implements ModelObject {
 
-	public Datepicker() {
-		super(new DatepickerModel());
-	}
+	@ObservableProperty
+	private Date value = null;
 
-	public Datepicker withFormat(String format) {
-		model.setFormat(format);
-		return this;
-	}
+	/**
+	 * This is the format used by bootstrap-datepicker, see http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
+	 */
+	@ObservableProperty
+	private String format = "yyyy.MM.dd";
 
-	public Datepicker bind(final ValueBinding<Date> valueBinding) {
-		Bindings.bind(valueBinding, Bindings.obs(model).get(DatepickerModel_._value));
-		return this;
-	}
-
-	public Datepicker withPlaceHolder(String placeHolder) {
-		model.setPlaceHolder(placeHolder);
-		return this;
-	}
+	@ObservableProperty
+	private String placeHolder = "";
 
 }

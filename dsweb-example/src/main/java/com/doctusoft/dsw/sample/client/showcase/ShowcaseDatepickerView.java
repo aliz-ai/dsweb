@@ -24,9 +24,9 @@ package com.doctusoft.dsw.sample.client.showcase;
 
 
 import com.doctusoft.dsw.client.comp.BaseContainer;
-import com.doctusoft.dsw.client.comp.Button;
-import com.doctusoft.dsw.client.comp.Datepicker;
+import com.doctusoft.dsw.client.comp.DatePicker;
 import com.doctusoft.dsw.client.comp.HtmlContent;
+import com.doctusoft.dsw.client.comp.InputText;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.sample.client.BaseShowcaseView;
 
@@ -34,20 +34,23 @@ public class ShowcaseDatepickerView extends BaseShowcaseView<ShowcaseDatepickerP
 
 	public ShowcaseDatepickerView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)
-		.add(new HtmlContent("<h1>Datepicker</h1>"));
+		.add(new HtmlContent("<h1>DatePicker</h1>"));
 
-		new Datepicker().bind( bindOnPresenter().get(ShowcaseDatepickerPresenter_._dateTimeTest) )
-		.withFormat( "yyyy.MM.dd" )
-		.withPlaceHolder("Pick a date!")
-		.appendTo(subContainer);
+		new DatePicker().bind( bindOnPresenter().get(ShowcaseDatepickerPresenter_._date) )
+			.bindFormat(bindOnPresenter().get(ShowcaseDatepickerPresenter_._format))
+			.withPlaceHolder("Pick a date!")
+			.appendTo(subContainer);
 
-		new HtmlContent("<br>").appendTo(subContainer);
 
-		new Label().bind(bindOnPresenter().get(ShowcaseDatepickerPresenter_._timeTest)).appendTo(subContainer);
+		BaseContainer stringRow = new BaseContainer().appendTo(subContainer);
+		new Label("toString(): ").appendTo(stringRow);
+		new Label().bind(bindOnPresenter().get(ShowcaseDatepickerPresenter_._dateAsString)).appendTo(stringRow);
+		
+		BaseContainer formatRow = new BaseContainer().appendTo(subContainer);
+		new Label("Format: ").appendTo(formatRow);
+		new InputText().bind(bindOnPresenter().get(ShowcaseDatepickerPresenter_._format)).appendTo(formatRow);
+		
 
-		new HtmlContent("<br>").appendTo(subContainer);
-
-		new Button("Check binding").click(presenterMethod(ShowcaseDatepickerPresenter_.__datePickerBindingTest)).appendTo(subContainer);
 	}
 
 

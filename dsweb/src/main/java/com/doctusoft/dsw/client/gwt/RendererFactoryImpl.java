@@ -33,7 +33,7 @@ import com.doctusoft.dsw.client.comp.model.CheckboxModel;
 import com.doctusoft.dsw.client.comp.model.ContainerModel;
 import com.doctusoft.dsw.client.comp.model.ContextMenuModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel;
-import com.doctusoft.dsw.client.comp.model.DatepickerModel;
+import com.doctusoft.dsw.client.comp.model.DatePickerModel;
 import com.doctusoft.dsw.client.comp.model.DropdownButtonModel;
 import com.doctusoft.dsw.client.comp.model.ExecuteJavascriptModel;
 import com.doctusoft.dsw.client.comp.model.FixedInputTagsModel;
@@ -150,8 +150,8 @@ public class RendererFactoryImpl extends AbstractGwtRendererFactory {
 		if (model instanceof ResourceLoaderModel) {
 			return new ResourceLoaderRenderer( (ResourceLoaderModel) model );
 		}
-		if (model instanceof DatepickerModel) {
-			return new DatepickerRenderer( (DatepickerModel) model );
+		if (model instanceof DatePickerModel) {
+			return new DatePickerRenderer( (DatePickerModel) model );
 		}
 		if (model instanceof PieChartModel) {
 			return new PieChartRenderer( (PieChartModel) model );

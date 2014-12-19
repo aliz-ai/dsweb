@@ -17,7 +17,7 @@ public abstract class BaseShowcaseView<Presenter> extends ContainerWithPresenter
 		Cell menuCell = new Cell().withSpan(3).appendTo(row);
 		new Navs().stacked()
 		.addMenuItem(new Link("Buttons", "#showcasebuttons"))
-		.addMenuItem(new Link("Datepicker", "#showcasedatepicker"))
+		.addMenuItem(new Link("DatePicker", "#showcasedatepicker"))
 		.addMenuItem(new Link("Select", "#showcaseselect"))
 		.addMenuItem(new Link("Typeahead", "#showcasetypeahead"))
 		.addMenuItem(new Link("Inputs", "#showcaseinputs"))

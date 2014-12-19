@@ -33,7 +33,7 @@ xxInternalError: innerText is read-only for tag tbody (http://172.22.4.179:54642
 	public void testFormat() throws ParseException {
 		System.out.println(test());
 		/*
-		Datepicker datePicker = new Datepicker().withId( "datepicker" );
+		DatePicker datePicker = new DatePicker().withId( "datepicker" );
 		registerApp( datePicker );
 		JQuery jqDatepicker = JQuery.select( "#datepicker" );
 		jqDatepicker.val( "2014.02.22" );
