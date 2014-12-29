@@ -8,11 +8,11 @@ import com.doctusoft.dsw.client.comp.Row;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
 public abstract class BaseShowcaseView<Presenter> extends ContainerWithPresenter<Presenter> {
-	
+
 	protected Container subContainer;
-	
+
 	public BaseShowcaseView() {
-		
+
 		Row row = new Row().appendTo(container);
 		Cell menuCell = new Cell().withSpan(3).appendTo(row);
 		new Navs().stacked()
@@ -24,6 +24,7 @@ public abstract class BaseShowcaseView<Presenter> extends ContainerWithPresenter
 		.addMenuItem(new Link("Input Tags (Free)", "#showcasefreeinputtags"))
 		.addMenuItem(new Link("Input Tags (Fixed)", "#showcasefixedinputtags"))
 		.addMenuItem(new Link("Navs", "#showcasenavs"))
+		.addMenuItem(new Link("Onbeforeunload", "#showcaseonbeforeunload"))
 		.addMenuItem(new Link("Tabsheet", "#showcasetabsheet"))
 		.addMenuItem(new Link("Tables", "#showcasetables"))
 		.addMenuItem(new Link("Progress Bars", "#showcaseprogressbars"))
@@ -32,10 +33,10 @@ public abstract class BaseShowcaseView<Presenter> extends ContainerWithPresenter
 		.addMenuItem(new Link("RichText editor", "#showcaserichtexteditor"))
 		.addMenuItem(new Link("Context Menu", "#showcasecontextmenu"))
 		.appendTo(menuCell);
-		
+
 		subContainer = new Container().appendTo(new Cell().withSpan(9).appendTo(row));
 		subContainer.css("width","auto");
-		
+
 	}
 
 }
