@@ -72,7 +72,7 @@ public class CheckboxRenderer extends BaseComponentRenderer {
 
 		} );
 
-                new EnabledAttributeRenderer(input, model);
+        new EnabledAttributeRenderer(input, model);
 	}
 
 	private void applyValue(String newValue) {

@@ -14,10 +14,10 @@ import com.doctusoft.dsw.sample.client.ClientFactory;
 import com.google.common.base.Joiner;
 
 public class ShowcaseFreeInputTagsPresenter extends com.doctusoft.dsw.client.mvp.AbstractPresenter<ShowcaseFreeInputTagsPresenter> {
-	
+
 	@Getter
 	private ViewOf<ShowcaseFreeInputTagsPresenter> view;
-	
+
 	@ObservableProperty
 	private ObservableList<String> tags = new ObservableList<String>();
 
@@ -26,12 +26,15 @@ public class ShowcaseFreeInputTagsPresenter extends com.doctusoft.dsw.client.mvp
 
 	@ObservableProperty
 	private ObservableList<String> tagSuggestions = new ObservableList<String>();
-	
-	public ShowcaseFreeInputTagsPresenter(Place place, ClientFactory clientFactory ) {
+
+	@ObservableProperty
+	private boolean editable = true;
+
+	public ShowcaseFreeInputTagsPresenter(final Place place, final ClientFactory clientFactory ) {
 		view = clientFactory.getShowcaseFreeInputTagsView();
 
 		tagSuggestions.addAll(ExampleData.oldComputerNames);
-		
+
 		new ListChangeListener(Bindings.obs(this).get(ShowcaseFreeInputTagsPresenter_._tags)) {
 			@Override
 			protected void changed() {
@@ -39,7 +42,7 @@ public class ShowcaseFreeInputTagsPresenter extends com.doctusoft.dsw.client.mvp
 			}
 		};
 	}
-	
+
 	@MethodRef
 	public void clearTags() {
 		tags.clear();

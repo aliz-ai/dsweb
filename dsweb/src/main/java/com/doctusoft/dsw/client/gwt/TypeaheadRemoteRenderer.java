@@ -88,6 +88,8 @@ public class TypeaheadRemoteRenderer extends BaseComponentRenderer {
 			}
 		});
 
+		new EnabledAttributeRenderer(widget, model);
+
 	}
 
 	private void setCallback(final JavaScriptObject callbackMethod) {
