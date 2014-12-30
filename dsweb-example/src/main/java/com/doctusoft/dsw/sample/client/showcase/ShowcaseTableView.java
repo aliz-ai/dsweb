@@ -45,72 +45,90 @@ public class ShowcaseTableView extends BaseShowcaseView<ShowcaseTablePresenter> 
 
 	public ShowcaseTableView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)
-			.add(new HtmlContent("<h1>Tables</h1>"));
-		
+		.add(new HtmlContent("<h1>Tables</h1>"));
+
 		new TabSheet()
-			.withDefaultTab("Selection", new SelectionTabContent())
-			.withDefaultTab("Ordering", new OrderingTabContent())
-			.appendTo(subContainer);
-			
+		.withDefaultTab("Selection", new SelectionTabContent())
+		.withDefaultTab("Ordering", new OrderingTabContent())
+		.withDefaultTab("Changing Columns", new ChangingColumnsTabContent())
+		.appendTo(subContainer);
+
 	}
 
 	public class SelectionTabContent extends Composite<BaseContainer> {
 		public SelectionTabContent() {
 			super(new BaseContainer());
 			new DataTable<PersonDto>()
-				.addColumn(Columns.from("Id", PersonDto_._id))
-				.addColumn(Columns.obs("Name", PersonDto_._name))
-				.addColumn(Columns.from("Email", PersonDto_._email))
-				.addColumn(Columns.from("Born", PersonDto_._birthDate).format(new DateFormatter("yyyy-MM-dd")))
-				.addColumn(Columns.actionButton(ShowcaseTableView.this, ShowcaseTablePresenter_.__personClicked, "View"))
-				.bind(bindOnPresenter().get(ShowcaseTablePresenter_._personList))
-				.bindSelectionMode(bindOnPresenter().get(ShowcaseTablePresenter_._selectionMode))
-				.bindSelection(bindOnPresenter().get(ShowcaseTablePresenter_._selection))
-				.appendTo(root);
+			.addColumn(Columns.from("Id", PersonDto_._id))
+			.addColumn(Columns.obs("Name", PersonDto_._name))
+			.addColumn(Columns.from("Email", PersonDto_._email))
+			.addColumn(Columns.from("Born", PersonDto_._birthDate).format(new DateFormatter("yyyy-MM-dd")))
+			.addColumn(Columns.actionButton(ShowcaseTableView.this, ShowcaseTablePresenter_.__personClicked, "View"))
+			.bind(bindOnPresenter().get(ShowcaseTablePresenter_._personList))
+			.bindSelectionMode(bindOnPresenter().get(ShowcaseTablePresenter_._selectionMode))
+			.bindSelection(bindOnPresenter().get(ShowcaseTablePresenter_._selection))
+			.appendTo(root);
 			new ModalDialog()
-				.withHeader("Selection")
-				.addContent(new Label().bind(bindOnPresenter().get(ShowcaseTablePresenter_._modalContent)))
-				.bindDialogVisible(bindOnPresenter().get(ShowcaseTablePresenter_._modalVisible)).appendTo(root);
+			.withHeader("Selection")
+			.addContent(new Label().bind(bindOnPresenter().get(ShowcaseTablePresenter_._modalContent)))
+			.bindDialogVisible(bindOnPresenter().get(ShowcaseTablePresenter_._modalVisible)).appendTo(root);
 			new HtmlContent("<hr/>").appendTo(root);
 			new Label("Change selection mode:").appendTo(root);
 			new Select<SelectionMode>()
-				.bind(bindOnPresenter().get(ShowcaseTablePresenter_._selectionMode))
-				.withSelectItems(SelectItems.fromEnum(SelectionMode.values()))
-				.appendTo(root);
+			.bind(bindOnPresenter().get(ShowcaseTablePresenter_._selectionMode))
+			.withSelectItems(SelectItems.fromEnum(SelectionMode.values()))
+			.appendTo(root);
 			new Label("", "div").bind(bindOnPresenter().get(ShowcaseTablePresenter_._selectionString)).appendTo(root);
 		}
 	}
-	
+
 	public class OrderingTabContent extends Composite<BaseContainer> {
 		public OrderingTabContent() {
 			super(new BaseContainer());
 			new Label("Note: this page presents only the UI representation of ordering. This component doesn't support automatic data ordering: the presenter has to react to changes in ordering")
-				.appendTo(root);
+			.appendTo(root);
 			DataTable<PersonDto> dataTable = new DataTable<PersonDto>();
 			dataTable
-				.addColumn(Columns.from("Id", PersonDto_._id))
-				.addColumn(Columns.obs("Name", PersonDto_._name).orderable())
-				.addColumn(Columns.from("Email", PersonDto_._email).orderable())
-				.addColumn(Columns.from("Born", PersonDto_._birthDate).format(new DateFormatter("yyyy-MM-dd")))
-				.addColumn(Columns.actionButton(ShowcaseTableView.this, ShowcaseTablePresenter_.__personClicked, "View"))
-				.bind(bindOnPresenter().get(ShowcaseTablePresenter_._personList))
-				.withSelectionMode(SelectionMode.None)
-				.appendTo(root);
+			.addColumn(Columns.from("Id", PersonDto_._id))
+			.addColumn(Columns.obs("Name", PersonDto_._name).orderable())
+			.addColumn(Columns.from("Email", PersonDto_._email).orderable())
+			.addColumn(Columns.from("Born", PersonDto_._birthDate).format(new DateFormatter("yyyy-MM-dd")))
+			.addColumn(Columns.actionButton(ShowcaseTableView.this, ShowcaseTablePresenter_.__personClicked, "View"))
+			.bind(bindOnPresenter().get(ShowcaseTablePresenter_._personList))
+			.withSelectionMode(SelectionMode.None)
+			.appendTo(root);
 			new SingleColumnOrderingBehaviour(dataTable)
-				.bind(bindOnPresenter().get(ShowcaseTablePresenter_._ordering));
-			
+			.bind(bindOnPresenter().get(ShowcaseTablePresenter_._ordering));
+
 			new Label().bind(bindOnPresenter().get(ShowcaseTablePresenter_._orderingInfo))
-				.appendTo(root);
-			
+			.appendTo(root);
+
 			BaseContainer buttons = new BaseContainer().appendTo(root);
 			new Button("Clear")
-				.click(presenterMethod(ShowcaseTablePresenter_.__clearOrdering))
-				.appendTo(buttons);
-			
-			new Button("Order by name")
-				.click(presenterMethod(ShowcaseTablePresenter_.__orderByName))
-				.appendTo(buttons);
+			.click(presenterMethod(ShowcaseTablePresenter_.__clearOrdering))
+			.appendTo(buttons);
 
+			new Button("Order by name")
+			.click(presenterMethod(ShowcaseTablePresenter_.__orderByName))
+			.appendTo(buttons);
+
+		}
+	}
+
+	public class ChangingColumnsTabContent extends Composite<BaseContainer> {
+		public ChangingColumnsTabContent() {
+			super(new BaseContainer());
+			new DataTable<PersonDto>()
+			.bindColumns(bindOnPresenter().get(ShowcaseTablePresenter_._columnDescriptors))
+			.bind(bindOnPresenter().get(ShowcaseTablePresenter_._personList))
+			.bindSelectionMode(bindOnPresenter().get(ShowcaseTablePresenter_._selectionMode))
+			.bindSelection(bindOnPresenter().get(ShowcaseTablePresenter_._selection))
+			.appendTo(root);
+
+			BaseContainer buttons = new BaseContainer().appendTo(root);
+			new Button("Clear").click(presenterMethod(ShowcaseTablePresenter_.__clearColumns)).appendTo(buttons);
+			new Button("Add email").click(presenterMethod(ShowcaseTablePresenter_.__addEmail)).appendTo(buttons);
+			new Button("Remove email").click(presenterMethod(ShowcaseTablePresenter_.__removeEmail)).appendTo(buttons);
 		}
 	}
 

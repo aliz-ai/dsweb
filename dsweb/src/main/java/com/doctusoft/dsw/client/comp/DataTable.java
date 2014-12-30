@@ -37,6 +37,8 @@ import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 import com.doctusoft.dsw.client.comp.datatable.Column;
+import com.doctusoft.dsw.client.comp.datatable.ColumnDescriptor;
+import com.doctusoft.dsw.client.comp.datatable.Columns;
 import com.doctusoft.dsw.client.comp.model.DataTableCellModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel_;
@@ -49,72 +51,128 @@ import com.google.common.base.Supplier;
 import com.google.common.collect.Lists;
 
 public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableModel> {
-	
+
 	private class SelectItemToIndexConverter implements Converter<Item, Integer>, Serializable {
-		
+
 		@Override
-		public Integer convertSource( Item source ) {
+		public Integer convertSource( final Item source ) {
 			if (source == null) {
 				return -1;
 			}
 			return itemsListener.getShadowList().indexOf( source );
 		}
-		
+
 		@Override
-		public Item convertTarget( Integer target ) {
+		public Item convertTarget( final Integer target ) {
 			if (target == -1) {
 				return null;
 			}
 			return itemsListener.getShadowList().get( target );
 		}
 	}
-	
-	private final List<Column<Item>> columns = Lists.newArrayList();
-	
+
+	private List<Column<Item>> columns = Lists.newArrayList();
+
 	private ListBindingListener<Item> itemsListener;
-	
+
+	private ListBindingListener<ColumnDescriptor<Item>> columnsListener;
+
 	public DataTable() {
 		super( new DataTableModel() );
 		withStyleClasses(BootstrapStyleClasses.TABLE_STRIPED, BootstrapStyleClasses.TABLE_BORDERED);
 		Bindings.obs( model ).get( DataTableModel_._selectionMode ).addValueChangeListener( new ValueChangeListener<SelectionMode>() {
-			
+
 			@Override
-			public void valueChanged( SelectionMode newValue ) {
+			public void valueChanged( final SelectionMode newValue ) {
 				model.getSelectedIndices().clear();
 			}
 		} );
 	}
-	
-	public DataTable<Item> addColumn( Column<Item> column ) {
+
+	public DataTable<Item> addColumn( final Column<Item> column ) {
 		model.getColumns().add( column.getHeader() );
 		columns.add( column );
 		return this;
 	}
-	
-	public DataTable<Item> bind( ObservableValueBinding<? extends List<Item>> listBinding ) {
+
+	public DataTable<Item> removeColumn(final Column<Item> column) {
+		model.getColumns().remove(column.getHeader());
+		columns.remove(column);
+		return this;
+	}
+
+	public DataTable<Item> removeColumn(final int index) {
+		model.getColumns().remove(index);
+		columns.remove(index);
+		return this;
+	}
+
+	public DataTable<Item> bindColumns(final ObservableValueBinding<? extends List<ColumnDescriptor<Item>>> columndBinding) {
+		if (columnsListener != null) {
+			columnsListener.remove();
+		}
+
+		columnsListener = new ListBindingListener<ColumnDescriptor<Item>>(columndBinding) {
+
+			@Override
+			public void inserted(final ObservableList<ColumnDescriptor<Item>> list, final int index, final ColumnDescriptor<Item> element) {
+				Column<Item> column = Columns.from(element);
+
+				model.getColumns().add(index, column.getHeader());
+				columns.add(index, column);
+				rerenderRows();
+			}
+
+			@Override
+			public void removed(final ObservableList<ColumnDescriptor<Item>> list, final int index, final ColumnDescriptor<Item> element) {
+				Column<Item> column = Columns.from(element);
+
+				model.getColumns().remove(index);
+				columns.remove(index);
+				rerenderRows();
+			}
+		};
+
+
+		return this;
+	}
+
+	private void rerenderRows() {
+		ObservableList<Item> shadowList = itemsListener.getShadowList();
+		ObservableList<DataTableRowModel> updatedRows = new ObservableList<DataTableRowModel>();
+
+		for (Item item : shadowList) {
+			DataTableRowModel renderRow = renderRow(item);
+			updatedRows.add(renderRow);
+		}
+
+		model.setRows(updatedRows);
+	}
+
+	public DataTable<Item> bind( final ObservableValueBinding<? extends List<Item>> listBinding ) {
 		if (itemsListener != null) {
 			// remove previous binding
 			itemsListener.remove();
 		}
 		itemsListener = new ListBindingListener<Item>( listBinding ) {
-			
+
 			@Override
-			public void inserted( ObservableList<Item> list, int index, Item element ) {
+			public void inserted( final ObservableList<Item> list, final int index, final Item element ) {
 				model.getRows().add( index, renderRow( element ) );
 			}
-			
+
 			@Override
-			public void removed( ObservableList<Item> list, int index, Item element ) {
+			public void removed( final ObservableList<Item> list, final int index, final Item element ) {
 				model.getRows().remove( index );
 			}
 		};
 		return this;
 	}
-	
+
 	public DataTable<Item> rowClick( final ParametricEventHandler<Item> rowClickHandler ) {
 		bindEvent(DataTableModel_._rowClickedEvent, new ParametricEventHandler<Integer>() {
 			@Override
-			public void handle(Integer parameter) {
+			public void handle(final Integer parameter) {
 				rowClickHandler.handle(new SelectItemToIndexConverter().convertTarget(parameter));
 			}
 		}, new Supplier<RowClickedEvent>() {
@@ -125,26 +183,26 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 		});
 		return this;
 	}
-	
+
 	/**
 	 * Binds to a list of selected items. This works in both Single and Multiple selection modes. You however should not
 	 * add multiple items to the bound list in Single selection mode.
 	 * In Single selection mode, you'd probably prefer bindSingleSelection
 	 */
-	public DataTable<Item> bindSelection( ObservableValueBinding<? extends List<Item>> selection ) {
+	public DataTable<Item> bindSelection( final ObservableValueBinding<? extends List<Item>> selection ) {
 		new BidirectionalConvertingListBinder<Item, Integer>(
-			selection, new SelectItemToIndexConverter(),
-			Bindings.obs( model ).get( DataTableModel_._selectedIndices ) );
+				selection, new SelectItemToIndexConverter(),
+				Bindings.obs( model ).get( DataTableModel_._selectedIndices ) );
 		return this;
 	}
-	
-	public DataTable<Item> bindSelectionMode( ValueBinding<SelectionMode> selectionModeBinding ) {
+
+	public DataTable<Item> bindSelectionMode( final ValueBinding<SelectionMode> selectionModeBinding ) {
 		Bindings.bind( selectionModeBinding, Bindings.obs( model ).get( DataTableModel_._selectionMode ) );
 		return this;
 	}
-	
+
 	//	public DataTable<Item> bindSingleSelection
-	
+
 	/**
 	 * Removes all selection
 	 */
@@ -152,22 +210,22 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 		model.getSelectedIndices().clear();
 		return this;
 	}
-	
+
 	protected DataTableRowModel renderRow( final Item item ) {
 		DataTableRowModel rowModel = new DataTableRowModel();
 		rowModel.getCells().addAll( Lists.transform( columns, new Function<Column<Item>, DataTableCellModel>() {
-			
+
 			@Override
-			public DataTableCellModel apply( Column<Item> input ) {
+			public DataTableCellModel apply( final Column<Item> input ) {
 				return input.getCellModel( item );
 			}
 		} ) );
 		return rowModel;
 	}
-	
-	public DataTable<Item> withSelectionMode( SelectionMode selectionMode ) {
+
+	public DataTable<Item> withSelectionMode( final SelectionMode selectionMode ) {
 		model.setSelectionMode( selectionMode );
 		return this;
 	}
-	
+
 }

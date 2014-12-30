@@ -26,6 +26,7 @@ package com.doctusoft.dsw.client.gwt;
 
 import java.util.List;
 
+import com.doctusoft.bean.ListenerRegistration;
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
@@ -58,6 +59,8 @@ public class DataTableRenderer extends BaseComponentRenderer {
 
 	private DeferredRunnable deferredRunnable = null;
 	private DeferredChangeListener deferredChangeListeners = new DeferredChangeListener();
+
+	private List<ListenerRegistration> headerListenerRegistrations;
 
 	public DataTableRenderer( final DataTableModel model ) {
 		super( JQuery.select( "<table class=\"table\"/>" ), model );
@@ -107,14 +110,6 @@ public class DataTableRenderer extends BaseComponentRenderer {
 				}
 			}
 		};
-
-		DataTableModel_._columns.addChangeListener(model, new ValueChangeListener<ObservableList<DataTableColumnModel>>() {
-
-			@Override
-			public void valueChanged(final ObservableList<DataTableColumnModel> newValue) {
-				deferredRunnable = DeferredFactory.defer(deferredRunnable, deferredChangeListeners);
-			}
-		});
 
 		new ListBindingListener<DataTableColumnModel>(Bindings.obs(model).get(DataTableModel_._columns)) {
 
@@ -218,11 +213,13 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	}
 
 	protected void rerenderAllHeaders() {
+		headerListenerRegistrations.clear();
 		widget.find("thead").remove();
 		renderHeaders();
 	}
 
 	protected void renderHeaders() {
+		headerListenerRegistrations = Lists.newArrayList();
 		JQuery headerRow = JQuery.select( "<tr>" ).appendTo( JQuery.select( "<thead>" ).appendTo( widget ) );
 
 		for (final DataTableColumnModel columnModel : model.getColumns()) {
@@ -230,7 +227,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 			if (columnModel.isOrderable()) {
 				th.addClass("orderable");
 				final JQuery icon = JQuery.select("<i class='ordering-icon'/>").appendTo(th);
-				addChangeListenerAndApply(DataTableColumnModel_._orderingDirection, columnModel, new ValueChangeListener<OrderingDirection>() {
+				ListenerRegistration orderingListener = addChangeListenerAndApply(DataTableColumnModel_._orderingDirection, columnModel, new ValueChangeListener<OrderingDirection>() {
 					@Override
 					public void valueChanged(final OrderingDirection newValue) {
 						if (newValue == null) {
@@ -240,6 +237,8 @@ public class DataTableRenderer extends BaseComponentRenderer {
 						}
 					}
 				});
+
+				headerListenerRegistrations.add(orderingListener);
 			}
 			bindEvent(th, EventType.click, Bindings.obs(columnModel).get(DataTableColumnModel_._click), new EventTriggerer<ComponentEvent>() {
 				@Override
