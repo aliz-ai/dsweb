@@ -16,7 +16,7 @@ public class ShowcaseOnbeforeunloadPresenter extends com.doctusoft.dsw.client.mv
 	private ViewOf<ShowcaseOnbeforeunloadPresenter> view;
 
 	@ObservableProperty
-	private String onbeforeunloadMessage;
+	private String onbeforeunloadMessage = "Are you sure?";
 
 	@ObservableProperty
 	private Boolean onbeforeMessageNull;
