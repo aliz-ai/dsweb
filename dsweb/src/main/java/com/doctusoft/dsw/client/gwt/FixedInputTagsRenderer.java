@@ -30,7 +30,6 @@ import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
-import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
 import com.doctusoft.dsw.client.comp.model.FixedInputTagsModel;
 import com.doctusoft.dsw.client.comp.model.FixedInputTagsModel_;
 import com.doctusoft.dsw.client.comp.model.TagOptionModel;
@@ -113,38 +112,7 @@ public class FixedInputTagsRenderer extends BaseComponentRenderer {
 			}
 		});
 
-		/**
-		 * See solution's description FreeInputTagsRenderer
-		 */
-		addChangeListenerAndApply(BaseComponentModel_._enabled, inputTagsModel, new ValueChangeListener<Boolean>() {
-
-			private String defaultBackgroundColor;
-			private String defaultCursor;
-
-			@Override
-			public void valueChanged(final Boolean newValue) {
-				if (newValue == null || !newValue) {
-					defaultBackgroundColor = widget.next().css("background-color");
-					defaultCursor = widget.next().css("cursor");
-
-					widget.attr("disabled", "disabled");
-					widget.next().find("input").attr("disabled", "disabled");
-
-					widget.next().css("background-color", "#EEEEEE");
-					widget.next().css("cursor", "not-allowed");
-				} else {
-					// because of first init
-					if (defaultBackgroundColor != null && defaultCursor != null) {
-						widget.next().css("background-color", defaultBackgroundColor);
-						widget.next().css("cursor", defaultCursor);
-					}
-
-					widget.removeAttr("disabled");
-					widget.next().find("input").removeAttr("disabled");
-				}
-			}
-		});
-
+		new BaseInputTagsEnabledAttributeRenderer(widget, inputTagsModel);
 	}
 
 	private void invalidateTagOptionSuggestions() {
