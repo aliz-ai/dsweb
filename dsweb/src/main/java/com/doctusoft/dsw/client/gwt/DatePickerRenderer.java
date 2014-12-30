@@ -50,7 +50,7 @@ public class DatePickerRenderer extends BaseComponentRenderer {
 		addChangeListenerAndApply(DatePickerModel_._value, model, new ValueChangeListener<Date>() {
 
 			@Override
-			public void valueChanged(Date newValue) {
+			public void valueChanged(final Date newValue) {
 				if (changedFromWidget) {
 					return;
 				}
@@ -58,18 +58,10 @@ public class DatePickerRenderer extends BaseComponentRenderer {
 			}
 		});
 
-		DatePickerModel_._placeHolder.addChangeListener(model, new ValueChangeListener<String>() {
-
-			@Override
-			public void valueChanged(String placeHolder) {
-				widget.attr("placeholder", placeHolder);
-			}
-		});
-
 		widget.change(new EventHandler() {
 
 			@Override
-			public void eventComplete(JQEvent event, JQuery currentJQuery) {
+			public void eventComplete(final JQEvent event, final JQuery currentJQuery) {
 				if (changedFromModel) {
 					return;
 				}
@@ -87,15 +79,17 @@ public class DatePickerRenderer extends BaseComponentRenderer {
 
 		DatePickerModel_._format.addChangeListener(model, new ValueChangeListener<String>() {
 			@Override
-			public void valueChanged(String newValue) {
+			public void valueChanged(final String newValue) {
 				destroyDatepickerNative(widget);
 				initDatepickerNative(widget, model.getFormat());
 				applyValue();
 			}
 		});
+
 		new EnabledAttributeRenderer(widget, model);
+		new PlaceHolderAttributeRenderer(widget, model, DatePickerModel_._placeHolder);
 	}
-	
+
 	protected void applyValue() {
 		changedFromModel = true;
 		if (model.getValue() != null) {
@@ -112,7 +106,7 @@ public class DatePickerRenderer extends BaseComponentRenderer {
 	 * see http://stackoverflow.com/questions/643782/how-to-check-whether-an-object-is-a-date.
 	 * This formatting hack works if we don't want to modify boostrap-datepicker.js
 	 */
-	private native void setDatepickerValueNative(JQuery widget, double value, String format) /*-{
+	private native void setDatepickerValueNative(final JQuery widget, final double value, final String format) /*-{
 		if (value == -1) {
 			widget.datepicker("update", "");
 		} else {
@@ -123,17 +117,17 @@ public class DatePickerRenderer extends BaseComponentRenderer {
 	}-*/;
 
 	// only double can be returned from javascript, see gwt jsni
-	private native double getDatepickerValueNative(JQuery widget) /*-{
+	private native double getDatepickerValueNative(final JQuery widget) /*-{
 		var date = widget.datepicker("getDate");
 		return date.getTime();
 	}-*/;
 
 
-	private native void destroyDatepickerNative(JQuery widget) /*-{
+	private native void destroyDatepickerNative(final JQuery widget) /*-{
 		widget.datepicker("remove");
 	}-*/;
 
-	private native void initDatepickerNative(JQuery widget, String datepickerFormat) /*-{
+	private native void initDatepickerNative(final JQuery widget, final String datepickerFormat) /*-{
 		widget.datepicker({
 			clearBtn : true,
 			autoclose : true,

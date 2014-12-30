@@ -8,7 +8,7 @@ import com.doctusoft.dsw.client.comp.model.RichTextEditorModel_;
 
 public class RichTextEditor extends BaseComponent<RichTextEditor, RichTextEditorModel> {
 
-	public RichTextEditor(RichTextEditorModel model) {
+	public RichTextEditor(final RichTextEditorModel model) {
 		super(model);
 	}
 
@@ -16,28 +16,29 @@ public class RichTextEditor extends BaseComponent<RichTextEditor, RichTextEditor
 		this(new RichTextEditorModel());
 	}
 
-	public RichTextEditor bind(ValueBinding<String> binding) {
+	public RichTextEditor bind(final ValueBinding<String> binding) {
 		Bindings.bind(binding, Bindings.obs(model).get(RichTextEditorModel_._content));
 		return this;
 	}
 
-	public RichTextEditor bindAutoCompleteOptions(ValueBinding<ObservableList<String>> binding) {
+	public RichTextEditor bindAutoCompleteOptions(final ValueBinding<ObservableList<String>> binding) {
 		Bindings.bind(binding, Bindings.obs(model).get(RichTextEditorModel_._autoCompleteOptions));
 		return this;
 	}
 
-	public RichTextEditor withAutocompleteTriggerCharacter(Character autocompleteTriggerCharacter) {
+	public RichTextEditor withAutocompleteTriggerCharacter(final Character autocompleteTriggerCharacter) {
 		model.setAutocompleteTriggerCharacter(autocompleteTriggerCharacter);
 		return this;
 	}
 
-	public RichTextEditor withTextToInsertBeforeAutoCompleteValue(String textToInsertBeforeAutoCompleteValue) {
+	public RichTextEditor withTextToInsertBeforeAutoCompleteValue(final String textToInsertBeforeAutoCompleteValue) {
 		model.setTextToInsertBeforeAutoCompleteValue(textToInsertBeforeAutoCompleteValue);
 		return this;
 	}
 
-	public RichTextEditor withTextToInsertAfterValue(String textToInsertAfterAutoCompleteValue) {
+	public RichTextEditor withTextToInsertAfterValue(final String textToInsertAfterAutoCompleteValue) {
 		model.setTextToInsertAfterAutoCompleteValue(textToInsertAfterAutoCompleteValue);
 		return this;
 	}
+
 }

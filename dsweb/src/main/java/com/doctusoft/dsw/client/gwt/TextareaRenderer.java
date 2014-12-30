@@ -40,25 +40,19 @@ public class TextareaRenderer extends BaseComponentRenderer {
 		widget.val(textarea.getValue());
 		Bindings.obs(textarea).get(TextareaModel_._value).addValueChangeListener(new ValueChangeListener<String>() {
 			@Override
-			public void valueChanged(String newValue) {
+			public void valueChanged(final String newValue) {
 				widget.val(newValue);
 			}
 		});
 		widget.change(new EventHandler() {
 			@Override
-			public void eventComplete(JQEvent event, JQuery currentJQuery) {
+			public void eventComplete(final JQEvent event, final JQuery currentJQuery) {
 				textarea.setValue(widget.val());
 			}
 		});
 
-		TextareaModel_._placeHolder.addChangeListener(textarea, new ValueChangeListener<String>() {
-
-			@Override
-			public void valueChanged(String placeHolder) {
-				widget.attr("placeholder", placeHolder);
-			}
-		});
 		new EnabledAttributeRenderer(widget, textarea);
+		new PlaceHolderAttributeRenderer(widget, textarea, TextareaModel_._placeHolder);
 	}
 
 }

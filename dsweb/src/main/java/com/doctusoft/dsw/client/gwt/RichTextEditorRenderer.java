@@ -17,12 +17,12 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 	private final RichTextEditorModel model;
 
 	private final JsArrayExtended<JavaScriptObject> autoCompleteValues = JavaScriptObject.createArray().cast();
-	
+
 	private boolean isAttached = false;
-	
-	
+
+
 	protected JavaScriptObject editor;
-	
+
 	private static long innerIdCounter = 1;
 	private final String innerIdClass = "dsweb-tinymce-" + (innerIdCounter ++);
 
@@ -37,7 +37,7 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 		RichTextEditorModel_._content.addChangeListener(model, new ValueChangeListener<String>() {
 
 			@Override
-			public void valueChanged(String content) {
+			public void valueChanged(final String content) {
 				if (isAttached) {
 					setContent(content);
 				}
@@ -47,38 +47,38 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 		new ListBindingListener<String>(Bindings.obs(model).get(RichTextEditorModel_._autoCompleteOptions)) {
 
 			@Override
-			public void inserted(ObservableList<String> list, int index, String element) {
+			public void inserted(final ObservableList<String> list, final int index, final String element) {
 				autoCompleteValues.add(index, createOption(element));
 			}
 
 			@Override
-			public void removed(ObservableList<String> list, int index, String element) {
+			public void removed(final ObservableList<String> list, final int index, final String element) {
 				autoCompleteValues.remove(index);
 			}
 		};
-		
+
 		addChangeListenerAndApply(BaseComponentModel_._enabled, model, new ValueChangeListener<Boolean>() {
 
 			@Override
-			public void valueChanged(Boolean newValue) {
+			public void valueChanged(final Boolean newValue) {
 				// FIXME
 				//setEnabled(!Objects.firstNonNull(newValue, false), model.getId());
 			}
 		});
 
 	}
-	
+
 	protected void reinit() {
 		init(widget, innerIdClass, model.getContent(), autoCompleteValues, model.getAutocompleteTriggerCharacter().toString(),
 				model.getTextToInsertBeforeAutoCompleteValue(), model.getTextToInsertAfterAutoCompleteValue());
 	}
-	
+
 	@Override
 	public void reattach() {
 		reinit();
 		isAttached = true;
 	}
-	
+
 	@Override
 	public void detach() {
 		isAttached = false;
@@ -86,23 +86,23 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 		editor = null;
 	}
 
-	private native JavaScriptObject createOption(String optionName)/*-{
+	private native JavaScriptObject createOption(final String optionName)/*-{
 		return {
 			name : optionName
 		};
 	}-*/;
 
-	private void editorContentChanged(String content) {
+	private void editorContentChanged(final String content) {
 		model.setContent(content);
 	}
-	
-	public void editorLoaded(JavaScriptObject editor) {
+
+	public void editorLoaded(final JavaScriptObject editor) {
 		this.editor = editor;
 		isAttached = true;
 		setContent(model.getContent());
 	}
 
-	private native void setContent(String content) /*-{
+	private native void setContent(final String content) /*-{
 		var editor = this.@com.doctusoft.dsw.client.gwt.RichTextEditorRenderer::editor;
 		if (editor === null || (typeof editor === 'undefined')) {
 			return;
@@ -113,8 +113,8 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 			}
 		}, 100);
 	}-*/;
-	
-	private native void setEnabled(boolean enabled) /*-{
+
+	private native void setEnabled(final boolean enabled) /*-{
 		var editor = this.@com.doctusoft.dsw.client.gwt.RichTextEditorRenderer::editor;
 		editor.getBody().setAttribute('contenteditable', enabled);
 	}-*/;
@@ -123,10 +123,10 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 		var editor = this.@com.doctusoft.dsw.client.gwt.RichTextEditorRenderer::editor;
 		editor.remove();
 	}-*/;
-	
-	private native void init(JQuery widget, String idClass, String content, JsArray<JavaScriptObject> mentionSources,
-			String autoCompleteTriggerCharacter, String textToInsertBeforeAutoCompleteValue,
-			String textToInsertAfterAutoCompleteValue) /*-{
+
+	private native void init(final JQuery widget, final String idClass, final String content, final JsArray<JavaScriptObject> mentionSources,
+			final String autoCompleteTriggerCharacter, final String textToInsertBeforeAutoCompleteValue,
+			final String textToInsertAfterAutoCompleteValue) /*-{
 		var that = this;
 		widget.val(content);
 		setTimeout(function() {
@@ -135,13 +135,13 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 				theme : "modern",
 				plugins : "mention",
 				menubar : false,
-				toolbar: 
+				toolbar:
 			        "undo redo | styleselect | bold italic | link image | alignleft aligncenter alignright | sizeselect | fontselect |  fontsizeselect",
 				mentions: {
 				    source: mentionSources,
 				    insert: function(item) {
 					    return textToInsertBeforeAutoCompleteValue + item.name + textToInsertAfterAutoCompleteValue;
-					}, 
+					},
 					delimiter: autoCompleteTriggerCharacter
 				},
 				init_instance_callback: function(editor) {

@@ -19,7 +19,7 @@ public class InputNumberRenderer extends BaseComponentRenderer {
 		}
 		InputNumberModel_._value.addChangeListener(model, new ValueChangeListener<BigDecimal>() {
 			@Override
-			public void valueChanged(BigDecimal newValue) {
+			public void valueChanged(final BigDecimal newValue) {
 				if (newValue == null) {
 					widget.val("");
 				} else {
@@ -29,7 +29,7 @@ public class InputNumberRenderer extends BaseComponentRenderer {
 		});
 		widget.change(new EventHandler() {
 			@Override
-			public void eventComplete(JQEvent event, JQuery currentJQuery) {
+			public void eventComplete(final JQEvent event, final JQuery currentJQuery) {
 				try {
 					BigDecimal value = new BigDecimal(widget.val());
 					model.setValue(value);
@@ -40,14 +40,8 @@ public class InputNumberRenderer extends BaseComponentRenderer {
 			}
 		});
 
-		InputNumberModel_._placeHolder.addChangeListener(model, new ValueChangeListener<String>() {
-
-			@Override
-			public void valueChanged(String placeHolder) {
-				widget.attr("placeholder", placeHolder);
-			}
-		});
 		new EnabledAttributeRenderer(widget, model);
+		new PlaceHolderAttributeRenderer(widget, model, InputNumberModel_._placeHolder);
 	}
 
 }

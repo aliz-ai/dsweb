@@ -38,14 +38,14 @@ public class InputTimeRenderer extends BaseComponentRenderer {
 		widget.val(model.getValue());
 		InputTimeModel_._value.addChangeListener(model, new ValueChangeListener<String>() {
 			@Override
-			public void valueChanged(String newValue) {
+			public void valueChanged(final String newValue) {
 				widget.val(newValue);
 			}
 		});
 
 		widget.change(new EventHandler() {
 			@Override
-			public void eventComplete(JQEvent event, JQuery currentJQuery) {
+			public void eventComplete(final JQEvent event, final JQuery currentJQuery) {
 				String checked = checkAndFormatTime(widget.val());
 				if (checked == null) {
 					widget.val("");
@@ -59,17 +59,11 @@ public class InputTimeRenderer extends BaseComponentRenderer {
 			}
 		});
 
-		InputTimeModel_._placeHolder.addChangeListener(model, new ValueChangeListener<String>() {
-
-			@Override
-			public void valueChanged(String placeHolder) {
-				widget.attr("placeholder", placeHolder);
-			}
-		});
 		new EnabledAttributeRenderer(widget, model);
+		new PlaceHolderAttributeRenderer(widget, model, InputTimeModel_._placeHolder);
 	}
 
-	public static String checkAndFormatTime(String time) {
+	public static String checkAndFormatTime(final String time) {
 		String newTime = null;
 		if (time.matches("([0-9]|0[0-9]|1[0-9]|2[0-3])(|:)[0-5][0-9]")) {
 			newTime = time;

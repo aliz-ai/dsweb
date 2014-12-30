@@ -34,7 +34,7 @@ public class InputTime extends BaseComponent<InputTime, InputTimeModel>{
 		this(new InputTimeModel());
 	}
 
-	public InputTime(InputTimeModel model) {
+	public InputTime(final InputTimeModel model) {
 		super(model);
 	}
 
@@ -43,10 +43,14 @@ public class InputTime extends BaseComponent<InputTime, InputTimeModel>{
 		return this;
 	}
 
-	public InputTime withPlaceHolder(String placeHolder) {
+	public InputTime withPlaceHolder(final String placeHolder) {
 		model.setPlaceHolder(placeHolder);
 		return this;
 	}
 
+	public InputTime bindPlaceHolder(final ValueBinding<String> placeholderBinding) {
+		Bindings.bind(placeholderBinding, Bindings.obs(model).get(InputTimeModel_._placeHolder));
+		return this;
+	}
 
 }

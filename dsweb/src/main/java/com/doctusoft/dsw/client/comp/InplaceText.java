@@ -31,20 +31,20 @@ import com.doctusoft.bean.binding.ValueBinding;
 import com.doctusoft.dsw.client.comp.model.InputTextModel_;
 
 public class InplaceText extends Container {
-	
+
 	Label label;
 	InputText inputText;
-	
+
 	@ObservableProperty
 	private Boolean labelVisible = false;
 	@ObservableProperty
 	private Boolean inputTextVisible = true;
-	
-	
+
+
 	public InplaceText() {
 		label = new Label().bindVisible(Bindings.obs(this).get(InplaceText_._labelVisible));
 		inputText = new InputText().bindVisible(Bindings.obs(this).get(InplaceText_._inputTextVisible));;
-		
+
 		label.click(new EmptyEventHandler() {
 			@Override
 			public void handle() {
@@ -52,24 +52,33 @@ public class InplaceText extends Container {
 				setInputTextVisible(true);
 			}
 		});
-		
+
 		add(label);
 		add(inputText);
 		InputTextModel_._value.addChangeListener(inputText.getModel(), new ValueChangeListener<String>() {
 			@Override
-			public void valueChanged(String newValue) {
+			public void valueChanged(final String newValue) {
 				label.withLabel(newValue);
 				setInputTextVisible(false);
 				setLabelVisible(true);
 			}
 		});
 	}
-	
-	public InplaceText bind(ValueBinding<String> binding) {
+
+	public InplaceText bind(final ValueBinding<String> binding) {
 		label.bind(binding);
 		inputText.bind(binding);
 		return this;
 	}
-	
+
+	public InplaceText withPlaceHolder(final String placeHolder) {
+		inputText.withPlaceHolder(placeHolder);
+		return this;
+	}
+
+	public InplaceText bindPlaceHolder(final ValueBinding<String> placeholderBinding) {
+		Bindings.bind(placeholderBinding, Bindings.obs(inputText.getComponentModel()).get(InputTextModel_._placeHolder));
+		return this;
+	}
 
 }
