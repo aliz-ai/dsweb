@@ -42,49 +42,47 @@ import com.google.gwt.user.client.Timer;
 import com.xedge.jquery.client.JQuery;
 
 public class FixedInputTagsRenderer extends BaseComponentRenderer {
-	
+
 	private boolean changedFromModel = false;
-	
+
 	private boolean changedFromWidget = false;
-	
+
 	private FixedInputTagsModel inputTagsModel;
-	
+
 	private boolean tagSuggestionsInvalidated = false;
-	
+
 	private Map<TagOptionModel, TagOptionItem> itemsByModel = Maps.newHashMap();
 	private Map<TagOptionItem, TagOptionModel> modelsByItem = Maps.newHashMap();
-	
+
 	public FixedInputTagsRenderer(final FixedInputTagsModel inputTagsModel) {
 		super(JQuery.select("<input type=\"text\" />"), inputTagsModel);
 		this.inputTagsModel = inputTagsModel;
 		widget.attr("data-role", "tagsinput");
-		
+
 		firstInit(widget);
-		
-		new EnabledAttributeRenderer(widget, inputTagsModel);
 	}
-	
+
 	public void nativeInitialized() {
 		new ListBindingListener<TagOptionModel>(Bindings.obs(inputTagsModel).get((ObservableProperty) FixedInputTagsModel_._tagOptionSuggestions)) {
 			@Override
-			public void inserted(ObservableList<TagOptionModel> list, int index,
-					TagOptionModel element) {
+			public void inserted(final ObservableList<TagOptionModel> list, final int index,
+					final TagOptionModel element) {
 				invalidateTagOptionSuggestions();
 			}
 
 			@Override
-			public void removed(ObservableList<TagOptionModel> list, int index,
-					TagOptionModel element) {
+			public void removed(final ObservableList<TagOptionModel> list, final int index,
+					final TagOptionModel element) {
 				invalidateTagOptionSuggestions();
 			}
 		};
-		
+
 		// note that the order of tags is not maintained. The underlying JS doesn't support insertion of items
 		new ListBindingListener<TagOptionModel>(Bindings.obs(inputTagsModel).get((ObservableProperty) FixedInputTagsModel_._tagOptionList)) {
 
 
 			@Override
-			public void inserted(ObservableList<TagOptionModel> list, int index, TagOptionModel element) {
+			public void inserted(final ObservableList<TagOptionModel> list, final int index, final TagOptionModel element) {
 				// if the tag suggestions are invalidated, then we don't have to add the option, because all the items will be added later when the timer fires
 				if (changedFromWidget || tagSuggestionsInvalidated) {
 					return;
@@ -95,7 +93,7 @@ public class FixedInputTagsRenderer extends BaseComponentRenderer {
 			}
 
 			@Override
-			public void removed(ObservableList<TagOptionModel> list, int index,	TagOptionModel element) {
+			public void removed(final ObservableList<TagOptionModel> list, final int index,	final TagOptionModel element) {
 				if (changedFromWidget || tagSuggestionsInvalidated) {
 					return;
 				}
@@ -104,18 +102,19 @@ public class FixedInputTagsRenderer extends BaseComponentRenderer {
 				changedFromModel = false;
 			}
 		};
-		
+
 		addChangeListenerAndApply(FixedInputTagsModel_._placeHolder, inputTagsModel, new ValueChangeListener<String>() {
 
 			@Override
-			public void valueChanged(String newValue) {
+			public void valueChanged(final String newValue) {
 				widget.attr("placeholder", Objects.firstNonNull(newValue, ""));
 				widget.next().find("input").attr("placeholder", Objects.firstNonNull(newValue, ""));
 			}
 		});
-		
+
+		new BaseInputTagsEnabledAttributeRenderer(widget, inputTagsModel);
 	}
-	
+
 	private void invalidateTagOptionSuggestions() {
 		if (!tagSuggestionsInvalidated) {
 			tagSuggestionsInvalidated = true;
@@ -135,35 +134,37 @@ public class FixedInputTagsRenderer extends BaseComponentRenderer {
 			}.schedule(1);
 		}
 	}
-	
-	private void addTagOption(TagOptionModel option) {
+
+	private void addTagOption(final TagOptionModel option) {
 		TagOptionItem item = getItemByModel(option);
 		addTagOption(widget, item);
 	}
 
-	private TagOptionItem getItemByModel(TagOptionModel option) {
+	private TagOptionItem getItemByModel(final TagOptionModel option) {
 		TagOptionItem item = itemsByModel.get(option);
 		Preconditions.checkNotNull("The tag option model: " + option.getName() + " was not found in the previously set possible options");
 		return item;
 	}
-	
-	public void itemAdded(TagOptionItem item) {
-		if (changedFromModel)
+
+	public void itemAdded(final TagOptionItem item) {
+		if (changedFromModel) {
 			return;
+		}
 		TagOptionModel tagOptionModel = modelsByItem.get(item);
 		Preconditions.checkNotNull(tagOptionModel);
 		inputTagsModel.getTagOptionList().add(tagOptionModel);
 	}
-	
-	public void itemRemoved(TagOptionItem item) {
-		if (changedFromModel)
+
+	public void itemRemoved(final TagOptionItem item) {
+		if (changedFromModel) {
 			return;
+		}
 		TagOptionModel tagOptionModel = modelsByItem.get(item);
 		Preconditions.checkNotNull(tagOptionModel);
 		inputTagsModel.getTagOptionList().remove(tagOptionModel);
 	}
-		
-	private native void firstInit(JQuery element) /*-{
+
+	private native void firstInit(final JQuery element) /*-{
 		var that = this;
 		setTimeout(function () {
 			element.tagsinput({
@@ -174,7 +175,7 @@ public class FixedInputTagsRenderer extends BaseComponentRenderer {
   				itemText: 'text'
 			});
 			that.@com.doctusoft.dsw.client.gwt.FixedInputTagsRenderer::nativeInitialized()();
-		}, 1); 
+		}, 1);
 		element.on("itemAdded", function(event) {
 			that.@com.doctusoft.dsw.client.gwt.FixedInputTagsRenderer::itemAdded(Lcom/doctusoft/dsw/client/gwt/TagOptionItem;)(event.item);
 		});
@@ -183,7 +184,7 @@ public class FixedInputTagsRenderer extends BaseComponentRenderer {
 		});
 	}-*/;
 
-	private native void setTagOptionSuggestions(JQuery element, JsArray<TagOptionItem> tagSuggestions) /*-{
+	private native void setTagOptionSuggestions(final JQuery element, final JsArray<TagOptionItem> tagSuggestions) /*-{
 		var that = this;
 		element.tagsinput('destroy');
 		element.tagsinput({
@@ -195,18 +196,18 @@ public class FixedInputTagsRenderer extends BaseComponentRenderer {
 			  	typeahead: {
 			    	source: tagSuggestions
 			  }
-		}); 
+		});
 	}-*/;
-	
-	private native static void addTagOption(JQuery element, TagOptionItem item) /*-{
+
+	private native static void addTagOption(final JQuery element, final TagOptionItem item) /*-{
 		element.tagsinput('add', item);
 	}-*/;
 
-	private native static void removeTag(JQuery element, TagOptionItem item) /*-{
+	private native static void removeTag(final JQuery element, final TagOptionItem item) /*-{
 		element.tagsinput('remove', item);
 	}-*/;
-	
-	JsArray<TagOptionItem> tagOptionListToItems(List<TagOptionModel> tagList) {
+
+	JsArray<TagOptionItem> tagOptionListToItems(final List<TagOptionModel> tagList) {
 		itemsByModel.clear();
 		modelsByItem.clear();
 		JsArray<TagOptionItem> array= JavaScriptObject.createArray().cast();
@@ -221,6 +222,6 @@ public class FixedInputTagsRenderer extends BaseComponentRenderer {
 		}
 		return array;
 	}
-	
+
 }
 

@@ -39,3 +39,8 @@ table.table th.orderable .ordering-icon {
 .bootstrap-tagsinput input {
 	min-width: 60px;
 }
+
+.bootstrap-tagsinput-disabled {
+	background-color: #EEEEEE !important;
+	cursor: not-allowed !important;
+}

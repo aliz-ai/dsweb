@@ -25,9 +25,13 @@ package com.doctusoft.dsw.sample.client.showcase;
 
 import com.doctusoft.bean.binding.ParametricEventHandler;
 import com.doctusoft.dsw.client.comp.BaseContainer;
+import com.doctusoft.dsw.client.comp.Checkbox;
+import com.doctusoft.dsw.client.comp.DatePicker;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.InplaceText;
+import com.doctusoft.dsw.client.comp.InputNumber;
 import com.doctusoft.dsw.client.comp.InputText;
+import com.doctusoft.dsw.client.comp.InputTime;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.PasswordField;
 import com.doctusoft.dsw.client.comp.Textarea;
@@ -35,24 +39,35 @@ import com.doctusoft.dsw.client.comp.model.event.KeyEvent;
 import com.doctusoft.dsw.sample.client.BaseShowcaseView;
 
 public class ShowcaseInputsView extends BaseShowcaseView<ShowcaseInputsPresenter> {
-	
+
 	public ShowcaseInputsView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)
-			.add(new HtmlContent("<h1>Inputs</h1>"));
+		.add(new HtmlContent("<h1>Inputs</h1>"));
 		new Label("Simple text input", "h3").appendTo(subContainer);
-		new InputText().withPlaceHolder("placeholder").appendTo(subContainer)
-			.keypress(new ParametricEventHandler<KeyEvent>() {
-				@Override
-				public void handle(KeyEvent parameter) {
-					System.out.println("pressed: " + parameter.getCode());
-				}
-			});
+		new InputText().bindEnabled(bindOnPresenter().get(ShowcaseInputsPresenter_._editable)).withPlaceHolder("placeholder").appendTo(subContainer)
+		.keypress(new ParametricEventHandler<KeyEvent>() {
+			@Override
+			public void handle(final KeyEvent parameter) {
+				System.out.println("pressed: " + parameter.getCode());
+			}
+		});
 		new Label("Textarea", "h3").appendTo(subContainer);
-		new Textarea().setRows(4).appendTo(subContainer);
+		new Textarea().bindEnabled(bindOnPresenter().get(ShowcaseInputsPresenter_._editable)).setRows(4).appendTo(subContainer);
 		new Label("Password input", "h3").appendTo(subContainer);
-		new PasswordField().appendTo(subContainer);
+		new PasswordField().bindEnabled(bindOnPresenter().get(ShowcaseInputsPresenter_._editable)).appendTo(subContainer);
 		new Label("Inplace text", "h3").appendTo(subContainer);
-		new InplaceText().appendTo(subContainer);
+		new InplaceText().bindEnabled(bindOnPresenter().get(ShowcaseInputsPresenter_._editable)).appendTo(subContainer);
+		new Label("Datepicker", "h3").appendTo(subContainer);
+		new DatePicker().bindEnabled(bindOnPresenter().get(ShowcaseInputsPresenter_._editable)).appendTo(subContainer);
+		new Label("Checkbox", "h3").appendTo(subContainer);
+		new Checkbox().bindEnabled(bindOnPresenter().get(ShowcaseInputsPresenter_._editable)).appendTo(subContainer);
+		new Label("InputNumber", "h3").appendTo(subContainer);
+		new InputNumber().bindEnabled(bindOnPresenter().get(ShowcaseInputsPresenter_._editable)).appendTo(subContainer);
+		new Label("InputTime", "h3").appendTo(subContainer);
+		new InputTime().bindEnabled(bindOnPresenter().get(ShowcaseInputsPresenter_._editable)).appendTo(subContainer);
+
+		new Label("Set inputs enabled/disabled", "h3").appendTo(subContainer);
+		new Checkbox().bindChecked(bindOnPresenter().get(ShowcaseInputsPresenter_._editable)).appendTo(subContainer);
 	}
 
 }

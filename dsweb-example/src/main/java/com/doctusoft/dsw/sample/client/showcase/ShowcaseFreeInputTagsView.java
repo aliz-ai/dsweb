@@ -25,28 +25,33 @@ package com.doctusoft.dsw.sample.client.showcase;
 
 import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.Button;
+import com.doctusoft.dsw.client.comp.Checkbox;
 import com.doctusoft.dsw.client.comp.FreeInputTags;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.sample.client.BaseShowcaseView;
 
 public class ShowcaseFreeInputTagsView extends BaseShowcaseView<ShowcaseFreeInputTagsPresenter>{
-	
+
 	public ShowcaseFreeInputTagsView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)
 		.add(new Label("Free Input Tags", "h1"));
-		
+
 		new FreeInputTags()
-			.bind(bindOnPresenter().get(ShowcaseFreeInputTagsPresenter_._tags))
-			.bindTagSuggestions(bindOnPresenter().get(ShowcaseFreeInputTagsPresenter_._tagSuggestions))
-			.appendTo(subContainer);
-		
+		.bind(bindOnPresenter().get(ShowcaseFreeInputTagsPresenter_._tags))
+		.bindTagSuggestions(bindOnPresenter().get(ShowcaseFreeInputTagsPresenter_._tagSuggestions))
+		.bindEnabled(bindOnPresenter().get(ShowcaseFreeInputTagsPresenter_._editable))
+		.appendTo(subContainer);
+
 		new Label("","div").bind(bindOnPresenter().get(ShowcaseFreeInputTagsPresenter_._tagsJoined))
-			.appendTo(subContainer);
-		
+		.appendTo(subContainer);
+
 		new Button("Clear all")
-			.click(presenterMethod(ShowcaseFreeInputTagsPresenter_.__clearTags))
-			.appendTo(subContainer);
-		
+		.click(presenterMethod(ShowcaseFreeInputTagsPresenter_.__clearTags))
+		.appendTo(subContainer);
+
+		new Label("Set free input tag enabled/disabled", "h3").appendTo(subContainer);
+		new Checkbox().bindChecked(bindOnPresenter().get(ShowcaseFreeInputTagsPresenter_._editable)).appendTo(subContainer);
+
 	}
 
 }
