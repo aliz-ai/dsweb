@@ -50,7 +50,6 @@ public class ShowcaseTableView extends BaseShowcaseView<ShowcaseTablePresenter> 
 		new TabSheet()
 		.withDefaultTab("Selection", new SelectionTabContent())
 		.withDefaultTab("Ordering", new OrderingTabContent())
-		.withDefaultTab("Changing Columns", new ChangingColumnsTabContent())
 		.appendTo(subContainer);
 
 	}
@@ -112,23 +111,6 @@ public class ShowcaseTableView extends BaseShowcaseView<ShowcaseTablePresenter> 
 			.click(presenterMethod(ShowcaseTablePresenter_.__orderByName))
 			.appendTo(buttons);
 
-		}
-	}
-
-	public class ChangingColumnsTabContent extends Composite<BaseContainer> {
-		public ChangingColumnsTabContent() {
-			super(new BaseContainer());
-			new DataTable<PersonDto>()
-			.bindColumns(bindOnPresenter().get(ShowcaseTablePresenter_._columnDescriptors))
-			.bind(bindOnPresenter().get(ShowcaseTablePresenter_._personList))
-			.bindSelectionMode(bindOnPresenter().get(ShowcaseTablePresenter_._selectionMode))
-			.bindSelection(bindOnPresenter().get(ShowcaseTablePresenter_._selection))
-			.appendTo(root);
-
-			BaseContainer buttons = new BaseContainer().appendTo(root);
-			new Button("Clear").click(presenterMethod(ShowcaseTablePresenter_.__clearColumns)).appendTo(buttons);
-			new Button("Add email").click(presenterMethod(ShowcaseTablePresenter_.__addEmail)).appendTo(buttons);
-			new Button("Remove email").click(presenterMethod(ShowcaseTablePresenter_.__removeEmail)).appendTo(buttons);
 		}
 	}
 

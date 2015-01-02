@@ -37,8 +37,6 @@ import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 import com.doctusoft.dsw.client.comp.datatable.Column;
-import com.doctusoft.dsw.client.comp.datatable.ColumnDescriptor;
-import com.doctusoft.dsw.client.comp.datatable.Columns;
 import com.doctusoft.dsw.client.comp.model.DataTableCellModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel_;
@@ -75,8 +73,6 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 
 	private ListBindingListener<Item> itemsListener;
 
-	private ListBindingListener<ColumnDescriptor<Item>> columnsListener;
-
 	public DataTable() {
 		super( new DataTableModel() );
 		withStyleClasses(BootstrapStyleClasses.TABLE_STRIPED, BootstrapStyleClasses.TABLE_BORDERED);
@@ -99,54 +95,6 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 		model.getColumns().remove(column.getHeader());
 		columns.remove(column);
 		return this;
-	}
-
-	public DataTable<Item> removeColumn(final int index) {
-		model.getColumns().remove(index);
-		columns.remove(index);
-		return this;
-	}
-
-	public DataTable<Item> bindColumns(final ObservableValueBinding<? extends List<ColumnDescriptor<Item>>> columndBinding) {
-		if (columnsListener != null) {
-			columnsListener.remove();
-		}
-
-		columnsListener = new ListBindingListener<ColumnDescriptor<Item>>(columndBinding) {
-
-			@Override
-			public void inserted(final ObservableList<ColumnDescriptor<Item>> list, final int index, final ColumnDescriptor<Item> element) {
-				Column<Item> column = Columns.from(element);
-
-				model.getColumns().add(index, column.getHeader());
-				columns.add(index, column);
-				rerenderRows();
-			}
-
-			@Override
-			public void removed(final ObservableList<ColumnDescriptor<Item>> list, final int index, final ColumnDescriptor<Item> element) {
-				Column<Item> column = Columns.from(element);
-
-				model.getColumns().remove(index);
-				columns.remove(index);
-				rerenderRows();
-			}
-		};
-
-
-		return this;
-	}
-
-	private void rerenderRows() {
-		ObservableList<Item> shadowList = itemsListener.getShadowList();
-		ObservableList<DataTableRowModel> updatedRows = new ObservableList<DataTableRowModel>();
-
-		for (Item item : shadowList) {
-			DataTableRowModel renderRow = renderRow(item);
-			updatedRows.add(renderRow);
-		}
-
-		model.setRows(updatedRows);
 	}
 
 	public DataTable<Item> bind( final ObservableValueBinding<? extends List<Item>> listBinding ) {

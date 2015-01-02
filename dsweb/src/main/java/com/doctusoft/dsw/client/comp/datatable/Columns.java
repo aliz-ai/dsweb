@@ -26,11 +26,9 @@ package com.doctusoft.dsw.client.comp.datatable;
 import com.doctusoft.bean.ObservableProperty;
 import com.doctusoft.bean.ParametricClassMethodReferences.ClassMethodReference1;
 import com.doctusoft.bean.Property;
-import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.HasComponentModel;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
-import com.doctusoft.dsw.client.exc.ExceptionReporter;
 
 public class Columns {
 
@@ -50,54 +48,6 @@ public class Columns {
 				return new Button(buttonCaption).click(container.presenterMethod(methodRef, item));
 			}
 		};
-	}
-
-	private static <Presenter, Item> ComponentColumn<Item> actionButton(
-			final Presenter presenter,
-			final ClassMethodReference1<? super Presenter, Void, Item> methodRef,
-			final String buttonCaption) {
-		return new ComponentColumn<Item>() {
-			@Override
-			public HasComponentModel getComponent(final Item item) {
-				return new Button(buttonCaption).click(new EmptyEventHandler() {
-
-					@Override
-					public void handle() {
-						try {
-							methodRef.apply(presenter, item);
-						} catch (RuntimeException e) {
-							if (presenter instanceof ExceptionReporter) {
-								((ExceptionReporter) presenter).reportException(e);
-							} else {
-								throw e;
-							}
-						}
-					}
-				});
-			}
-		};
-	}
-
-	public static <Item> Column<Item> from(final ColumnDescriptor<Item> columnDescriptor) {
-		if (columnDescriptor instanceof ButtonColumnDescriptor) {
-			return from((ButtonColumnDescriptor<?, Item>) columnDescriptor);
-		} else if (columnDescriptor instanceof PropertyColumnDescriptor) {
-			return from((PropertyColumnDescriptor<Item, ?>) columnDescriptor);
-		}
-
-		throw new RuntimeException("Columndescriptor type is not supported: " + columnDescriptor.getClass().getSimpleName());
-	}
-
-	public static <Presenter, Item> ComponentColumn<Item> from(final ButtonColumnDescriptor<Presenter, Item> columnDescriptor) {
-		return actionButton(columnDescriptor.getPresenter(), columnDescriptor.getMethodRef(), columnDescriptor.getTitle());
-	}
-
-	public static <Item, Value> PropertyColumn<Item, Value> from(final PropertyColumnDescriptor<Item, Value> columnDescriptor) {
-		if (columnDescriptor.getConverter() != null) {
-			return from(columnDescriptor.getTitle(), columnDescriptor.getProperty()).format(columnDescriptor.getConverter());
-		}
-
-		return from(columnDescriptor.getTitle(), columnDescriptor.getProperty());
 	}
 
 }
