@@ -32,22 +32,29 @@ import com.doctusoft.dsw.client.comp.model.ChartItemClickParam;
 import com.doctusoft.dsw.client.comp.model.PieChartItemModel;
 import com.doctusoft.dsw.client.comp.model.PieChartModel;
 import com.doctusoft.dsw.client.comp.model.PieChartModel_;
+import com.google.common.base.Objects;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.xedge.jquery.client.JQuery;
 
 public class PieChartRenderer extends BaseComponentRenderer {
-	
+
+	private static int idCounter = 1;
+
 	private final PieChartModel model;
-	
+
 	private JQuery lastPlot;
-	
-	public PieChartRenderer( PieChartModel model ) {
-		super( JQuery.select( "<div id=\"" + model.getId() + "\"></div>" ), model );
+
+	private String chartId;
+
+	public PieChartRenderer( final PieChartModel model ) {
+		super( JQuery.select( "<div></div>" ), model );
 		this.model = model;
+
+		initializeId();
 		initializePlot();
 		new ListChangeListener( Bindings.obs( model ).get( PieChartModel_._pieChartItems) ) {
-			
+
 			@Override
 			protected void changed() {
 				if (lastPlot != null ) {
@@ -55,16 +62,24 @@ public class PieChartRenderer extends BaseComponentRenderer {
 				}
 				initializePlot();
 			}
-			
+
 		};
 	}
-	
+
+	/**
+	 * Rerender plot container if the model does not have id
+	 */
+	private void initializeId() {
+		chartId = Objects.firstNonNull(model.getId(), "pie_chart_" + idCounter++);
+		widget.attr("id", chartId);
+	}
+
 	private void initializePlot(  ) {
 		JsArray<JavaScriptObject> jsArray = createJsArrayFromItems( model.getPieChartItems() );
-		initPieChartRendererNative(  widget, jsArray, model.getLegendPosition().getAbbreviation(), model.getTitle(), model.isShowTooltip(), model.getId());
+		initPieChartRendererNative(  widget, jsArray, model.getLegendPosition().getAbbreviation(), model.getTitle(), model.isShowTooltip(), chartId);
 	}
-	
-	private JsArray<JavaScriptObject> createJsArrayFromItems(List<PieChartItemModel> items ){
+
+	private JsArray<JavaScriptObject> createJsArrayFromItems(final List<PieChartItemModel> items ){
 		JsArray<JavaScriptObject> array = JavaScriptObject.createArray().cast();
 		for (PieChartItemModel item : items) {
 			JsArray<JavaScriptObject> innerArray = createArrayFromEntry(  item.getName(), item.getValue() );
@@ -72,25 +87,25 @@ public class PieChartRenderer extends BaseComponentRenderer {
 		}
 		return array;
 	}
-	
-	private void rowClicked(int itemIndex, int subIndex){
+
+	private void rowClicked(final int itemIndex, final int subIndex){
 		model.getRowClickedEvent().fire( new ChartItemClickParam( itemIndex, subIndex ) );
 	}
-	
-	private void setLastPlot(JQuery plot){
+
+	private void setLastPlot(final JQuery plot){
 		this.lastPlot = plot;
 	}
-	
-	private native void destroyLastPlot(JQuery lastPlot)/*-{
+
+	private native void destroyLastPlot(final JQuery lastPlot)/*-{
 		lastPlot.destroy();
 	}-*/;
-	
-	private native JsArray<JavaScriptObject> createArrayFromEntry(String name, int value)/*-{
+
+	private native JsArray<JavaScriptObject> createArrayFromEntry(final String name, final int value)/*-{
 		return [name, value];
 	}-*/;
-	
-	private native void initPieChartRendererNative(JQuery widget, JsArray<JavaScriptObject> data, String legendOrientation, String title, boolean showTooltip, String id) /*-{
-		
+
+	private native void initPieChartRendererNative(final JQuery widget, final JsArray<JavaScriptObject> data, final String legendOrientation, final String title, final boolean showTooltip, final String id) /*-{
+
 		setTimeout(function() {
 			var plot1 = $wnd.$.jqplot(id, [ data ], {
 				title : title,
@@ -115,15 +130,15 @@ public class PieChartRenderer extends BaseComponentRenderer {
 				}
 			});
 			that.@com.doctusoft.dsw.client.gwt.PieChartRenderer::setLastPlot(Lcom/xedge/jquery/client/JQuery;)(plot1);
-			
+
 		}, 0);
-		
+
 		function tooltipContentEditor(str, seriesIndex, pointIndex, plot) {
 		    return plot.data[seriesIndex][pointIndex][0]+': '+plot.data[seriesIndex][pointIndex][1];
 		}
-		
+
 		that = this;
-		
+
 		// CLICK CODE START
 		widget.unbind('jqplotDataClick');
         widget.bind('jqplotDataClick',
@@ -133,7 +148,7 @@ public class PieChartRenderer extends BaseComponentRenderer {
         );
         // CLICK CODE END
 	}-*/;
-	
-	
-	
+
+
+
 }

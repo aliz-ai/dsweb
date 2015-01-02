@@ -42,7 +42,6 @@ public class ShowcaseChartsView extends BaseShowcaseView<ShowcaseChartsPresenter
 		.withLegendPosition( LegendPosition.EAST )
 		.withTitle( "Proba chart" )
 		.withShowToolTip( true )
-		.withId("proba")
 		.rowClick( presenterMethod( ShowcaseChartsPresenter_.__chartClicked ) );
 
 		List<BarChartItemModel> items2 = new ArrayList<BarChartItemModel>();

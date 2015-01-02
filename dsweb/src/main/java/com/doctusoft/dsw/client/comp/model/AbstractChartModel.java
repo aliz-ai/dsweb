@@ -30,8 +30,6 @@ import com.doctusoft.bean.ModelObject;
 
 public class AbstractChartModel extends BaseComponentModel implements ModelObject {
 
-	private static int idCounter = 1;
-
 	@ObservableProperty
 	private LegendPosition legendPosition = LegendPosition.EAST;
 
@@ -53,14 +51,6 @@ public class AbstractChartModel extends BaseComponentModel implements ModelObjec
 		public String getAbbreviation(){
 			return this.name().substring( 0, 1 ).toLowerCase();
 		}
-	}
-
-	protected AbstractChartModel() {
-		super();
-
-		// generate random id for charts by default. It is necessary to multiple chart components on one view
-		// http://www.jqplot.com/deploy/dist/examples/selectorSyntax.html
-		setId("chart_" + idCounter++);
 	}
 
 }
