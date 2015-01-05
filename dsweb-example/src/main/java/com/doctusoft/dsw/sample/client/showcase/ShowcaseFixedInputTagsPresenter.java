@@ -19,10 +19,10 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
 public class ShowcaseFixedInputTagsPresenter extends com.doctusoft.dsw.client.mvp.AbstractPresenter<ShowcaseFixedInputTagsPresenter> {
-	
+
 	@Getter
 	private ViewOf<ShowcaseFixedInputTagsPresenter> view;
-	
+
 	@ObservableProperty
 	private ObservableList<OldComputer> tags = new ObservableList<OldComputer>();
 
@@ -31,36 +31,39 @@ public class ShowcaseFixedInputTagsPresenter extends com.doctusoft.dsw.client.mv
 
 	@ObservableProperty
 	private ObservableList<TagOption<OldComputer>> tagSuggestions = new ObservableList<TagOption<OldComputer>>();
-	
-	public ShowcaseFixedInputTagsPresenter(Place place, ClientFactory clientFactory ) {
+
+	@ObservableProperty
+	private boolean editable = true;
+
+	public ShowcaseFixedInputTagsPresenter(final Place place, final ClientFactory clientFactory ) {
 		view = clientFactory.getShowcaseFixedInputTagsView();
 
 		tags.add(OldComputer.CommodoreAmiga);
 
 		tagSuggestions.addAll(Lists.transform(Arrays.asList(ExampleData.OldComputer.values()), new Function<OldComputer, TagOption<OldComputer>>() {
 			@Override
-			public TagOption<OldComputer> apply(OldComputer input) {
+			public TagOption<OldComputer> apply(final OldComputer input) {
 				TagOption<OldComputer> tagOption = new TagOption<OldComputer>();
 				tagOption.setValue(input);
 				tagOption.setName(input.getName());
 				return tagOption;
 			}
 		}));
-		
+
 		new ListChangeListener(Bindings.obs(this).get(ShowcaseFixedInputTagsPresenter_._tags)) {
 			@Override
 			protected void changed() {
 				setTagsJoined("Selected tags: " + Joiner.on(",").join(tags));
 			}
 		};
-		
+
 	}
-	
+
 	@MethodRef
 	public void clearTags() {
 		tags.clear();
 	}
-	
+
 	@MethodRef
 	public void addRandom() {
 		clearTags();

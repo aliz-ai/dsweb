@@ -81,4 +81,10 @@ public class InplaceText extends Container {
 		return this;
 	}
 
+	@Override
+	public Container bindEnabled(final ValueBinding<Boolean> enabledBinding) {
+		inputText.bindEnabled(enabledBinding);
+		return this;
+	}
+
 }

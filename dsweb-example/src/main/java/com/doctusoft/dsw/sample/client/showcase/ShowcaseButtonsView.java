@@ -27,6 +27,7 @@ import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.dsw.client.comp.Alert;
 import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.Button;
+import com.doctusoft.dsw.client.comp.Checkbox;
 import com.doctusoft.dsw.client.comp.DropdownLink;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.Label;
@@ -36,18 +37,22 @@ import com.doctusoft.dsw.client.gwt.BootstrapStyleClasses;
 import com.doctusoft.dsw.sample.client.BaseShowcaseView;
 
 public class ShowcaseButtonsView extends BaseShowcaseView<ShowcaseButtonsPresenter> {
-	
+
 	private DropdownLink menuDropdown;
-	
+
 	public ShowcaseButtonsView() {
-		
+
 		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)
-			.add(new HtmlContent("<h1>Buttons</h1>"));
-		new Button("Normal button").appendTo(subContainer);
+		.add(new HtmlContent("<h1>Buttons</h1>"));
+		new Button("Normal button")
+		.bindEnabled(bindOnPresenter().get(ShowcaseButtonsPresenter_._editable))
+		.appendTo(subContainer);
 		new Button("Small success button")
-				.withStyleClasses(BootstrapStyleClasses.BTN_SUCCESS, BootstrapStyleClasses.BTN_SMALL).appendTo(subContainer);
+		.bindEnabled(bindOnPresenter().get(ShowcaseButtonsPresenter_._editable))
+		.withStyleClasses(BootstrapStyleClasses.BTN_SUCCESS, BootstrapStyleClasses.BTN_SMALL).appendTo(subContainer);
 		new Button("Large primary button")
-				.withStyleClasses(BootstrapStyleClasses.BTN_PRIMARY, BootstrapStyleClasses.BTN_LARGE).appendTo(subContainer);
+		.bindEnabled(bindOnPresenter().get(ShowcaseButtonsPresenter_._editable))
+		.withStyleClasses(BootstrapStyleClasses.BTN_PRIMARY, BootstrapStyleClasses.BTN_LARGE).appendTo(subContainer);
 		new Label("Dropdown button", "h3").appendTo(subContainer);
 		menuDropdown = new DropdownLink("Dropdown button").
 				addLink(new Link("External link", "http://www.tehcute.com/pics/201201/Pug-wants-cookie.jpg").newWindow())
@@ -57,7 +62,12 @@ public class ShowcaseButtonsView extends BaseShowcaseView<ShowcaseButtonsPresent
 						subContainer.add(new Alert("Clicked"));
 					}
 				})).appendTo(subContainer);
-		new Button("Button with icon").withIcon(BootstrapIcon.ICON_BOOK).appendTo(subContainer);
+		new Button("Button with icon")
+		.bindEnabled(bindOnPresenter().get(ShowcaseButtonsPresenter_._editable))
+		.withIcon(BootstrapIcon.ICON_BOOK).appendTo(subContainer);
+
+		new Label("Set buttons enabled/disabled", "h3").appendTo(subContainer);
+		new Checkbox().bindChecked(bindOnPresenter().get(ShowcaseButtonsPresenter_._editable)).appendTo(subContainer);
 	}
 
 }

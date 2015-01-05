@@ -25,6 +25,7 @@ package com.doctusoft.dsw.sample.client.showcase;
 
 import com.doctusoft.bean.binding.ParametricEventHandler;
 import com.doctusoft.dsw.client.comp.BaseContainer;
+import com.doctusoft.dsw.client.comp.Checkbox;
 import com.doctusoft.dsw.client.comp.DatePicker;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.InplaceText;
@@ -43,28 +44,53 @@ public class ShowcaseInputsView extends BaseShowcaseView<ShowcaseInputsPresenter
 		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)
 		.add(new HtmlContent("<h1>Inputs</h1>"));
 		new Label("Simple text input", "h3").appendTo(subContainer);
-		new InputText().withPlaceHolder("placeholder").appendTo(subContainer)
+		new InputText().bindEnabled(bindOnPresenter().get(ShowcaseInputsPresenter_._editable)).withPlaceHolder("placeholder").appendTo(subContainer)
 		.keypress(new ParametricEventHandler<KeyEvent>() {
 			@Override
 			public void handle(final KeyEvent parameter) {
 				System.out.println("pressed: " + parameter.getCode());
 			}
 		});
+
 		new Label("Textarea", "h3").appendTo(subContainer);
-		new Textarea().bindPlaceHolder(bindOnPresenter().get(ShowcaseInputsPresenter_._placeHolder)).setRows(4).appendTo(subContainer);
+		new Textarea()
+			.bindPlaceHolder(bindOnPresenter().get(ShowcaseInputsPresenter_._placeHolder))
+			.bindEnabled(bindOnPresenter().get(ShowcaseInputsPresenter_._editable))
+			.setRows(4)
+			.appendTo(subContainer);
 		new Label("Password input", "h3").appendTo(subContainer);
-		new PasswordField().bindPlaceHolder(bindOnPresenter().get(ShowcaseInputsPresenter_._placeHolder)).appendTo(subContainer);
+		new PasswordField()
+			.bindPlaceHolder(bindOnPresenter().get(ShowcaseInputsPresenter_._placeHolder))
+			.bindEnabled(bindOnPresenter().get(ShowcaseInputsPresenter_._editable))
+			.appendTo(subContainer);
 		new Label("Inplace text", "h3").appendTo(subContainer);
-		new InplaceText().bindPlaceHolder(bindOnPresenter().get(ShowcaseInputsPresenter_._placeHolder)).appendTo(subContainer);
-		new Label("Datepicker text", "h3").appendTo(subContainer);
-		new DatePicker().bindPlaceHolder(bindOnPresenter().get(ShowcaseInputsPresenter_._placeHolder)).appendTo(subContainer);
-		new Label("Input number", "h3").appendTo(subContainer);
-		new InputNumber().bindPlaceHolder(bindOnPresenter().get(ShowcaseInputsPresenter_._placeHolder)).appendTo(subContainer);
-		new Label("Input time", "h3").appendTo(subContainer);
-		new InputTime().bindPlaceHolder(bindOnPresenter().get(ShowcaseInputsPresenter_._placeHolder)).appendTo(subContainer);
+		new InplaceText()
+			.bindPlaceHolder(bindOnPresenter().get(ShowcaseInputsPresenter_._placeHolder))
+			.bindEnabled(bindOnPresenter().get(ShowcaseInputsPresenter_._editable))
+			.appendTo(subContainer);
+		new Label("Datepicker", "h3").appendTo(subContainer);
+		new DatePicker()
+			.bindPlaceHolder(bindOnPresenter().get(ShowcaseInputsPresenter_._placeHolder))
+			.bindEnabled(bindOnPresenter().get(ShowcaseInputsPresenter_._editable))
+			.appendTo(subContainer);
+		new Label("Checkbox", "h3").appendTo(subContainer);
+		new Checkbox().bindEnabled(bindOnPresenter().get(ShowcaseInputsPresenter_._editable)).appendTo(subContainer);
+		new Label("InputNumber", "h3").appendTo(subContainer);
+		new InputNumber()
+			.bindPlaceHolder(bindOnPresenter().get(ShowcaseInputsPresenter_._placeHolder))
+			.bindEnabled(bindOnPresenter().get(ShowcaseInputsPresenter_._editable))
+			.appendTo(subContainer);
+		new Label("InputTime", "h3").appendTo(subContainer);
+		new InputTime()
+			.bindPlaceHolder(bindOnPresenter().get(ShowcaseInputsPresenter_._placeHolder))
+			.bindEnabled(bindOnPresenter().get(ShowcaseInputsPresenter_._editable))
+			.appendTo(subContainer);
 
 		new Label("Placeholder text", "h3").appendTo(subContainer);
 		new InputText().bind(bindOnPresenter().get(ShowcaseInputsPresenter_._placeHolder)).appendTo(subContainer);
+
+		new Label("Set inputs enabled/disabled", "h3").appendTo(subContainer);
+		new Checkbox().bindChecked(bindOnPresenter().get(ShowcaseInputsPresenter_._editable)).appendTo(subContainer);
 	}
 
 }

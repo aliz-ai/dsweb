@@ -38,6 +38,9 @@ public class ShowcaseTypeaheadPresenter extends com.doctusoft.dsw.client.mvp.Abs
 	@ObservableProperty
 	private List<SelectItem<TypeaheadRemoteTestModel>> options = Lists.newArrayList();
 
+	@ObservableProperty
+	private boolean editable = true;
+
 	public ShowcaseTypeaheadPresenter(final Place place, final ClientFactory clientFactory ) {
 		view = clientFactory.getShowcaseTypeaheadView();
 

@@ -20,7 +20,6 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 
 	private boolean isAttached = false;
 
-
 	protected JavaScriptObject editor;
 
 	private static long innerIdCounter = 1;
@@ -61,8 +60,9 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 
 			@Override
 			public void valueChanged(final Boolean newValue) {
-				// FIXME
-				//setEnabled(!Objects.firstNonNull(newValue, false), model.getId());
+				if(isAttached) {
+					setEnabled(newValue == null || !newValue ? Boolean.FALSE.toString() : Boolean.TRUE.toString() );
+				}
 			}
 		});
 
@@ -100,6 +100,9 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 		this.editor = editor;
 		isAttached = true;
 		setContent(model.getContent());
+
+		// tricky model refresh
+		setEnabled(model.getEnabled() == null || !model.getEnabled() ? Boolean.FALSE.toString() : Boolean.TRUE.toString() );
 	}
 
 	private native void setContent(final String content) /*-{
@@ -114,8 +117,16 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 		}, 100);
 	}-*/;
 
-	private native void setEnabled(final boolean enabled) /*-{
+	/**
+	 * Workaround: http://stackoverflow.com/questions/5456363/how-to-disable-tinymce-editor
+	 */
+	private native void setEnabled(final String enabled) /*-{
 		var editor = this.@com.doctusoft.dsw.client.gwt.RichTextEditorRenderer::editor;
+
+		if (editor === null || (typeof editor === 'undefined')) {
+			return;
+		}
+
 		editor.getBody().setAttribute('contenteditable', enabled);
 	}-*/;
 

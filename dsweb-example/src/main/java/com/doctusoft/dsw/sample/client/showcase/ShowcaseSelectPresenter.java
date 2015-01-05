@@ -17,28 +17,31 @@ public class ShowcaseSelectPresenter extends com.doctusoft.dsw.client.mvp.Abstra
 
 	@Getter
 	private ViewOf<ShowcaseSelectPresenter> view;
-	
+
 	@ObservableProperty
-	private List<SelectItem<String>> selectableItems; 
-	
+	private List<SelectItem<String>> selectableItems;
+
 	@ObservableProperty
 	private String selectedItem;
-	
+
 	@ObservableProperty
 	private String nullOptionCaption;
-	
-	public ShowcaseSelectPresenter(Place place, ClientFactory clientFactory ) {
+
+	@ObservableProperty
+	private boolean editable = true;
+
+	public ShowcaseSelectPresenter(final Place place, final ClientFactory clientFactory ) {
 		view = clientFactory.getShowcaseSelectView();
 	}
-	
+
 	public static class Place extends com.doctusoft.dsw.client.mvp.AbstractPlace<ShowcaseSelectPresenter> implements Serializable {
 		public Place() {
 			super("showcaseselect", ShowcaseSelectPresenter.class );
 		}
 	}
-	
+
 	@Override
-	public void start(AbstractPlace<ShowcaseSelectPresenter> place) {
+	public void start(final AbstractPlace<ShowcaseSelectPresenter> place) {
 		setSelectedItem(null);
 		setSelectableItems(SelectItems.fromStrings("First item","Second item","Third item"));
 	}

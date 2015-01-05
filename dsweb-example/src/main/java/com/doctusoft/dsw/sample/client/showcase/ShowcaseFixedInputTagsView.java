@@ -25,31 +25,37 @@ package com.doctusoft.dsw.sample.client.showcase;
 
 import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.Button;
+import com.doctusoft.dsw.client.comp.Checkbox;
 import com.doctusoft.dsw.client.comp.FixedInputTags;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.sample.client.BaseShowcaseView;
+import com.doctusoft.dsw.sample.client.showcase.ExampleData.OldComputer;
 
 public class ShowcaseFixedInputTagsView extends BaseShowcaseView<ShowcaseFixedInputTagsPresenter>{
-	
+
 	public ShowcaseFixedInputTagsView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)
 		.add(new Label("Fixed Input Tags", "h1"));
-		
-		new FixedInputTags()
-			.bind(bindOnPresenter().get(ShowcaseFixedInputTagsPresenter_._tags))
-			.bindTagSuggestions(bindOnPresenter().get(ShowcaseFixedInputTagsPresenter_._tagSuggestions))
-			.appendTo(subContainer);
-		
+
+		new FixedInputTags<OldComputer>()
+		.bind(bindOnPresenter().get(ShowcaseFixedInputTagsPresenter_._tags))
+		.bindTagSuggestions(bindOnPresenter().get(ShowcaseFixedInputTagsPresenter_._tagSuggestions))
+		.bindEnabled(bindOnPresenter().get(ShowcaseFixedInputTagsPresenter_._editable))
+		.appendTo(subContainer);
+
 		new Label("","div").bind(bindOnPresenter().get(ShowcaseFixedInputTagsPresenter_._tagsJoined))
-			.appendTo(subContainer);
-		
+		.appendTo(subContainer);
+
 		new Button("Clear all")
-			.click(presenterMethod(ShowcaseFixedInputTagsPresenter_.__clearTags))
-			.appendTo(subContainer);
+		.click(presenterMethod(ShowcaseFixedInputTagsPresenter_.__clearTags))
+		.appendTo(subContainer);
 		new Button("Add random")
-			.click(presenterMethod(ShowcaseFixedInputTagsPresenter_.__addRandom))
-			.appendTo(subContainer);
-		
+		.click(presenterMethod(ShowcaseFixedInputTagsPresenter_.__addRandom))
+		.appendTo(subContainer);
+
+		new Label("Set fixed input tag enabled/disabled", "h3").appendTo(subContainer);
+		new Checkbox().bindChecked(bindOnPresenter().get(ShowcaseFixedInputTagsPresenter_._editable)).appendTo(subContainer);
+
 	}
 
 }

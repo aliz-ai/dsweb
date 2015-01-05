@@ -131,6 +131,7 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 		});
 
 		new PlaceHolderAttributeRenderer(widget, select, TypeaheadModel_._placeHolder);
+		new EnabledAttributeRenderer(widget, select);
 	}
 
 	private native void init(final JQuery widget) /*-{
