@@ -14,6 +14,9 @@ public class ShowcaseInputsPresenter extends com.doctusoft.dsw.client.mvp.Abstra
 	private ViewOf<ShowcaseInputsPresenter> view;
 
 	@ObservableProperty
+	private String placeHolder;
+
+	@ObservableProperty
 	private boolean editable = true;
 
 	public ShowcaseInputsPresenter(final Place place, final ClientFactory clientFactory ) {

@@ -23,7 +23,10 @@ package com.doctusoft.dsw.client.comp;
  */
 
 
+import com.doctusoft.bean.binding.Bindings;
+import com.doctusoft.bean.binding.ValueBinding;
 import com.doctusoft.dsw.client.comp.model.InputTextModel;
+import com.doctusoft.dsw.client.comp.model.InputTextModel_;
 
 public class InputText extends AbstractInputText<InputText, InputTextModel> {
 
@@ -31,8 +34,13 @@ public class InputText extends AbstractInputText<InputText, InputTextModel> {
 		super(new InputTextModel());
 	}
 
-	public InputText withPlaceHolder(String placeHolder) {
+	public InputText withPlaceHolder(final String placeHolder) {
 		model.setPlaceHolder(placeHolder);
+		return this;
+	}
+
+	public InputText bindPlaceHolder(final ValueBinding<String> placeholderBinding) {
+		Bindings.bind(placeholderBinding, Bindings.obs(model).get(InputTextModel_._placeHolder));
 		return this;
 	}
 

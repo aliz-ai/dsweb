@@ -30,38 +30,39 @@ import com.doctusoft.dsw.client.comp.model.TypeaheadModel_;
 
 
 public class Typeahead<T> extends AbstractSelect<Typeahead<T>, TypeaheadModel, T> {
-	
+
 	public Typeahead() {
 		super(new TypeaheadModel());
 	}
-	
+
 	public Typeahead<T> showAllOnFocus() {
 		model.setAllVisibleOnFocus(true);
 		return this;
 	}
-	
-	public Typeahead<T> withAllowCustomText(boolean allow) {
+
+	public Typeahead<T> withAllowCustomText(final boolean allow) {
 		model.setAllowCustomText(allow);
 		return this;
 	}
-	
-	public Typeahead<T> withPlaceHolder(String placeHolder) {
+
+	public Typeahead<T> withPlaceHolder(final String placeHolder) {
 		model.setPlaceHolder(placeHolder);
 		return this;
 	}
-	
+
 	public Typeahead<T> allowCustomText() {
 		model.setAllowCustomText(true);
 		return this;
 	}
-	
+
 	public Typeahead<T> bindCustomText(final ValueBinding<String> valueBinding) {
 		Bindings.bind(valueBinding, Bindings.obs(model).get(TypeaheadModel_._customText));
 		return this;
 	}
-	
-	public Typeahead<T> bindPlaceHolder(ValueBinding<String> placeHolderBinding) {
+
+	public Typeahead<T> bindPlaceHolder(final ValueBinding<String> placeHolderBinding) {
 		Bindings.bind(placeHolderBinding, Bindings.obs(model).get(TypeaheadModel_._placeHolder));
 		return this;
 	}
+
 }

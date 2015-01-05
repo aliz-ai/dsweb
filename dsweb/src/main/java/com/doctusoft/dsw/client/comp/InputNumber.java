@@ -14,7 +14,7 @@ public class InputNumber extends BaseComponent<InputNumber, InputNumberModel> {
 		super(new InputNumberModel());
 	}
 
-	public InputNumber bind(ValueBinding<BigDecimal> valueBinding) {
+	public InputNumber bind(final ValueBinding<BigDecimal> valueBinding) {
 		Bindings.bind(valueBinding, Bindings.obs(model).get(InputNumberModel_._value));
 		return this;
 	}
@@ -22,17 +22,17 @@ public class InputNumber extends BaseComponent<InputNumber, InputNumberModel> {
 	/**
 	 * Binds the value to an Integer representation. Fraction digits are truncated
 	 */
-	public InputNumber bindInteger(ValueBinding<Integer> intBinding) {
+	public InputNumber bindInteger(final ValueBinding<Integer> intBinding) {
 		Bindings.bind(intBinding, Bindings.obs(model).get(InputNumberModel_._value).convert(new Converter<BigDecimal, Integer>() {
 			@Override
-			public Integer convertSource(BigDecimal source) {
+			public Integer convertSource(final BigDecimal source) {
 				if (source == null) {
 					return null;
 				}
 				return source.intValue();
 			}
 			@Override
-			public BigDecimal convertTarget(Integer target) {
+			public BigDecimal convertTarget(final Integer target) {
 				if (target == null) {
 					return null;
 				}
@@ -42,8 +42,13 @@ public class InputNumber extends BaseComponent<InputNumber, InputNumberModel> {
 		return this;
 	}
 
-	public InputNumber withPlaceHolder(String placeHolder) {
+	public InputNumber withPlaceHolder(final String placeHolder) {
 		model.setPlaceHolder(placeHolder);
+		return this;
+	}
+
+	public InputNumber bindPlaceHolder(final ValueBinding<String> placeholderBinding) {
+		Bindings.bind(placeholderBinding, Bindings.obs(model).get(InputNumberModel_._placeHolder));
 		return this;
 	}
 

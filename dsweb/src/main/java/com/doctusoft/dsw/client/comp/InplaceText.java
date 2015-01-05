@@ -71,6 +71,16 @@ public class InplaceText extends Container {
 		return this;
 	}
 
+	public InplaceText withPlaceHolder(final String placeHolder) {
+		inputText.withPlaceHolder(placeHolder);
+		return this;
+	}
+
+	public InplaceText bindPlaceHolder(final ValueBinding<String> placeholderBinding) {
+		Bindings.bind(placeholderBinding, Bindings.obs(inputText.getComponentModel()).get(InputTextModel_._placeHolder));
+		return this;
+	}
+
 	@Override
 	public Container bindEnabled(final ValueBinding<Boolean> enabledBinding) {
 		inputText.bindEnabled(enabledBinding);

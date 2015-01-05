@@ -90,18 +90,6 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 			}
 		});
 
-		addChangeListenerAndApply(TypeaheadModel_._placeHolder, select, new ValueChangeListener<String>() {
-
-			@Override
-			public void valueChanged(final String newValue) {
-				if (newValue == null) {
-					widget.attr("placeholder", "");
-				} else {
-					widget.attr("placeholder", newValue);
-				}
-			}
-		});
-
 		new ListBindingListener<SelectItemModel>(Bindings.obs(typeaheadModel).get((ObservableProperty) AbstractSelectModel_._selectItemsModel)) {
 			@Override
 			public void inserted(final ObservableList<SelectItemModel> list, final int index, final SelectItemModel element) {
@@ -142,6 +130,7 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 			}
 		});
 
+		new PlaceHolderAttributeRenderer(widget, select, TypeaheadModel_._placeHolder);
 		new EnabledAttributeRenderer(widget, select);
 	}
 

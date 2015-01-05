@@ -38,43 +38,36 @@ public class InputTextRenderer extends BaseComponentRenderer {
 		widget.val(inputText.getValue());
 		Bindings.obs(inputText).get(InputTextModel_._value).addValueChangeListener(new ValueChangeListener<String>() {
 			@Override
-			public void valueChanged(String newValue) {
+			public void valueChanged(final String newValue) {
 				widget.val(newValue);
 			}
 		});
 		Bindings.obs(inputText).get(InputTextModel_._inputType).addValueChangeListener(new ValueChangeListener<String>() {
 			@Override
-			public void valueChanged(String newValue) {
+			public void valueChanged(final String newValue) {
 				widget = JQuery.select(createWidgetText(newValue, inputText.getPlaceHolder()));
-			}
-		});
-
-		Bindings.obs(inputText).get(InputTextModel_._placeHolder).addValueChangeListener(new ValueChangeListener<String>() {
-
-			@Override
-			public void valueChanged(String placeHolder) {
-				widget.attr("placeHolder", placeHolder);
-
 			}
 		});
 
 		Bindings.obs(inputText).get(InputTextModel_._inputType)
 		.addValueChangeListener(new ValueChangeListener<String>() {
 			@Override
-			public void valueChanged(String newValue) {
+			public void valueChanged(final String newValue) {
 				widget = JQuery.select("<input type=\"" + newValue + "\" />");
 			}
 		});
 		widget.change(new EventHandler() {
 			@Override
-			public void eventComplete(JQEvent event, JQuery currentJQuery) {
+			public void eventComplete(final JQEvent event, final JQuery currentJQuery) {
 				inputText.setValue(widget.val());
 			}
 		});
+
 		new EnabledAttributeRenderer(widget, inputText);
+		new PlaceHolderAttributeRenderer(widget, inputText, InputTextModel_._placeHolder);
 	}
 
-	private static String createWidgetText(String inputType, String placeHolder) {
+	private static String createWidgetText(final String inputType, final String placeHolder) {
 		return "<input type=\"" + inputType + "\"  placeholder=\""
 				+ placeHolder + "\"/>";
 	}

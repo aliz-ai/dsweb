@@ -34,18 +34,23 @@ public class Textarea extends BaseComponent<Textarea, TextareaModel> {
 		super(new TextareaModel());
 	}
 
-	public Textarea setRows(int rows) {
+	public Textarea setRows(final int rows) {
 		model.setRows(rows);
 		return this;
 	}
 
-	public Textarea bind(ValueBinding<String> valueBinding) {
+	public Textarea bind(final ValueBinding<String> valueBinding) {
 		Bindings.bind(valueBinding, Bindings.obs(model).get(TextareaModel_._value));
 		return this;
 	}
 
-	public Textarea withPlaceHolder(String placeHolder) {
+	public Textarea withPlaceHolder(final String placeHolder) {
 		model.setPlaceHolder(placeHolder);
+		return this;
+	}
+
+	public Textarea bindPlaceHolder(final ValueBinding<String> placeholderBinding) {
+		Bindings.bind(placeholderBinding, Bindings.obs(model).get(TextareaModel_._placeHolder));
 		return this;
 	}
 
