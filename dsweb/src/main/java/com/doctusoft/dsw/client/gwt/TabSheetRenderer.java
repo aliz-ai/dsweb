@@ -75,7 +75,14 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 					@Override
 					public void eventComplete(JQEvent event, JQuery currentJQuery) {
 						// we have to recalculate the index because it might have changed since the insertion of the tab
-						model.setActiveTab(model.getTabList().indexOf(element));
+						int indexOfClickedTab = model.getTabList().indexOf(element);
+						
+						if (model.getAutomaticTabSwitch().equals(Boolean.FALSE)) {
+							model.setClickedTabIndex(indexOfClickedTab);
+						} else {
+							model.setActiveTab(indexOfClickedTab);
+						}
+						
 					}
 				});
 				

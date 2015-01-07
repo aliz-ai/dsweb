@@ -3,48 +3,61 @@ package com.doctusoft.dsw.client.comp;
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.EmptyEventHandler;
+import com.doctusoft.bean.binding.ParametricEventHandler;
+import com.doctusoft.bean.binding.ValueBinding;
 import com.doctusoft.dsw.client.comp.model.TabSheetModel;
 import com.doctusoft.dsw.client.comp.model.TabSheetModel_;
 import com.google.common.base.Preconditions;
 
 public class TabSheet extends BaseComponent<TabSheet, TabSheetModel>{
 
+	private EmptyEventHandler defaultEventHandler;
+
 	public TabSheet() {
 		super(new TabSheetModel());
+
+		Bindings.obs(model).get(TabSheetModel_._activeTab).addValueChangeListener(new ValueChangeListener<Integer>() {
+			@Override
+			public void valueChanged(final Integer newValue) {
+				if (model.getAutomaticTabSwitch().equals(Boolean.TRUE)) {
+					defaultEventHandler.handle();
+				}
+			}
+		});
 	}
-	
-	public TabSheet withTab(Tab tab) {
+
+	public TabSheet withTab(final Tab tab) {
 		insertTab(tab, model.getTabList().size());
 		return this;
 	}
-	
-	public TabSheet withDefaultTab(String title, HasComponentModel tabPanel) {
+
+	public TabSheet withDefaultTab(final String title, final HasComponentModel tabPanel) {
 		Tab tab = new Tab()
-			.withTitle(title)
-			.withContent(tabPanel.getComponentModel());
+		.withTitle(title)
+		.withContent(tabPanel.getComponentModel());
 		insertTab(tab, model.getTabList().size());
 		return this;
 	}
-	
-	public TabSheet withTabOnSpecifiedIndex(Tab tab, int index) {
+
+	public TabSheet withTabOnSpecifiedIndex(final Tab tab, final int index) {
 		insertTab(tab, index);
 		return this;
 	}
-	
-	public TabSheet withDefaultTabOnSpecifiedIndex(String title, HasComponentModel tabPanel, int index) {
+
+	public TabSheet withDefaultTabOnSpecifiedIndex(final String title, final HasComponentModel tabPanel, final int index) {
 		Tab tab = new Tab()
-			.withTitle(title)
-			.withContent(tabPanel.getComponentModel());
+		.withTitle(title)
+		.withContent(tabPanel.getComponentModel());
 		insertTab(tab, index);
 		return this;
 	}
-	
-	public TabSheet withActiveTabIndex(int activeTabIndex) {
+
+	public TabSheet withActiveTabIndex(final int activeTabIndex) {
 		model.setActiveTab(activeTabIndex);
 		return this;
 	}
-	
-	protected void insertTab(Tab tab, int index) {
+
+	protected void insertTab(final Tab tab, final int index) {
 		Integer activeTabIndex = model.getActiveTab();
 		if (activeTabIndex != null && activeTabIndex != -1 && activeTabIndex < model.getTabList().size()) {
 			if (index <= activeTabIndex) {
@@ -53,8 +66,8 @@ public class TabSheet extends BaseComponent<TabSheet, TabSheetModel>{
 		}
 		model.getTabList().add(index, tab);
 	}
-	
-	public void removeTab(Tab tab) {
+
+	public void removeTab(final Tab tab) {
 		int indexOfRemoved = model.getTabList().indexOf(tab);
 		Preconditions.checkState(indexOfRemoved != -1, "trying to remove a tab that is not in this tabsheet");
 		model.getTabList().remove(tab);
@@ -68,15 +81,32 @@ public class TabSheet extends BaseComponent<TabSheet, TabSheetModel>{
 			}
 		}
 	}
-	
+
 	public TabSheet onTabShown(final EmptyEventHandler handler) {
-		Bindings.obs(model).get(TabSheetModel_._activeTab).addValueChangeListener(new ValueChangeListener<Integer>() {
-			@Override
-			public void valueChanged(Integer newValue) {
-				handler.handle();
-			}
-		});
+		defaultEventHandler = handler;
 		return this;
 	}
-	
+
+	public TabSheet bindActiveTabIndex(final ValueBinding<Integer> activeIndexBinding) {
+		Bindings.bind(activeIndexBinding, Bindings.obs(model).get(TabSheetModel_._activeTab));
+		return this;
+	}
+
+	public TabSheet tabClicked(final ParametricEventHandler<Integer> tabClickedEventHandler) {
+		model.setAutomaticTabSwitch(Boolean.FALSE);
+
+		Bindings.obs(model).get(TabSheetModel_._clickedTabIndex).addValueChangeListener(new ValueChangeListener<Integer>() {
+
+			@Override
+			public void valueChanged(final Integer newValue) {
+				if (model.getAutomaticTabSwitch().equals(Boolean.FALSE) && newValue != null) {
+					tabClickedEventHandler.handle(newValue);
+				}
+			}
+
+		});
+
+		return this;
+	}
+
 }
