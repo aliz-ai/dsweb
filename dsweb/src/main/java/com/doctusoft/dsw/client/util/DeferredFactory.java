@@ -45,8 +45,6 @@ public class DeferredFactory {
 		}
 		Preconditions.checkNotNull(deferrer, "No deferrer implementations is set, please initialize GWTTimerDeferrerImpl or JUnitDeferrerImpl");
 
-		System.out.println(deferrer.getClass().getSimpleName());
-
 		return deferrer.defer(new Runnable() {
 			@Override
 			public void run() {
