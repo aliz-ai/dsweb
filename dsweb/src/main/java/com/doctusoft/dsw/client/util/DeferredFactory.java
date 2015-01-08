@@ -27,12 +27,12 @@ import com.google.common.base.Preconditions;
 
 
 public class DeferredFactory {
-	
+
 	/* package visible stuff */
 	interface Deferrer {
-		public DeferredRunnable defer(Runnable runnable);
+		public DeferredRunnable defer(final Runnable runnable);
 	}
-	
+
 	static Deferrer deferrer = null;
 
 
@@ -44,6 +44,8 @@ public class DeferredFactory {
 			return deferredRunnable;
 		}
 		Preconditions.checkNotNull(deferrer, "No deferrer implementations is set, please initialize GWTTimerDeferrerImpl or JUnitDeferrerImpl");
+
+		System.out.println(deferrer.getClass().getSimpleName());
 
 		return deferrer.defer(new Runnable() {
 			@Override

@@ -116,6 +116,7 @@
 			            <additionalClasspathElement>src/main/java</additionalClasspathElement>
 			            <additionalClasspathElement>src/test/java</additionalClasspathElement>
 			            <additionalClasspathElement>target/generated-sources/annotations</additionalClasspathElement>
+			            <additionalClasspathElement>target/generated-test-sources/test-annotations</additionalClasspathElement>
 			        </additionalClasspathElements>
 			        <useSystemClassLoader>true</useSystemClassLoader>
 			        <useManifestOnlyJar>false</useManifestOnlyJar>

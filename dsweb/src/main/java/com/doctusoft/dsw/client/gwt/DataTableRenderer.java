@@ -30,6 +30,7 @@ import com.doctusoft.bean.ListenerRegistration;
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
+import com.doctusoft.bean.binding.observable.ListChangeListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.RendererFactory;
 import com.doctusoft.dsw.client.comp.datatable.OrderingDirection;
@@ -61,6 +62,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	private DeferredChangeListener deferredChangeListeners = new DeferredChangeListener();
 
 	private List<ListenerRegistration> headerListenerRegistrations;
+	private List<ListenerRegistration> rowListenereRegistrations;
 
 	public DataTableRenderer( final DataTableModel model ) {
 		super( JQuery.select( "<table class=\"table\"/>" ), model );
@@ -68,6 +70,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 		// apply columns, no change supported currently
 		renderHeaders();
 
+		rowListenereRegistrations = Lists.newArrayList();
 		final JQuery tbody = JQuery.select( "<tbody/>" ).appendTo( widget );
 		new ListBindingListener<DataTableRowModel>( Bindings.obs( model ).get( DataTableModel_._rows ) ) {
 
@@ -111,45 +114,15 @@ public class DataTableRenderer extends BaseComponentRenderer {
 			}
 		};
 
-		new ListBindingListener<DataTableColumnModel>(Bindings.obs(model).get(DataTableModel_._columns)) {
+		new ListChangeListener(Bindings.obs(model).get(DataTableModel_._columns)) {
 
 			@Override
-			public void inserted(final ObservableList<DataTableColumnModel> list, final int index, final DataTableColumnModel element) {
-				deferredRunnable = DeferredFactory.defer(deferredRunnable, deferredChangeListeners);
-			}
-
-			@Override
-			public void removed(final ObservableList<DataTableColumnModel> list, final int index, final DataTableColumnModel element) {
+			protected void changed() {
 				deferredRunnable = DeferredFactory.defer(deferredRunnable, deferredChangeListeners);
 			}
 		};
 
 		install( widget );
-	}
-
-	protected JQuery renderRow( final DataTableRowModel rowModel ) {
-		JQuery row = JQuery.select( "<tr/>" );
-		for (DataTableCellModel cellModel : rowModel.getCells()) {
-			final JQuery cell = JQuery.select( "<td/>" ).appendTo( row );
-			String textContent = cellModel.getTextContent();
-			if (textContent != null) {
-				cell.text( textContent );
-				DataTableCellModel_._textContent.addChangeListener( cellModel, new ValueChangeListener<String>() {
-
-					@Override
-					public void valueChanged( final String newValue ) {
-						cell.text( newValue );
-					}
-				} );
-			}
-			else {
-				BaseComponentModel component = cellModel.getComponent();
-				if (component != null) {
-					cell.append( rendererFactory.getRenderer( component ).getWidget() );
-				}
-			}
-		}
-		return row;
 	}
 
 	protected void rowClicked( final JQuery row ) {
@@ -201,8 +174,9 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	protected void rerenderAllRows() {
 		widget.find("tbody").remove();
 		rows.clear();
-		final JQuery tbody = JQuery.select( "<tbody/>" ).appendTo( widget );
+		rowListenereRegistrations.clear();
 
+		final JQuery tbody = JQuery.select( "<tbody/>" ).appendTo( widget );
 		for (DataTableRowModel dataTableRowModel : model.getRows()) {
 			JQuery renderRow = renderRow(dataTableRowModel);
 
@@ -215,7 +189,36 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	protected void rerenderAllHeaders() {
 		headerListenerRegistrations.clear();
 		widget.find("thead").remove();
+
 		renderHeaders();
+	}
+
+	protected JQuery renderRow( final DataTableRowModel rowModel ) {
+		JQuery row = JQuery.select( "<tr/>" );
+		for (DataTableCellModel cellModel : rowModel.getCells()) {
+			final JQuery cell = JQuery.select( "<td/>" ).appendTo( row );
+			String textContent = cellModel.getTextContent();
+			if (textContent != null) {
+				cell.text( textContent );
+
+				ListenerRegistration textContentListener = DataTableCellModel_._textContent.addChangeListener( cellModel, new ValueChangeListener<String>() {
+
+					@Override
+					public void valueChanged( final String newValue ) {
+						cell.text( newValue );
+					}
+				} );
+
+				rowListenereRegistrations.add(textContentListener);
+			}
+			else {
+				BaseComponentModel component = cellModel.getComponent();
+				if (component != null) {
+					cell.append( rendererFactory.getRenderer( component ).getWidget() );
+				}
+			}
+		}
+		return row;
 	}
 
 	protected void renderHeaders() {
@@ -223,7 +226,11 @@ public class DataTableRenderer extends BaseComponentRenderer {
 		JQuery headerRow = JQuery.select( "<tr>" ).appendTo( JQuery.select( "<thead>" ).appendTo( widget ) );
 
 		for (final DataTableColumnModel columnModel : model.getColumns()) {
-			JQuery th = JQuery.select( "<th>" + columnModel.getTitle() + "</th>" ).appendTo( headerRow );
+			//			FIX for tests
+			//			JQuery th = JQuery.select( "<th>" + columnModel.getTitle() + "</th>" ).appendTo( headerRow );
+
+			JQuery th = JQuery.select( "<th/>" ).appendTo(headerRow);
+			th.text( columnModel.getTitle() );
 			if (columnModel.isOrderable()) {
 				th.addClass("orderable");
 				final JQuery icon = JQuery.select("<i class='ordering-icon'/>").appendTo(th);

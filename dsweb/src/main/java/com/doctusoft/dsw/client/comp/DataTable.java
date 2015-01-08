@@ -45,6 +45,7 @@ import com.doctusoft.dsw.client.comp.model.RowClickedEvent;
 import com.doctusoft.dsw.client.comp.model.SelectionMode;
 import com.doctusoft.dsw.client.gwt.BootstrapStyleClasses;
 import com.google.common.base.Function;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Lists;
 
@@ -73,6 +74,8 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 
 	private ListBindingListener<Item> itemsListener;
 
+	private ObservableValueBinding<? extends List<Item>> listBinding;
+
 	public DataTable() {
 		super( new DataTableModel() );
 		withStyleClasses(BootstrapStyleClasses.TABLE_STRIPED, BootstrapStyleClasses.TABLE_BORDERED);
@@ -86,12 +89,14 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 	}
 
 	public DataTable<Item> addColumn( final Column<Item> column ) {
+		renderAddedColumnToAllRow( column );
 		model.getColumns().add( column.getHeader() );
 		columns.add( column );
 		return this;
 	}
 
 	public DataTable<Item> removeColumn(final Column<Item> column) {
+		renderRemovedColumnToAllRow( column );
 		model.getColumns().remove(column.getHeader());
 		columns.remove(column);
 		return this;
@@ -102,6 +107,9 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 			// remove previous binding
 			itemsListener.remove();
 		}
+
+		this.listBinding = listBinding;
+
 		itemsListener = new ListBindingListener<Item>( listBinding ) {
 
 			@Override
@@ -169,6 +177,50 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 			}
 		} ) );
 		return rowModel;
+	}
+
+	protected void renderAddedColumnToAllRow( final Column<Item> column ) {
+		// When the items are not binded to the table
+		if (listBinding == null) {
+			return;
+		}
+
+		ObservableList<DataTableRowModel> rows = model.getRows();
+		List<Item> items = listBinding.getValue();
+
+		Preconditions.checkState( rows.size() == items.size() );
+
+		for (int i = 0; i < rows.size(); i++){
+			DataTableRowModel row = rows.get(i);
+			final Item item = items.get(i);
+
+			row.getCells().add(new Function<Column<Item>, DataTableCellModel>() {
+				@Override
+				public DataTableCellModel apply( final Column<Item> input ) {
+					return input.getCellModel( item );
+				}
+			}.apply(column));
+
+		}
+	}
+
+	protected void renderRemovedColumnToAllRow( final Column<Item> column ) {
+		// When the items are not binded to the table
+		if (listBinding == null) {
+			return;
+		}
+
+		ObservableList<DataTableRowModel> rows = model.getRows();
+		int indexOf = columns.indexOf(column);
+
+		// When the column was not registered before remove it
+		if (indexOf == -1) {
+			return;
+		}
+
+		for (DataTableRowModel dataTableRowModel : rows) {
+			dataTableRowModel.getCells().remove(indexOf);
+		}
 	}
 
 	public DataTable<Item> withSelectionMode( final SelectionMode selectionMode ) {
