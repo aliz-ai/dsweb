@@ -19,7 +19,7 @@ public class TabSheet extends BaseComponent<TabSheet, TabSheetModel>{
 		Bindings.obs(model).get(TabSheetModel_._activeTab).addValueChangeListener(new ValueChangeListener<Integer>() {
 			@Override
 			public void valueChanged(final Integer newValue) {
-				if (model.getAutomaticTabSwitch().equals(Boolean.TRUE)) {
+				if (model.getAutomaticTabSwitch().equals(Boolean.TRUE) && defaultEventHandler != null) {
 					defaultEventHandler.handle();
 				}
 			}
