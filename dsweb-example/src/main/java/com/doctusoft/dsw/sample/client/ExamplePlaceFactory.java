@@ -17,6 +17,7 @@ import com.doctusoft.dsw.sample.client.showcase.ShowcaseFixedInputTagsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseFreeInputTagsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseNavsPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseOnbeforeunloadPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseProgressBarPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseRichTextEditorPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseSelectPresenter;
@@ -25,7 +26,7 @@ import com.doctusoft.dsw.sample.client.showcase.ShowcaseTabsheetPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseTypeaheadPresenter;
 
 public class ExamplePlaceFactory implements PlaceFactory, Serializable {
-
+ 
 	@Override
 	public <P extends Presenter<P>> AbstractPlace<P> createPlaceForClass(
 			Class<? extends AbstractPlace<?>> placeClass) {
@@ -43,6 +44,8 @@ public class ExamplePlaceFactory implements PlaceFactory, Serializable {
 			return (AbstractPlace<P>) new ShowcaseFixedInputTagsPresenter.Place();
 		if (ShowcaseNavsPresenter.Place.class.equals(placeClass))
 			return (AbstractPlace<P>) new ShowcaseNavsPresenter.Place();
+		if (ShowcaseOnbeforeunloadPresenter.Place.class.equals(placeClass))
+			return (AbstractPlace<P>) new ShowcaseOnbeforeunloadPresenter.Place();
 		if (ShowcaseProgressBarPresenter.Place.class.equals(placeClass))
 			return (AbstractPlace<P>) new ShowcaseProgressBarPresenter.Place();
 		if (ShowcaseRichTextEditorPresenter.Place.class.equals(placeClass))

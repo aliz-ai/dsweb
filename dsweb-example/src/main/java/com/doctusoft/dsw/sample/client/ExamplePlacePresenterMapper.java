@@ -15,6 +15,7 @@ import com.doctusoft.dsw.sample.client.showcase.ShowcaseFixedInputTagsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseFreeInputTagsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseNavsPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseOnbeforeunloadPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseProgressBarPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseRichTextEditorPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseSelectPresenter;
@@ -48,6 +49,8 @@ public class ExamplePlacePresenterMapper implements PlacePresenterMapper {
 			return (Presenter) new ShowcaseFixedInputTagsPresenter((ShowcaseFixedInputTagsPresenter.Place) place, clientFactory);
 		if (place instanceof ShowcaseNavsPresenter.Place)
 			return (Presenter) new ShowcaseNavsPresenter((ShowcaseNavsPresenter.Place) place, clientFactory);
+		if (place instanceof ShowcaseOnbeforeunloadPresenter.Place)
+			return (Presenter) new ShowcaseOnbeforeunloadPresenter((ShowcaseOnbeforeunloadPresenter.Place) place, clientFactory);
 		if (place instanceof ShowcaseProgressBarPresenter.Place)
 			return (Presenter) new ShowcaseProgressBarPresenter((ShowcaseProgressBarPresenter.Place) place, clientFactory);
 		if (place instanceof ShowcaseRichTextEditorPresenter.Place)

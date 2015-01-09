@@ -55,6 +55,8 @@ import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputsView;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseNavsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseNavsView;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseOnbeforeunloadPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseOnbeforeunloadView;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseProgressBarPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseProgressBarView;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseRichTextEditorPresenter;
@@ -73,71 +75,74 @@ import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.web.bindery.event.shared.EventBus;
 
 public class ClientFactoryImpl implements ClientFactory {
-	
+
 	@Getter
 	private final EventBus eventBus = new SimpleEventBus();
-	
-	@Setter @Getter 
+
+	@Setter @Getter
 	private  PlaceController placeController;
-	
+
 	@Getter(lazy=true)
 	private final ViewOf<PersonListPresenter> personListView = new PersonListView();
-	
+
 	@Getter(lazy=true)
 	private final ViewOf<PersonDetailPresenter> personDetailView = new PersonDetailView();
-	
+
 	@Getter(lazy=true)
 	private final ViewOf<ShowcaseActivity> showcaseView = new ShowcaseView();
-	
+
 	@Getter(lazy=true)
 	private final ViewOf<ShowcaseButtonsPresenter> showcaseButtonsView = new ShowcaseButtonsView();
-	
+
 	@Getter(lazy=true)
 	private final ViewOf<ShowcaseDatepickerPresenter> showcaseDatepickerView = new ShowcaseDatepickerView();
-	
+
 	@Getter(lazy=true)
 	private final ViewOf<ShowcaseExceptionsPresenter> showcaseExceptionsView = new ShowcaseExceptionsView();
-	
+
 	@Getter(lazy=true)
 	private final ViewOf<ShowcaseInputsPresenter> showcaseInputsView = new ShowcaseInputsView();
-	
+
 	@Getter(lazy=true)
 	private final ViewOf<ShowcaseFreeInputTagsPresenter> showcaseFreeInputTagsView = new ShowcaseFreeInputTagsView();
-	
+
 	@Getter(lazy=true)
 	private final ViewOf<ShowcaseFixedInputTagsPresenter> showcaseFixedInputTagsView = new ShowcaseFixedInputTagsView();
 
 	@Getter(lazy=true)
+	private final ViewOf<ShowcaseOnbeforeunloadPresenter> showcaseOnbeforeunloadView = new ShowcaseOnbeforeunloadView();
+
+	@Getter(lazy=true)
 	private final ViewOf<ShowcaseNavsPresenter> showcaseNavsView = new ShowcaseNavsView();
-	
+
 	@Getter(lazy=true)
 	private final ViewOf<ShowcaseProgressBarPresenter> showcaseProgressBarView = new ShowcaseProgressBarView();
-	
+
 	@Getter(lazy=true)
 	private final ViewOf<ShowcaseRichTextEditorPresenter> showcaseRichTextEditorView = new ShowcaseRichTextEditorView();
-	
+
 	@Getter(lazy=true)
 	private final ViewOf<ShowcaseSelectPresenter> showcaseSelectView = new ShowcaseSelectView();
-	
+
 	@Getter(lazy=true)
 	private final ViewOf<ShowcaseTablePresenter> showcaseTableView = new ShowcaseTableView();
-	
+
 	@Getter(lazy=true)
 	private final ViewOf<ShowcaseTabsheetPresenter> showcaseTabsheetView = new ShowcaseTabsheetView();
-	
+
 	@Getter(lazy=true)
 	private final ViewOf<ShowcaseTypeaheadPresenter> showcaseTypeaheadView = new ShowcaseTypeaheadView();
-	
+
 	@Getter(lazy=true)
 	private final ViewOf<ShowcaseChartsPresenter> showcaseChartsView = new ShowcaseChartsView();
-	
+
 	@Getter(lazy=true)
 	private final ViewOf<ShowcaseContextMenuPresenter> showcaseContextMenuView = new ShowcaseContextMenuView();
-	
+
 	@Getter(lazy=true)
 	private final ViewOf<SandboxPresenter> sandboxView = new SandboxView();
-	
+
 	@Getter(lazy=true)
 	private final PersonRemoteServiceAsync personRemoteServiceAsync = GWT.create(PersonRemoteService.class);
-	
+
 }
