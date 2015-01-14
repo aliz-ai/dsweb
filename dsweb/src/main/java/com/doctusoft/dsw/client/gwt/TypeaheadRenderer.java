@@ -77,6 +77,8 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 					if (widget.val() != selectedValue) {
 						widget.val(selectedValue);
 					}
+				} else {
+					widget.val("");
 				}
 			}
 		});

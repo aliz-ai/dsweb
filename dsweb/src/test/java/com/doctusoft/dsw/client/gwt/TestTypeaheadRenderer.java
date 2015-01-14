@@ -8,6 +8,8 @@ import lombok.extern.java.Log;
 
 import org.junit.Test;
 
+import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.dsw.client.comp.SelectItem;
 import com.doctusoft.dsw.client.comp.Typeahead;
 import com.doctusoft.dsw.client.util.GWTTimerDeferrerImpl;
@@ -16,6 +18,9 @@ import com.xedge.jquery.client.JQuery;
 
 @Log
 public class TestTypeaheadRenderer extends AbstractDswebTest {
+	
+	@ObservableProperty
+	private String value;
 	
 	@Test
 	public void testSelectItems() {
@@ -62,6 +67,33 @@ public class TestTypeaheadRenderer extends AbstractDswebTest {
 				finishTest();
 			}
 		}.schedule(25);
+		delayTestFinish(100);
+	}
+	
+	@Test
+	public void testClearTypeaheadValue() {
+		new GWTTimerDeferrerImpl();
+		setValue("1");
+		Typeahead<String> typeahead = new Typeahead<String>().withSelectItems(createDummySelectItems())
+			.withId("typeahead")
+			.bind(Bindings.obs(this).get(TestTypeaheadRenderer_._value));
+		registerApp(typeahead);
+		new Timer() {
+			@Override
+			public void run() {
+				JQuery jqTypeahead = JQuery.select("#typeahead");
+				assertEquals("1", jqTypeahead.val());
+				setValue(null);
+			}
+		}.schedule(25);
+		new Timer() {
+			@Override
+			public void run() {
+				JQuery jqTypeahead = JQuery.select("#typeahead");
+				assertEquals("", jqTypeahead.val());
+				finishTest();
+			}
+		}.schedule(50);
 		delayTestFinish(100);
 	}
 }
