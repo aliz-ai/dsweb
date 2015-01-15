@@ -7,14 +7,18 @@ import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.ParametricEventHandler;
 import com.doctusoft.bean.binding.observable.ObservableList;
+import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.DataTable;
+import com.doctusoft.dsw.client.comp.HasComponentModel;
 import com.doctusoft.dsw.client.comp.datatable.Column;
 import com.doctusoft.dsw.client.comp.datatable.Columns;
+import com.doctusoft.dsw.client.comp.datatable.ComponentColumn;
 import com.doctusoft.dsw.client.comp.model.DataTableCellModel;
 import com.doctusoft.dsw.client.comp.model.DataTableColumnModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel;
 import com.doctusoft.dsw.client.comp.model.DataTableRowModel;
 import com.doctusoft.dsw.client.util.GWTTimerDeferrerImpl;
+import com.google.common.collect.ImmutableList;
 import com.google.gwt.editor.client.Editor.Ignore;
 import com.google.gwt.user.client.Timer;
 import com.xedge.jquery.client.JQuery;
@@ -148,6 +152,34 @@ public class TestDataTableRenderer extends AbstractDswebTest {
 		model.setRows( createRows() );
 		registerApp( dataTable );
 		assertEquals( "aaa", JQuery.select("thead th").text() );
+	}
+	
+	/**
+	 * this asserts that .detach() is properly invoked on cell renderers
+	 */
+	@Test
+	public void testButtonColumn() {
+		DataTable<String> dataTable = new DataTable<String>().withId( "table" );
+		dataTable.bind(Bindings.obs(new ObservableList<String>(ImmutableList.of("a", "b", "c"))));
+		final EmptyEventHandlerMock clickMock = new EmptyEventHandlerMock();
+		dataTable.addColumn(new ComponentColumn<String>("button") {
+			@Override
+			public HasComponentModel getComponent(String item) {
+				return new Button("clickme").click(clickMock).withId("btn" + item);
+			}
+		});
+		registerApp(dataTable);
+		new Timer() {
+			@Override
+			public void run() {
+				JQuery btn = JQuery.select("#btna");
+				assertEquals(1, btn.length());
+				btn.click();
+				clickMock.assertInvoked();
+				finishTest();
+			}
+		}.schedule(25);
+		delayTestFinish(500);
 	}
 
 	@Test @Ignore

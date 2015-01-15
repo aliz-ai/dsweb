@@ -32,6 +32,7 @@ import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ListChangeListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
+import com.doctusoft.dsw.client.Renderer;
 import com.doctusoft.dsw.client.RendererFactory;
 import com.doctusoft.dsw.client.comp.datatable.OrderingDirection;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
@@ -64,13 +65,17 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	private List<ListenerRegistration> headerListenerRegistrations = Lists.newArrayList();
 	private List<ListenerRegistration> rowListenerRegistrations = Lists.newArrayList();
 
+	private JQuery tbody;
+	
+	private List<Renderer<JQuery>> cellRenderers = Lists.newArrayList();
+
 	public DataTableRenderer( final DataTableModel model ) {
 		super( JQuery.select( "<table class=\"table\"/>" ), model );
 		this.model = model;
 		// apply columns, no change supported currently
 		renderHeaders();
 
-		final JQuery tbody = JQuery.select( "<tbody/>" ).appendTo( widget );
+		tbody = JQuery.select( "<tbody/>" ).appendTo( widget );
 		new ListBindingListener<DataTableRowModel>( Bindings.obs( model ).get( DataTableModel_._rows ) ) {
 
 			@Override
@@ -125,7 +130,6 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	}
 
 	protected void rowClicked( final JQuery row ) {
-		System.out.println("rowclicked");
 		int rowIndex = row.parent().children().index( row.get( 0 ) );
 		if (model.getRowClickedEvent().isHasListeners()) {
 			model.getRowClickedEvent().fire( rowIndex );
@@ -172,7 +176,10 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	}
 
 	protected void rerenderAllRows() {
-		widget.find("tbody").remove();
+		for (Renderer<JQuery> cellRenderer: cellRenderers) {
+			cellRenderer.detach();
+		}
+		cellRenderers.clear();
 		rows.clear();
 		for (ListenerRegistration listenerRegistration : rowListenerRegistrations) {
 			listenerRegistration.removeHandler();
@@ -220,7 +227,9 @@ public class DataTableRenderer extends BaseComponentRenderer {
 			else {
 				BaseComponentModel component = cellModel.getComponent();
 				if (component != null) {
-					cell.append( rendererFactory.getRenderer( component ).getWidget() );
+					Renderer<JQuery> cellRenderer = rendererFactory.getRenderer( component );
+					cellRenderers.add(cellRenderer);
+					cell.append( cellRenderer.getWidget() );
 				}
 			}
 		}
