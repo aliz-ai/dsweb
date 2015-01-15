@@ -96,4 +96,34 @@ public class TestTypeaheadRenderer extends AbstractDswebTest {
 		}.schedule(50);
 		delayTestFinish(100);
 	}
+	
+	@Test
+	public void testChangeToNullWhileInvisible() {
+		new GWTTimerDeferrerImpl();
+		setValue("1");
+		final Typeahead<String> typeahead = new Typeahead<String>().withSelectItems(createDummySelectItems())
+			.withId("typeahead")
+			.withVisible(false)
+			.bind(Bindings.obs(this).get(TestTypeaheadRenderer_._value));
+		registerApp(typeahead);
+		new Timer() {
+			@Override
+			public void run() {
+				assertEquals(0, JQuery.select("#typeahead:visible").length());
+				setValue(null);
+				typeahead.withVisible(true);
+			}
+		}.schedule(25);
+		new Timer() {
+			@Override
+			public void run() {
+				assertEquals(1, JQuery.select("#typeahead:visible").length());
+				JQuery jqTypeahead = JQuery.select("#typeahead");
+				assertEquals("", jqTypeahead.val());
+				finishTest();
+			}
+		}.schedule(50);
+		delayTestFinish(100);
+	}
+
 }
