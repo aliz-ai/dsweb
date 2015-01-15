@@ -17,7 +17,7 @@ import com.google.gwt.user.client.Timer;
 import com.xedge.jquery.client.JQuery;
 
 public class TestSelectRenderer extends AbstractDswebTest {
-	
+
 	@Test
 	public void testAreOptionsRendered() {
 		new GWTTimerDeferrerImpl();	// @Before doesn't seem to work
@@ -32,7 +32,7 @@ public class TestSelectRenderer extends AbstractDswebTest {
 		}.schedule(50);
 		delayTestFinish(100);
 	}
-	
+
 	@Test
 	public void testOptionInsertedLater() {
 		new GWTTimerDeferrerImpl();	// @Before doesn't seem to work
@@ -55,7 +55,7 @@ public class TestSelectRenderer extends AbstractDswebTest {
 		}.schedule(50);
 		delayTestFinish(100);
 	}
-	
+
 	@Test
 	public void testSelectedIndexDefaultValue() {
 		new GWTTimerDeferrerImpl();	// @Before doesn't seem to work
@@ -69,7 +69,7 @@ public class TestSelectRenderer extends AbstractDswebTest {
 		}.schedule(50);
 		delayTestFinish(100);
 	}
-	
+
 	@Test
 	public void testSelectByClicking() {
 		new GWTTimerDeferrerImpl();	// @Before doesn't seem to work
@@ -110,7 +110,7 @@ public class TestSelectRenderer extends AbstractDswebTest {
 		}.schedule(50);
 		delayTestFinish(100);
 	}
-	
+
 	@Test
 	public void testNullOptionCaptionRendered() {
 		new GWTTimerDeferrerImpl();
@@ -165,10 +165,10 @@ public class TestSelectRenderer extends AbstractDswebTest {
 				assertEquals(2, JQuery.select( "#select option" ).length());
 				finishTest();
 			}
-		}.schedule(50);
+		}.schedule(90);
 		delayTestFinish(100);
 	}
-	
+
 	@Test
 	public void testNewOptionsAddedAfterTheNullOption() {
 		new GWTTimerDeferrerImpl();
@@ -190,7 +190,7 @@ public class TestSelectRenderer extends AbstractDswebTest {
 		}.schedule(50);
 		delayTestFinish(100);
 	}
-	
+
 	private Select<MockSelectModel> createSelectWithTwoOptions() {
 		ArrayList<SelectItem<MockSelectModel>> selectItems = new ArrayList<SelectItem<MockSelectModel>>();
 		selectItems.add( createSelectItemWithName( "first" ) );
@@ -199,8 +199,8 @@ public class TestSelectRenderer extends AbstractDswebTest {
 		registerApp( select );
 		return select;
 	}
-	
-	private SelectItem<MockSelectModel> createSelectItemWithName( String name ) {
+
+	private SelectItem<MockSelectModel> createSelectItemWithName( final String name ) {
 		SelectItem<MockSelectModel> first = new SelectItem<TestSelectRenderer.MockSelectModel>();
 		MockSelectModel firstModel = new MockSelectModel( name );
 		first.setValue( firstModel );
@@ -217,11 +217,11 @@ public class TestSelectRenderer extends AbstractDswebTest {
 		registerApp(inputText);
 		assertTrue(JQuery.select("#input").is(":disabled"));
 	}
-	
+
 	@Getter
 	@AllArgsConstructor
 	private static class MockSelectModel {
-		
+
 		private final String name;
 	}
 }

@@ -29,10 +29,9 @@ import com.doctusoft.dsw.client.comp.model.DataTableCellModel;
 import com.doctusoft.dsw.client.comp.model.DataTableColumnModel;
 
 public interface Column<Item> extends Serializable {
-	
+
 	public DataTableColumnModel getHeader();
-	
-	public DataTableCellModel getCellModel(Item item);
-	
+
+	public DataTableCellModel getCellModel(final Item item);
 
 }

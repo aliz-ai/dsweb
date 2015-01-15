@@ -24,36 +24,36 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
 public class ShowcaseTablePresenter extends com.doctusoft.dsw.client.mvp.AbstractPresenter<ShowcaseTablePresenter>{
-	
+
 	@Getter
 	private ViewOf<ShowcaseTablePresenter> view;
-	
+
 	@ObservableProperty
 	private ObservableList<PersonDto> personList = new ObservableList<PersonDto>();
 
 	@ObservableProperty
 	private ObservableList<PersonDto> selection = new ObservableList<PersonDto>();
-	
+
 	@ObservableProperty
 	private String selectionString = "";
-	
+
 	@ObservableProperty
 	private SelectionMode selectionMode = SelectionMode.Single;
-	
+
 	@ObservableProperty
 	private String modalContent;
-	
+
 	@ObservableProperty
 	private boolean modalVisible;
-	
+
 	//--- ordering
 	@ObservableProperty
 	private SingleDataTableOrdering ordering;
-	
+
 	@ObservableProperty
 	private String orderingInfo = "";
-	
-	public ShowcaseTablePresenter(Place place, ClientFactory clientFactory ) {
+
+	public ShowcaseTablePresenter(final Place place, final ClientFactory clientFactory ) {
 		view = clientFactory.getShowcaseTableView();
 		personList.add(new PersonDto(1l, "Compay Segundo", "compay@buena.cu", new Date(7, 10, 18)));
 		personList.add(new PersonDto(2l, "Omara Portuondo", "omara@buena.cu", new Date(30, 9, 29)));
@@ -67,24 +67,24 @@ public class ShowcaseTablePresenter extends com.doctusoft.dsw.client.mvp.Abstrac
 		};
 		ShowcaseTablePresenter_._ordering.addChangeListener(this, new ValueChangeListener<SingleDataTableOrdering>() {
 			@Override
-			public void valueChanged(SingleDataTableOrdering newValue) {
+			public void valueChanged(final SingleDataTableOrdering newValue) {
 				setOrderingInfo("Ordering: " + newValue);
 			}
 		});
 	}
-	
+
 	public static class Place extends com.doctusoft.dsw.client.mvp.AbstractPlace<ShowcaseTablePresenter> implements Serializable {
 		public Place() {
 			super("showcasetables", ShowcaseTablePresenter.class );
 		}
 	}
-	
+
 	@MethodRef
-	public void personClicked(PersonDto personDto) {
+	public void personClicked(final PersonDto personDto) {
 		setModalContent("You selected: " + personDto.getName());
 		setModalVisible(true);
 	}
-	
+
 	@MethodRef
 	public void clearOrdering() {
 		setOrdering(null);
@@ -94,4 +94,5 @@ public class ShowcaseTablePresenter extends com.doctusoft.dsw.client.mvp.Abstrac
 	public void orderByName() {
 		setOrdering(new SingleDataTableOrdering(1, OrderingDirection.Descending));
 	}
+
 }

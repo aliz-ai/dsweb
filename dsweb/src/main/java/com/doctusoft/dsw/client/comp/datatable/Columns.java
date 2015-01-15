@@ -31,22 +31,23 @@ import com.doctusoft.dsw.client.comp.HasComponentModel;
 import com.doctusoft.dsw.client.comp.mvp.ContainerWithPresenter;
 
 public class Columns {
-	
-	public static <Item, Value> PropertyColumn<Item, Value> from(String title, Property<Item, Value> property) {
+
+	public static <Item, Value> PropertyColumn<Item, Value> from(final String title, final Property<Item, Value> property) {
 		return new PropertyColumn<Item, Value>(title, property);
 	}
 
-	public static <Item, Value> ObservablePropertyColumn<Item, Value> obs(String title, ObservableProperty<Item, Value> property) {
+	public static <Item, Value> ObservablePropertyColumn<Item, Value> obs(final String title, final ObservableProperty<Item, Value> property) {
 		return new ObservablePropertyColumn<Item, Value>(title, property);
 	}
 
 	public static <Presenter, Item> ComponentColumn<Item> actionButton(final ContainerWithPresenter<Presenter> container,
-				final ClassMethodReference1<? super Presenter, Void, Item> methodRef, final String buttonCaption) {
+			final ClassMethodReference1<? super Presenter, Void, Item> methodRef, final String buttonCaption) {
 		return new ComponentColumn<Item>() {
 			@Override
-			public HasComponentModel getComponent(Item item) {
+			public HasComponentModel getComponent(final Item item) {
 				return new Button(buttonCaption).click(container.presenterMethod(methodRef, item));
 			}
 		};
 	}
+
 }

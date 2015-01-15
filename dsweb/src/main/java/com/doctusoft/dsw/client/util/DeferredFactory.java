@@ -27,12 +27,12 @@ import com.google.common.base.Preconditions;
 
 
 public class DeferredFactory {
-	
+
 	/* package visible stuff */
 	interface Deferrer {
-		public DeferredRunnable defer(Runnable runnable);
+		public DeferredRunnable defer(final Runnable runnable);
 	}
-	
+
 	// defaults to the gwt timer to save lives
 	static Deferrer deferrer = new GWTTimerDeferrerImpl();
 

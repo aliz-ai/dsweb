@@ -25,6 +25,7 @@ package com.doctusoft.dsw.client.gwt;
 
 import lombok.Getter;
 
+import com.doctusoft.bean.ListenerRegistration;
 import com.doctusoft.bean.ObservableProperty;
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
@@ -47,24 +48,25 @@ import com.xedge.jquery.client.JQuery.EventType;
 import com.xedge.jquery.client.handlers.EventHandler;
 
 public class BaseComponentRenderer implements Renderer<JQuery> {
-	
-	public static <T, K> void addChangeListenerAndApply(ObservableProperty<K, T> property, K model, ValueChangeListener<T> listener) {
-		addChangeListener(property, model, listener);
-		listener.valueChanged(property.getValue((K) model));
+
+	public static <T, K> ListenerRegistration addChangeListenerAndApply(final ObservableProperty<K, T> property, final K model, final ValueChangeListener<T> listener) {
+		ListenerRegistration changeListener = addChangeListener(property, model, listener);
+		listener.valueChanged(property.getValue(model));
+		return changeListener;
 	}
-	
-	public static <T, K> void addChangeListener(ObservableProperty<K, T> property, K model, ValueChangeListener<T> listener) {
-		property.addChangeListener((K) model, listener);
+
+	public static <T, K> ListenerRegistration addChangeListener(final ObservableProperty<K, T> property, final K model, final ValueChangeListener<T> listener) {
+		return property.addChangeListener(model, listener);
 	}
-	
+
 	@Getter
 	protected JQuery widget;
-	
+
 	protected boolean visible = true;
-	
+
 	public BaseComponentRenderer(final JQuery widget, final BaseComponentModel model) {
 		this.widget = widget;
-		
+
 		if (model.getId() != null) {
 			widget.attr("id", model.getId());
 		}
@@ -74,64 +76,64 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 				// applying visibility has to wait for the component to be actually inserted into the DOM
 				applyVisible(model.getVisible());
 			}
-		}); 
-		
+		});
+
 		addChangeListener(BaseComponentModel_._visible, model, new ValueChangeListener<Boolean>() {
 			@Override
-			public void valueChanged(Boolean newValue) {
+			public void valueChanged(final Boolean newValue) {
 				applyVisible(newValue);
 			}
 		});
 		new ListBindingListener<String>(Bindings.obs(model).get(BaseComponentModel_._styleClasses)) {
 			@Override
-			public void inserted(ObservableList<String> list, int index,
-					String element) {
+			public void inserted(final ObservableList<String> list, final int index,
+					final String element) {
 				widget.addClass(element);
 			}
-			
+
 			@Override
-			public void removed(ObservableList<String> list, int index,
-					String element) {
+			public void removed(final ObservableList<String> list, final int index,
+					final String element) {
 				widget.removeClass(element);
 			}
 		};
 		addChangeListenerAndApply(BaseComponentModel_._style, model, new ValueChangeListener<String>() {
-			
+
 			@Override
-			public void valueChanged(String newValue) {
+			public void valueChanged(final String newValue) {
 				applyStyle(newValue);
 			}
 		});
 		addChangeListenerAndApply(BaseComponentModel_._tabIndex, model, new ValueChangeListener<Integer>() {
 
 			@Override
-			public void valueChanged(Integer newValue) {
+			public void valueChanged(final Integer newValue) {
 				applyTabIndex(newValue);
 			}
 		});
-		
+
 		bindEvent(EventType.click, Bindings.obs(model).get(BaseComponentModel_._clicked));
 		bindEvent(EventType.keypress, Bindings.obs(model).get(BaseComponentModel_._keyPressed), new EventTriggerer<KeyPressedEvent>() {
 			@Override
-			public void triggerEvent(KeyPressedEvent event, JQEvent jqEvent) {
+			public void triggerEvent(final KeyPressedEvent event, final JQEvent jqEvent) {
 				// only send event for keycodes that are registered on the server side
 				if (model.getRestrictToKeyCodes() == null || model.getRestrictToKeyCodes().contains(jqEvent.getKeyCode())) {
 					event.fire(jqEvent.getKeyCode());
 				}
 			}
 		});
-		
+
 		bindFocus(model);
 	}
-	
+
 	/**
-	 * TODO disabled should not really be in BaseComponentModel. We should have some base class for edit components 
+	 * TODO disabled should not really be in BaseComponentModel. We should have some base class for edit components
 	 */
-	protected void applyDisabled(boolean disabled) {
-		
+	protected void applyDisabled(final boolean disabled) {
+
 	}
-	
-	protected void applyVisible(Boolean visible) {
+
+	protected void applyVisible(final Boolean visible) {
 		Boolean newVisible = Objects.firstNonNull(visible, true);
 		if (newVisible && !this.visible) {
 			widget.show();
@@ -141,23 +143,23 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 		}
 		this.visible = newVisible;
 	}
-	
-	protected void applyStyle(String style) {
+
+	protected void applyStyle(final String style) {
 		widget.attr("style", Strings.isNullOrEmpty(style)?null:style);
 	}
-	
-	protected void applyTabIndex(Integer tabIndex) {
+
+	protected void applyTabIndex(final Integer tabIndex) {
 		widget.attr("tabindex", tabIndex == null ? null : String.valueOf(tabIndex));
 	}
-	
+
 	protected void bindEvent(final EventType eventType, final ObservableChainedValueBindingBuilder<ComponentEvent> eventBinding) {
 		bindEvent(widget, eventType, eventBinding);
 	}
-	
-	protected void bindEvent(JQuery target, final EventType eventType, final ObservableChainedValueBindingBuilder<ComponentEvent> eventBinding) {
+
+	protected void bindEvent(final JQuery target, final EventType eventType, final ObservableChainedValueBindingBuilder<ComponentEvent> eventBinding) {
 		bindEvent(target, eventType, eventBinding, new EventTriggerer<ComponentEvent>() {
 			@Override
-			public void triggerEvent(ComponentEvent event, JQEvent jqEvent) {
+			public void triggerEvent(final ComponentEvent event, final JQEvent jqEvent) {
 				event.fire();
 			}
 		});
@@ -175,7 +177,7 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 			// if not yet, we add a listener por si acaso later one will be attached
 			eventBinding.get(ComponentEvent_._hasListeners).addValueChangeListener(new ValueChangeListener<Boolean>() {
 				@Override
-				public void valueChanged(Boolean newValue) {
+				public void valueChanged(final Boolean newValue) {
 					if (Objects.firstNonNull(newValue, false)) {
 						doBindEventInner(target, eventType, eventBinding, triggerer);
 					}
@@ -183,36 +185,36 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 			});
 		}
 	}
-	
+
 	protected void bindFocus(final BaseComponentModel model) {
 		Bindings.obs(model).get(BaseComponentModel_._focus).get(ComponentEvent_._fired).addValueChangeListener(new ValueChangeListener<Boolean>() {
 			@Override
-			public void valueChanged(Boolean newValue) {
+			public void valueChanged(final Boolean newValue) {
 				if (Objects.firstNonNull(newValue, false)) {
 					widget.focus();
 				}
 			}
 		});
 	}
-	
-	protected <T extends ComponentEvent> void doBindEventInner(JQuery target, EventType eventType, final ObservableValueBinding<T> eventBinding, final EventTriggerer<T> triggerer) {
+
+	protected <T extends ComponentEvent> void doBindEventInner(final JQuery target, final EventType eventType, final ObservableValueBinding<T> eventBinding, final EventTriggerer<T> triggerer) {
 		target.bind(eventType, new EventHandler() {
 			@Override
-			public void eventComplete(JQEvent jqEvent, JQuery currentJQuery) {
+			public void eventComplete(final JQEvent jqEvent, final JQuery currentJQuery) {
 				triggerer.triggerEvent(eventBinding.getValue(), jqEvent);
 			}
 		});
 	}
-	
+
 	public interface EventTriggerer<E extends ComponentEvent> {
-		public void triggerEvent(E event, JQEvent jqEvent);
+		public void triggerEvent(final E event, final JQEvent jqEvent);
 	}
-	
+
 	@Override
 	public void detach() {
 		// empty default implementation
 	}
-	
+
 	@Override
 	public void reattach() {
 		// empty default implementation
