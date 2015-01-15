@@ -59,7 +59,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	private final DataTableModel model;
 
 	private DeferredRunnable deferredRunnable = null;
-	private DeferredChangeListener deferredChangeListeners = new DeferredChangeListener();
+	private RerenderTableTask rerenderTableTask = new RerenderTableTask();
 
 	private List<ListenerRegistration> headerListenerRegistrations;
 	private List<ListenerRegistration> rowListenereRegistrations;
@@ -118,7 +118,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 
 			@Override
 			protected void changed() {
-				deferredRunnable = DeferredFactory.defer(deferredRunnable, deferredChangeListeners);
+				deferredRunnable = DeferredFactory.defer(deferredRunnable, rerenderTableTask);
 			}
 		};
 
@@ -126,6 +126,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	}
 
 	protected void rowClicked( final JQuery row ) {
+		System.out.println("rowclicked");
 		int rowIndex = row.parent().children().index( row.get( 0 ) );
 		if (model.getRowClickedEvent().isHasListeners()) {
 			model.getRowClickedEvent().fire( rowIndex );
@@ -160,7 +161,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 		}
 	}
 
-	private class DeferredChangeListener implements Runnable {
+	private class RerenderTableTask implements Runnable {
 
 		@Override
 		public void run() {

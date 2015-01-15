@@ -1,14 +1,11 @@
 
 package com.doctusoft.dsw.client.gwt;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-
 import org.junit.Test;
 
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.binding.Bindings;
+import com.doctusoft.bean.binding.ParametricEventHandler;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.comp.DataTable;
 import com.doctusoft.dsw.client.comp.datatable.Column;
@@ -18,6 +15,7 @@ import com.doctusoft.dsw.client.comp.model.DataTableColumnModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel;
 import com.doctusoft.dsw.client.comp.model.DataTableRowModel;
 import com.doctusoft.dsw.client.util.GWTTimerDeferrerImpl;
+import com.google.gwt.editor.client.Editor.Ignore;
 import com.google.gwt.user.client.Timer;
 import com.xedge.jquery.client.JQuery;
 
@@ -72,44 +70,42 @@ public class TestDataTableRenderer extends AbstractDswebTest {
 			@Override
 			public void run() {
 				dataTable.addColumn(Columns.from( "first", TestDataTableRendererDTO_._value1));
+				new Timer() {
+
+					@Override
+					public void run() {
+						JQuery firstHeaderCell = JQuery.select( "thead>tr>th" ).first();
+						JQuery lastHeaderCell = JQuery.select( "thead>tr>th" ).last();
+						assertEquals( "first", firstHeaderCell.text() );
+						assertEquals( "first", lastHeaderCell.text() );
+
+						JQuery firstCell = JQuery.select( "tbody>tr>td" ).first();
+						JQuery lastCell = JQuery.select( "tbody>tr>td" ).last();
+						assertEquals( "a0", firstCell.text() );
+						assertEquals( "a9", lastCell.text() );
+
+						finishTest();
+					}
+
+				}.schedule(25);
 			}
 
 		}.schedule(25);
 
-		new Timer() {
-
-			@Override
-			public void run() {
-				JQuery firstHeaderCell = JQuery.select( "thead>tr>th" ).first();
-				JQuery lastHeaderCell = JQuery.select( "thead>tr>th" ).last();
-				assertEquals( "first", firstHeaderCell.text() );
-				assertEquals( "first", lastHeaderCell.text() );
-
-				JQuery firstCell = JQuery.select( "tbody>tr>td" ).first();
-				JQuery lastCell = JQuery.select( "tbody>tr>td" ).last();
-				assertEquals( "a0", firstCell.text() );
-				assertEquals( "a9", lastCell.text() );
-
-				finishTest();
-			}
-
-		}.schedule(500);
 		delayTestFinish(1000);
 
 	}
 
 	@Test
 	public void testRemoveColumnOnBuilder() {
-		new GWTTimerDeferrerImpl();	// @Before doesn't seem to work
-
-		// define test datas
+		// define test data
 		createBuilderTestDatas();
 
-		final Column<TestDataTableRendererDTO> column = Columns.from( "second", TestDataTableRendererDTO_._value2);
+		final Column<TestDataTableRendererDTO> secondColumn = Columns.from( "second", TestDataTableRendererDTO_._value2);
 		final DataTable<TestDataTableRendererDTO> dataTable = new DataTable<TestDataTableRendererDTO>()
 				.withId( "table" )
 				.addColumn(Columns.from( "first", TestDataTableRendererDTO_._value1))
-				.addColumn(column)
+				.addColumn(secondColumn)
 				.bind(Bindings.obs(this).get(TestDataTableRenderer_._testDatas));
 		registerApp( dataTable );
 
@@ -118,81 +114,79 @@ public class TestDataTableRenderer extends AbstractDswebTest {
 
 			@Override
 			public void run() {
-				dataTable.removeColumn(column);
-			}
+				dataTable.removeColumn(secondColumn);
+				new Timer() {
 
-		}.schedule(500);
+					@Override
+					public void run() {
+						JQuery firstHeaderCell = JQuery.select( "thead>tr>th" ).first();
+						JQuery lastHeaderCell = JQuery.select( "thead>tr>th" ).last();
+						assertEquals( "first", firstHeaderCell.text() );
+						assertEquals( "first", lastHeaderCell.text() );
+
+						JQuery firstCell = JQuery.select( "tbody>tr>td" ).first();
+						JQuery lastCell = JQuery.select( "tbody>tr>td" ).last();
+						assertEquals( "a0", firstCell.text() );
+						assertEquals( "a9", lastCell.text() );
+
+						finishTest();
+					}
+
+				}.schedule(25);
+			}
+		}.schedule(25);
+
+		delayTestFinish(500);
+	}
+
+	@Test
+	public void testColumnHeaders() {
+		DataTable<String> dataTable = new DataTable<String>().withId( "table" );
+		DataTableModel model = dataTable.getModel();
+		ObservableList<DataTableColumnModel> headers = createColumnHeaders();
+		model.setColumns( headers );
+		model.setRows( createRows() );
+		registerApp( dataTable );
+		assertEquals( "aaa", JQuery.select("thead th").text() );
+	}
+
+	@Test @Ignore
+	// the click event doesn't seem to be invoked now ...
+	public void _estRowClickedEvent() {
+		DataTable<String> dataTable = new DataTable<String>().withId( "table" );
+		ObservableList<DataTableRowModel> rows = createRows();
+		DataTableModel model = dataTable.getModel();
+		model.setRows( rows );
+		registerApp( dataTable );
+		final EmptyEventHandlerMock clickFiredOnModel = new EmptyEventHandlerMock();
+		dataTable.rowClick( new ParametricEventHandler<String>() {
+
+			@Override
+			public void handle( final String parameter ) {
+				clickFiredOnModel.handle();
+				assertEquals( "00", parameter );
+			}
+		} );
 
 		new Timer() {
 
 			@Override
 			public void run() {
-				JQuery firstHeaderCell = JQuery.select( "thead>tr>th" ).first();
-				JQuery lastHeaderCell = JQuery.select( "thead>tr>th" ).last();
-				assertEquals( "first", firstHeaderCell.text() );
-				assertEquals( "first", lastHeaderCell.text() );
-
-				JQuery firstCell = JQuery.select( "tbody>tr>td" ).first();
-				JQuery lastCell = JQuery.select( "tbody>tr>td" ).last();
-				assertEquals( "a0", firstCell.text() );
-				assertEquals( "a9", lastCell.text() );
-
-				finishTest();
+				JQuery jqRow = JQuery.select( "tbody>tr" ).last();
+				assertEquals(1, jqRow.length());
+				jqRow.click();
+				new Timer() {
+					@Override
+					public void run() {
+						clickFiredOnModel.assertInvoked();
+						finishTest();
+					}
+				}.schedule( 100 );
 			}
 
-		}.schedule(900);
-		delayTestFinish(1000);
-	}
+		}.schedule(100);
 
-	@Test
-	//TODO vmiert unit teszteknek nem mukodnek a headerek
-	public void testColumnHeaders() {
-		//		DataTable<String> dataTable = new DataTable<String>().withId( "table" );
-		//		DataTableModel model = dataTable.getModel();
-		//		ObservableList<DataTableColumnModel> headers = createColumnHeaders();
-		//		model.setColumns( headers );
-		//		model.setRows( createRows() );
-		//		registerApp( dataTable );
-		//		dumpRoot();
-	}
-
-	@Test
-	//TODO vmiert hibaval elszall a mousedown
-	public void testRowClickedEvent() {
-		//		DataTable<String> dataTable = new DataTable<String>().withId( "table" );
-		//		ObservableList<DataTableRowModel> rows = createRows();
-		//		DataTableModel model = dataTable.getModel();
-		//		model.setRows( rows );
-		//		registerApp( dataTable );
-		//		final BooleanWrapper clickFiredOnModel = new BooleanWrapper( false );
-		//		dataTable.rowClick( new ParametricEventHandler<String>() {
-		//
-		//			@Override
-		//			public void handle( final String parameter ) {
-		//				clickFiredOnModel.setValue( true );
-		//				assertEquals( "00", parameter );
-		//			}
-		//		} );
-		//
-		//		new Timer() {
-		//
-		//			@Override
-		//			public void run() {
-		//				JQuery jqFirstRow = JQuery.select( "tbody>tr>td" ).last();
-		//				jqFirstRow.mousedown();
-		//			}
-		//
-		//		}.schedule(500);
-		//
-		//		new Timer() {
-		//
-		//			@Override
-		//			public void run() {
-		//				assertTrue( clickFiredOnModel.isValue() );
-		//				finishTest();
-		//			}
-		//		}.schedule( 900 );
-		//		delayTestFinish( 1000 );
+		delayTestFinish( 1000 );
 	}
 
 	private ObservableList<DataTableColumnModel> createColumnHeaders() {
@@ -227,14 +221,6 @@ public class TestDataTableRenderer extends AbstractDswebTest {
 		DataTableCellModel cellModel = new DataTableCellModel();
 		cellModel.setTextContent( content );
 		return cellModel;
-	}
-
-	@Getter
-	@Setter
-	@AllArgsConstructor
-	private static class BooleanWrapper {
-
-		private boolean value;
 	}
 
 }

@@ -89,7 +89,7 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 	}
 
 	public DataTable<Item> addColumn( final Column<Item> column ) {
-		renderAddedColumnToAllRow( column );
+		renderAddedColumnToAllRows( column );
 		model.getColumns().add( column.getHeader() );
 		columns.add( column );
 		return this;
@@ -179,47 +179,37 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 		return rowModel;
 	}
 
-	protected void renderAddedColumnToAllRow( final Column<Item> column ) {
-		// When the items are not binded to the table
+	protected void renderAddedColumnToAllRows( final Column<Item> column ) {
+		// When the items are not bound to the table
 		if (listBinding == null) {
 			return;
 		}
 
 		ObservableList<DataTableRowModel> rows = model.getRows();
 		List<Item> items = listBinding.getValue();
+		if (items == null)
+			return;
 
 		Preconditions.checkState( rows.size() == items.size() );
 
 		for (int i = 0; i < rows.size(); i++){
-			DataTableRowModel row = rows.get(i);
+			final DataTableRowModel row = rows.get(i);
 			final Item item = items.get(i);
-
-			row.getCells().add(new Function<Column<Item>, DataTableCellModel>() {
-				@Override
-				public DataTableCellModel apply( final Column<Item> input ) {
-					return input.getCellModel( item );
-				}
-			}.apply(column));
-
+			row.getCells().add(column.getCellModel(item));
 		}
 	}
 
 	protected void renderRemovedColumnToAllRow( final Column<Item> column ) {
-		// When the items are not binded to the table
-		if (listBinding == null) {
-			return;
-		}
-
 		ObservableList<DataTableRowModel> rows = model.getRows();
-		int indexOf = columns.indexOf(column);
+		int columnIndex = columns.indexOf(column);
 
 		// When the column was not registered before remove it
-		if (indexOf == -1) {
+		if (columnIndex == -1) {
 			return;
 		}
 
 		for (DataTableRowModel dataTableRowModel : rows) {
-			dataTableRowModel.getCells().remove(indexOf);
+			dataTableRowModel.getCells().remove(columnIndex);
 		}
 	}
 
