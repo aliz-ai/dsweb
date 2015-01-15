@@ -61,8 +61,8 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	private DeferredRunnable deferredRunnable = null;
 	private RerenderTableTask rerenderTableTask = new RerenderTableTask();
 
-	private List<ListenerRegistration> headerListenerRegistrations;
-	private List<ListenerRegistration> rowListenerRegistrations;
+	private List<ListenerRegistration> headerListenerRegistrations = Lists.newArrayList();
+	private List<ListenerRegistration> rowListenerRegistrations = Lists.newArrayList();
 
 	public DataTableRenderer( final DataTableModel model ) {
 		super( JQuery.select( "<table class=\"table\"/>" ), model );
@@ -70,7 +70,6 @@ public class DataTableRenderer extends BaseComponentRenderer {
 		// apply columns, no change supported currently
 		renderHeaders();
 
-		rowListenerRegistrations = Lists.newArrayList();
 		final JQuery tbody = JQuery.select( "<tbody/>" ).appendTo( widget );
 		new ListBindingListener<DataTableRowModel>( Bindings.obs( model ).get( DataTableModel_._rows ) ) {
 
@@ -191,6 +190,9 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	}
 
 	protected void rerenderAllHeaders() {
+		for (ListenerRegistration listenerRegistration : headerListenerRegistrations) {
+			listenerRegistration.removeHandler();
+		}
 		headerListenerRegistrations.clear();
 		widget.find("thead").remove();
 
