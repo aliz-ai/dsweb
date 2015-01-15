@@ -39,12 +39,15 @@ public class TestDataTableRenderer extends AbstractDswebTest {
 		assertEquals( "00", firstCell.text() );
 		JQuery lastCell = JQuery.select( "tbody>tr>td" ).last();
 		assertEquals( "11", lastCell.text() );
+		assertEquals( 4, JQuery.select("td").length());
 		model.getRows().remove( 1 );
 		lastCell = JQuery.select( "tbody>tr>td" ).last();
 		assertEquals( "01", lastCell.text() );
+		assertEquals( 2, JQuery.select("td").length());
 		model.getRows().add( createRow( 4 ) );
 		lastCell = JQuery.select( "tbody>tr>td" ).last();
 		assertEquals( "41", lastCell.text() );
+		assertEquals( 4, JQuery.select("td").length());
 		model.getRows().get( 1 ).getCells().get( 1 ).setTextContent( "changed" );
 		lastCell = JQuery.select( "tbody>tr>td" ).last();
 		assertEquals( "changed", lastCell.text() );
@@ -172,6 +175,7 @@ public class TestDataTableRenderer extends AbstractDswebTest {
 		new Timer() {
 			@Override
 			public void run() {
+				assertEquals(3, JQuery.select("td").length());
 				JQuery btn = JQuery.select("#btna");
 				assertEquals(1, btn.length());
 				btn.click();

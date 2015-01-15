@@ -67,7 +67,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 
 	private JQuery tbody;
 	
-	private List<Renderer<JQuery>> cellRenderers = Lists.newArrayList();
+	private List<BaseComponentModel> cellModels = Lists.newArrayList();
 
 	public DataTableRenderer( final DataTableModel model ) {
 		super( JQuery.select( "<table class=\"table\"/>" ), model );
@@ -176,11 +176,12 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	}
 
 	protected void rerenderAllRows() {
-		for (Renderer<JQuery> cellRenderer: cellRenderers) {
-			cellRenderer.detach();
+		for (BaseComponentModel cell : cellModels) {
+			rendererFactory.dispose(cell);
 		}
-		cellRenderers.clear();
+		cellModels.clear();
 		rows.clear();
+		tbody.children().remove();
 		for (ListenerRegistration listenerRegistration : rowListenerRegistrations) {
 			listenerRegistration.removeHandler();
 		}
@@ -228,7 +229,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 				BaseComponentModel component = cellModel.getComponent();
 				if (component != null) {
 					Renderer<JQuery> cellRenderer = rendererFactory.getRenderer( component );
-					cellRenderers.add(cellRenderer);
+					cellModels.add(component);
 					cell.append( cellRenderer.getWidget() );
 				}
 			}
