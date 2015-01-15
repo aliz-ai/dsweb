@@ -29,7 +29,6 @@ import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.dsw.client.comp.model.SelectItemModel;
 import com.doctusoft.dsw.client.comp.model.TypeaheadRemoteModel;
 import com.doctusoft.dsw.client.comp.model.TypeaheadRemoteModel_;
-import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -60,14 +59,6 @@ public class TypeaheadRemoteRenderer extends BaseComponentRenderer {
 			widget.val(typeaheadRemoteModel.getValue().getCaption());
 		}
 
-		addChangeListenerAndApply(TypeaheadRemoteModel_._placeHolder, typeaheadRemoteModel, new ValueChangeListener<String>() {
-
-			@Override
-			public void valueChanged(final String newValue) {
-				widget.attr("placeholder", Objects.firstNonNull(newValue, ""));
-			}
-		});
-
 		addChangeListenerAndApply(TypeaheadRemoteModel_._options, typeaheadRemoteModel, new ValueChangeListener<List<SelectItemModel>>() {
 
 			private List<SelectItemModel> oldValue;
@@ -88,6 +79,8 @@ public class TypeaheadRemoteRenderer extends BaseComponentRenderer {
 			}
 		});
 
+		new PlaceHolderAttributeRenderer(widget, model, TypeaheadRemoteModel_._placeHolder);
+		new EnabledAttributeRenderer(widget, model);
 	}
 
 	private void setCallback(final JavaScriptObject callbackMethod) {

@@ -37,19 +37,18 @@ public class ShowcaseDatepickerView extends BaseShowcaseView<ShowcaseDatepickerP
 		.add(new HtmlContent("<h1>DatePicker</h1>"));
 
 		new DatePicker().bind( bindOnPresenter().get(ShowcaseDatepickerPresenter_._date) )
-			.bindFormat(bindOnPresenter().get(ShowcaseDatepickerPresenter_._format))
-			.withPlaceHolder("Pick a date!")
-			.appendTo(subContainer);
+		.bindFormat(bindOnPresenter().get(ShowcaseDatepickerPresenter_._format))
+		.withPlaceHolder("Date")
+		.appendTo(subContainer);
 
 
 		BaseContainer stringRow = new BaseContainer().appendTo(subContainer);
 		new Label("toString(): ").appendTo(stringRow);
 		new Label().bind(bindOnPresenter().get(ShowcaseDatepickerPresenter_._dateAsString)).appendTo(stringRow);
-		
+
 		BaseContainer formatRow = new BaseContainer().appendTo(subContainer);
 		new Label("Format: ").appendTo(formatRow);
 		new InputText().bind(bindOnPresenter().get(ShowcaseDatepickerPresenter_._format)).appendTo(formatRow);
-		
 
 	}
 

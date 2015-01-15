@@ -25,6 +25,7 @@ package com.doctusoft.dsw.sample.client.showcase;
 
 import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.Button;
+import com.doctusoft.dsw.client.comp.Checkbox;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.InputText;
 import com.doctusoft.dsw.client.comp.Label;
@@ -32,15 +33,16 @@ import com.doctusoft.dsw.client.comp.Select;
 import com.doctusoft.dsw.sample.client.BaseShowcaseView;
 
 public class ShowcaseSelectView extends BaseShowcaseView<ShowcaseSelectPresenter> {
-	
+
 	public ShowcaseSelectView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)
-			.add(new HtmlContent("<h1>Select</h1>"));
+		.add(new HtmlContent("<h1>Select</h1>"));
 		new Select<String>()
-			.appendTo(subContainer)
-			.bind(bindOnPresenter().get(ShowcaseSelectPresenter_._selectedItem))
-			.bindNullOptionCaption(bindOnPresenter().get(ShowcaseSelectPresenter_._nullOptionCaption))
-			.bindSelectItems(bindOnPresenter().get(ShowcaseSelectPresenter_._selectableItems));
+		.appendTo(subContainer)
+		.bind(bindOnPresenter().get(ShowcaseSelectPresenter_._selectedItem))
+		.bindNullOptionCaption(bindOnPresenter().get(ShowcaseSelectPresenter_._nullOptionCaption))
+		.bindSelectItems(bindOnPresenter().get(ShowcaseSelectPresenter_._selectableItems))
+		.bindEnabled(bindOnPresenter().get(ShowcaseSelectPresenter_._editable));
 		BaseContainer nullOptionRow = new BaseContainer().appendTo(subContainer);
 		new Label("Null option: ").appendTo(nullOptionRow);
 		new InputText().bind(bindOnPresenter().get(ShowcaseSelectPresenter_._nullOptionCaption)).appendTo(nullOptionRow);
@@ -48,8 +50,11 @@ public class ShowcaseSelectView extends BaseShowcaseView<ShowcaseSelectPresenter
 		BaseContainer valueRow = new BaseContainer().appendTo(subContainer);
 		new Label("Selected value: ").appendTo(valueRow);
 		new Label()
-			.bind(bindOnPresenter().get(ShowcaseSelectPresenter_._selectedItem))
-			.appendTo(valueRow);
+		.bind(bindOnPresenter().get(ShowcaseSelectPresenter_._selectedItem))
+		.appendTo(valueRow);
+
+		new Label("Set select enabled/disabled", "h3").appendTo(subContainer);
+		new Checkbox().bindChecked(bindOnPresenter().get(ShowcaseSelectPresenter_._editable)).appendTo(subContainer);
 	}
 
 }

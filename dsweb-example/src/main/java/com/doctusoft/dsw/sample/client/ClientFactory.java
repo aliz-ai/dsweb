@@ -39,6 +39,7 @@ import com.doctusoft.dsw.sample.client.showcase.ShowcaseFixedInputTagsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseFreeInputTagsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseNavsPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseOnbeforeunloadPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseProgressBarPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseRichTextEditorPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseSelectPresenter;
@@ -48,51 +49,53 @@ import com.doctusoft.dsw.sample.client.showcase.ShowcaseTypeaheadPresenter;
 import com.google.web.bindery.event.shared.EventBus;
 
 public interface ClientFactory {
-	
+
 	public EventBus getEventBus();
-	
+
 	public ViewOf<PersonListPresenter> getPersonListView();
-	
+
 	public ViewOf<PersonDetailPresenter> getPersonDetailView();
-	
+
 	public ViewOf<ShowcaseActivity> getShowcaseView();
-	
+
 	public ViewOf<ShowcaseButtonsPresenter> getShowcaseButtonsView();
-	
+
 	public ViewOf<ShowcaseDatepickerPresenter> getShowcaseDatepickerView();
-	
+
 	public ViewOf<ShowcaseExceptionsPresenter> getShowcaseExceptionsView();
-	
+
 	public ViewOf<ShowcaseInputsPresenter> getShowcaseInputsView();
 
 	public ViewOf<ShowcaseFreeInputTagsPresenter> getShowcaseFreeInputTagsView();
 
 	public ViewOf<ShowcaseFixedInputTagsPresenter> getShowcaseFixedInputTagsView();
-	
+
 	public ViewOf<ShowcaseNavsPresenter> getShowcaseNavsView();
-	
+
+	public ViewOf<ShowcaseOnbeforeunloadPresenter> getShowcaseOnbeforeunloadView();
+
 	public ViewOf<ShowcaseProgressBarPresenter> getShowcaseProgressBarView();
-	
+
 	public ViewOf<ShowcaseRichTextEditorPresenter> getShowcaseRichTextEditorView();
-	
+
 	public ViewOf<ShowcaseSelectPresenter> getShowcaseSelectView();
-	
+
 	public ViewOf<ShowcaseTablePresenter> getShowcaseTableView();
-	
+
 	public ViewOf<ShowcaseTabsheetPresenter> getShowcaseTabsheetView();
-	
+
 	public ViewOf<ShowcaseTypeaheadPresenter> getShowcaseTypeaheadView();
-	
+
 	public ViewOf<ShowcaseChartsPresenter> getShowcaseChartsView();
-	
+
 	public PersonRemoteServiceAsync getPersonRemoteServiceAsync();
 
-	public void setPlaceController(PlaceController placeController);
-	
+	public void setPlaceController(final PlaceController placeController);
+
 	public ViewOf<ShowcaseContextMenuPresenter> getShowcaseContextMenuView();
-	
+
 	public ViewOf<SandboxPresenter> getSandboxView();
-	
+
 	public PlaceController getPlaceController();
-	
+
 }

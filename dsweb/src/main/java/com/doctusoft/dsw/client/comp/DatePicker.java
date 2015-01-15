@@ -37,14 +37,14 @@ public class DatePicker extends BaseComponent<DatePicker, DatePickerModel> {
 	}
 
 	/**
-	 * Uses the format of bootstrap-datepicker, see http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format 
+	 * Uses the format of bootstrap-datepicker, see http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
 	 */
-	public DatePicker withFormat(String format) {
+	public DatePicker withFormat(final String format) {
 		model.setFormat(format);
 		return this;
 	}
-	
-	public DatePicker bindFormat(ValueBinding<String> format) {
+
+	public DatePicker bindFormat(final ValueBinding<String> format) {
 		Bindings.bind(format, Bindings.obs(model).get(DatePickerModel_._format));
 		return this;
 	}
@@ -54,8 +54,13 @@ public class DatePicker extends BaseComponent<DatePicker, DatePickerModel> {
 		return this;
 	}
 
-	public DatePicker withPlaceHolder(String placeHolder) {
+	public DatePicker withPlaceHolder(final String placeHolder) {
 		model.setPlaceHolder(placeHolder);
+		return this;
+	}
+
+	public DatePicker bindPlaceHolder(final ValueBinding<String> placeholderBinding) {
+		Bindings.bind(placeholderBinding, Bindings.obs(model).get(DatePickerModel_._placeHolder));
 		return this;
 	}
 

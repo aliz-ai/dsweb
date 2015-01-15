@@ -48,6 +48,7 @@ import com.doctusoft.dsw.sample.client.showcase.ShowcaseFixedInputTagsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseFreeInputTagsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseInputsPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseNavsPresenter;
+import com.doctusoft.dsw.sample.client.showcase.ShowcaseOnbeforeunloadPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseProgressBarPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseRichTextEditorPresenter;
 import com.doctusoft.dsw.sample.client.showcase.ShowcaseSelectPresenter;
@@ -58,62 +59,63 @@ import com.doctusoft.dsw.sample.client.showcase.ShowcaseTypeaheadPresenter;
 public class ExampleApplication implements HasComponentModel {
 
 	private BaseContainer rootContainer;
-	
+
 	private Container contentContainer;
 
 	private ClientFactory clientFactory;
-	
-	public ExampleApplication(ClientFactory clientFactory) {
+
+	public ExampleApplication(final ClientFactory clientFactory) {
 		this.clientFactory = clientFactory;
 		init();
 	}
-	
+
 	private void init() {
 		rootContainer = new BaseContainer();
 		new TopNavbar("dsweb example")
-			.addMenuItem(new Link("Example MVP List", "#personlist"))
-			.addMenuItem(new Link("Component showcase", "#showcasebuttons"))
-			.withStyleClasses("navbar-inverse", "navbar-fixed-top")
-			.appendTo(rootContainer);
+		.addMenuItem(new Link("Example MVP List", "#personlist"))
+		.addMenuItem(new Link("Component showcase", "#showcasebuttons"))
+		.withStyleClasses("navbar-inverse", "navbar-fixed-top")
+		.appendTo(rootContainer);
 		BaseContainer bottomPart = new BaseContainer().appendTo(rootContainer).withStyle("padding-top: 40px");
 		new BasicExceptionDisplayer(clientFactory.getEventBus(), new BaseContainer().appendTo(bottomPart));
 		contentContainer = new Container().appendTo(bottomPart);
-		
+
 		PlaceController placeController = new PlaceController(new ExamplePlacePresenterMapper(clientFactory));
-        clientFactory.setPlaceController(placeController);
-        placeController.addPresenterStartedListener(new PresenterStartedListener() {
-            @Override
-            public void presenterStarted(Presenter<?> presenter, AbstractPlace<?> place) {
-            	contentContainer.getComponentModel().getChildren().clear();
-            	contentContainer.add(((HasComponentModel) presenter.getView()));
-            }
-        });
-        
+		clientFactory.setPlaceController(placeController);
+		placeController.addPresenterStartedListener(new PresenterStartedListener() {
+			@Override
+			public void presenterStarted(final Presenter<?> presenter, final AbstractPlace<?> place) {
+				contentContainer.getComponentModel().getChildren().clear();
+				contentContainer.add(((HasComponentModel) presenter.getView()));
+			}
+		});
+
 		HistoryHandler historyHandler = new HistoryHandler().appendTo(rootContainer);
-		 NavigationHandler navigationHandler = new NavigationHandler(historyHandler.getModel(), placeController,
-	                new ShowcaseButtonsPresenter.Place(), new ExamplePlaceFactory());
-	        navigationHandler.registerPlaces(
-	                new ShowcaseButtonsPresenter.Place(),
-	                new ShowcaseDatepickerPresenter.Place(),
-	                new ShowcaseRichTextEditorPresenter.Place(),
-	                new ShowcaseFreeInputTagsPresenter.Place(),
-	                new ShowcaseFixedInputTagsPresenter.Place(),
-	                new ShowcaseExceptionsPresenter.Place(),
-	                new ShowcaseSelectPresenter.Place(),
-	                new ShowcaseNavsPresenter.Place(),
-	                new ShowcaseTablePresenter.Place(),
-	                new ShowcaseTabsheetPresenter.Place(),
-	                new ShowcaseTablePresenter.Place(),
-	                new ShowcaseTypeaheadPresenter.Place(),
-	                new ShowcaseProgressBarPresenter.Place(),
-	                new ShowcaseChartsPresenter.Place(),
-	                new ShowcaseInputsPresenter.Place(),
-	                new ShowcaseContextMenuPresenter.Place(),
-	                new PersonListPresenter.Place(),
-	                new PersonDetailPresenter.Place(),
-	                new SandboxPresenter.Place()
-	                );
-	        navigationHandler.handleCurrentHistory();
+		NavigationHandler navigationHandler = new NavigationHandler(historyHandler.getModel(), placeController,
+				new ShowcaseButtonsPresenter.Place(), new ExamplePlaceFactory());
+		navigationHandler.registerPlaces(
+				new ShowcaseButtonsPresenter.Place(),
+				new ShowcaseDatepickerPresenter.Place(),
+				new ShowcaseRichTextEditorPresenter.Place(),
+				new ShowcaseFreeInputTagsPresenter.Place(),
+				new ShowcaseFixedInputTagsPresenter.Place(),
+				new ShowcaseExceptionsPresenter.Place(),
+				new ShowcaseSelectPresenter.Place(),
+				new ShowcaseNavsPresenter.Place(),
+				new ShowcaseOnbeforeunloadPresenter.Place(),
+				new ShowcaseTablePresenter.Place(),
+				new ShowcaseTabsheetPresenter.Place(),
+				new ShowcaseTablePresenter.Place(),
+				new ShowcaseTypeaheadPresenter.Place(),
+				new ShowcaseProgressBarPresenter.Place(),
+				new ShowcaseChartsPresenter.Place(),
+				new ShowcaseInputsPresenter.Place(),
+				new ShowcaseContextMenuPresenter.Place(),
+				new PersonListPresenter.Place(),
+				new PersonDetailPresenter.Place(),
+				new SandboxPresenter.Place()
+				);
+		navigationHandler.handleCurrentHistory();
 	}
 
 	@Override

@@ -33,7 +33,8 @@ public class DeferredFactory {
 		public DeferredRunnable defer(final Runnable runnable);
 	}
 
-	static Deferrer deferrer = null;
+	// defaults to the gwt timer to save lives
+	static Deferrer deferrer = new GWTTimerDeferrerImpl();
 
 
 	/**

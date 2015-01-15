@@ -40,27 +40,25 @@ import com.xedge.jquery.client.JQuery;
 import com.xedge.jquery.client.handlers.EventHandler;
 
 public class FreeInputTagsRenderer extends BaseComponentRenderer {
-	
+
 	private boolean changedFromModel = false;
-	
+
 	private boolean changedFromWidget = false;
-	
+
 	private FreeInputTagsModel inputTagsModel;
-	
+
 	public FreeInputTagsRenderer(final FreeInputTagsModel inputTagsModel) {
 		super(JQuery.select("<input type=\"text\" />"), inputTagsModel);
 		this.inputTagsModel = inputTagsModel;
 		widget.attr("data-role", "tagsinput");
-		
+
 		firstInit(widget);
-		
-		new EnabledAttributeRenderer(widget, inputTagsModel);
 	}
-	
+
 	public void nativeInitialized() {
 		new ListBindingListener<String>(Bindings.obs(inputTagsModel).get((ObservableProperty) FreeInputTagsModel_._tagList)) {
 			@Override
-			public void inserted(ObservableList<String> list, int index, String element) {
+			public void inserted(final ObservableList<String> list, final int index, final String element) {
 				if (changedFromWidget) {
 					return;
 				}
@@ -70,7 +68,7 @@ public class FreeInputTagsRenderer extends BaseComponentRenderer {
 			}
 
 			@Override
-			public void removed(ObservableList<String> list, int index,	String element) {
+			public void removed(final ObservableList<String> list, final int index,	final String element) {
 				if (changedFromWidget) {
 					return;
 				}
@@ -79,31 +77,31 @@ public class FreeInputTagsRenderer extends BaseComponentRenderer {
 				changedFromModel = false;
 			}
 		};
-		
+
 		new ListBindingListener<String>(Bindings.obs(inputTagsModel).get((ObservableProperty) FreeInputTagsModel_._tagSuggestions)) {
 			@Override
-			public void inserted(ObservableList<String> list, int index, String element) {
+			public void inserted(final ObservableList<String> list, final int index, final String element) {
 				setTagSuggestions(widget, tagListToString(list));
 			}
 
 			@Override
-			public void removed(ObservableList<String> list, int index, String element) {
+			public void removed(final ObservableList<String> list, final int index, final String element) {
 				setTagSuggestions(widget, tagListToString(list));
 			}
 		};
-		
+
 		addChangeListenerAndApply(FreeInputTagsModel_._placeHolder, inputTagsModel, new ValueChangeListener<String>() {
 
 			@Override
-			public void valueChanged(String newValue) {
+			public void valueChanged(final String newValue) {
 				widget.attr("placeholder", Objects.firstNonNull(newValue, ""));
 				widget.next().find("input").attr("placeholder", Objects.firstNonNull(newValue, ""));
 			}
 		});
-		
+
 		widget.change(new EventHandler() {
 			@Override
-			public void eventComplete(JQEvent event, JQuery currentJQuery) {
+			public void eventComplete(final JQEvent event, final JQuery currentJQuery) {
 				if (changedFromModel) {
 					return;
 				}
@@ -111,7 +109,7 @@ public class FreeInputTagsRenderer extends BaseComponentRenderer {
 				ObservableList<String> modelTags = inputTagsModel.getTagList();
 				List<String> tagsToAdd = Lists.newArrayList();
 				List<String> tagsToRemove = Lists.newArrayList();
-				
+
 				for (String widgetTag : widgetTags) {
 					if (!modelTags.contains(widgetTag)) {
 						tagsToAdd.add(widgetTag);
@@ -134,9 +132,11 @@ public class FreeInputTagsRenderer extends BaseComponentRenderer {
 				}
 			}
 		});
+
+		new BaseInputTagsEnabledAttributeRenderer(widget, inputTagsModel);
 	}
-	
-	private native void firstInit(JQuery element) /*-{
+
+	private native void firstInit(final JQuery element) /*-{
 		var that = this;
 		setTimeout(function () {
 			element.tagsinput({
@@ -145,38 +145,38 @@ public class FreeInputTagsRenderer extends BaseComponentRenderer {
 				}
 			});
 			that.@com.doctusoft.dsw.client.gwt.FreeInputTagsRenderer::nativeInitialized()();
-		}, 1); 
+		}, 1);
 	}-*/;
 
-	private native static void setTagSuggestions(JQuery element, String tagSuggestions) /*-{
+	private native static void setTagSuggestions(final JQuery element, final String tagSuggestions) /*-{
 		element.tagsinput('destroy');
 		element.tagsinput({
 			typeahead: {
 				source: tagSuggestions.split(","),
 				freeInput: true
 			}
-		}); 
+		});
 	}-*/;
-	
-	private native static void addTag(JQuery element, String newTag) /*-{
+
+	private native static void addTag(final JQuery element, final String newTag) /*-{
 		element.tagsinput('add', newTag);
 	}-*/;
-	
-	private native static void removeTag(JQuery element, String removeTag) /*-{
+
+	private native static void removeTag(final JQuery element, final String removeTag) /*-{
 		element.tagsinput('remove', removeTag);
 	}-*/;
-	
-	List<String> getWidgetTagList(String widgetTags) {
+
+	List<String> getWidgetTagList(final String widgetTags) {
 		List<String> tagList = Lists.newArrayList();
 		for (String s : widgetTags.split(",")) {
 			if (!Strings.isNullOrEmpty(s) && !s.trim().isEmpty()) {
 				tagList.add(s.replaceAll("^\\s+|\\s+$", ""));
 			}
 		}
-		return tagList; 
+		return tagList;
 	}
-	
-	String tagListToString(List<String> tagList) {
+
+	String tagListToString(final List<String> tagList) {
 		String tagString = "";
 		for (String tag : tagList) {
 			tagString = tagString + tag.replaceAll("^\\s+|\\s+$", "") + ",";
@@ -186,7 +186,7 @@ public class FreeInputTagsRenderer extends BaseComponentRenderer {
 		}
 		return tagString;
 	}
-	
-	
+
+
 }
 

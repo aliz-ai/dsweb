@@ -48,6 +48,7 @@ import com.doctusoft.dsw.client.comp.model.InputTimeModel;
 import com.doctusoft.dsw.client.comp.model.LabelModel;
 import com.doctusoft.dsw.client.comp.model.LinkModel;
 import com.doctusoft.dsw.client.comp.model.ModalDialogModel;
+import com.doctusoft.dsw.client.comp.model.OnbeforeunloadModel;
 import com.doctusoft.dsw.client.comp.model.PieChartModel;
 import com.doctusoft.dsw.client.comp.model.ResourceLoaderModel;
 import com.doctusoft.dsw.client.comp.model.RichTextEditorModel;
@@ -170,6 +171,9 @@ public class RendererFactoryImpl extends AbstractGwtRendererFactory {
 		}
 		if (model instanceof RichTextEditorModel) {
 			return new RichTextEditorRenderer( (RichTextEditorModel) model );
+		}
+		if (model instanceof OnbeforeunloadModel) {
+			return new OnbeforeunloadRenderer( (OnbeforeunloadModel) model );
 		}
 		return null;
 	}

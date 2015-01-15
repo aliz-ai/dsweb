@@ -40,11 +40,11 @@ import com.xedge.jquery.client.JQuery;
 import com.xedge.jquery.client.handlers.EventHandler;
 
 public class TypeaheadRenderer extends BaseComponentRenderer {
-	
+
 	private final List<String> optionCaptions = Lists.newArrayList();
-	
+
 	private final TypeaheadModel typeaheadModel;
-	
+
 	public TypeaheadRenderer(final TypeaheadModel select) {
 		super(JQuery.select("<input type=\"text\" data-provide=\"typeahead\"/>"), select);
 		init(widget);
@@ -55,56 +55,46 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 		if (typeaheadModel.isAllVisibleOnFocus()) {
 			setShowAllOnFocus(widget);
 		}
-		
+
 		if (typeaheadModel.getSelectedItem() != null) {
 			widget.val(typeaheadModel.getSelectedItem().getCaption());
 		}
-		
+
 		TypeaheadModel_._allVisibleOnFocus.addChangeListener(typeaheadModel, new ValueChangeListener<Boolean>() {
 			@Override
-			public void valueChanged(Boolean newValue) {
+			public void valueChanged(final Boolean newValue) {
 				if (newValue) {
 					setShowAllOnFocus(widget);
 				}
 			}
 		});
-		
+
 		AbstractSelectModel_._selectedItem.addChangeListener(typeaheadModel, new ValueChangeListener<SelectItemModel>() {
 			@Override
-			public void valueChanged(SelectItemModel newValue) {
+			public void valueChanged(final SelectItemModel newValue) {
 				if (typeaheadModel.getSelectedItem() != null) {
 					String selectedValue = typeaheadModel.getSelectedItem().getCaption();
 					if (widget.val() != selectedValue) {
 						widget.val(selectedValue);
 					}
+				} else {
+					widget.val("");
 				}
 			}
 		});
-		
+
 		addChangeListenerAndApply(TypeaheadModel_._customText, typeaheadModel, new ValueChangeListener<String>() {
 			@Override
-			public void valueChanged(String newValue) {
+			public void valueChanged(final String newValue) {
 				if (newValue != null && newValue != widget.val() && !typeaheadModel.getSelectItemsModel().contains(newValue)) {
 					widget.val(newValue);
 				}
 			}
 		});
-		
-		addChangeListenerAndApply(TypeaheadModel_._placeHolder, select, new ValueChangeListener<String>() {
 
-			@Override
-			public void valueChanged(String newValue) {
-				if (newValue == null) {
-					widget.attr("placeholder", "");
-				} else {
-					widget.attr("placeholder", newValue);
-				}
-			}
-		});
-		
 		new ListBindingListener<SelectItemModel>(Bindings.obs(typeaheadModel).get((ObservableProperty) AbstractSelectModel_._selectItemsModel)) {
 			@Override
-			public void inserted(ObservableList<SelectItemModel> list, int index, SelectItemModel element) {
+			public void inserted(final ObservableList<SelectItemModel> list, final int index, final SelectItemModel element) {
 				updateOptions(widget, itemsToString(list));
 				if (element == typeaheadModel.getSelectedItem()) {
 					// the selected value just got inserted
@@ -112,17 +102,17 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 				}
 			}
 			@Override
-			public void removed(ObservableList<SelectItemModel> list, int index, SelectItemModel element) {
+			public void removed(final ObservableList<SelectItemModel> list, final int index, final SelectItemModel element) {
 				updateOptions(widget, itemsToString(list));
-			} 
+			}
 		};
-		
+
 		widget.change(new EventHandler() {
 			@Override
-			public void eventComplete(JQEvent event, JQuery currentJQuery) {
+			public void eventComplete(final JQEvent event, final JQuery currentJQuery) {
 				String widgetVal = widget.val();
 				int newIndex = optionCaptions.indexOf(widgetVal);
-								
+
 				/*
 				 * we need to set up index in every case
 				 */
@@ -131,7 +121,7 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 				} else {
 					typeaheadModel.setSelectedItem(typeaheadModel.getSelectItemsModel().get(newIndex));
 				}
-				
+
 				if (newIndex > -1) {
 					//reset to previous selection
 					widget.val(typeaheadModel.getSelectItemsModel().get(newIndex).getCaption());
@@ -141,26 +131,29 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 				}
 			}
 		});
+
+		new PlaceHolderAttributeRenderer(widget, select, TypeaheadModel_._placeHolder);
+		new EnabledAttributeRenderer(widget, select);
 	}
-	
-	private native void init(JQuery widget) /*-{
+
+	private native void init(final JQuery widget) /*-{
 		var that = this;
 		widget.typeahead({
 		});
 	}-*/;
-	
-	private native void updateOptions(JQuery widget, String options) /*-{
+
+	private native void updateOptions(final JQuery widget, final String options) /*-{
 		var typeAhead = widget.data("typeahead");
 		if (typeAhead) {
 		    typeAhead.source = options.split(",");
 		}
 	}-*/;
-	
+
 	/**
 	 * Workaround for functionality of showing all items on focus until it is supported in bootstrap, as seen here:
 	 * http://stackoverflow.com/questions/11745422/twitter-bootstrap-typeahead-to-work-like-dropdown-list-select-tag-with-autocom
 	 */
-	private native void setShowAllOnFocus(JQuery widget) /*-{
+	private native void setShowAllOnFocus(final JQuery widget) /*-{
 		widget.data("typeahead").matcher = function(item) {
         		if (this.query == '*') {
             		return true;
@@ -178,8 +171,8 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 			widget.val(temp);
 	 	});
 	}-*/;
-	
-	private String itemsToString(List<SelectItemModel> items) {
+
+	private String itemsToString(final List<SelectItemModel> items) {
 		String options = "";
 		for (int i = 0; i < items.size(); i++) {
 			options = options + items.get(i).getCaption();

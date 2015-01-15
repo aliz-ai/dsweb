@@ -24,6 +24,7 @@ package com.doctusoft.dsw.sample.client.showcase;
 
 
 import com.doctusoft.dsw.client.comp.BaseContainer;
+import com.doctusoft.dsw.client.comp.Checkbox;
 import com.doctusoft.dsw.client.comp.HtmlContent;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.Typeahead;
@@ -35,26 +36,31 @@ public class ShowcaseTypeaheadView extends BaseShowcaseView<ShowcaseTypeaheadPre
 
 	public ShowcaseTypeaheadView() {
 		new BaseContainer().withStyleClass("page-header").appendTo(subContainer)
-			.add(new HtmlContent("<h1>Typeahead</h1>"));
+		.add(new HtmlContent("<h1>Typeahead</h1>"));
 		new Label("Simple typeahead", "h3").appendTo(subContainer);
 		new Typeahead<String>()
-			.appendTo(subContainer)
-			.bind(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._value))
-			.bindSelectItems(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._stringOptions));
+		.appendTo(subContainer)
+		.bindEnabled(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._editable))
+		.bind(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._value))
+		.bindSelectItems(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._stringOptions));
 		new Label("Typeahead with dropdown", "h3").appendTo(subContainer);
 		new Typeahead<String>()
-			.showAllOnFocus()
-			.bind(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._value))
-			.appendTo(subContainer)
-			.bindSelectItems(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._stringOptions));
+		.showAllOnFocus()
+		.bind(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._value))
+		.appendTo(subContainer)
+		.bindEnabled(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._editable))
+		.bindSelectItems(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._stringOptions));
 
 		new Label("Typeahead with query logic", "h3").appendTo(subContainer);
 		new TypeaheadRemote<TypeaheadRemoteTestModel>()
-			.bind(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._remoteValue))
-			.bindQueryString(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._queryString))
-			.bindOptions(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._options))
-			.appendTo(subContainer);
+		.bind(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._remoteValue))
+		.bindQueryString(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._queryString))
+		.bindOptions(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._options))
+		.bindEnabled(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._editable))
+		.appendTo(subContainer);
 
+		new Label("Set typeaheads enabled/disabled", "h3").appendTo(subContainer);
+		new Checkbox().bindChecked(bindOnPresenter().get(ShowcaseTypeaheadPresenter_._editable)).appendTo(subContainer);
 	}
 
 }
