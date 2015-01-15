@@ -62,7 +62,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	private RerenderTableTask rerenderTableTask = new RerenderTableTask();
 
 	private List<ListenerRegistration> headerListenerRegistrations;
-	private List<ListenerRegistration> rowListenereRegistrations;
+	private List<ListenerRegistration> rowListenerRegistrations;
 
 	public DataTableRenderer( final DataTableModel model ) {
 		super( JQuery.select( "<table class=\"table\"/>" ), model );
@@ -70,7 +70,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 		// apply columns, no change supported currently
 		renderHeaders();
 
-		rowListenereRegistrations = Lists.newArrayList();
+		rowListenerRegistrations = Lists.newArrayList();
 		final JQuery tbody = JQuery.select( "<tbody/>" ).appendTo( widget );
 		new ListBindingListener<DataTableRowModel>( Bindings.obs( model ).get( DataTableModel_._rows ) ) {
 
@@ -175,7 +175,10 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	protected void rerenderAllRows() {
 		widget.find("tbody").remove();
 		rows.clear();
-		rowListenereRegistrations.clear();
+		for (ListenerRegistration listenerRegistration : rowListenerRegistrations) {
+			listenerRegistration.removeHandler();
+		}
+		rowListenerRegistrations.clear();
 
 		final JQuery tbody = JQuery.select( "<tbody/>" ).appendTo( widget );
 		for (DataTableRowModel dataTableRowModel : model.getRows()) {
@@ -210,7 +213,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 					}
 				} );
 
-				rowListenereRegistrations.add(textContentListener);
+				rowListenerRegistrations.add(textContentListener);
 			}
 			else {
 				BaseComponentModel component = cellModel.getComponent();
