@@ -24,16 +24,14 @@ package com.doctusoft.dsw.client.comp;
  */
 
 
-import java.io.Serializable;
 import java.util.List;
 
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
-import com.doctusoft.bean.binding.Converter;
 import com.doctusoft.bean.binding.ParametricEventHandler;
 import com.doctusoft.bean.binding.ValueBinding;
-import com.doctusoft.bean.binding.observable.BidirectionalConvertingListBinder;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
+import com.doctusoft.bean.binding.observable.ListChangeListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 import com.doctusoft.dsw.client.comp.datatable.Column;
@@ -44,6 +42,8 @@ import com.doctusoft.dsw.client.comp.model.DataTableRowModel;
 import com.doctusoft.dsw.client.comp.model.RowClickedEvent;
 import com.doctusoft.dsw.client.comp.model.SelectionMode;
 import com.doctusoft.dsw.client.gwt.BootstrapStyleClasses;
+import com.doctusoft.dsw.client.util.DeferredFactory;
+import com.doctusoft.dsw.client.util.DeferredRunnable;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
@@ -51,30 +51,13 @@ import com.google.common.collect.Lists;
 
 public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableModel> {
 
-	private class SelectItemToIndexConverter implements Converter<Item, Integer>, Serializable {
-
-		@Override
-		public Integer convertSource( final Item source ) {
-			if (source == null) {
-				return -1;
-			}
-			return itemsListener.getShadowList().indexOf( source );
-		}
-
-		@Override
-		public Item convertTarget( final Integer target ) {
-			if (target == -1) {
-				return null;
-			}
-			return itemsListener.getShadowList().get( target );
-		}
-	}
-
 	private List<Column<Item>> columns = Lists.newArrayList();
 
 	private ListBindingListener<Item> itemsListener;
 
 	private ObservableValueBinding<? extends List<Item>> listBinding;
+	
+	private DeferredRunnable selectedItemsUpdater = null;
 
 	public DataTable() {
 		super( new DataTableModel() );
@@ -129,7 +112,7 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 		bindEvent(DataTableModel_._rowClickedEvent, new ParametricEventHandler<Integer>() {
 			@Override
 			public void handle(final Integer parameter) {
-				rowClickHandler.handle(new SelectItemToIndexConverter().convertTarget(parameter));
+				rowClickHandler.handle(listBinding.getValue().get(parameter));
 			}
 		}, new Supplier<RowClickedEvent>() {
 			@Override
@@ -146,9 +129,64 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 	 * In Single selection mode, you'd probably prefer bindSingleSelection
 	 */
 	public DataTable<Item> bindSelection( final ObservableValueBinding<? extends List<Item>> selection ) {
-		new BidirectionalConvertingListBinder<Item, Integer>(
-				selection, new SelectItemToIndexConverter(),
-				Bindings.obs( model ).get( DataTableModel_._selectedIndices ) );
+		new ListChangeListener(selection) {
+			@Override
+			protected void changed() {
+				selectedItemsUpdater = DeferredFactory.defer(selectedItemsUpdater, new Runnable() {
+					@Override
+					public void run() {
+						selectedItemsUpdater = null;
+						ObservableList<Integer> selectedIndices = getModel().getSelectedIndices();
+						List<Integer> newIndices = Lists.newArrayList();
+						if (listBinding == null)
+							return;
+						List<Item> currentItemsList = listBinding.getValue();
+						if (currentItemsList == null)
+							return;
+						for (Item selectedItem : selection.getValue()) {
+							int itemIndex = currentItemsList.indexOf(selectedItem);
+							newIndices.add(itemIndex);
+							if (!selectedIndices.contains(itemIndex)) {
+								selectedIndices.add(itemIndex);
+							}
+						}
+						for (Integer previousIndex : selectedIndices) {
+							if (!newIndices.contains(previousIndex)) {
+								selectedIndices.remove(previousIndex);
+							}
+						}
+					}
+				});
+			}
+		};
+		new ListBindingListener<Integer>(Bindings.obs(model).get(DataTableModel_._selectedIndices)) {
+			@Override
+			public void inserted(ObservableList<Integer> list, int index, Integer element) {
+				if (listBinding == null)
+					return;
+				List<Item> currentItemsList = listBinding.getValue();
+				if (currentItemsList == null)
+					return;
+				Item selectedItem = currentItemsList.get(element);
+				List<Item> currentSelection = selection.getValue();
+				if (!currentSelection.contains(selectedItem)) {
+					currentSelection.add(selectedItem);
+				}
+			}
+			@Override
+			public void removed(ObservableList<Integer> list, int index, Integer element) {
+				if (listBinding == null)
+					return;
+				List<Item> currentItemsList = listBinding.getValue();
+				if (currentItemsList == null)
+					return;
+				Item deselectedItem = currentItemsList.get(element);
+				List<Item> currentSelection = selection.getValue();
+				if (currentSelection.contains(deselectedItem)) {
+					currentSelection.remove(deselectedItem);
+				}
+			}
+		};
 		return this;
 	}
 

@@ -48,8 +48,10 @@ import com.doctusoft.dsw.client.util.DeferredFactory;
 import com.doctusoft.dsw.client.util.DeferredRunnable;
 import com.google.common.collect.Lists;
 import com.google.gwt.core.shared.GWT;
+import com.xedge.jquery.client.JQEvent;
 import com.xedge.jquery.client.JQuery;
 import com.xedge.jquery.client.JQuery.EventType;
+import com.xedge.jquery.client.handlers.EventHandler;
 
 public class DataTableRenderer extends BaseComponentRenderer {
 
@@ -80,7 +82,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 
 			@Override
 			public void inserted( final ObservableList<DataTableRowModel> list, final int index, final DataTableRowModel element ) {
-				JQuery row = renderRow( element );
+				JQuery row = renderRow( element, index );
 				if (index == 0) {
 					// insert as first
 					tbody.prepend( row );
@@ -105,16 +107,12 @@ public class DataTableRenderer extends BaseComponentRenderer {
 
 			@Override
 			public void inserted( final ObservableList<Integer> list, final int index, final Integer element ) {
-				if (rows.size() > element){ //temporary solution, FIXME gabor-farkas https://github.com/Doctusoft/dsweb/issues/20
-					rows.get( element ).addClass( "selected" );
-				}
+				rows.get( element ).addClass( "selected" );
 			}
 
 			@Override
 			public void removed( final ObservableList<Integer> list, final int index, final Integer element ) {
-				if (rows.size() > element){ //temporary solution, FIXME gabor-farkas https://github.com/Doctusoft/dsweb/issues/20
-					rows.get( element ).removeClass( "selected" );
-				}
+				rows.get( element ).removeClass( "selected" );
 			}
 		};
 
@@ -125,8 +123,6 @@ public class DataTableRenderer extends BaseComponentRenderer {
 				deferredRunnable = DeferredFactory.defer(deferredRunnable, rerenderTableTask);
 			}
 		};
-
-		install( widget );
 	}
 
 	protected void rowClicked( final JQuery row ) {
@@ -188,11 +184,13 @@ public class DataTableRenderer extends BaseComponentRenderer {
 		rowListenerRegistrations.clear();
 
 		final JQuery tbody = JQuery.select( "<tbody/>" ).appendTo( widget );
+		int index = 0;
 		for (DataTableRowModel dataTableRowModel : model.getRows()) {
-			JQuery renderRow = renderRow(dataTableRowModel);
+			JQuery renderRow = renderRow(dataTableRowModel, index);
 
 			tbody.append(renderRow);
 			rows.add(renderRow);
+			index ++;
 		}
 
 	}
@@ -207,8 +205,17 @@ public class DataTableRenderer extends BaseComponentRenderer {
 		renderHeaders();
 	}
 
-	protected JQuery renderRow( final DataTableRowModel rowModel ) {
-		JQuery row = JQuery.select( "<tr/>" );
+	protected JQuery renderRow( final DataTableRowModel rowModel, final int rowIndex ) {
+		final JQuery row = JQuery.select( "<tr/>" );
+		if (model.getSelectedIndices().contains(rowIndex)) {
+			row.addClass("selected");
+		}
+		row.click(new EventHandler() {
+			@Override
+			public void eventComplete(JQEvent event, JQuery currentJQuery) {
+				rowClicked(row);
+			}
+		});
 		for (DataTableCellModel cellModel : rowModel.getCells()) {
 			final JQuery cell = JQuery.select( "<td/>" ).appendTo( row );
 			String textContent = cellModel.getTextContent();
@@ -274,17 +281,4 @@ public class DataTableRenderer extends BaseComponentRenderer {
 		}
 	}
 
-	private native void destroy(final JQuery target) /*-{
-		target.DataTable().destroy();
-	}-*/;
-
-	private native void install(final JQuery target) /*-{
-		var that = this;
-		setTimeout(function () {
-			// row click listener
-			target.find("tbody").on("mousedown", "tr", function() {
-				that.@com.doctusoft.dsw.client.gwt.DataTableRenderer::rowClicked(Lcom/xedge/jquery/client/JQuery;)($wnd.jQuery(this));
-			});
-		}, 1);
-	}-*/;
 }

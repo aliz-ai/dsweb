@@ -10,6 +10,7 @@ import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.DataTable;
 import com.doctusoft.dsw.client.comp.HasComponentModel;
+import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.datatable.Column;
 import com.doctusoft.dsw.client.comp.datatable.Columns;
 import com.doctusoft.dsw.client.comp.datatable.ComponentColumn;
@@ -17,9 +18,9 @@ import com.doctusoft.dsw.client.comp.model.DataTableCellModel;
 import com.doctusoft.dsw.client.comp.model.DataTableColumnModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel;
 import com.doctusoft.dsw.client.comp.model.DataTableRowModel;
+import com.doctusoft.dsw.client.comp.model.SelectionMode;
 import com.doctusoft.dsw.client.util.GWTTimerDeferrerImpl;
 import com.google.common.collect.ImmutableList;
-import com.google.gwt.editor.client.Editor.Ignore;
 import com.google.gwt.user.client.Timer;
 import com.xedge.jquery.client.JQuery;
 
@@ -186,13 +187,16 @@ public class TestDataTableRenderer extends AbstractDswebTest {
 		delayTestFinish(500);
 	}
 
-	@Test @Ignore
-	// the click event doesn't seem to be invoked now ...
-	public void _estRowClickedEvent() {
+	@Test
+	public void testRowClickedEvent() {
 		DataTable<String> dataTable = new DataTable<String>().withId( "table" );
-		ObservableList<DataTableRowModel> rows = createRows();
-		DataTableModel model = dataTable.getModel();
-		model.setRows( rows );
+		dataTable.bind(Bindings.obs(new ObservableList<String>(ImmutableList.of("a", "b"))));
+		dataTable.addColumn(new ComponentColumn<String>() {
+			@Override
+			public HasComponentModel getComponent(String item) {
+				return new Label(item);
+			}
+		});
 		registerApp( dataTable );
 		final EmptyEventHandlerMock clickFiredOnModel = new EmptyEventHandlerMock();
 		dataTable.rowClick( new ParametricEventHandler<String>() {
@@ -200,7 +204,7 @@ public class TestDataTableRenderer extends AbstractDswebTest {
 			@Override
 			public void handle( final String parameter ) {
 				clickFiredOnModel.handle();
-				assertEquals( "00", parameter );
+				assertEquals( "b", parameter );
 			}
 		} );
 
@@ -225,6 +229,45 @@ public class TestDataTableRenderer extends AbstractDswebTest {
 		delayTestFinish( 1000 );
 	}
 
+	/**
+	 * Tests that if selected items change before the rows are actually attached (due to order of propagation), rendering will still work properly with deferred execution
+	 * https://github.com/Doctusoft/dsweb/issues/70
+	 */
+	@Test
+	public void testSelectedIndexAndRowChanges() {
+		DataTable<String> dataTable = new DataTable<String>();
+		final ObservableList<String> selectionList = new ObservableList<String>(ImmutableList.of("a"));
+		dataTable
+			.withSelectionMode(SelectionMode.Single)
+			.bindSelection(Bindings.obs(selectionList))
+			.addColumn(new ComponentColumn<String>() {
+				@Override
+				public HasComponentModel getComponent(String item) {
+					return new Label(item);
+				}
+			})
+			.bind(Bindings.obs(new ObservableList<String>(ImmutableList.of("a", "b"))));
+		registerApp(dataTable);
+		new Timer() {
+			@Override
+			public void run() {
+				assertEquals(1, JQuery.select("tbody tr.selected").length());
+				assertEquals("a", JQuery.select("tbody tr.selected td").text());
+				// update selection
+				selectionList.remove("a");
+				selectionList.add("b");
+				new Timer() {
+					@Override
+					public void run() {
+						assertEquals("b", JQuery.select("tbody tr.selected td").text());
+						finishTest();
+					}
+				}.schedule(50);
+			}
+		}.schedule(50);
+		delayTestFinish(1000);
+	}
+	
 	private ObservableList<DataTableColumnModel> createColumnHeaders() {
 		ObservableList<DataTableColumnModel> columns = new ObservableList<DataTableColumnModel>();
 		columns.add( createColumnModel( "aaa" ) );
