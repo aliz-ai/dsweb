@@ -57,7 +57,7 @@ public class PieChart extends AbstractChart<PieChart, PieChartModel> {
 	public PieChart bind(ObservableValueBinding<? extends List<PieChartItemModel>> listBinding ){
 		if (itemsListener != null) {
 			// remove previous binding
-			itemsListener.remove();
+			itemsListener.removeHandler();
 		}
 		itemsListener = new ListBindingListener<PieChartItemModel>( listBinding ) {
 			

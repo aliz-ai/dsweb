@@ -67,7 +67,7 @@ public class BarChart extends AbstractChart<BarChart, BarChartModel>{
 	public BarChart bindValues(ObservableValueBinding<? extends List<BarChartItemModel>> listBinding ){
 		if (itemsListener != null) {
 			// remove previous binding
-			itemsListener.remove();
+			itemsListener.removeHandler();
 		}
 		itemsListener = new ListBindingListener<BarChartItemModel>( listBinding ) {
 			

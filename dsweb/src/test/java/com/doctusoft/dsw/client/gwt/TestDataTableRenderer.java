@@ -1,6 +1,8 @@
 
 package com.doctusoft.dsw.client.gwt;
 
+import lombok.Getter;
+
 import org.junit.Test;
 
 import com.doctusoft.ObservableProperty;
@@ -10,14 +12,13 @@ import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.DataTable;
 import com.doctusoft.dsw.client.comp.HasComponentModel;
-import com.doctusoft.dsw.client.comp.Label;
+import com.doctusoft.dsw.client.comp.datatable.AbstractColumn;
 import com.doctusoft.dsw.client.comp.datatable.Column;
 import com.doctusoft.dsw.client.comp.datatable.Columns;
 import com.doctusoft.dsw.client.comp.datatable.ComponentColumn;
 import com.doctusoft.dsw.client.comp.model.DataTableCellModel;
 import com.doctusoft.dsw.client.comp.model.DataTableColumnModel;
 import com.doctusoft.dsw.client.comp.model.DataTableModel;
-import com.doctusoft.dsw.client.comp.model.DataTableRowModel;
 import com.doctusoft.dsw.client.comp.model.SelectionMode;
 import com.doctusoft.dsw.client.util.GWTTimerDeferrerImpl;
 import com.google.common.collect.ImmutableList;
@@ -32,29 +33,25 @@ public class TestDataTableRenderer extends AbstractDswebTest {
 	@Test
 	public void testRowContentWithAdditionsRemovalsAndChanges() {
 		DataTable<String> dataTable = new DataTable<String>().withId( "table" );
-		ObservableList<DataTableRowModel> rows = createRows();
+		ObservableList<String> items = new ObservableList<String>(ImmutableList.of("a", "b"));
+		dataTable.bind(Bindings.obs(items));
+		dataTable.addColumn(new LabelColumn());
 		DataTableModel model = dataTable.getModel();
-		model.setRows( rows );
 		registerApp( dataTable );
-		JQuery firstCell = JQuery.select( "tbody>tr>td" ).first();
-		assertEquals( "00", firstCell.text() );
-		JQuery lastCell = JQuery.select( "tbody>tr>td" ).last();
-		assertEquals( "11", lastCell.text() );
-		assertEquals( 4, JQuery.select("td").length());
-		model.getRows().remove( 1 );
-		lastCell = JQuery.select( "tbody>tr>td" ).last();
-		assertEquals( "01", lastCell.text() );
+		assertEquals( "a", JQuery.select( "tbody>tr>td:first" ).text() );
+		assertEquals( "b", JQuery.select( "tbody>tr>td:last" ).text() );
 		assertEquals( 2, JQuery.select("td").length());
-		model.getRows().add( createRow( 4 ) );
-		lastCell = JQuery.select( "tbody>tr>td" ).last();
-		assertEquals( "41", lastCell.text() );
-		assertEquals( 4, JQuery.select("td").length());
-		model.getRows().get( 1 ).getCells().get( 1 ).setTextContent( "changed" );
-		lastCell = JQuery.select( "tbody>tr>td" ).last();
-		assertEquals( "changed", lastCell.text() );
+		items.remove("b");
+		assertEquals( "a", JQuery.select( "tbody>tr>td:last" ).text() );
+		assertEquals( 1, JQuery.select("td").length());
+		items.add("c");
+		assertEquals( "c", JQuery.select( "tbody>tr>td:last" ).text() );
+		assertEquals( 2, JQuery.select("td").length());
+		model.getRows().get( 1 ).getCells().get( 0 ).setTextContent( "changed" );
+		assertEquals( "changed", JQuery.select( "tbody>tr>td:last" ).text() );
 	}
 
-	private void createBuilderTestDatas() {
+	private void createBuilderTestData() {
 		for (int i = 0; i < 10; i++) {
 			testDatas.add(new TestDataTableRendererDTO("a" + i, "b" + i));
 		}
@@ -65,7 +62,7 @@ public class TestDataTableRenderer extends AbstractDswebTest {
 		new GWTTimerDeferrerImpl();	// @Before doesn't seem to work
 
 		// define test datas
-		createBuilderTestDatas();
+		createBuilderTestData();
 
 		final DataTable<TestDataTableRendererDTO> dataTable = new DataTable<TestDataTableRendererDTO>()
 				.withId( "table" )
@@ -107,7 +104,7 @@ public class TestDataTableRenderer extends AbstractDswebTest {
 	@Test
 	public void testRemoveColumnOnBuilder() {
 		// define test data
-		createBuilderTestDatas();
+		createBuilderTestData();
 
 		final Column<TestDataTableRendererDTO> secondColumn = Columns.from( "second", TestDataTableRendererDTO_._value2);
 		final DataTable<TestDataTableRendererDTO> dataTable = new DataTable<TestDataTableRendererDTO>()
@@ -150,12 +147,9 @@ public class TestDataTableRenderer extends AbstractDswebTest {
 	@Test
 	public void testColumnHeaders() {
 		DataTable<String> dataTable = new DataTable<String>().withId( "table" );
-		DataTableModel model = dataTable.getModel();
-		ObservableList<DataTableColumnModel> headers = createColumnHeaders();
-		model.setColumns( headers );
-		model.setRows( createRows() );
+		dataTable.addColumn(new LabelColumn("hello world"));
 		registerApp( dataTable );
-		assertEquals( "aaa", JQuery.select("thead th").text() );
+		assertEquals( "hello world", JQuery.select("thead th").text() );
 	}
 	
 	/**
@@ -272,45 +266,51 @@ public class TestDataTableRenderer extends AbstractDswebTest {
 		assertEquals(0, JQuery.select("thead").length());
 	}
 	
-	private static class LabelColumn extends ComponentColumn<String> {
+	@Test
+	public void testHideAndShowColumn() {
+		DataTable<String> dataTable = new DataTable<String>();
+		dataTable.bind(Bindings.obs(new ObservableList<String>(ImmutableList.of("a", "b", "c"))));
+		final LabelColumn firstColumn = new LabelColumn("h1");
+		dataTable.addColumn(firstColumn);
+		dataTable.addColumn(new LabelColumn("h2"));
+		registerApp(dataTable);
+		assertEquals("h1h2", JQuery.select("thead").text());
+		assertEquals("aabbcc", JQuery.select("tbody").text());
+		firstColumn.withVisible(false);
+		new Timer() {
+			@Override
+			public void run() {
+				assertEquals("h2", JQuery.select("thead").text());
+				assertEquals("abc", JQuery.select("tbody").text());
+				firstColumn.withVisible(true);
+				new Timer() {
+					@Override
+					public void run() {
+						assertEquals("h1h2", JQuery.select("thead").text());
+						assertEquals(1, JQuery.select("tbody").length());
+						assertEquals("aabbcc", JQuery.select("tbody").text());
+						finishTest();
+					}
+				}.schedule(25);
+			}
+		}.schedule(25);
+		delayTestFinish(500);
+	}
+	
+	private static class LabelColumn extends AbstractColumn<LabelColumn, String> {
+		@Getter
+		private DataTableColumnModel header = new DataTableColumnModel();
+		public LabelColumn() {
+		}
+		public LabelColumn(String title) {
+			header.setTitle(title);
+		}
 		@Override
-		public HasComponentModel getComponent(String item) {
-			return new Label(item);
+		public DataTableCellModel getCellModel(String item) {
+			DataTableCellModel cellModel = new DataTableCellModel();
+			cellModel.setTextContent(item);
+			return cellModel;
 		}
 	}
 	
-	private ObservableList<DataTableColumnModel> createColumnHeaders() {
-		ObservableList<DataTableColumnModel> columns = new ObservableList<DataTableColumnModel>();
-		columns.add( createColumnModel( "aaa" ) );
-		return columns;
-	}
-
-	private DataTableColumnModel createColumnModel( final String title ) {
-		DataTableColumnModel columnModel = new DataTableColumnModel();
-		columnModel.setTitle( title );
-		return columnModel;
-	}
-
-	private ObservableList<DataTableRowModel> createRows() {
-		ObservableList<DataTableRowModel> rows = new ObservableList<DataTableRowModel>();
-		rows.add( createRow( 0 ) );
-		rows.add( createRow( 1 ) );
-		return rows;
-	}
-
-	private DataTableRowModel createRow( final Integer index ) {
-		DataTableRowModel rowModel = new DataTableRowModel();
-		ObservableList<DataTableCellModel> cells = new ObservableList<DataTableCellModel>();
-		cells.add( createCellModel( index.toString() + "0" ) );
-		cells.add( createCellModel( index.toString() + "1" ) );
-		rowModel.setCells( cells );
-		return rowModel;
-	}
-
-	private DataTableCellModel createCellModel( final String content ) {
-		DataTableCellModel cellModel = new DataTableCellModel();
-		cellModel.setTextContent( content );
-		return cellModel;
-	}
-
 }

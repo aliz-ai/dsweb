@@ -32,6 +32,7 @@ import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ListChangeListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
+import com.doctusoft.bean.binding.observable.PropertyObservingListBinding;
 import com.doctusoft.dsw.client.Renderer;
 import com.doctusoft.dsw.client.RendererFactory;
 import com.doctusoft.dsw.client.comp.datatable.OrderingDirection;
@@ -70,6 +71,8 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	private JQuery tbody;
 	
 	private List<BaseComponentModel> cellModels = Lists.newArrayList();
+	
+	private boolean initialized = false;
 
 	public DataTableRenderer( final DataTableModel model ) {
 		super( JQuery.select( "<table class=\"table\"/>" ), model );
@@ -119,7 +122,9 @@ public class DataTableRenderer extends BaseComponentRenderer {
 
 			@Override
 			protected void changed() {
-				deferredRunnable = DeferredFactory.defer(deferredRunnable, rerenderTableTask);
+				if (initialized) {
+					deferredRunnable = DeferredFactory.defer(deferredRunnable, rerenderTableTask);
+				}
 			}
 		};
 		addChangeListener(DataTableModel_._renderHeaders, model, new ValueChangeListener<Boolean>() {
@@ -128,6 +133,15 @@ public class DataTableRenderer extends BaseComponentRenderer {
 				rerenderAllHeaders();
 			}
 		});
+		new PropertyObservingListBinding<DataTableColumnModel>(Bindings.obs(model).get(DataTableModel_._columns), DataTableColumnModel_._visible) {
+			@Override
+			protected void itemChanged(ObservableList<DataTableColumnModel> list, DataTableColumnModel element) {
+				if (initialized) {
+					deferredRunnable = DeferredFactory.defer(deferredRunnable, rerenderTableTask);
+				}
+			}
+		};
+		initialized = true;	// now change listeners can be applied
 	}
 
 	protected void rowClicked( final JQuery row ) {
@@ -188,7 +202,6 @@ public class DataTableRenderer extends BaseComponentRenderer {
 		}
 		rowListenerRegistrations.clear();
 
-		final JQuery tbody = JQuery.select( "<tbody/>" ).appendTo( widget );
 		int index = 0;
 		for (DataTableRowModel dataTableRowModel : model.getRows()) {
 			JQuery renderRow = renderRow(dataTableRowModel, index);
@@ -221,7 +234,11 @@ public class DataTableRenderer extends BaseComponentRenderer {
 				rowClicked(row);
 			}
 		});
-		for (DataTableCellModel cellModel : rowModel.getCells()) {
+		ObservableList<DataTableCellModel> rowCells = rowModel.getCells();
+		for (int i = 0; i < rowCells.size(); i ++) {
+			if (!model.getColumns().get(i).isVisible())
+				continue;
+			DataTableCellModel cellModel = rowCells.get(i);
 			final JQuery cell = JQuery.select( "<td/>" ).appendTo( row );
 			String textContent = cellModel.getTextContent();
 			if (textContent != null) {
@@ -255,9 +272,8 @@ public class DataTableRenderer extends BaseComponentRenderer {
 		JQuery headerRow = JQuery.select( "<tr>" ).appendTo( JQuery.select( "<thead>" ).appendTo( widget ) );
 
 		for (final DataTableColumnModel columnModel : model.getColumns()) {
-			//			FIX for tests
-			//			JQuery th = JQuery.select( "<th>" + columnModel.getTitle() + "</th>" ).appendTo( headerRow );
-
+			if (!columnModel.isVisible())
+				continue;
 			JQuery th = JQuery.select( "<th/>" ).appendTo(headerRow);
 			th.text( columnModel.getTitle() );
 			if (columnModel.isOrderable()) {

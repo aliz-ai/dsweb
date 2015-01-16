@@ -88,7 +88,7 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 	public DataTable<Item> bind( final ObservableValueBinding<? extends List<Item>> listBinding ) {
 		if (itemsListener != null) {
 			// remove previous binding
-			itemsListener.remove();
+			itemsListener.removeHandler();
 		}
 
 		this.listBinding = listBinding;
