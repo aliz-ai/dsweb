@@ -256,4 +256,13 @@ public class DataTable<Item> extends BaseComponent<DataTable<Item>, DataTableMod
 		return this;
 	}
 
+	public DataTable<Item> withRenderHeaders(boolean renderHeaders) {
+		model.setRenderHeaders(renderHeaders);
+		return this;
+	}
+	
+	public DataTable<Item> bindRenderHeaders(ValueBinding<Boolean> renderHeadersBinding) {
+		Bindings.bind(renderHeadersBinding, Bindings.obs(model).get(DataTableModel_._renderHeaders));
+		return this;
+	}
 }

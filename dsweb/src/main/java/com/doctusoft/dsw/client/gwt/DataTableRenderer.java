@@ -74,7 +74,6 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	public DataTableRenderer( final DataTableModel model ) {
 		super( JQuery.select( "<table class=\"table\"/>" ), model );
 		this.model = model;
-		// apply columns, no change supported currently
 		renderHeaders();
 
 		tbody = JQuery.select( "<tbody/>" ).appendTo( widget );
@@ -123,6 +122,12 @@ public class DataTableRenderer extends BaseComponentRenderer {
 				deferredRunnable = DeferredFactory.defer(deferredRunnable, rerenderTableTask);
 			}
 		};
+		addChangeListener(DataTableModel_._renderHeaders, model, new ValueChangeListener<Boolean>() {
+			@Override
+			public void valueChanged(Boolean newValue) {
+				rerenderAllHeaders();
+			}
+		});
 	}
 
 	protected void rowClicked( final JQuery row ) {
@@ -245,7 +250,8 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	}
 
 	protected void renderHeaders() {
-		headerListenerRegistrations = Lists.newArrayList();
+		if (!model.isRenderHeaders())
+			return;
 		JQuery headerRow = JQuery.select( "<tr>" ).appendTo( JQuery.select( "<thead>" ).appendTo( widget ) );
 
 		for (final DataTableColumnModel columnModel : model.getColumns()) {

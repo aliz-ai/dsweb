@@ -45,4 +45,7 @@ public class DataTableModel extends BaseComponentModel implements ModelObject {
 	@ObservableProperty
 	private RowClickedEvent rowClickedEvent = new RowClickedEvent();
 	
+	@ObservableProperty
+	private boolean renderHeaders = true;
+	
 }

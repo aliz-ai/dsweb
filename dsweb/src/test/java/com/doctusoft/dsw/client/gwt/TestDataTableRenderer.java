@@ -191,12 +191,7 @@ public class TestDataTableRenderer extends AbstractDswebTest {
 	public void testRowClickedEvent() {
 		DataTable<String> dataTable = new DataTable<String>().withId( "table" );
 		dataTable.bind(Bindings.obs(new ObservableList<String>(ImmutableList.of("a", "b"))));
-		dataTable.addColumn(new ComponentColumn<String>() {
-			@Override
-			public HasComponentModel getComponent(String item) {
-				return new Label(item);
-			}
-		});
+		dataTable.addColumn(new LabelColumn());
 		registerApp( dataTable );
 		final EmptyEventHandlerMock clickFiredOnModel = new EmptyEventHandlerMock();
 		dataTable.rowClick( new ParametricEventHandler<String>() {
@@ -240,12 +235,7 @@ public class TestDataTableRenderer extends AbstractDswebTest {
 		dataTable
 			.withSelectionMode(SelectionMode.Single)
 			.bindSelection(Bindings.obs(selectionList))
-			.addColumn(new ComponentColumn<String>() {
-				@Override
-				public HasComponentModel getComponent(String item) {
-					return new Label(item);
-				}
-			})
+			.addColumn(new LabelColumn())
 			.bind(Bindings.obs(new ObservableList<String>(ImmutableList.of("a", "b"))));
 		registerApp(dataTable);
 		new Timer() {
@@ -266,6 +256,27 @@ public class TestDataTableRenderer extends AbstractDswebTest {
 			}
 		}.schedule(50);
 		delayTestFinish(1000);
+	}
+	
+	@Test
+	public void testHeadersHiddenAndShown() {
+		DataTable<String> dataTable = new DataTable<String>()
+				.addColumn(new LabelColumn())
+				.withRenderHeaders(false)
+				.bind(Bindings.obs(new ObservableList<String>(ImmutableList.of("a", "b", "c"))));
+		registerApp(dataTable);
+		assertEquals(0, JQuery.select("thead").length());
+		dataTable.withRenderHeaders(true);
+		assertEquals(1, JQuery.select("thead").length());
+		dataTable.withRenderHeaders(false);
+		assertEquals(0, JQuery.select("thead").length());
+	}
+	
+	private static class LabelColumn extends ComponentColumn<String> {
+		@Override
+		public HasComponentModel getComponent(String item) {
+			return new Label(item);
+		}
 	}
 	
 	private ObservableList<DataTableColumnModel> createColumnHeaders() {
