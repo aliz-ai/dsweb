@@ -47,6 +47,7 @@ import com.doctusoft.dsw.client.comp.model.DataTableModel_;
 import com.doctusoft.dsw.client.comp.model.DataTableRowModel;
 import com.doctusoft.dsw.client.util.DeferredFactory;
 import com.doctusoft.dsw.client.util.DeferredRunnable;
+import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 import com.google.gwt.core.shared.GWT;
 import com.xedge.jquery.client.JQEvent;
@@ -236,7 +237,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 		});
 		ObservableList<DataTableCellModel> rowCells = rowModel.getCells();
 		for (int i = 0; i < rowCells.size(); i ++) {
-			if (!model.getColumns().get(i).isVisible())
+			if (!Objects.firstNonNull(model.getColumns().get(i).getVisible(), false))
 				continue;
 			DataTableCellModel cellModel = rowCells.get(i);
 			final JQuery cell = JQuery.select( "<td/>" ).appendTo( row );
@@ -272,7 +273,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 		JQuery headerRow = JQuery.select( "<tr>" ).appendTo( JQuery.select( "<thead>" ).appendTo( widget ) );
 
 		for (final DataTableColumnModel columnModel : model.getColumns()) {
-			if (!columnModel.isVisible())
+			if (!Objects.firstNonNull(columnModel.getVisible(), false))
 				continue;
 			JQuery th = JQuery.select( "<th/>" ).appendTo(headerRow);
 			th.text( columnModel.getTitle() );

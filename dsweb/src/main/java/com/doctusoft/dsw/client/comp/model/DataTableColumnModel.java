@@ -45,5 +45,5 @@ public class DataTableColumnModel implements ModelObject, Serializable {
 	private ComponentEvent click;
 	
 	@ObservableProperty
-	private boolean visible = true;
+	private Boolean visible = true;
 }
