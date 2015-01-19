@@ -2,6 +2,7 @@ package com.doctusoft.dsw.client.gwt;
 
 import org.junit.Test;
 
+import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.Container;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.client.comp.Tab;
@@ -222,6 +223,27 @@ public class TestTabSheetRenderer extends AbstractDswebTest {
 		registerApp(tabSheet);
 		JQuery.select("#tabsheet ul li:nth-child(2) a").click();
 		assertEquals(new Integer(1), tabSheet.getModel().getActiveTab());
+		eventHandlerMock.assertInvoked();
+	}
+	
+	/**
+	 * Tests proper component disposal by asserting that click event handlers are retained
+	 */
+	@Test
+	public void testButtonRemovedAndAdded() {
+		EmptyEventHandlerMock eventHandlerMock = new EmptyEventHandlerMock();
+		Tab tab1 = new Tab().withTitle("Tab1").withContent(new Button("abc").click(eventHandlerMock).withId("button"));
+		TabSheet tabSheet = new TabSheet().withId("tabsheet")
+				.withTab(tab1)
+				.withDefaultTab("Tab2", new Label().withId("tabContent2"));
+		registerApp(tabSheet);
+		assertEquals(1, JQuery.select("#button:visible").length());
+		tabSheet.removeTab(tab1);
+		assertEquals(0, JQuery.select("#button:visible").length());
+		tabSheet.withTabOnSpecifiedIndex(tab1, 0);
+		tabSheet.withActiveTabIndex(0);
+		assertEquals(1, JQuery.select("#button:visible").length());
+		JQuery.select("#button").click();
 		eventHandlerMock.assertInvoked();
 	}
 }

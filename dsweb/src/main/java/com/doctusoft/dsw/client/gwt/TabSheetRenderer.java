@@ -2,7 +2,6 @@ package com.doctusoft.dsw.client.gwt;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.doctusoft.bean.ObservableProperty;
 import com.doctusoft.bean.ValueChangeListener;
@@ -15,7 +14,6 @@ import com.doctusoft.dsw.client.comp.Tab_;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.TabSheetModel;
 import com.doctusoft.dsw.client.comp.model.TabSheetModel_;
-import com.google.common.collect.Maps;
 import com.google.gwt.core.client.GWT;
 import com.xedge.jquery.client.JQEvent;
 import com.xedge.jquery.client.JQuery;
@@ -25,8 +23,6 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 	
 	public static RendererFactory<JQuery> rendererFactory = GWT.create(RendererFactory.class);
 	
-	private Map<BaseComponentModel, JQuery> renderedWidgets = Maps.newHashMap();
-
 	private List<JQuery> tabCaptionList = new ArrayList<JQuery>();
 	private List<JQuery> tabContentList = new ArrayList<JQuery>();
 	private JQuery tabButtonsHolder;
@@ -104,7 +100,6 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 			@Override
 			public void removed(ObservableList<Tab> list, int index, Tab element) {
 				tabCaptionList.get(index).remove();
-				tabContentList.get(index).remove();
 				rendererFactory.dispose(element.getContent());
 				tabContentList.remove(index);
 				tabCaptionList.remove(index);
@@ -126,7 +121,6 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 	protected void tabWidgetAdded(JQuery parentWidget, BaseComponentModel baseWidget) {
 		JQuery rendered = rendererFactory.getRenderer(baseWidget).getWidget();
 		parentWidget.append(rendered);
-		renderedWidgets.put(baseWidget, rendered);
 	}
 	
 }
