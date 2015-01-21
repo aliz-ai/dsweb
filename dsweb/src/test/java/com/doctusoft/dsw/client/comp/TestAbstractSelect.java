@@ -159,4 +159,18 @@ public class TestAbstractSelect {
 		JUnitDeferrerImpl.fireScheduledRunnables();
 		assertEquals("b", getSelectValue());
 	}
+	
+	@Test
+	public void testResetToNullValue() {
+		Select<String> select = new Select<String>().bind(Bindings.obs(this).get(TestAbstractSelect_._selectValue))
+				.withNullOptionCaption("Please select");
+		select.setSelectItems(SelectItems.fromStrings("b", "a", "c"));
+		setSelectValue("a");
+		JUnitDeferrerImpl.fireScheduledRunnables();
+		assertEquals("a", getSelectValue());
+		setSelectValue(null);
+		JUnitDeferrerImpl.fireScheduledRunnables();
+		assertEquals(null, getSelectValue());
+		assertEquals(null, select.getModel().getSelectedItem());
+	}
 }

@@ -117,10 +117,13 @@ public class SelectRenderer extends BaseComponentRenderer {
 	
 	protected void applySelectedIndex() {
 		SelectItemModel item = select.getSelectedItem();
+		widget.find("option[selected]").removeAttr("selected");
 		if (item == null) {
+			if (nullOption != null) {
+				setSelectedNative(nullOption);
+			}
 			return;
 		}
-		widget.find("option[selected]").removeAttr("selected");
 		setSelectedNative(options.get(select.getSelectItemsModel().indexOf(item)));
 	}
 	

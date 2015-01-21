@@ -8,19 +8,23 @@ import lombok.Getter;
 
 import org.junit.Test;
 
+import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.dsw.client.comp.InputText;
 import com.doctusoft.dsw.client.comp.Select;
 import com.doctusoft.dsw.client.comp.SelectItem;
+import com.doctusoft.dsw.client.comp.SelectItems;
 import com.doctusoft.dsw.client.comp.model.SelectItemModel;
-import com.doctusoft.dsw.client.util.GWTTimerDeferrerImpl;
 import com.google.gwt.user.client.Timer;
 import com.xedge.jquery.client.JQuery;
 
 public class TestSelectRenderer extends AbstractDswebTest {
+	
+	@ObservableProperty
+	private String selectedItem;
 
 	@Test
 	public void testAreOptionsRendered() {
-		new GWTTimerDeferrerImpl();	// @Before doesn't seem to work
 		Select<MockSelectModel> select = createSelectWithTwoOptions();
 		new Timer() {
 			@Override
@@ -35,7 +39,6 @@ public class TestSelectRenderer extends AbstractDswebTest {
 
 	@Test
 	public void testOptionInsertedLater() {
-		new GWTTimerDeferrerImpl();	// @Before doesn't seem to work
 		final Select<MockSelectModel> select = createSelectWithTwoOptions();
 		new Timer() {
 			@Override
@@ -58,7 +61,6 @@ public class TestSelectRenderer extends AbstractDswebTest {
 
 	@Test
 	public void testSelectedIndexDefaultValue() {
-		new GWTTimerDeferrerImpl();	// @Before doesn't seem to work
 		final Select<MockSelectModel> select = createSelectWithTwoOptions();
 		new Timer() {
 			@Override
@@ -72,7 +74,6 @@ public class TestSelectRenderer extends AbstractDswebTest {
 
 	@Test
 	public void testSelectByClicking() {
-		new GWTTimerDeferrerImpl();	// @Before doesn't seem to work
 		final Select<MockSelectModel> select = createSelectWithTwoOptions();
 		new Timer() {
 			@Override
@@ -92,7 +93,6 @@ public class TestSelectRenderer extends AbstractDswebTest {
 
 	@Test
 	public void testValueRetainOnItemsReplaced() {
-		new GWTTimerDeferrerImpl();	// @Before doesn't seem to work
 		final Select<MockSelectModel> select = createSelectWithTwoOptions();
 		new Timer() {
 			@Override
@@ -113,7 +113,6 @@ public class TestSelectRenderer extends AbstractDswebTest {
 
 	@Test
 	public void testNullOptionCaptionRendered() {
-		new GWTTimerDeferrerImpl();
 		final Select<MockSelectModel> select = createSelectWithTwoOptions().withNullOptionCaption("Please select");
 		new Timer() {
 			@Override
@@ -127,7 +126,6 @@ public class TestSelectRenderer extends AbstractDswebTest {
 
 	@Test
 	public void testSelectNullOption() {
-		new GWTTimerDeferrerImpl();
 		final Select<MockSelectModel> select = createSelectWithTwoOptions().withNullOptionCaption("Please select");
 		new Timer() {
 			@Override
@@ -149,7 +147,6 @@ public class TestSelectRenderer extends AbstractDswebTest {
 
 	@Test
 	public void testNullOptionRemoved() {
-		new GWTTimerDeferrerImpl();
 		final Select<MockSelectModel> select = createSelectWithTwoOptions().withNullOptionCaption("Please select");
 		new Timer() {
 			@Override
@@ -171,7 +168,6 @@ public class TestSelectRenderer extends AbstractDswebTest {
 
 	@Test
 	public void testNewOptionsAddedAfterTheNullOption() {
-		new GWTTimerDeferrerImpl();
 		final Select<MockSelectModel> select = createSelectWithTwoOptions().withNullOptionCaption("Please select");
 		new Timer() {
 			@Override
@@ -189,6 +185,32 @@ public class TestSelectRenderer extends AbstractDswebTest {
 			}
 		}.schedule(50);
 		delayTestFinish(100);
+	}
+	
+	@Test
+	public void testResetToNullValue() {
+		final Select<String> select = new Select<String>().withSelectItems(SelectItems.fromStrings("a","b","c"))
+					.withId("select")
+					.withNullOptionCaption("Please select");
+		registerApp( select );
+		select.bind(Bindings.obs(this).get(TestSelectRenderer_._selectedItem));
+		setSelectedItem("a");
+		new Timer() {
+			@Override
+			public void run() {
+				assertEquals("a", JQuery.select( "#select" ).val());
+				setSelectedItem(null);
+			}
+		}.schedule(25);
+		new Timer() {
+			@Override
+			public void run() {
+				assertEquals("Please select", JQuery.select( "#select" ).val());
+				finishTest();
+			}
+		}.schedule(90);
+		delayTestFinish(100);
+		
 	}
 
 	private Select<MockSelectModel> createSelectWithTwoOptions() {
