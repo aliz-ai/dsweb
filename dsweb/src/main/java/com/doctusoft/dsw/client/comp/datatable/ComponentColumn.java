@@ -26,6 +26,9 @@ package com.doctusoft.dsw.client.comp.datatable;
 import com.doctusoft.dsw.client.comp.HasComponentModel;
 import com.doctusoft.dsw.client.comp.model.DataTableCellModel;
 
+/**
+ * Extend this class and implement the getComponent method to return any kind of cell content you need.  
+ */
 public abstract class ComponentColumn<Item> extends CustomColumn<Item> {
 
 	private HasComponentModel component;
