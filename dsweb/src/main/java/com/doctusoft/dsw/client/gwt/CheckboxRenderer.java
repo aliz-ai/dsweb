@@ -26,6 +26,8 @@ package com.doctusoft.dsw.client.gwt;
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.dsw.client.comp.model.CheckboxModel;
 import com.doctusoft.dsw.client.comp.model.CheckboxModel_;
+import com.doctusoft.dsw.client.util.DeferredFactory;
+import com.doctusoft.dsw.client.util.DeferredRunnable;
 import com.google.common.base.Objects;
 import com.xedge.jquery.client.JQEvent;
 import com.xedge.jquery.client.JQuery;
@@ -34,6 +36,9 @@ import com.xedge.jquery.client.handlers.EventHandler;
 public class CheckboxRenderer extends BaseComponentRenderer {
 	
 	private JQuery input;
+	private CheckboxModel model;
+	
+	private DeferredRunnable updateValue = null;
 
 	public static native void setCheckedNative( JQuery checkbox, boolean isChecked ) /*-{
 		checkbox.prop('checked', isChecked);
@@ -41,6 +46,7 @@ public class CheckboxRenderer extends BaseComponentRenderer {
 	
 	public CheckboxRenderer( final CheckboxModel model ) {
 		super( JQuery.select( "<label class=\"checkbox\">" ), model );
+		this.model = model;
 		input = JQuery.select( "<input type=\"checkbox\">" );
 		
 		input.appendTo( widget );
@@ -52,7 +58,7 @@ public class CheckboxRenderer extends BaseComponentRenderer {
 			
 			@Override
 			public void valueChanged( Boolean newValue ) {
-				setCheckedNative( input, Objects.firstNonNull(newValue, false) );
+				updateValue = DeferredFactory.defer(updateValue, new DeferredUpdateValue());
 			}
 		} );
 		
@@ -71,8 +77,14 @@ public class CheckboxRenderer extends BaseComponentRenderer {
 			}
 
 		} );
-
         new EnabledAttributeRenderer(input, model);
+	}
+	
+	public class DeferredUpdateValue implements Runnable {
+		@Override
+		public void run() {
+			setCheckedNative( input, Objects.firstNonNull(model.getChecked(), false) );
+		}
 	}
 
 	private void applyValue(String newValue) {

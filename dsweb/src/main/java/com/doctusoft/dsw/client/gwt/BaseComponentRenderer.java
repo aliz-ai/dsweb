@@ -87,7 +87,6 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 
 			@Override
 			public void valueChanged(final String newValue) {
-				System.out.println("applying style " + newValue);
 				applyStyle(newValue);
 			}
 		});
@@ -135,7 +134,6 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 			widget.show();
 		}
 		if (!newVisible && this.visible) {
-			System.out.println("hide");
 			widget.hide();
 		}
 		this.visible = newVisible;
