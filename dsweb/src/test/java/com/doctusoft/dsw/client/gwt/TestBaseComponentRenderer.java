@@ -41,7 +41,7 @@ public class TestBaseComponentRenderer extends AbstractDswebTest {
 		new Timer() {
 			@Override
 			public void run() {
-				assertTrue("none".equals(JQuery.select("#label").css("display")));
+				assertEquals(0, JQuery.select("#label:visible").length());
 				finishTest();
 			}
 		}.schedule(50);
@@ -53,7 +53,7 @@ public class TestBaseComponentRenderer extends AbstractDswebTest {
 		Label label = new Label().withId("label");
 		registerApp(label);
 		label.getModel().setVisible(false);
-		assertTrue("none".equals(JQuery.select("#label").css("display")));
+		assertEquals(0, JQuery.select("#label:visible").length());
 	}
 	
 	@Test

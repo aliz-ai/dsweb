@@ -39,7 +39,6 @@ import com.doctusoft.dsw.client.comp.model.BaseComponentModel_;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent;
 import com.doctusoft.dsw.client.comp.model.ComponentEvent_;
 import com.doctusoft.dsw.client.comp.model.event.KeyPressedEvent;
-import com.doctusoft.dsw.client.util.DeferredFactory;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.xedge.jquery.client.JQEvent;
@@ -70,20 +69,7 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 		if (model.getId() != null) {
 			widget.attr("id", model.getId());
 		}
-		DeferredFactory.defer(null, new Runnable() {
-			@Override
-			public void run() {
-				// applying visibility has to wait for the component to be actually inserted into the DOM
-				applyVisible(model.getVisible());
-			}
-		});
 
-		addChangeListener(BaseComponentModel_._visible, model, new ValueChangeListener<Boolean>() {
-			@Override
-			public void valueChanged(final Boolean newValue) {
-				applyVisible(newValue);
-			}
-		});
 		new ListBindingListener<String>(Bindings.obs(model).get(BaseComponentModel_._styleClasses)) {
 			@Override
 			public void inserted(final ObservableList<String> list, final int index,
@@ -101,9 +87,19 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 
 			@Override
 			public void valueChanged(final String newValue) {
+				System.out.println("applying style " + newValue);
 				applyStyle(newValue);
 			}
 		});
+
+		// apply visibility after style, because style would override 'display: none' otherwise
+		addChangeListenerAndApply(BaseComponentModel_._visible, model, new ValueChangeListener<Boolean>() {
+			@Override
+			public void valueChanged(final Boolean newValue) {
+				applyVisible(newValue);
+			}
+		});
+		
 		addChangeListenerAndApply(BaseComponentModel_._tabIndex, model, new ValueChangeListener<Integer>() {
 
 			@Override
@@ -139,6 +135,7 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 			widget.show();
 		}
 		if (!newVisible && this.visible) {
+			System.out.println("hide");
 			widget.hide();
 		}
 		this.visible = newVisible;
