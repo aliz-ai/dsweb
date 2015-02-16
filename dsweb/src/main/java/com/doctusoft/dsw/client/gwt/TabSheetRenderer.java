@@ -8,6 +8,7 @@ import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
+import com.doctusoft.dsw.client.Renderer;
 import com.doctusoft.dsw.client.RendererFactory;
 import com.doctusoft.dsw.client.comp.Tab;
 import com.doctusoft.dsw.client.comp.Tab_;
@@ -50,23 +51,44 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 
 			@Override
 			public void inserted(ObservableList<Tab> list, int index, final Tab element) {
-				JQuery tabCaption =  JQuery.select( "<li>" );
+				JQuery tabCaption;
 				int numberOfTabs = tabButtonsHolder.children().length();
+				
+				final JQuery tabLink;
+				
+				if (element.getTitle() != null) {
+					tabCaption = JQuery.select( "<li>" );
+					tabLink = JQuery.select( "<a>" ).appendTo(tabCaption);
+					tabLink.text(element.getTitle());
+					Tab_._title.addChangeListener(element, new ValueChangeListener<String>() {
+						@Override
+						public void valueChanged(String newValue) {
+							tabLink.text(newValue);
+						}
+					});
+					
+				} else {
+					BaseComponentModel component = element.getTitleComponent().getComponentModel();
+//					if (component != null) {					
+						Renderer<JQuery> titleComponentRenderer = rendererFactory.getRenderer( component );
+						tabCaption = titleComponentRenderer.getWidget();
+//					if (tabCaption.getSelector() == "li") {
+//					} else {
+//						try {
+//							throw new Throwable("not found li: " + tabCaption.getSelector());
+//						} catch (Throwable e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//					}
+//					}
+				}
 				if (numberOfTabs == index || numberOfTabs == 0) {
 					tabButtonsHolder.append(tabCaption);
 				} else {
 					tabCaption.insertBefore(tabButtonsHolder.children().get(index));
 				}
-				
-				final JQuery tabLink = JQuery.select( "<a>" ).appendTo(tabCaption);
-				tabLink.text(element.getTitle());
-				Tab_._title.addChangeListener(element, new ValueChangeListener<String>() {
-					@Override
-					public void valueChanged(String newValue) {
-						tabLink.text(newValue);
-					}
-				});
-				tabLink.click(new EventHandler() {
+				tabCaption.click(new EventHandler() {
 					
 					@Override
 					public void eventComplete(JQEvent event, JQuery currentJQuery) {
