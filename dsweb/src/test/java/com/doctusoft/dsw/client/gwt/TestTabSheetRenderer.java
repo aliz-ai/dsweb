@@ -2,9 +2,11 @@ package com.doctusoft.dsw.client.gwt;
 
 import org.junit.Test;
 
+import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.Button;
 import com.doctusoft.dsw.client.comp.Container;
 import com.doctusoft.dsw.client.comp.Label;
+import com.doctusoft.dsw.client.comp.Link;
 import com.doctusoft.dsw.client.comp.Tab;
 import com.doctusoft.dsw.client.comp.TabSheet;
 import com.xedge.jquery.client.JQuery;
@@ -37,7 +39,32 @@ public class TestTabSheetRenderer extends AbstractDswebTest {
 		assertEquals("Tab2", JQuery.select("#tabsheet > ul.nav-tabs > li > a").text());
 		assertEquals(1, JQuery.select("#tabsheet > div.tab-content > div.tab-pane > #tabContent").length());
 	}
-
+	/*
+	 * TODO
+	 */
+	@Test
+	public void testTabTitleComponentChange() {
+		Link tabTitle = new Link("ComponentTitle");
+		final BaseContainer tabCaption = new BaseContainer("li").add(tabTitle);
+		Tab tab = new Tab().withTitleComponent(tabCaption).withContent(new Container().withId("tabContent"));
+		TabSheet tabSheet = new TabSheet().withTab(tab).withId("tabsheet");
+		registerApp(tabSheet);
+		Link tabTitleSecond = new Link("Tab2");
+		BaseContainer newTitle = new BaseContainer("li").add(tabTitleSecond);//.getModel().setText("Tab2");
+		tab.withTitleComponent(newTitle).withContent(new Container().withId("tabContent"));
+		assertEquals("Tab2", JQuery.select("#tabsheet > ul.nav-tabs > li > a").text());
+		assertEquals(1, JQuery.select("#tabsheet > div.tab-content > div.tab-pane > #tabContent").length());
+	}
+	
+	@Test(expected = Throwable.class)
+	public void testTabTitleComponentWithWrongElementType() {
+		Link tabTitle = new Link("ComponentTitle");
+		final BaseContainer tabCaption = new BaseContainer("div").add(tabTitle);
+		Tab tab = new Tab().withTitleComponent(tabCaption).withContent(new Container().withId("tabContent"));
+		TabSheet tabSheet = new TabSheet().withTab(tab).withId("tabsheet");
+		registerApp(tabSheet);
+	}
+	
 	@Test
 	public void testTabAddedAfterRendering() {
 		TabSheet tabSheet = new TabSheet().withId("tabsheet");

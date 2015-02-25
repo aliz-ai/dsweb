@@ -10,9 +10,12 @@ import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.Renderer;
 import com.doctusoft.dsw.client.RendererFactory;
+import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.Tab;
 import com.doctusoft.dsw.client.comp.Tab_;
+import com.doctusoft.dsw.client.comp.model.AbstractContainerModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
+import com.doctusoft.dsw.client.comp.model.ContainerModel;
 import com.doctusoft.dsw.client.comp.model.TabSheetModel;
 import com.doctusoft.dsw.client.comp.model.TabSheetModel_;
 import com.google.gwt.core.client.GWT;
@@ -49,9 +52,10 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 		
 		new ListBindingListener<Tab>(Bindings.obs(model).get((ObservableProperty) TabSheetModel_._tabList)) {
 
+			private JQuery tabCaption;
+
 			@Override
 			public void inserted(ObservableList<Tab> list, int index, final Tab element) {
-				JQuery tabCaption;
 				int numberOfTabs = tabButtonsHolder.children().length();
 				
 				final JQuery tabLink;
@@ -67,21 +71,28 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 						}
 					});
 					
-				} else {
-					BaseComponentModel component = element.getTitleComponent().getComponentModel();
-//					if (component != null) {					
+				} else if (element.getTitleComponent() != null) {
+					ContainerModel component = (ContainerModel) element.getTitleComponent();
+					if (component.getElementType().equalsIgnoreCase("LI")) {					
 						Renderer<JQuery> titleComponentRenderer = rendererFactory.getRenderer( component );
 						tabCaption = titleComponentRenderer.getWidget();
-//					if (tabCaption.getSelector() == "li") {
-//					} else {
-//						try {
-//							throw new Throwable("not found li: " + tabCaption.getSelector());
-//						} catch (Throwable e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						}
-//					}
-//					}
+					} else {
+						throw new RuntimeException("TabTitleComponent's elementType must be 'li'. The given elementType '" + component.getElementType() + "' isn't valid!");
+					}
+					Tab_._titleComponent.addChangeListener(element, new ValueChangeListener<BaseComponentModel>() {
+						@Override
+						public void valueChanged(BaseComponentModel newValue) {
+							if (((AbstractContainerModel<BaseComponentModel>) newValue).getElementType().equalsIgnoreCase("LI")) {					
+								Renderer<JQuery> titleComponentRenderer = rendererFactory.getRenderer( newValue );
+								tabCaption.replaceWith(titleComponentRenderer.getWidget());
+							} else {
+								throw new RuntimeException("TabTitleComponent's elementType must be 'li'. The given elementType '" + ((AbstractContainerModel<BaseComponentModel>) newValue).getElementType() + "' isn't valid!");
+							}
+						}
+					});
+					
+				} else {
+					return;
 				}
 				if (numberOfTabs == index || numberOfTabs == 0) {
 					tabButtonsHolder.append(tabCaption);
