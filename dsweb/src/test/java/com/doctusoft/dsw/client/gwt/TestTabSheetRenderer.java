@@ -39,9 +39,7 @@ public class TestTabSheetRenderer extends AbstractDswebTest {
 		assertEquals("Tab2", JQuery.select("#tabsheet > ul.nav-tabs > li > a").text());
 		assertEquals(1, JQuery.select("#tabsheet > div.tab-content > div.tab-pane > #tabContent").length());
 	}
-	/*
-	 * TODO
-	 */
+	
 	@Test
 	public void testTabTitleComponentChange() {
 		Link tabTitle = new Link("ComponentTitle");
@@ -50,19 +48,25 @@ public class TestTabSheetRenderer extends AbstractDswebTest {
 		TabSheet tabSheet = new TabSheet().withTab(tab).withId("tabsheet");
 		registerApp(tabSheet);
 		Link tabTitleSecond = new Link("Tab2");
-		BaseContainer newTitle = new BaseContainer("li").add(tabTitleSecond);//.getModel().setText("Tab2");
+		BaseContainer newTitle = new BaseContainer("li").add(tabTitleSecond);
 		tab.withTitleComponent(newTitle).withContent(new Container().withId("tabContent"));
 		assertEquals("Tab2", JQuery.select("#tabsheet > ul.nav-tabs > li > a").text());
 		assertEquals(1, JQuery.select("#tabsheet > div.tab-content > div.tab-pane > #tabContent").length());
 	}
 	
-	@Test(expected = Throwable.class)
+	@Test
 	public void testTabTitleComponentWithWrongElementType() {
-		Link tabTitle = new Link("ComponentTitle");
-		final BaseContainer tabCaption = new BaseContainer("div").add(tabTitle);
-		Tab tab = new Tab().withTitleComponent(tabCaption).withContent(new Container().withId("tabContent"));
-		TabSheet tabSheet = new TabSheet().withTab(tab).withId("tabsheet");
-		registerApp(tabSheet);
+		String message = "";
+		try{
+			Link tabTitle = new Link("ComponentTitle");
+			final BaseContainer tabCaption = new BaseContainer("div").add(tabTitle);
+			Tab tab = new Tab().withTitleComponent(tabCaption).withContent(new Container().withId("tabContent"));
+			TabSheet tabSheet = new TabSheet().withTab(tab).withId("tabsheet");
+			registerApp(tabSheet);
+		} catch ( RuntimeException expected  ){
+			message = expected.getMessage();
+		}
+		assertTrue(message.contains("'div' isn't valid!"));
 	}
 	
 	@Test
