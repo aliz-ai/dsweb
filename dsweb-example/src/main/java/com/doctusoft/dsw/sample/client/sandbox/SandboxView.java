@@ -19,17 +19,19 @@ public class SandboxView extends ContainerWithPresenter<SandboxPresenter> {
 		compTab = new Tab();
 		stringTab = new Tab().withTitle("Valami").withContent(new Label("Valami").getComponentModel());
 		titleComp = new BaseContainer("li").add(new Link("Component").withStyleClass("disabled"));
+		compTab.withTitleComponent(titleComp);
 		new TabSheet()
 			.withTab(stringTab)
-			.withTab(compTab.withTitleComponent(titleComp).withContent(new Label("Component content")))
+			.withTab(compTab.withContent(new Label("Component content")))
 			.appendTo(container);
+		//compTab.withTitleComponent(new BaseContainer("div").withId("Vlamisda").add(new Link("Másik").withStyleClass("ez is más hehe")).getComponentModel());
 		new Button("Vált").click(new EmptyEventHandler() {
 			
 			@Override
 			public void handle() {
-				stringTab.setTitle("Másis");
+				//stringTab.setTitle("Másis");
 				//titleComp = new BaseContainer("li").add(new Link("Másik").withStyleClass("ez is más hehe"));
-				compTab.setTitleComponent(new BaseContainer("li").add(new Link("Másik").withStyleClass("ez is más hehe")).getComponentModel());
+				compTab.withTitleComponent(new BaseContainer("div").withId("Vlamisda").add(new Link("Másik").withStyleClass("ez is más hehe")).getComponentModel());
 			}
 		}).appendTo(container);
 	}

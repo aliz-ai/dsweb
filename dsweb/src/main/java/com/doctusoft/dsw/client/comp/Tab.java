@@ -24,11 +24,13 @@ public class Tab implements Serializable, ModelObject {
 	
 	public Tab withTitle(String title) {
 		setTitle(title);
+		setTitleComponent(null);
 		return this;
 	}
 	
 	public Tab withTitleComponent(HasComponentModel titleComponent) {
 		setTitleComponent(titleComponent.getComponentModel());
+		setTitle(null);
 		return this;
 	}
 
@@ -36,5 +38,5 @@ public class Tab implements Serializable, ModelObject {
 		setContent(content.getComponentModel());
 		return this;
 	}
-
+	
 }

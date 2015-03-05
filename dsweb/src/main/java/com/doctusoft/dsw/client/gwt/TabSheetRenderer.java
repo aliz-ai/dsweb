@@ -18,7 +18,9 @@ import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.ContainerModel;
 import com.doctusoft.dsw.client.comp.model.TabSheetModel;
 import com.doctusoft.dsw.client.comp.model.TabSheetModel_;
+import com.gargoylesoftware.htmlunit.javascript.host.Node;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
 import com.xedge.jquery.client.JQEvent;
 import com.xedge.jquery.client.JQuery;
 import com.xedge.jquery.client.handlers.EventHandler;
@@ -31,6 +33,7 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 	private List<JQuery> tabContentList = new ArrayList<JQuery>();
 	private JQuery tabButtonsHolder;
 	private JQuery tabSheetContainer;
+	private BaseComponentModel tabTitleComponent;
 
 	public TabSheetRenderer(final TabSheetModel model) {
 		super(JQuery.select("<div class='tabsheet' />"), model);
@@ -71,22 +74,25 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 						}
 					});
 					
-				} else if (element.getTitleComponent() != null) {
-					ContainerModel component = (ContainerModel) element.getTitleComponent();
-					if (component.getElementType().equalsIgnoreCase("LI")) {					
-						Renderer<JQuery> titleComponentRenderer = rendererFactory.getRenderer( component );
-						tabCaption = titleComponentRenderer.getWidget();
-					} else {
-						throw new RuntimeException("TabTitleComponent's elementType must be 'li'. The given elementType '" + component.getElementType() + "' isn't valid!");
+				} else if (element.getTitleComponent() != null) {					
+					tabTitleComponent = element.getTitleComponent();
+					Renderer<JQuery> titleComponentRenderer = rendererFactory.getRenderer( tabTitleComponent );
+					tabCaption = titleComponentRenderer.getWidget();
+					if (!tabCaption.is("li")) {
+						throw new RuntimeException("TabTitleComponent's elementType must be 'li'. The given elementType '" + tabCaption.get() + "' isn't valid!");
 					}
 					Tab_._titleComponent.addChangeListener(element, new ValueChangeListener<BaseComponentModel>() {
+						
 						@Override
-						public void valueChanged(BaseComponentModel newValue) {
-							if (((AbstractContainerModel<BaseComponentModel>) newValue).getElementType().equalsIgnoreCase("LI")) {					
-								Renderer<JQuery> titleComponentRenderer = rendererFactory.getRenderer( newValue );
-								tabCaption.replaceWith(titleComponentRenderer.getWidget());
-							} else {
-								throw new RuntimeException("TabTitleComponent's elementType must be 'li'. The given elementType '" + ((AbstractContainerModel<BaseComponentModel>) newValue).getElementType() + "' isn't valid!");
+						public void valueChanged(BaseComponentModel newValue) {									
+							Renderer<JQuery> titleComponentRenderer = rendererFactory.getRenderer( newValue );
+							JQuery temp = titleComponentRenderer.getWidget();
+							temp.insertBefore(tabCaption);
+							rendererFactory.dispose(tabTitleComponent);
+							tabCaption = temp;
+							tabTitleComponent = newValue;
+							if (!temp.is("li")) {
+								throw new RuntimeException("TabTitleComponent's elementType must be 'li'. The given elementType '" + tabCaption.get() + "' isn't valid!");
 							}
 						}
 					});
