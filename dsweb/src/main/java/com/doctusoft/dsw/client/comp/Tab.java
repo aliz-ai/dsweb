@@ -9,10 +9,13 @@ import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 public class Tab implements Serializable, ModelObject {
 
 	@ObservableProperty
-	private String title = "";
+	private String title = null;
 	
 	@ObservableProperty
-	private BaseComponentModel content;
+	private BaseComponentModel content = null;
+
+	@ObservableProperty
+	private BaseComponentModel titleComponent = null;
 
 	public Tab() {
 		Container panel = new Container();
@@ -21,6 +24,13 @@ public class Tab implements Serializable, ModelObject {
 	
 	public Tab withTitle(String title) {
 		setTitle(title);
+		setTitleComponent(null);
+		return this;
+	}
+	
+	public Tab withTitleComponent(HasComponentModel titleComponent) {
+		setTitleComponent(titleComponent.getComponentModel());
+		setTitle(null);
 		return this;
 	}
 
@@ -28,5 +38,5 @@ public class Tab implements Serializable, ModelObject {
 		setContent(content.getComponentModel());
 		return this;
 	}
-
+	
 }

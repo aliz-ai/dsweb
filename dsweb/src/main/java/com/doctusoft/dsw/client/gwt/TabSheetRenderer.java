@@ -8,13 +8,19 @@ import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.observable.ListBindingListener;
 import com.doctusoft.bean.binding.observable.ObservableList;
+import com.doctusoft.dsw.client.Renderer;
 import com.doctusoft.dsw.client.RendererFactory;
+import com.doctusoft.dsw.client.comp.BaseContainer;
 import com.doctusoft.dsw.client.comp.Tab;
 import com.doctusoft.dsw.client.comp.Tab_;
+import com.doctusoft.dsw.client.comp.model.AbstractContainerModel;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
+import com.doctusoft.dsw.client.comp.model.ContainerModel;
 import com.doctusoft.dsw.client.comp.model.TabSheetModel;
 import com.doctusoft.dsw.client.comp.model.TabSheetModel_;
+import com.gargoylesoftware.htmlunit.javascript.host.Node;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
 import com.xedge.jquery.client.JQEvent;
 import com.xedge.jquery.client.JQuery;
 import com.xedge.jquery.client.handlers.EventHandler;
@@ -27,6 +33,7 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 	private List<JQuery> tabContentList = new ArrayList<JQuery>();
 	private JQuery tabButtonsHolder;
 	private JQuery tabSheetContainer;
+	private BaseComponentModel tabTitleComponent;
 
 	public TabSheetRenderer(final TabSheetModel model) {
 		super(JQuery.select("<div class='tabsheet' />"), model);
@@ -48,25 +55,57 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 		
 		new ListBindingListener<Tab>(Bindings.obs(model).get((ObservableProperty) TabSheetModel_._tabList)) {
 
+			private JQuery tabCaption;
+
 			@Override
 			public void inserted(ObservableList<Tab> list, int index, final Tab element) {
-				JQuery tabCaption =  JQuery.select( "<li>" );
 				int numberOfTabs = tabButtonsHolder.children().length();
+				
+				final JQuery tabLink;
+				
+				if (element.getTitle() != null) {
+					tabCaption = JQuery.select( "<li>" );
+					tabLink = JQuery.select( "<a>" ).appendTo(tabCaption);
+					tabLink.text(element.getTitle());
+					Tab_._title.addChangeListener(element, new ValueChangeListener<String>() {
+						@Override
+						public void valueChanged(String newValue) {
+							tabLink.text(newValue);
+						}
+					});
+					
+				} else if (element.getTitleComponent() != null) {					
+					tabTitleComponent = element.getTitleComponent();
+					Renderer<JQuery> titleComponentRenderer = rendererFactory.getRenderer( tabTitleComponent );
+					tabCaption = titleComponentRenderer.getWidget();
+					if (!tabCaption.is("li")) {
+						throw new RuntimeException("TabTitleComponent's elementType must be 'li'. The given elementType '" + tabCaption.get() + "' isn't valid!");
+					}
+					Tab_._titleComponent.addChangeListener(element, new ValueChangeListener<BaseComponentModel>() {
+						
+						@Override
+						public void valueChanged(BaseComponentModel newValue) {									
+							Renderer<JQuery> titleComponentRenderer = rendererFactory.getRenderer( newValue );
+							JQuery temp = titleComponentRenderer.getWidget();
+							temp.insertBefore(tabCaption);
+							rendererFactory.dispose(tabTitleComponent);
+							tabCaption = temp;
+							tabTitleComponent = newValue;
+							if (!temp.is("li")) {
+								throw new RuntimeException("TabTitleComponent's elementType must be 'li'. The given elementType '" + tabCaption.get() + "' isn't valid!");
+							}
+						}
+					});
+					
+				} else {
+					return;
+				}
 				if (numberOfTabs == index || numberOfTabs == 0) {
 					tabButtonsHolder.append(tabCaption);
 				} else {
 					tabCaption.insertBefore(tabButtonsHolder.children().get(index));
 				}
-				
-				final JQuery tabLink = JQuery.select( "<a>" ).appendTo(tabCaption);
-				tabLink.text(element.getTitle());
-				Tab_._title.addChangeListener(element, new ValueChangeListener<String>() {
-					@Override
-					public void valueChanged(String newValue) {
-						tabLink.text(newValue);
-					}
-				});
-				tabLink.click(new EventHandler() {
+				tabCaption.click(new EventHandler() {
 					
 					@Override
 					public void eventComplete(JQEvent event, JQuery currentJQuery) {
