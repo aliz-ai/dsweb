@@ -49,18 +49,33 @@ public class Textarea extends BaseComponent<Textarea, TextareaModel> {
 		return this;
 	}
 	
-	public Textarea withMaxLength(final Integer maxLength) {
+	public Textarea withMaxLength(final int maxLength) {
 		model.setMaxLength(maxLength);
 		return this;
 	}
 	
-	public Textarea withImmediate(final Boolean immediate) {
+	public Textarea withImmediate(final boolean immediate) {
 		model.setImmediate(immediate);
 		return this;
 	}
-
+	
+	public Textarea immediate() {
+		model.setImmediate(true);
+		return this;
+	}
+	
 	public Textarea bindPlaceHolder(final ValueBinding<String> placeholderBinding) {
-		Bindings.bind(placeholderBinding, Bindings.obs(model).get(TextareaModel_._placeHolder));
+		Bindings.bind(placeholderBinding, Bindings.on(model).get(TextareaModel_._placeHolder));
+		return this;
+	}
+	
+	public Textarea bindMaxLength(final ValueBinding<Integer> maxLengthBinding) {
+		Bindings.bind(maxLengthBinding, Bindings.on(model).get(TextareaModel_._maxLength));
+		return this;
+	}
+
+	public Textarea bindImmediate(final ValueBinding<Boolean> immediateBinding) {
+		Bindings.bind(immediateBinding, Bindings.on(model).get(TextareaModel_._immediate));
 		return this;
 	}
 

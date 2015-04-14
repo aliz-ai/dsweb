@@ -74,4 +74,13 @@ public class TestInputTextRenderer extends AbstractDswebTest {
 		inputText.withEnabled(true);
 		assertFalse(JQuery.select("#input").is(":disabled"));
 	}
+	
+	@Test
+	public void testMaxLength() {
+		final InputText inputText = new InputText().withId("input").withMaxLength(5);
+		registerApp(inputText);
+		JQuery jqInput = JQuery.select("#input");
+		jqInput.val("123456");
+		assertEquals("12345", inputText.getModel().getValue());
+	}
 }

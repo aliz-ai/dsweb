@@ -44,19 +44,33 @@ public class InputText extends AbstractInputText<InputText, InputTextModel> {
 		return this;
 	}
 	
-	public InputText withMaxLength(final Integer maxLength) {
+	public InputText withMaxLength(final int maxLength) {
 		model.setMaxLength(maxLength);
 		return this;
 	}
 	
-	public InputText withImmediate(final Boolean immediate) {
+	public InputText withImmediate(final boolean immediate) {
 		model.setImmediate(immediate);
+		return this;
+	}
+
+	public InputText immediate() {
+		model.setImmediate(true);
 		return this;
 	}
 	
 	public InputText bindPlaceHolder(final ValueBinding<String> placeholderBinding) {
-		Bindings.bind(placeholderBinding, Bindings.obs(model).get(InputTextModel_._placeHolder));
+		Bindings.bind(placeholderBinding, Bindings.on(model).get(InputTextModel_._placeHolder));
+		return this;
+	}
+	
+	public InputText bindMaxLength(final ValueBinding<Integer> maxLengthBinding) {
+		Bindings.bind(maxLengthBinding, Bindings.on(model).get(InputTextModel_._maxLength));
 		return this;
 	}
 
+	public InputText bindImmediate(final ValueBinding<Boolean> immediateBinding) {
+		Bindings.bind(immediateBinding, Bindings.on(model).get(InputTextModel_._immediate));
+		return this;
+	}
 }

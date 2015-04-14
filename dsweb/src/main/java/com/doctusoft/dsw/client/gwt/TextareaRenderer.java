@@ -24,23 +24,31 @@ package com.doctusoft.dsw.client.gwt;
 
 
 import com.doctusoft.bean.ValueChangeListener;
-import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.dsw.client.comp.model.TextareaModel;
 import com.doctusoft.dsw.client.comp.model.TextareaModel_;
-import com.google.gwt.thirdparty.guava.common.base.Objects;
 import com.xedge.jquery.client.JQEvent;
 import com.xedge.jquery.client.JQuery;
 import com.xedge.jquery.client.handlers.EventHandler;
 
 public class TextareaRenderer extends BaseComponentRenderer {
 
-	public TextareaRenderer(final TextareaModel textarea) {
-		super(JQuery.select("<textarea rows=\"" + textarea.getRows() + "\" placeholder=\"" + textarea.getPlaceHolder()
-				+ "\"></textarea>"), textarea);
+	public TextareaRenderer(final TextareaModel model) {
+		super(JQuery.select("<textarea/>"), model);
+		
+		// rows
+		addChangeListenerAndApply(TextareaModel_._rows, model, new ValueChangeListener<Integer>() {
+			@Override
+			public void valueChanged(Integer newValue) {
+				if (newValue != null) {
+					widget.attr("rows", String.valueOf(newValue));
+				} else {
+					widget.removeAttr("rows");
+				}
+			}
+		});
 		
 		// value
-		widget.val(textarea.getValue());
-		Bindings.obs(textarea).get(TextareaModel_._value).addValueChangeListener(new ValueChangeListener<String>() {
+		addChangeListenerAndApply(TextareaModel_._value, model, new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(final String newValue) {
 				widget.val(newValue);
@@ -48,35 +56,26 @@ public class TextareaRenderer extends BaseComponentRenderer {
 		});
 		
 		// max length
-		if (textarea.getMaxLength() > 0){
-			widget.attr("maxlength", String.valueOf(textarea.getMaxLength()));
-		}
-		Bindings.obs(textarea).get(TextareaModel_._maxLength)
-		.addValueChangeListener(new ValueChangeListener<Integer>() {
-			@Override
-			public void valueChanged(final Integer newValue) {
-				widget.attr("maxlength", Objects.firstNonNull(String.valueOf(newValue), ""));
-			}
-		});
+		new MaxLengthRenderer(widget, model, TextareaModel_._maxLength);
 		
 		widget.change(new EventHandler() {
 			@Override
 			public void eventComplete(final JQEvent event, final JQuery currentJQuery) {
-				textarea.setValue(widget.val());
+				model.setValue(widget.val());
 			}
 		});
 
 		widget.keyup(new EventHandler() {
 			@Override
 			public void eventComplete(JQEvent event, JQuery currentJQuery) {
-				if (textarea.getImmediate()){
-					textarea.setValue(widget.val());
+				if (model.getImmediate()){
+					model.setValue(widget.val());
 				}
 			}
 		});
 		
-		new EnabledAttributeRenderer(widget, textarea);
-		new PlaceHolderAttributeRenderer(widget, textarea, TextareaModel_._placeHolder);
+		new EnabledAttributeRenderer(widget, model);
+		new PlaceHolderAttributeRenderer(widget, model, TextareaModel_._placeHolder);
 	}
 
 }

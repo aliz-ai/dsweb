@@ -22,16 +22,15 @@ package com.doctusoft.dsw.client.comp.model;
  * #L%
  */
 
-
-import lombok.Getter;
-import lombok.Setter;
-
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.ModelObject;
 
+/**
+ * TODO create a common base model with {@link InputTextModel} 
+ */
 public class TextareaModel extends BaseComponentModel implements ModelObject {
 
-	@Getter @Setter
+	@ObservableProperty
 	private int rows = 1;
 
 	@ObservableProperty
@@ -43,7 +42,7 @@ public class TextareaModel extends BaseComponentModel implements ModelObject {
 	@ObservableProperty
 	private Integer maxLength = 0; // default means there is no max length set
 
-	@Getter @Setter
+	@ObservableProperty
 	private Boolean immediate = false;
 
 }
