@@ -48,6 +48,16 @@ public class Textarea extends BaseComponent<Textarea, TextareaModel> {
 		model.setPlaceHolder(placeHolder);
 		return this;
 	}
+	
+	public Textarea withMaxLength(final Integer maxLength) {
+		model.setMaxLength(maxLength);
+		return this;
+	}
+	
+	public Textarea withImmediate(final Boolean immediate) {
+		model.setImmediate(immediate);
+		return this;
+	}
 
 	public Textarea bindPlaceHolder(final ValueBinding<String> placeholderBinding) {
 		Bindings.bind(placeholderBinding, Bindings.obs(model).get(TextareaModel_._placeHolder));

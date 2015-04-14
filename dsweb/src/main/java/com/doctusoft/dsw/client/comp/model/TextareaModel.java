@@ -40,4 +40,10 @@ public class TextareaModel extends BaseComponentModel implements ModelObject {
 	@ObservableProperty
 	private String placeHolder = "";
 
+	@ObservableProperty
+	private Integer maxLength = 0; // default means there is no max length set
+
+	@Getter @Setter
+	private Boolean immediate = false;
+
 }
