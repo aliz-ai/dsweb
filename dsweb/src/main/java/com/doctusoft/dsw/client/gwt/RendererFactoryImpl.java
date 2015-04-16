@@ -37,6 +37,7 @@ import com.doctusoft.dsw.client.comp.model.DatePickerModel;
 import com.doctusoft.dsw.client.comp.model.DropdownButtonModel;
 import com.doctusoft.dsw.client.comp.model.ExecuteJavascriptModel;
 import com.doctusoft.dsw.client.comp.model.FixedInputTagsModel;
+import com.doctusoft.dsw.client.comp.model.FixedInputTagsRemoteModel;
 import com.doctusoft.dsw.client.comp.model.FreeInputTagsModel;
 import com.doctusoft.dsw.client.comp.model.HistoryHandlerModel;
 import com.doctusoft.dsw.client.comp.model.HtmlContentModel;
@@ -96,6 +97,9 @@ public class RendererFactoryImpl extends AbstractGwtRendererFactory {
 		}
 		if (model instanceof FixedInputTagsModel) {
 			return new FixedInputTagsRenderer( (FixedInputTagsModel) model );
+		}
+		if (model instanceof FixedInputTagsRemoteModel) {
+			return new FixedInputTagsRemoteRenderer( (FixedInputTagsRemoteModel) model );
 		}
 		if (model instanceof LabelModel) {
 			return new LabelRenderer( (LabelModel) model );
