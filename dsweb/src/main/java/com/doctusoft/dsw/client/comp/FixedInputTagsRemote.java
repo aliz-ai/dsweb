@@ -105,11 +105,11 @@ public class FixedInputTagsRemote<T> extends BaseComponent<FixedInputTagsRemote<
 		return Objects.firstNonNull(optionValue, "").toString();
 	}
 	
-	public FixedInputTagsRemote<T> bindTagSuggestions(final ObservableValueBinding<? extends List<T>> listBinding) {
+	public <X extends List<T>> FixedInputTagsRemote<T> bindTagSuggestions(final ObservableValueBinding<X> listBinding) {
 		// this doesn't actually have an initial value
-		listBinding.addValueChangeListener(new ValueChangeListener<List<T>>() {
+		listBinding.addValueChangeListener(new ValueChangeListener<X>() {
 			@Override
-			public void valueChanged(List<T> newOptionList) {
+			public void valueChanged(X newOptionList) {
 				optionByCaption.clear();
 				if (newOptionList == null) {
 					model.setTagOptionSuggestions(null);
