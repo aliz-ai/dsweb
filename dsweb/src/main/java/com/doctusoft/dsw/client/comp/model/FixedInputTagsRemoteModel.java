@@ -22,10 +22,12 @@ package com.doctusoft.dsw.client.comp.model;
  * #L%
  */
 
+import java.util.List;
 
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.ModelObject;
 import com.doctusoft.bean.binding.observable.ObservableList;
+import com.google.common.collect.Lists;
 
 public class FixedInputTagsRemoteModel extends BaseComponentModel implements ModelObject {
 	
@@ -36,7 +38,7 @@ public class FixedInputTagsRemoteModel extends BaseComponentModel implements Mod
 	private ObservableList<TagOptionModel> tagOptionList = new ObservableList<TagOptionModel>();
 	
 	@ObservableProperty
-	private ObservableList<TagOptionModel> tagOptionSuggestions = new ObservableList<TagOptionModel>();
+	private List<TagOptionModel> tagOptionSuggestions = Lists.newArrayList();
 	
 	@ObservableProperty
 	private String placeHolder = "Add tags";

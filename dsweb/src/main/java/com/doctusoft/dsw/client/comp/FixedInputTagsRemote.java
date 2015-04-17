@@ -23,10 +23,10 @@ package com.doctusoft.dsw.client.comp;
  */
 
 
+import java.util.List;
 import java.util.Map;
 
-import lombok.Setter;
-
+import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
 import com.doctusoft.bean.binding.Converter;
 import com.doctusoft.bean.binding.ValueBinding;
@@ -37,8 +37,9 @@ import com.doctusoft.bean.binding.observable.ObservableValueBinding;
 import com.doctusoft.dsw.client.comp.model.FixedInputTagsRemoteModel;
 import com.doctusoft.dsw.client.comp.model.FixedInputTagsRemoteModel_;
 import com.doctusoft.dsw.client.comp.model.TagOptionModel;
-import com.doctusoft.dsw.client.util.DeferredRunnable;
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
@@ -48,15 +49,11 @@ import com.google.common.collect.Maps;
  */
 public class FixedInputTagsRemote<T> extends BaseComponent<FixedInputTagsRemote<T>, FixedInputTagsRemoteModel> {
 	
-	private Map<TagOptionModel, TagOption<T>> tagOptionByModel = Maps.newHashMap();
-	private Map<TagOption<T>, TagOptionModel> tagModelByOption = Maps.newHashMap();
-	private Map<T, TagOptionModel> tagModelByValue = Maps.newHashMap();
 	private ObservableValueBinding<? extends ObservableList<T>> valueBinding;
+	private Map<String, T> optionByCaption = Maps.newHashMap();
+	private Map<String, T> currentValuesByCaption = Maps.newHashMap();	// values are not necessarily among the current options
 	private BidirectionalConvertingListBinder<T, TagOptionModel> listBinder;
 	
-	
-	private FixedInputTagsRemoteDeferRunnable fixedInputTagsRemoteDeferRunnable = new FixedInputTagsRemoteDeferRunnable();
-	private DeferredRunnable deferredRunnable;
 	
 	public FixedInputTagsRemote() {
 		super(new FixedInputTagsRemoteModel());
@@ -75,74 +72,65 @@ public class FixedInputTagsRemote<T> extends BaseComponent<FixedInputTagsRemote<
 	public FixedInputTagsRemote<T> bind(final ObservableValueBinding<? extends ObservableList<T>> listBinding) {
 		Preconditions.checkState(this.valueBinding == null, "Value was already bound to this component");
 		this.valueBinding = listBinding;
+		new ListBindingListener<T>(listBinding) {
+			@Override
+			public void inserted(ObservableList<T> list, int index, T element) {
+				currentValuesByCaption.put(getOptionCaption(element), element);
+			}
+			@Override
+			public void removed(ObservableList<T> list, int index, T element) {
+				currentValuesByCaption.remove(getOptionCaption(element));
+			}
+		};
 		Converter<T, TagOptionModel> converter = new Converter<T, TagOptionModel>() {
 			@Override
 			public TagOptionModel convertSource(T source) {
-				return tagModelByValue.get(source);
+				return new TagOptionModel(getOptionCaption(source));
 			}
 			@Override
 			public T convertTarget(TagOptionModel target) {
-				TagOption<T> tagOption = tagOptionByModel.get(target);
-				if (tagOption == null)
-					return null;
-				return tagOption.getValue();
+				String optionName = target.getName();
+				T value = currentValuesByCaption.get(optionName);
+				if (value == null) {
+					value = optionByCaption.get(optionName);
+				}
+				return value;
 			}
 		};
 		listBinder = new BidirectionalConvertingListBinder<T, TagOptionModel>((ObservableValueBinding) listBinding, converter, Bindings.obs(model).get(FixedInputTagsRemoteModel_._tagOptionList));
 		return this;
 	}
 	
-	public FixedInputTagsRemote<T> bindTagSuggestions(final ObservableValueBinding<? extends ObservableList<TagOption<T>>> listBinding) {
-		new ListBindingListener<TagOption<T>>(listBinding) {
+	protected String getOptionCaption(T optionValue) {
+		return Objects.firstNonNull(optionValue, "").toString();
+	}
+	
+	public FixedInputTagsRemote<T> bindTagSuggestions(final ObservableValueBinding<? extends List<T>> listBinding) {
+		// this doesn't actually have an initial value
+		listBinding.addValueChangeListener(new ValueChangeListener<List<T>>() {
 			@Override
-			public void inserted(ObservableList<TagOption<T>> list, int index,
-					TagOption<T> element) {
-				TagOptionModel tagOptionModel = new TagOptionModel();
-				tagOptionModel.setName(element.getName());
-				tagOptionModel.setStyleClass(element.getStyleClass());
-				model.getTagOptionSuggestions().add(tagOptionModel);
-				tagOptionByModel.put(tagOptionModel, element);
-				tagModelByOption.put(element, tagOptionModel);
-				tagModelByValue.put(element.getValue(), tagOptionModel);
-				if (listBinding != null) {
-					// if the item was previously added to the values list, then it could not be reflected to the model, it remained null in the model list
-					// TODO
-//					if (valueBinding!=null){
-						int valueIndex = valueBinding.getValue().indexOf(element.getValue());
-						if (valueIndex >= 0) {
-							listBinder.setSuspended(true);
-							model.getTagOptionList().set(valueIndex, tagOptionModel);
-							listBinder.setSuspended(false);
-						}
-//					}
+			public void valueChanged(List<T> newOptionList) {
+				optionByCaption.clear();
+				if (newOptionList == null) {
+					model.setTagOptionSuggestions(null);
+					return;
 				}
+				List<TagOptionModel> optionModelList = Lists.newArrayList();
+				for (T optionValue : newOptionList) {
+					TagOptionModel tagOptionModel = new TagOptionModel();
+					tagOptionModel.setName(getOptionCaption(optionValue));
+					optionModelList.add(tagOptionModel);
+					optionByCaption.put(tagOptionModel.getName(), optionValue);
+				}
+				model.setTagOptionSuggestions(optionModelList);
 			}
-			@Override
-			public void removed(ObservableList<TagOption<T>> list, int index,
-					TagOption<T> element) {
-				TagOptionModel tagOptionModel = tagModelByOption.remove(element);
-				tagOptionByModel.remove(tagOptionModel);
-				model.getTagOptionSuggestions().remove(tagOptionModel);
-				tagModelByValue.remove(element.getValue());
-			}
-		};
+		});
 		return this;
 	}
 	
 	public FixedInputTagsRemote<T> bindPlaceHolder(ObservableValueBinding<String> placeHolderBinding) {
 		Bindings.bind(placeHolderBinding, Bindings.obs(model).get(FixedInputTagsRemoteModel_._placeHolder));
 		return this;
-	}
-	
-	@Setter
-	public class FixedInputTagsRemoteDeferRunnable implements Runnable {
-
-		@Override
-		public void run() {
-			// TODO Auto-generated method stub
-			
-		}
-		
 	}
 
 }

@@ -24,10 +24,8 @@ package com.doctusoft.dsw.sample.client.showcase;
 
 
 import com.doctusoft.dsw.client.comp.BaseContainer;
-import com.doctusoft.dsw.client.comp.FixedInputTagsRemote;
 import com.doctusoft.dsw.client.comp.Label;
 import com.doctusoft.dsw.sample.client.BaseShowcaseView;
-import com.doctusoft.dsw.sample.client.showcase.ExampleData.OldComputer;
 
 public class ShowcaseFixedInputTagsView extends BaseShowcaseView<ShowcaseFixedInputTagsPresenter>{
 
@@ -57,13 +55,13 @@ public class ShowcaseFixedInputTagsView extends BaseShowcaseView<ShowcaseFixedIn
 //		new Checkbox().bindChecked(bindOnPresenter().get(ShowcaseFixedInputTagsPresenter_._editable)).appendTo(subContainer);
 
 		// test remote
-		new Label("--------------", "h4").appendTo(subContainer);
-		new FixedInputTagsRemote<OldComputer>()
-		.bind(bindOnPresenter().get(ShowcaseFixedInputTagsPresenter_._tags))
-		.bindTagSuggestions(bindOnPresenter().get(ShowcaseFixedInputTagsPresenter_._tagSuggestions))
-		.bindQueryString(bindOnPresenter().get(ShowcaseFixedInputTagsPresenter_._queryString))
-		.bindEnabled(bindOnPresenter().get(ShowcaseFixedInputTagsPresenter_._editable))
-		.appendTo(subContainer);
+//		new Label("--------------", "h4").appendTo(subContainer);
+//		new FixedInputTagsRemote<OldComputer>()
+//		.bind(bindOnPresenter().get(ShowcaseFixedInputTagsPresenter_._tags))
+//		.bindTagSuggestions(bindOnPresenter().get(ShowcaseFixedInputTagsPresenter_._tagSuggestions))
+//		.bindQueryString(bindOnPresenter().get(ShowcaseFixedInputTagsPresenter_._queryString))
+//		.bindEnabled(bindOnPresenter().get(ShowcaseFixedInputTagsPresenter_._editable))
+//		.appendTo(subContainer);
 
 	}
 

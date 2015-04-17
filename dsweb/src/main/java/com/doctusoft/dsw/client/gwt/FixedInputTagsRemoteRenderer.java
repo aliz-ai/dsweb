@@ -35,10 +35,10 @@ import com.doctusoft.dsw.client.comp.model.FixedInputTagsRemoteModel_;
 import com.doctusoft.dsw.client.comp.model.TagOptionModel;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
-import com.google.gwt.user.client.Timer;
 import com.xedge.jquery.client.JQuery;
 
 public class FixedInputTagsRemoteRenderer extends BaseComponentRenderer {
@@ -57,55 +57,37 @@ public class FixedInputTagsRemoteRenderer extends BaseComponentRenderer {
 	private Map<TagOptionItem, TagOptionModel> modelsByItem = Maps.newHashMap();
 
 	public FixedInputTagsRemoteRenderer(final FixedInputTagsRemoteModel inputTagsModel) {
-		super(JQuery.select("<input type=\"text\" />"), inputTagsModel);
+		super(JQuery.select("<input/>"), inputTagsModel);
 		this.model = inputTagsModel;
+		widget.attr("type", "text");
 		widget.attr("data-role", "tagsinput");
 
 		init(widget);
 		
-		addChangeListenerAndApply(FixedInputTagsRemoteModel_._tagOptionSuggestions, model, new ValueChangeListener<ObservableList<TagOptionModel>>() {
+		addChangeListenerAndApply(FixedInputTagsRemoteModel_._tagOptionSuggestions, model, new ValueChangeListener<List<TagOptionModel>>() {
 			private List<TagOptionModel> oldValue;
 
 			@Override
-			public void valueChanged(ObservableList<TagOptionModel> newValue) {
+			public void valueChanged(List<TagOptionModel> newValue) {
 				if (newValue == null || callbackMethod == null) {
 					return;
 				}
-
 				if (!newValue.equals(oldValue)) {
 					oldValue = newValue;
 
 					JsArray<TagOptionItem> optionSugesstions = tagOptionListToItems(model.getTagOptionSuggestions());
 					invokeCallback(optionSugesstions, callbackMethod);
 					callbackMethod = null;
-					
 				}
 			}
-
 		});
 		
 	}
 
 	// called from JSNI
 	public void nativeInitialized() {
-		new ListBindingListener<TagOptionModel>(Bindings.obs(model).get((ObservableProperty) FixedInputTagsRemoteModel_._tagOptionSuggestions)) {
-			@Override
-			public void inserted(final ObservableList<TagOptionModel> list, final int index,
-					final TagOptionModel element) {
-				invalidateTagOptionSuggestions();
-			}
-
-			@Override
-			public void removed(final ObservableList<TagOptionModel> list, final int index,
-					final TagOptionModel element) {
-				invalidateTagOptionSuggestions();
-			}
-		};
-
 		// note that the order of tags is not maintained. The underlying JS doesn't support insertion of items
 		new ListBindingListener<TagOptionModel>(Bindings.obs(model).get((ObservableProperty) FixedInputTagsRemoteModel_._tagOptionList)) {
-
-
 			@Override
 			public void inserted(final ObservableList<TagOptionModel> list, final int index, final TagOptionModel element) {
 				// if the tag suggestions are invalidated, then we don't have to add the option, because all the items will be added later when the timer fires
@@ -113,6 +95,11 @@ public class FixedInputTagsRemoteRenderer extends BaseComponentRenderer {
 					return;
 				}
 				changedFromModel = true;
+				if (!itemsByModel.containsKey(element)) {
+					TagOptionItem item = createItemForModel(element);
+					modelsByItem.put(item, element);
+					itemsByModel.put(element, item);
+				}
 				addTagOption(element);
 				changedFromModel = false;
 			}
@@ -124,6 +111,7 @@ public class FixedInputTagsRemoteRenderer extends BaseComponentRenderer {
 				}
 				changedFromModel = true;
 				removeTag(widget, getItemByModel(element));
+				modelsByItem.remove(itemsByModel.remove(element));
 				changedFromModel = false;
 			}
 		};
@@ -138,29 +126,6 @@ public class FixedInputTagsRemoteRenderer extends BaseComponentRenderer {
 		});
 
 		new BaseInputTagsEnabledAttributeRenderer(widget, model);
-	}
-
-	private void invalidateTagOptionSuggestions() {
-		if (!tagSuggestionsInvalidated) {
-			tagSuggestionsInvalidated = true;
-			new Timer() {
-				@Override
-				public void run() {
-					// set suggestions
-					tagSuggestionsInvalidated = false;
-					setTagOptionSuggestions(widget, tagOptionListToItems(model.getTagOptionSuggestions())); 
-					
-					// set tags
-					changedFromModel = true;
-					for (TagOptionModel option : model.getTagOptionList()) {
-						if (option != null) {
-							addTagOption(option);
-						}
-					}
-					changedFromModel = false;
-				}
-			}.schedule(1);
-		}
 	}
 
 	private void addTagOption(final TagOptionModel option) {
@@ -196,11 +161,22 @@ public class FixedInputTagsRemoteRenderer extends BaseComponentRenderer {
 		var that = this;
 		setTimeout(function () {
 			element.tagsinput({
-				tagClass: function(item) {
-			    		return item.style;
-			    },
-			    itemValue: 'value',
-  				itemText: 'text'
+					tagClass: function(item) {
+				    		return item.style;
+				    },
+				    itemValue: 'value',
+	  				itemText: 'text',
+				  	typeahead: {
+				    	source: function(query) {
+				    		var deferred = $wnd.$.Deferred();
+							var suggestionsCallback = function(data) {
+								deferred.resolve(data);
+							}
+							that.@com.doctusoft.dsw.client.gwt.FixedInputTagsRemoteRenderer::setCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(suggestionsCallback);
+							that.@com.doctusoft.dsw.client.gwt.FixedInputTagsRemoteRenderer::updateQuery(Ljava/lang/String;)(query);
+							return deferred.promise();
+	    				}
+				  }
 			});
 			that.@com.doctusoft.dsw.client.gwt.FixedInputTagsRemoteRenderer::nativeInitialized()();
 		}, 1);
@@ -212,29 +188,6 @@ public class FixedInputTagsRemoteRenderer extends BaseComponentRenderer {
 		});
 	}-*/;
 
-	private native void setTagOptionSuggestions(final JQuery element, final JsArray<TagOptionItem> tagSuggestions) /*-{
-		var that = this;
-		that.deferred = element.Deferred();
-		that.sugesstionsCallback = function(data){
-			that.deferred.resolve(data);
-		}
-		element.tagsinput('destroy');
-		element.tagsinput({
-				tagClass: function(item) {
-			    		return item.style;
-			    },
-			    itemValue: 'value',
-  				itemText: 'text',
-			  	typeahead: {
-			    	source: function(query) {
-						that.@com.doctusoft.dsw.client.gwt.FixedInputTagsRemoteRenderer::updateQuery(Ljava/lang/String;)(query);
-						return this.when(that.deferred);
-    				}
-			  }
-		});
-		that.@com.doctusoft.dsw.client.gwt.FixedInputTagsRemoteRenderer::setCallback(Lcom/google/gwt/core/client/JavaScriptObject;)(that.sugesstionsCallback);
-	}-*/;
-
 	private native static void addTagOption(final JQuery element, final TagOptionItem item) /*-{
 		element.tagsinput('add', item);
 	}-*/;
@@ -244,19 +197,29 @@ public class FixedInputTagsRemoteRenderer extends BaseComponentRenderer {
 	}-*/;
 
 	JsArray<TagOptionItem> tagOptionListToItems(final List<TagOptionModel> tagList) {
-		itemsByModel.clear();
-		modelsByItem.clear();
+		// keep current values in the map
+		for (TagOptionModel optionModel : Lists.newArrayList(modelsByItem.values())) {
+			if (!model.getTagOptionList().contains(optionModel)) {
+				TagOptionItem item = itemsByModel.remove(optionModel);
+				modelsByItem.remove(item);
+			}
+		}
 		JsArray<TagOptionItem> array= JavaScriptObject.createArray().cast();
 		for (TagOptionModel tag : tagList) {
-			TagOptionItem item = (TagOptionItem)JavaScriptObject.createObject().cast();
-			item.setValue(tag.getName());
-			item.setText(tag.getName());
-			item.setStyle(Objects.firstNonNull(tag.getStyleClass(), "label label-info"));
+			TagOptionItem item = createItemForModel(tag);
 			array.push(item);
 			itemsByModel.put(tag, item);
 			modelsByItem.put(item, tag);
 		}
 		return array;
+	}
+
+	private TagOptionItem createItemForModel(TagOptionModel tag) {
+		TagOptionItem item = (TagOptionItem)JavaScriptObject.createObject().cast();
+		item.setValue(tag.getName());
+		item.setText(tag.getName());
+		item.setStyle(Objects.firstNonNull(tag.getStyleClass(), "label label-info"));
+		return item;
 	}
 	
 	private void setCallback(final JavaScriptObject callbackMethod) {
