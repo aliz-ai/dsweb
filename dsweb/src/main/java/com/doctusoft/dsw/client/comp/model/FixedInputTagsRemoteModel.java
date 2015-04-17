@@ -1,4 +1,4 @@
-package com.doctusoft.dsw.client.comp;
+package com.doctusoft.dsw.client.comp.model;
 
 /*
  * #%L
@@ -22,9 +22,25 @@ package com.doctusoft.dsw.client.comp;
  * #L%
  */
 
+import java.util.List;
 
-public class Test {
+import com.doctusoft.ObservableProperty;
+import com.doctusoft.bean.ModelObject;
+import com.doctusoft.bean.binding.observable.ObservableList;
+import com.google.common.collect.Lists;
+
+public class FixedInputTagsRemoteModel extends BaseComponentModel implements ModelObject {
 	
-	private Void field;
+	@ObservableProperty
+	private String query;
 	
+	@ObservableProperty
+	private ObservableList<TagOptionModel> tagOptionList = new ObservableList<TagOptionModel>();
+	
+	@ObservableProperty
+	private List<TagOptionModel> tagOptionSuggestions = Lists.newArrayList();
+	
+	@ObservableProperty
+	private String placeHolder = "Add tags";
+
 }
