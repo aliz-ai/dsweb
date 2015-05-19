@@ -29,7 +29,7 @@ import com.doctusoft.bean.ModelObject;
 public class InputTextModel extends BaseComponentModel implements ModelObject {
 
 	@ObservableProperty
-	private String value = "";
+	private String value;
 
 	@ObservableProperty
 	private String inputType = "text";

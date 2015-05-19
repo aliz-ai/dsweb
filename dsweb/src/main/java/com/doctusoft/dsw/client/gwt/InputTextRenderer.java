@@ -41,7 +41,7 @@ public class InputTextRenderer extends BaseComponentRenderer {
 				@Override
 				public void valueChanged(final String newValue) {
 					String allowedValue = getAllowedValue(newValue, model); 
-					if (newValue.compareToIgnoreCase(allowedValue)!=0){
+					if (newValue != null && !newValue.equals(allowedValue)){
 						model.setValue(allowedValue);
 					} else {
 						widget.val(allowedValue);
@@ -82,7 +82,7 @@ public class InputTextRenderer extends BaseComponentRenderer {
 	
 	private static String getAllowedValue(final String newValue, InputTextModel model){
 		String retValue = newValue;
-		if (model.getMaxLength() > 0) {
+		if (newValue != null && model.getMaxLength() > 0) {
 			int min = Math.min(model.getMaxLength(), newValue.length());
 			retValue = newValue.substring(0, min);
 		} 

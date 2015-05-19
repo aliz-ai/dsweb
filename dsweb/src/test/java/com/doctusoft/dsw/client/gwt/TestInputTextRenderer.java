@@ -79,8 +79,47 @@ public class TestInputTextRenderer extends AbstractDswebTest {
 	public void testMaxLength() {
 		final InputText inputText = new InputText().withId("input").withMaxLength(5);
 		registerApp(inputText);
-		JQuery jqInput = JQuery.select("#input");
-		jqInput.val("123456");
+		InputTextModel model = inputText.getModel();
+		model.setValue( "123456" );
 		assertEquals("12345", inputText.getModel().getValue());
+		JQuery jqInput = JQuery.select("#input");
+		jqInput.val("456789");
+		jqInput.change();
+		assertEquals("45678", inputText.getModel().getValue());
 	}
+	
+	@Test
+	public void testTypingWithImmediatePropagation() {
+		final InputText inputText = new InputText().withId("input").withMaxLength(12).withImmediate(false);
+		registerApp(inputText);
+		JQuery jqInput = JQuery.select("#input");
+		
+		// with immediate set to FALSE
+		jqInput.val("T");
+		jqInput.keyup();
+		jqInput.val("Th");
+		jqInput.keyup();
+		assertEquals(null, inputText.getModel().getValue());
+		
+		// with immediate set to TRUE
+		inputText.immediate();
+		jqInput.val("T");
+		jqInput.keyup();
+		assertEquals("T", inputText.getModel().getValue());
+		jqInput.val("Th");
+		jqInput.keyup();
+		assertEquals("Th", inputText.getModel().getValue());
+		jqInput.val("Thi");
+		jqInput.keyup();
+		assertEquals(3, inputText.getModel().getValue().length());
+		jqInput.val("This is cool");
+		jqInput.keyup();
+		assertEquals(12, inputText.getModel().getValue().length());
+		jqInput.val("This is cool!");
+		jqInput.keyup();
+		assertEquals(12, inputText.getModel().getValue().length());
+		assertEquals("This is cool", inputText.getModel().getValue());
+		dumpRoot();
+	}
+	
 }
