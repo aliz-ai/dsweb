@@ -73,7 +73,7 @@ public class TestTextareaRenderer extends AbstractDswebTest {
 		jqInput.keyup();
 		jqInput.val("Th");
 		jqInput.keyup();
-		assertEquals("", inputText.getModel().getValue());
+		assertEquals(null, inputText.getModel().getValue());
 		
 		// with immediate set to TRUE
 		inputText.immediate();
@@ -86,22 +86,6 @@ public class TestTextareaRenderer extends AbstractDswebTest {
 		jqInput.val("Thi");
 		jqInput.keyup();
 		assertEquals(3, inputText.getModel().getValue().length());
-		jqInput.val("This");
-		jqInput.keyup();
-		jqInput.val("This ");
-		jqInput.keyup();
-		jqInput.val("This i");
-		jqInput.keyup();
-		jqInput.val("This is");
-		jqInput.keyup();
-		jqInput.val("This is ");
-		jqInput.keyup();
-		jqInput.val("This is c");
-		jqInput.keyup();
-		jqInput.val("This is co");
-		jqInput.keyup();
-		jqInput.val("This is coo");
-		jqInput.keyup();
 		jqInput.val("This is cool");
 		jqInput.keyup();
 		assertEquals(12, inputText.getModel().getValue().length());
