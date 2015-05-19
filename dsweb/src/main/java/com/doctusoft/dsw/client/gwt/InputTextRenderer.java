@@ -40,7 +40,12 @@ public class InputTextRenderer extends BaseComponentRenderer {
 		addChangeListenerAndApply(InputTextModel_._value, model, new ValueChangeListener<String>() {
 				@Override
 				public void valueChanged(final String newValue) {
-					widget.val(newValue);
+					String allowedValue = getAllowedValue(newValue, model); 
+					if (newValue.compareToIgnoreCase(allowedValue)!=0){
+						model.setValue(allowedValue);
+					} else {
+						widget.val(allowedValue);
+					}
 				}
 			});
 
@@ -58,7 +63,7 @@ public class InputTextRenderer extends BaseComponentRenderer {
 		widget.change(new EventHandler() {
 			@Override
 			public void eventComplete(final JQEvent event, final JQuery currentJQuery) {
-				model.setValue(widget.val());
+				model.setValue(getAllowedValue(widget.val(), model));
 			}
 		});
 
@@ -73,6 +78,15 @@ public class InputTextRenderer extends BaseComponentRenderer {
 		
 		new EnabledAttributeRenderer(widget, model);
 		new PlaceHolderAttributeRenderer(widget, model, InputTextModel_._placeHolder);
+	}
+	
+	private static String getAllowedValue(final String newValue, InputTextModel model){
+		String retValue = newValue;
+		if (model.getMaxLength() > 0) {
+			int min = Math.min(model.getMaxLength(), newValue.length());
+			retValue = newValue.substring(0, min);
+		} 
+		return retValue;
 	}
 	
 }

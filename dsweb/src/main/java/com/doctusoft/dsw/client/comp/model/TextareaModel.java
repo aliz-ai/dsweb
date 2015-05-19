@@ -34,7 +34,7 @@ public class TextareaModel extends BaseComponentModel implements ModelObject {
 	private int rows = 1;
 
 	@ObservableProperty
-	private String value;
+	private String value = "";
 
 	@ObservableProperty
 	private String placeHolder = "";
