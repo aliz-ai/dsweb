@@ -53,5 +53,10 @@ public class Textarea extends BaseComponent<Textarea, TextareaModel> {
 		Bindings.bind(placeholderBinding, Bindings.obs(model).get(TextareaModel_._placeHolder));
 		return this;
 	}
+	
+	public Textarea immmediate() {
+		model.setImmediate(true);;
+		return this;
+	}
 
 }

@@ -25,6 +25,7 @@ package com.doctusoft.dsw.client.gwt;
 
 import com.doctusoft.bean.ValueChangeListener;
 import com.doctusoft.bean.binding.Bindings;
+import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.dsw.client.comp.model.TextareaModel;
 import com.doctusoft.dsw.client.comp.model.TextareaModel_;
 import com.xedge.jquery.client.JQEvent;
@@ -41,18 +42,34 @@ public class TextareaRenderer extends BaseComponentRenderer {
 		Bindings.obs(textarea).get(TextareaModel_._value).addValueChangeListener(new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(final String newValue) {
-				widget.val(newValue);
+				if (!widget.val().equals(newValue)) {
+					widget.val(newValue);
+				}
 			}
 		});
-		widget.change(new EventHandler() {
-			@Override
-			public void eventComplete(final JQEvent event, final JQuery currentJQuery) {
-				textarea.setValue(widget.val());
-			}
-		});
+		if (textarea.isImmediate()) {
+			listenToInput(widget, new EmptyEventHandler() {
+				@Override
+				public void handle() {
+					textarea.setValue(widget.val());
+				}
+			});
+		} else {
+			widget.change(new EventHandler() {
+				@Override
+				public void eventComplete(final JQEvent event, final JQuery currentJQuery) {
+					textarea.setValue(widget.val());
+				}
+			});
+		}
 
 		new EnabledAttributeRenderer(widget, textarea);
 		new PlaceHolderAttributeRenderer(widget, textarea, TextareaModel_._placeHolder);
 	}
 
+	private native void listenToInput(JQuery widget, EmptyEventHandler handler) /*-{
+		widget.on('input', function() {
+		  handler.@com.doctusoft.bean.binding.EmptyEventHandler::handle()();
+		});
+	}-*/;
 }
