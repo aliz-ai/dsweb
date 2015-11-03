@@ -84,6 +84,7 @@ public class CheckboxRenderer extends BaseComponentRenderer {
 		@Override
 		public void run() {
 			setCheckedNative( input, Objects.firstNonNull(model.getChecked(), false) );
+			updateValue = null;
 		}
 	}
 
