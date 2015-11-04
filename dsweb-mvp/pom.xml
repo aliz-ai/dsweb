@@ -3,7 +3,7 @@
 	<parent>
 		<groupId>com.doctusoft</groupId>
 		<artifactId>dsweb-parent</artifactId>
-		<version>0.0.14-SNAPSHOT</version>
+		<version>0.0.14</version>
 	</parent>
 	<artifactId>dsweb-mvp</artifactId>
 	<name>dsweb-mvp</name>
