@@ -28,6 +28,7 @@ import com.doctusoft.dsw.client.Renderer;
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.google.common.base.Preconditions;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Node;
 import com.xedge.jquery.client.JQuery;
 
 public abstract class AbstractGwtRendererFactory extends AbstractRendererFactory<JQuery> {
@@ -59,8 +60,14 @@ public abstract class AbstractGwtRendererFactory extends AbstractRendererFactory
 		if (jquery != null) {
 			Preconditions.checkState(jquery.length() == 1, "The component " + baseComponentModel + " should have rendered exactly one dom element");
 			Element element = jquery.get(0);
-			element.getParentNode().removeChild(element);
+			Node parentNode = element.getParentNode();
+			if (parentNode != null) {
+				parentNode.removeChild(element);
+			}
 		}
 	}
 
+	public static native void log(String msg) /*-{
+		$wnd.console.log(msg);
+	}-*/;
 }

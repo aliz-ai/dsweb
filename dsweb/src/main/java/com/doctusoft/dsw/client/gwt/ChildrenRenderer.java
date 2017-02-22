@@ -79,8 +79,8 @@ public class ChildrenRenderer {
 	}
 	
 	public void detach() {
-		for (Renderer<JQuery> renderer : renderedWidgets.values()) {
-			renderer.detach();
+		for (BaseComponentModel child : renderedWidgets.keySet()) {
+			rendererFactory.dispose(child);
 		}
 	}
 	
