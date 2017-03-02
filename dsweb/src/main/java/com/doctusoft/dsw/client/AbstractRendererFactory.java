@@ -37,6 +37,7 @@ import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.gwt.AbstractGwtRendererFactory;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.xedge.jquery.client.JQuery;
 
 @Log
 public abstract class AbstractRendererFactory<ActualBaseComponent> implements RendererFactory<ActualBaseComponent> {
@@ -78,6 +79,14 @@ public abstract class AbstractRendererFactory<ActualBaseComponent> implements Re
 		disposeExpiredRenderers();
 	}
 	
+	public void reattach(BaseComponentModel baseComponentModel) {
+		disposableComponents.remove(baseComponentModel);
+		Renderer<?> renderer = renderers.get(baseComponentModel);
+		if (renderer != null) {
+			renderer.reattach();
+		}
+	}
+	
 	private void disposeExpiredRenderers() {
 		long now = new Date().getTime();
 		int count = 0;
@@ -87,7 +96,10 @@ public abstract class AbstractRendererFactory<ActualBaseComponent> implements Re
 			if (!disposableComponents.contains(model))
 				continue;
 			disposableComponents.remove(model);
-			renderers.remove(model);
+			Renderer<?> removedRenderer = renderers.remove(model);
+			if (removedRenderer != null) {
+				((JQuery) removedRenderer.getWidget()).remove();
+			}
 			count ++;
 		}
 		if (count > 0) {

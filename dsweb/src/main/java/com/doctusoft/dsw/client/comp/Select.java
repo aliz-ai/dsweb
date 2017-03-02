@@ -57,6 +57,11 @@ public class Select<T> extends AbstractSelect<Select<T>, SelectModel, T> {
 			candidate = model.getSelectItemsModel().get(0);
 		}
 		if (candidate != model.getSelectedItem()) {
+			if (candidate == null && model.getSelectItemsModel().isEmpty()) {
+				// if the select items are empty and we haven't found it in the list, then we don't reset the value,
+				// because the items will probably arrive later
+				return;
+			}
 			model.setSelectedItem(candidate);
 		}
 	}

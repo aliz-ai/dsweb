@@ -106,14 +106,13 @@ public class DataTableRenderer extends BaseComponentRenderer {
 			@Override
 			public void removed( final ObservableList<DataTableRowModel> list, final int index, final DataTableRowModel element ) {
 				List<BaseComponentModel> cellModelsForRow = cellModelsByRow.get(element);
-				AbstractGwtRendererFactory.log("disposing: " + cellModelsForRow);
 				if (cellModelsForRow != null) {
 					for (BaseComponentModel cellModel : cellModelsForRow) {
 						rendererFactory.dispose(cellModel);
 					}
 				}
 				cellModelsByRow.remove(element);
-				rows.get( index ).remove();
+				rows.get( index ).get(0).removeFromParent();
 				rows.remove( index );
 			}
 		};

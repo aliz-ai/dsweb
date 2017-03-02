@@ -59,7 +59,7 @@ public class ChildrenRenderer {
 				BaseComponentModel element ) {
 				rendererFactory.dispose( element );
 				// remove the handle from the map
-				renderedWidgets.remove( element );
+				renderedWidgets.remove( element ).getWidget().get(0).removeFromParent();
 			}
 		};
 	}
@@ -85,8 +85,8 @@ public class ChildrenRenderer {
 	}
 	
 	public void reattach() {
-		for (Renderer<JQuery> renderer : renderedWidgets.values()) {
-			renderer.reattach();
+		for (BaseComponentModel child : renderedWidgets.keySet()) {
+			rendererFactory.reattach(child);
 		}
 	}
 }
