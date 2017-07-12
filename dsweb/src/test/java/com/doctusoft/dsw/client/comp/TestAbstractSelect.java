@@ -90,17 +90,32 @@ public class TestAbstractSelect {
 		select.setValue("a");
 		JUnitDeferrerImpl.fireScheduledRunnables();
 		assertEquals(select.getModel().getSelectItemsModel().get(1), select.getModel().getSelectedItem());
-		selectItems.clear();
-		JUnitDeferrerImpl.fireScheduledRunnables();
-		// as the selectable items are removed, the user would see no value, so the model value has to be null.
-		assertEquals(null, select.getValue());
-		assertEquals(null, select.getModel().getSelectedItem());
-		selectItems.addAll(defaultSelectItems);
+		selectItems.remove(1);
 		JUnitDeferrerImpl.fireScheduledRunnables();
 		// the first item gets selected, to properly reflect what the user sees.
 		assertEquals("b", select.getValue());
+		assertEquals(select.getModel().getSelectItemsModel().get(0), select.getModel().getSelectedItem());
 	}
 	
+	@Test
+	public void testSelectedItemValueKeptIfThereAreNoSelectableItems() {
+		List<SelectItem<String>> defaultSelectItems = SelectItems.fromStrings("b", "a", "c");
+		ObservableList<SelectItem<String>> selectItems = new ObservableList<SelectItem<String>>(defaultSelectItems);
+		Select<String> select = new Select<String>().bind(Bindings.obs(this).get(TestAbstractSelect_._selectValue));
+		select.bindSelectItems(Bindings.obs(selectItems));
+		select.setValue("a");
+		JUnitDeferrerImpl.fireScheduledRunnables();
+		assertEquals(select.getModel().getSelectItemsModel().get(1), select.getModel().getSelectedItem());
+		selectItems.clear();
+		JUnitDeferrerImpl.fireScheduledRunnables();
+		// if all selectable items are removed, we assume a transient case and keep the value
+		assertEquals("a", select.getValue());
+		selectItems.addAll(defaultSelectItems);
+		JUnitDeferrerImpl.fireScheduledRunnables();
+		// if the selectable items come back, the value is still retained
+		assertEquals("a", select.getValue());
+	}
+
 	@Test
 	public void testValueUpdatedToNull() {
 		Select<String> select = new Select<String>().bind(Bindings.obs(this).get(TestAbstractSelect_._selectValue));
