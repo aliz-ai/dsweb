@@ -61,7 +61,7 @@ public abstract class AbstractRendererFactory<ActualBaseComponent> implements Re
 			renderer = resolveRenderer(baseWidget);
 			renderers.put(baseWidget, renderer);
 		} else {
-			renderer.reattach();
+			reattach(baseWidget);
 			disposableComponents.remove(baseWidget);
 		}
 		if (renderer == null)
