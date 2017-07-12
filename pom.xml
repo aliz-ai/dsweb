@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.doctusoft</groupId>
 	<artifactId>dsweb-parent</artifactId>
-	<version>0.0.15</version>
+	<version>0.0.16-SNAPSHOT</version>
 	<name>dsweb-parent</name>
 	<packaging>pom</packaging>
 
@@ -271,11 +271,11 @@
 	<distributionManagement>
 		<repository>
 			<id>doctusoft.releases.public</id>
-			<url>http://pubrepo.doctusoft.com:8080/nexus/content/repositories/releases</url>
+			<url>http://repo.doctusoft.com/nexus/content/repositories/oss</url>
 		</repository>
 		<snapshotRepository>
 			<id>doctusoft.snapshots.public</id>
-			<url>http://pubrepo.doctusoft.com:8080/nexus/content/repositories/snapshots</url>
+			<url>http://repo.doctusoft.com/nexus/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 
