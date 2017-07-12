@@ -23,13 +23,23 @@ package com.doctusoft.dsw.client;
  */
 
 
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.extern.java.Log;
+
 import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
+import com.doctusoft.dsw.client.gwt.AbstractGwtRendererFactory;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.xedge.jquery.client.JQuery;
 
+@Log
 public abstract class AbstractRendererFactory<ActualBaseComponent> implements RendererFactory<ActualBaseComponent> {
 
 	/**
@@ -42,6 +52,7 @@ public abstract class AbstractRendererFactory<ActualBaseComponent> implements Re
 	 * This requires DSWeb renderers to specify whether they are disposable or not, and a dispose method to perform any necessary operation (destroying custom jquery components for example)
 	 */
 	protected static Set<BaseComponentModel> disposableComponents = Sets.newIdentityHashSet();
+	protected static Queue<DisposedModel> disposingQueue = new LinkedList<DisposedModel>();
 	
 	@Override
 	public Renderer<ActualBaseComponent> getRenderer(BaseComponentModel baseWidget) {
@@ -60,8 +71,46 @@ public abstract class AbstractRendererFactory<ActualBaseComponent> implements Re
 	
 	public void dispose(BaseComponentModel baseComponentModel) {
 		Renderer<ActualBaseComponent> renderer = (Renderer<ActualBaseComponent>) renderers.get(baseComponentModel);
-		renderer.detach();
+		if (renderer != null) {
+			renderer.detach();
+		}
+		disposingQueue.add(new DisposedModel(baseComponentModel, new Date().getTime()));
 		disposableComponents.add(baseComponentModel);
+		disposeExpiredRenderers();
+	}
+	
+	public void reattach(BaseComponentModel baseComponentModel) {
+		disposableComponents.remove(baseComponentModel);
+		Renderer<?> renderer = renderers.get(baseComponentModel);
+		if (renderer != null) {
+			renderer.reattach();
+		}
+	}
+	
+	private void disposeExpiredRenderers() {
+		long now = new Date().getTime();
+		int count = 0;
+		while (!disposingQueue.isEmpty() && disposingQueue.peek().getDisposed() < now - 1000) {
+			DisposedModel disposedModel = disposingQueue.poll();
+			BaseComponentModel model = disposedModel.getModel();
+			if (!disposableComponents.contains(model))
+				continue;
+			disposableComponents.remove(model);
+			Renderer<?> removedRenderer = renderers.remove(model);
+			if (removedRenderer != null) {
+				((JQuery) removedRenderer.getWidget()).remove();
+			}
+			count ++;
+		}
+		if (count > 0) {
+			AbstractGwtRendererFactory.log("removed " + count + " renderers, remaining: " + renderers.size());
+		}
 	}
 
+	@AllArgsConstructor
+	@Getter
+	private static class DisposedModel {
+		private BaseComponentModel model;
+		private long disposed;
+	}
 }

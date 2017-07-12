@@ -43,4 +43,11 @@ public interface RendererFactory<ActualBaseComponent> {
 	 * Marks the component as disposable, and 'hides' the rendered component. The rendered component and its renderer might still remaing cached until a GC run. 
 	 */
 	public void dispose(BaseComponentModel baseWidget);
+
+	
+	/**
+	 * Removes the component from the disposables set 
+	 */
+	public void reattach(BaseComponentModel baseWidget);
+
 }

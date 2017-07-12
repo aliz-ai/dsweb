@@ -100,6 +100,7 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 			@Override
 			public void removed(ObservableList<Tab> list, int index, Tab element) {
 				tabCaptionList.get(index).remove();
+                tabContentList.get(index).get(0).removeFromParent();
 				rendererFactory.dispose(element.getContent());
 				tabContentList.remove(index);
 				tabCaptionList.remove(index);

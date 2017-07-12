@@ -25,6 +25,7 @@ package com.doctusoft.dsw.client.gwt;
 
 
 import java.util.List;
+import java.util.Map;
 
 import com.doctusoft.bean.ListenerRegistration;
 import com.doctusoft.bean.ValueChangeListener;
@@ -49,6 +50,7 @@ import com.doctusoft.dsw.client.util.DeferredFactory;
 import com.doctusoft.dsw.client.util.DeferredRunnable;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.gwt.core.shared.GWT;
 import com.xedge.jquery.client.JQEvent;
 import com.xedge.jquery.client.JQuery;
@@ -72,6 +74,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	private JQuery tbody;
 	
 	private List<BaseComponentModel> cellModels = Lists.newArrayList();
+	private Map<DataTableRowModel, List<BaseComponentModel>> cellModelsByRow = Maps.newHashMap();
 	
 	private boolean initialized = false;
 
@@ -102,7 +105,14 @@ public class DataTableRenderer extends BaseComponentRenderer {
 
 			@Override
 			public void removed( final ObservableList<DataTableRowModel> list, final int index, final DataTableRowModel element ) {
-				rows.get( index ).remove();
+				List<BaseComponentModel> cellModelsForRow = cellModelsByRow.get(element);
+				if (cellModelsForRow != null) {
+					for (BaseComponentModel cellModel : cellModelsForRow) {
+						rendererFactory.dispose(cellModel);
+					}
+				}
+				cellModelsByRow.remove(element);
+				rows.get( index ).get(0).removeFromParent();
 				rows.remove( index );
 			}
 		};
@@ -196,6 +206,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 			rendererFactory.dispose(cell);
 		}
 		cellModels.clear();
+		cellModelsByRow.clear();
 		rows.clear();
 		tbody.children().remove();
 		for (ListenerRegistration listenerRegistration : rowListenerRegistrations) {
@@ -226,6 +237,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 
 	protected JQuery renderRow( final DataTableRowModel rowModel, final int rowIndex ) {
 		final JQuery row = JQuery.select( "<tr/>" );
+		List<BaseComponentModel> cellModelsForRow = Lists.newArrayList();
 		if (model.getSelectedIndices().contains(rowIndex)) {
 			row.addClass("selected");
 		}
@@ -259,11 +271,12 @@ public class DataTableRenderer extends BaseComponentRenderer {
 				BaseComponentModel component = cellModel.getComponent();
 				if (component != null) {
 					Renderer<JQuery> cellRenderer = rendererFactory.getRenderer( component );
-					cellModels.add(component);
+					cellModelsForRow.add(component);
 					cell.append( cellRenderer.getWidget() );
 				}
 			}
 		}
+		cellModelsByRow.put(rowModel, cellModelsForRow);
 		return row;
 	}
 
