@@ -74,6 +74,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	private JQuery tbody;
 	
 	private Map<DataTableRowModel, List<BaseComponentModel>> cellModelsByRow = Maps.newHashMap();
+	private Map<DataTableRowModel, List<BaseComponentModel>> cellModelsByRow = Maps.newHashMap();
 	
 	private boolean initialized = false;
 
@@ -206,6 +207,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 				rendererFactory.dispose(cell);
 			}
 		}
+		cellModelsByRow.clear();
 		cellModelsByRow.clear();
 		rows.clear();
 		tbody.children().remove();
