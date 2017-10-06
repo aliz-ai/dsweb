@@ -26,6 +26,9 @@ import java.io.Serializable;
 
 import javax.annotation.Nullable;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.ModelObject;
 import com.doctusoft.dsw.client.comp.datatable.OrderingDirection;
@@ -34,6 +37,10 @@ public class DataTableColumnModel implements ModelObject, Serializable {
 	
 	@ObservableProperty
 	private String title;
+	
+	@Getter
+	@Setter
+	private BaseComponentModel headerComponent;
 	
 	@ObservableProperty
 	private boolean orderable;
