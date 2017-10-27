@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import com.doctusoft.ObservableProperty;
 import com.doctusoft.bean.binding.Bindings;
+import com.doctusoft.bean.binding.EmptyEventHandler;
 import com.doctusoft.bean.binding.ParametricEventHandler;
 import com.doctusoft.bean.binding.observable.ObservableList;
 import com.doctusoft.dsw.client.comp.Button;
@@ -295,6 +296,26 @@ public class TestDataTableRenderer extends AbstractDswebTest {
 			}
 		}.schedule(25);
 		delayTestFinish(500);
+	}
+	
+	@Test
+	public void testTableHeaderComponent() {
+		DataTable<String> dataTable = new DataTable<String>();
+		dataTable.bind(Bindings.obs(new ObservableList<String>(ImmutableList.of("a", "b", "c"))));
+		final LabelColumn firstColumn = new LabelColumn("h1");
+		final Button headerButton = new Button("clickme");
+		headerButton.click(new EmptyEventHandler() {
+			@Override
+			public void handle() {
+				headerButton.withCaption("clicked");
+			}
+		});
+		firstColumn.getHeader().setHeaderComponent(headerButton.getComponentModel());
+		dataTable.addColumn(firstColumn);
+		registerApp(dataTable);
+		assertEquals("clickme", JQuery.select("button").text());
+		JQuery.select("button").click();
+		assertEquals("clicked", JQuery.select("button").text());
 	}
 	
 	private static class LabelColumn extends AbstractColumn<LabelColumn, String> {

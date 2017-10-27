@@ -74,6 +74,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 	private JQuery tbody;
 	
 	private Map<DataTableRowModel, List<BaseComponentModel>> cellModelsByRow = Maps.newHashMap();
+	private List<BaseComponentModel> headerComponents = Lists.newArrayList();
 	
 	private boolean initialized = false;
 
@@ -230,6 +231,10 @@ public class DataTableRenderer extends BaseComponentRenderer {
 			listenerRegistration.removeHandler();
 		}
 		headerListenerRegistrations.clear();
+		for (BaseComponentModel headerComponent : headerComponents) {
+			rendererFactory.dispose(headerComponent);
+		}
+		headerComponents.clear();
 		widget.find("thead").remove();
 
 		renderHeaders();
@@ -289,7 +294,12 @@ public class DataTableRenderer extends BaseComponentRenderer {
 			if (!Objects.firstNonNull(columnModel.getVisible(), false))
 				continue;
 			JQuery th = JQuery.select( "<th/>" ).appendTo(headerRow);
-			th.text( columnModel.getTitle() );
+			if (columnModel.getHeaderComponent() != null) {
+				rendererFactory.getRenderer(columnModel.getHeaderComponent()).getWidget().appendTo(th);
+				headerComponents.add(columnModel.getHeaderComponent());
+			} else {
+				th.text( columnModel.getTitle() );
+			}
 			if (columnModel.isOrderable()) {
 				th.addClass("orderable");
 				final JQuery icon = JQuery.select("<i class='ordering-icon'/>").appendTo(th);
