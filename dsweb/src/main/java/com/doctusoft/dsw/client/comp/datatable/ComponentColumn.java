@@ -24,6 +24,7 @@ package com.doctusoft.dsw.client.comp.datatable;
 
 
 import com.doctusoft.dsw.client.comp.HasComponentModel;
+import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
 import com.doctusoft.dsw.client.comp.model.DataTableCellModel;
 
 /**
@@ -39,6 +40,9 @@ public abstract class ComponentColumn<Item> extends CustomColumn<Item> {
 
 	public ComponentColumn(final String title) {
 		super(title);
+	}
+	public ComponentColumn(final BaseComponentModel component) {
+		super(component);
 	}
 
 	@Override
