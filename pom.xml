@@ -239,24 +239,6 @@
 
 	<repositories>
 		<repository>
-			<id>doctusoft.releases.public</id>
-			<url>http://pubrepo.doctusoft.com:8080/nexus/content/repositories/releases</url>
-		</repository>
-		<repository>
-			<id>doctusoft.snapshots.public</id>
-			<url>http://pubrepo.doctusoft.com:8080/nexus/content/repositories/snapshots</url>
-		</repository>
-		<repository>
-			<id>ds-thirdparty-public</id>
-			<url>http://pubrepo.doctusoft.com:8080/nexus/content/repositories/thirdparty</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-		<repository>
 			<id>sonatype</id>
 			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
 			<snapshots>
