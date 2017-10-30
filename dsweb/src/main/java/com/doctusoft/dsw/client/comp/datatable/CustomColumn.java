@@ -1,5 +1,7 @@
 package com.doctusoft.dsw.client.comp.datatable;
 
+import com.doctusoft.dsw.client.comp.model.BaseComponentModel;
+
 /*
  * #%L
  * dsweb
@@ -32,6 +34,11 @@ public abstract class CustomColumn<Item> extends AbstractColumn<CustomColumn<Ite
 	public CustomColumn(String title) {
 		columnModel = new DataTableColumnModel();
 		columnModel.setTitle(title);
+	}
+	
+	public CustomColumn (BaseComponentModel component) {
+		columnModel = new DataTableColumnModel();
+		columnModel.setHeaderComponent(component);
 	}
 	
 	@Override
