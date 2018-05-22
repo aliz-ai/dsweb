@@ -11,9 +11,8 @@ import com.xedge.jquery.client.JQuery;
  */
 public class PlaceHolderAttributeRenderer {
 
-	public <Model extends BaseComponentModel> PlaceHolderAttributeRenderer(final JQuery input, final Model model, final ObservableProperty<Model, String> property) {
-
-		BaseComponentRenderer.addChangeListenerAndApply(property, model, new ValueChangeListener<String>() {
+	public <Model extends BaseComponentModel> PlaceHolderAttributeRenderer(final JQuery input, final Model model, final ObservableProperty<Model, String> property, final BaseComponentRenderer renderer) {
+		renderer.addChangeListenerAndApply(property, model, new ValueChangeListener<String>() {
 
 			@Override
 			public void valueChanged(final String newValue) {

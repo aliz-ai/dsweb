@@ -35,7 +35,7 @@ public class HtmlContentRenderer extends BaseComponentRenderer {
 	public HtmlContentRenderer(HtmlContentModel model) {
 		super(JQuery.select("<span/>"), model);
 		widget.html(model.getHtmlContent());
-		HtmlContentModel_._htmlContent.addChangeListener(model, new ValueChangeListener<String>() {
+		addChangeListener(HtmlContentModel_._htmlContent, model, new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
 				widget.html(newValue);

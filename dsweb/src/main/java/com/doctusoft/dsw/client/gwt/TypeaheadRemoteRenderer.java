@@ -79,8 +79,8 @@ public class TypeaheadRemoteRenderer extends BaseComponentRenderer {
 			}
 		});
 
-		new PlaceHolderAttributeRenderer(widget, model, TypeaheadRemoteModel_._placeHolder);
-		new EnabledAttributeRenderer(widget, model);
+		new PlaceHolderAttributeRenderer(widget, model, TypeaheadRemoteModel_._placeHolder, this);
+		new EnabledAttributeRenderer(widget, model, this);
 	}
 
 	private void setCallback(final JavaScriptObject callbackMethod) {

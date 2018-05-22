@@ -8,8 +8,8 @@ import com.xedge.jquery.client.JQuery;
 
 public class EnabledAttributeRenderer {
 	
-	public EnabledAttributeRenderer(final JQuery input, BaseComponentModel model) {
-		BaseComponentRenderer.addChangeListenerAndApply(BaseComponentModel_._enabled, model, new ValueChangeListener<Boolean>() {
+	public EnabledAttributeRenderer(final JQuery input, final BaseComponentModel model, final BaseComponentRenderer renderer) {
+		renderer.addChangeListenerAndApply(BaseComponentModel_._enabled, model, new ValueChangeListener<Boolean>() {
 			@Override
 			public void valueChanged(Boolean newValue) {
 				// null value defaults to true here

@@ -125,7 +125,7 @@ public class FixedInputTagsRemoteRenderer extends BaseComponentRenderer {
 			}
 		});
 
-		new BaseInputTagsEnabledAttributeRenderer(widget, model);
+		new BaseInputTagsEnabledAttributeRenderer(widget, model, this);
 	}
 
 	private void addTagOption(final TagOptionModel option) {

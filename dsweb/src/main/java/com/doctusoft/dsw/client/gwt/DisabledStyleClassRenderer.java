@@ -8,8 +8,8 @@ import com.xedge.jquery.client.JQuery;
 
 public class DisabledStyleClassRenderer {
 
-	public DisabledStyleClassRenderer(final JQuery target, BaseComponentModel model) {
-		BaseComponentRenderer.addChangeListenerAndApply(BaseComponentModel_._enabled, model, new ValueChangeListener<Boolean>() {
+	public DisabledStyleClassRenderer(final JQuery target, final BaseComponentModel model, final BaseComponentRenderer renderer) {
+		renderer.addChangeListenerAndApply(BaseComponentModel_._enabled, model, new ValueChangeListener<Boolean>() {
 			@Override
 			public void valueChanged(Boolean newValue) {
 				// null value defaults to true here

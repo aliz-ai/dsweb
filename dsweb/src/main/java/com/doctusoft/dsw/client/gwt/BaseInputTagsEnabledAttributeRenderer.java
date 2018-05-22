@@ -13,8 +13,8 @@ import com.xedge.jquery.client.JQuery;
  */
 public class BaseInputTagsEnabledAttributeRenderer {
 
-	public BaseInputTagsEnabledAttributeRenderer(final JQuery widget, final BaseComponentModel model) {
-		BaseComponentRenderer.addChangeListenerAndApply(BaseComponentModel_._enabled, model, new ValueChangeListener<Boolean>() {
+	public BaseInputTagsEnabledAttributeRenderer(final JQuery widget, final BaseComponentModel model, final BaseComponentRenderer renderer) {
+		renderer.addChangeListenerAndApply(BaseComponentModel_._enabled, model, new ValueChangeListener<Boolean>() {
 			@Override
 			public void valueChanged(final Boolean newValue) {
 				if (newValue == null || !newValue) {

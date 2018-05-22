@@ -63,8 +63,8 @@ public class TextareaRenderer extends BaseComponentRenderer {
 			});
 		}
 
-		new EnabledAttributeRenderer(widget, textarea);
-		new PlaceHolderAttributeRenderer(widget, textarea, TextareaModel_._placeHolder);
+		new EnabledAttributeRenderer(widget, textarea, this);
+		new PlaceHolderAttributeRenderer(widget, textarea, TextareaModel_._placeHolder, this);
 	}
 
 	private native void listenToInput(JQuery widget, EmptyEventHandler handler) /*-{

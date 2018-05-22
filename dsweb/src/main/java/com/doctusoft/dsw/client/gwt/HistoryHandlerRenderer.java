@@ -35,7 +35,7 @@ public class HistoryHandlerRenderer extends BaseComponentRenderer {
 	
 	public HistoryHandlerRenderer(final HistoryHandlerModel historyHandler) {
 		super(JQuery.select("<span/>"), historyHandler);
-		HistoryHandlerModel_._historyToken.addChangeListener(historyHandler, new ValueChangeListener<String>() {
+		addChangeListener(HistoryHandlerModel_._historyToken, historyHandler, new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(String newValue) {
 				History.newItem(newValue);

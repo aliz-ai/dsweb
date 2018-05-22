@@ -43,4 +43,8 @@ public interface Renderer<ActualBaseComponent> {
 	 */
 	public void reattach();
 
+	/**
+	 * When an element associated to a renderer is finally removed from the DOM, and all model listeners should also be removed
+	 */
+	public void destroy();
 }

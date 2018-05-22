@@ -54,13 +54,13 @@ public class CheckboxRenderer extends BaseComponentRenderer {
 		applyValue(model.getLabel());
 		setCheckedNative( input, Objects.firstNonNull(model.getChecked(), false) );
 		
-		CheckboxModel_._checked.addChangeListener( model, new ValueChangeListener<Boolean>() {
+		addChangeListener(CheckboxModel_._checked, model, new ValueChangeListener<Boolean>() {
 			
 			@Override
 			public void valueChanged( Boolean newValue ) {
 				updateValue = DeferredFactory.defer(updateValue, new DeferredUpdateValue());
 			}
-		} );
+		});
 		
 		input.change( new EventHandler() {
 			
@@ -70,14 +70,14 @@ public class CheckboxRenderer extends BaseComponentRenderer {
 			}
 		} );
 		
-		CheckboxModel_._label.addChangeListener( model, new ValueChangeListener<String>() {
+		addChangeListener(CheckboxModel_._label, model, new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged( String newValue ) {
 				applyValue(newValue);
 			}
 
 		} );
-        new EnabledAttributeRenderer(input, model);
+        new EnabledAttributeRenderer(input, model, this);
 	}
 	
 	public class DeferredUpdateValue implements Runnable {

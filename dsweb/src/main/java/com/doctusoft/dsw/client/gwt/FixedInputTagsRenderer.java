@@ -112,7 +112,7 @@ public class FixedInputTagsRenderer extends BaseComponentRenderer {
 			}
 		});
 
-		new BaseInputTagsEnabledAttributeRenderer(widget, inputTagsModel);
+		new BaseInputTagsEnabledAttributeRenderer(widget, inputTagsModel, this);
 	}
 
 	private void invalidateTagOptionSuggestions() {
