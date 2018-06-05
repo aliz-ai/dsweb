@@ -98,6 +98,7 @@ public abstract class AbstractRendererFactory<ActualBaseComponent> implements Re
 			disposableComponents.remove(model);
 			Renderer<?> removedRenderer = renderers.remove(model);
 			if (removedRenderer != null) {
+				removedRenderer.destroy();
 				((JQuery) removedRenderer.getWidget()).remove();
 			}
 			count ++;

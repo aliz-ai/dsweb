@@ -17,7 +17,7 @@ public class InputNumberRenderer extends BaseComponentRenderer {
 		if (value != null) {
 			widget.val(value.toPlainString());
 		}
-		InputNumberModel_._value.addChangeListener(model, new ValueChangeListener<BigDecimal>() {
+		addChangeListener(InputNumberModel_._value, model, new ValueChangeListener<BigDecimal>() {
 			@Override
 			public void valueChanged(final BigDecimal newValue) {
 				if (newValue == null) {
@@ -40,8 +40,8 @@ public class InputNumberRenderer extends BaseComponentRenderer {
 			}
 		});
 
-		new EnabledAttributeRenderer(widget, model);
-		new PlaceHolderAttributeRenderer(widget, model, InputNumberModel_._placeHolder);
+		new EnabledAttributeRenderer(widget, model, this);
+		new PlaceHolderAttributeRenderer(widget, model, InputNumberModel_._placeHolder, this);
 	}
 
 }

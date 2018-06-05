@@ -63,8 +63,8 @@ public class InputTextRenderer extends BaseComponentRenderer {
 			}
 		});
 
-		new EnabledAttributeRenderer(widget, inputText);
-		new PlaceHolderAttributeRenderer(widget, inputText, InputTextModel_._placeHolder);
+		new EnabledAttributeRenderer(widget, inputText, this);
+		new PlaceHolderAttributeRenderer(widget, inputText, InputTextModel_._placeHolder, this);
 	}
 
 	private static String createWidgetText(final String inputType, final String placeHolder) {

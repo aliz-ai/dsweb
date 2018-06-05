@@ -225,7 +225,7 @@ public class DataTableRenderer extends BaseComponentRenderer {
 		}
 
 	}
-
+	
 	protected void rerenderAllHeaders() {
 		for (ListenerRegistration listenerRegistration : headerListenerRegistrations) {
 			listenerRegistration.removeHandler();
@@ -327,4 +327,21 @@ public class DataTableRenderer extends BaseComponentRenderer {
 		}
 	}
 
+	@Override
+	public void detach() {
+		for (List<BaseComponentModel> row : cellModelsByRow.values()) {
+			for (BaseComponentModel cell : row) {
+				rendererFactory.dispose(cell);
+			}
+		}
+	}
+
+	@Override
+	public void reattach() {
+		for (List<BaseComponentModel> row : cellModelsByRow.values()) {
+			for (BaseComponentModel cell : row) {
+				rendererFactory.reattach(cell);
+			}
+		}
+	}
 }

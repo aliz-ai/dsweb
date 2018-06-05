@@ -133,7 +133,7 @@ public class FreeInputTagsRenderer extends BaseComponentRenderer {
 			}
 		});
 
-		new BaseInputTagsEnabledAttributeRenderer(widget, inputTagsModel);
+		new BaseInputTagsEnabledAttributeRenderer(widget, inputTagsModel, this);
 	}
 
 	private native void firstInit(final JQuery element) /*-{

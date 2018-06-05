@@ -60,7 +60,7 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 			widget.val(typeaheadModel.getSelectedItem().getCaption());
 		}
 
-		TypeaheadModel_._allVisibleOnFocus.addChangeListener(typeaheadModel, new ValueChangeListener<Boolean>() {
+		addChangeListener(TypeaheadModel_._allVisibleOnFocus, typeaheadModel, new ValueChangeListener<Boolean>() {
 			@Override
 			public void valueChanged(final Boolean newValue) {
 				if (newValue) {
@@ -132,8 +132,8 @@ public class TypeaheadRenderer extends BaseComponentRenderer {
 			}
 		});
 
-		new PlaceHolderAttributeRenderer(widget, select, TypeaheadModel_._placeHolder);
-		new EnabledAttributeRenderer(widget, select);
+		new PlaceHolderAttributeRenderer(widget, select, TypeaheadModel_._placeHolder, this);
+		new EnabledAttributeRenderer(widget, select, this);
 	}
 
 	private native void init(final JQuery widget) /*-{

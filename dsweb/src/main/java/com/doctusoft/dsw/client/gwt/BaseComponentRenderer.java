@@ -23,6 +23,9 @@ package com.doctusoft.dsw.client.gwt;
  */
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.Getter;
 
 import com.doctusoft.bean.ListenerRegistration;
@@ -48,20 +51,27 @@ import com.xedge.jquery.client.handlers.EventHandler;
 
 public class BaseComponentRenderer implements Renderer<JQuery> {
 
-	public static <T, K> ListenerRegistration addChangeListenerAndApply(final ObservableProperty<K, T> property, final K model, final ValueChangeListener<T> listener) {
+	public <T, K> ListenerRegistration addChangeListenerAndApply(final ObservableProperty<K, T> property, final K model, final ValueChangeListener<T> listener) {
 		ListenerRegistration changeListener = addChangeListener(property, model, listener);
 		listener.valueChanged(property.getValue(model));
 		return changeListener;
 	}
 
-	public static <T, K> ListenerRegistration addChangeListener(final ObservableProperty<K, T> property, final K model, final ValueChangeListener<T> listener) {
-		return property.addChangeListener(model, listener);
+	public <T, K> ListenerRegistration addChangeListener(final ObservableProperty<K, T> property, final K model, final ValueChangeListener<T> listener) {
+		ListenerRegistration registration = property.addChangeListener(model, listener);
+		if (listenerRegistrations == null) {
+			listenerRegistrations = new ArrayList<ListenerRegistration>();
+		}
+		listenerRegistrations.add(registration);
+		return registration;
 	}
 
 	@Getter
 	protected JQuery widget;
 
 	protected boolean visible = true;
+	
+	protected List<ListenerRegistration> listenerRegistrations;
 
 	public BaseComponentRenderer(final JQuery widget, final BaseComponentModel model) {
 		this.widget = widget;
@@ -213,5 +223,13 @@ public class BaseComponentRenderer implements Renderer<JQuery> {
 	@Override
 	public void reattach() {
 		// empty default implementation
+	}
+	
+	@Override
+	public void destroy() {
+		for (ListenerRegistration registration : listenerRegistrations) {
+			registration.removeHandler();
+		}
+		listenerRegistrations.clear();
 	}
 }

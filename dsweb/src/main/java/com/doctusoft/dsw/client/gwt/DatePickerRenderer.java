@@ -77,7 +77,7 @@ public class DatePickerRenderer extends BaseComponentRenderer {
 			}
 		});
 
-		DatePickerModel_._format.addChangeListener(model, new ValueChangeListener<String>() {
+		addChangeListener(DatePickerModel_._format, model, new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(final String newValue) {
 				destroyDatepickerNative(widget);
@@ -86,8 +86,8 @@ public class DatePickerRenderer extends BaseComponentRenderer {
 			}
 		});
 
-		new EnabledAttributeRenderer(widget, model);
-		new PlaceHolderAttributeRenderer(widget, model, DatePickerModel_._placeHolder);
+		new EnabledAttributeRenderer(widget, model, this);
+		new PlaceHolderAttributeRenderer(widget, model, DatePickerModel_._placeHolder, this);
 	}
 
 	protected void applyValue() {

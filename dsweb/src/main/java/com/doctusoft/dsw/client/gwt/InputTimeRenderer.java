@@ -35,8 +35,7 @@ public class InputTimeRenderer extends BaseComponentRenderer {
 	public InputTimeRenderer(final InputTimeModel model) {
 		super(JQuery.select("<input type=\"text\" placeholder=\"" + model.getPlaceHolder() + "\" />"), model);
 
-		widget.val(model.getValue());
-		InputTimeModel_._value.addChangeListener(model, new ValueChangeListener<String>() {
+		addChangeListenerAndApply(InputTimeModel_._value, model, new ValueChangeListener<String>() {
 			@Override
 			public void valueChanged(final String newValue) {
 				widget.val(newValue);
@@ -59,8 +58,8 @@ public class InputTimeRenderer extends BaseComponentRenderer {
 			}
 		});
 
-		new EnabledAttributeRenderer(widget, model);
-		new PlaceHolderAttributeRenderer(widget, model, InputTimeModel_._placeHolder);
+		new EnabledAttributeRenderer(widget, model, this);
+		new PlaceHolderAttributeRenderer(widget, model, InputTimeModel_._placeHolder, this);
 	}
 
 	public static String checkAndFormatTime(final String time) {

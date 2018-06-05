@@ -112,7 +112,7 @@ public class SelectRenderer extends BaseComponentRenderer {
 				}
 			}
 		});
-		new EnabledAttributeRenderer(widget, select);
+		new EnabledAttributeRenderer(widget, select, this);
 	}
 	
 	protected void applySelectedIndex() {

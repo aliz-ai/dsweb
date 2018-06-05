@@ -24,15 +24,19 @@ package com.doctusoft.dsw.client.gwt;
 
 
 import com.doctusoft.bean.ValueChangeListener;
+import com.doctusoft.dsw.client.RendererFactory;
 import com.doctusoft.dsw.client.comp.model.ModalDialogModel;
 import com.doctusoft.dsw.client.comp.model.ModalDialogModel_;
 import com.google.common.base.Objects;
+import com.google.gwt.core.shared.GWT;
 import com.xedge.jquery.client.JQuery;
 
 public class ModalDialogRenderer extends BaseComponentRenderer {
 
 	private JQuery headerText;
 	private ModalDialogModel modalDialog;
+	
+	private final RendererFactory<JQuery> rendererFactory = GWT.create( RendererFactory.class );
 
 	public ModalDialogRenderer(ModalDialogModel modalDialog) {
 		super(JQuery.select("<div class=\"modal hide fade\"/>"), modalDialog);
@@ -48,10 +52,10 @@ public class ModalDialogRenderer extends BaseComponentRenderer {
 				headerText.text(newValue);
 			}
 		});
-		ContainerRenderer contentRenderer = new ContainerRenderer(modalDialog.getContentContainer());
+		ContainerRenderer contentRenderer = (ContainerRenderer) rendererFactory.getRenderer(modalDialog.getContentContainer());
 		contentRenderer.getWidget().addClass("modal-body");
 		widget.append(contentRenderer.getWidget());
-		ContainerRenderer footerRenderer = new ContainerRenderer(modalDialog.getFooterContainer());
+		ContainerRenderer footerRenderer = (ContainerRenderer) rendererFactory.getRenderer(modalDialog.getFooterContainer());
 		footerRenderer.getWidget().addClass("modal-footer");
 		widget.append(footerRenderer.getWidget());
 		addChangeListenerAndApply(ModalDialogModel_._dialogVisible, modalDialog, new ValueChangeListener<Boolean>() {
@@ -69,6 +73,20 @@ public class ModalDialogRenderer extends BaseComponentRenderer {
 	
 	protected void dialogClosed() {
 		modalDialog.setDialogVisible(false);
+	}
+	
+	@Override
+	public void detach() {
+		super.detach();
+		rendererFactory.dispose(modalDialog.getContentContainer());
+		rendererFactory.dispose(modalDialog.getFooterContainer());
+	}
+	
+	@Override
+	public void reattach() {
+		super.reattach();
+		rendererFactory.reattach(modalDialog.getContentContainer());
+		rendererFactory.reattach(modalDialog.getFooterContainer());
 	}
 	
 	protected static native void showDialogNative(JQuery widget) /*-{

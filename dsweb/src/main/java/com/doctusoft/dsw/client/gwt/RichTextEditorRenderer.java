@@ -33,7 +33,7 @@ public class RichTextEditorRenderer extends BaseComponentRenderer {
 		widget.addClass(innerIdClass);
 		reinit();
 
-		RichTextEditorModel_._content.addChangeListener(model, new ValueChangeListener<String>() {
+		addChangeListener(RichTextEditorModel_._content, model, new ValueChangeListener<String>() {
 
 			@Override
 			public void valueChanged(final String content) {

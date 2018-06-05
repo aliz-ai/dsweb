@@ -28,8 +28,11 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 	private JQuery tabButtonsHolder;
 	private JQuery tabSheetContainer;
 
+	private TabSheetModel tabSheet;
+
 	public TabSheetRenderer(final TabSheetModel model) {
 		super(JQuery.select("<div class='tabsheet' />"), model);
+		this.tabSheet = model;
 		
 		tabButtonsHolder = JQuery.select("<ul class='nav nav-tabs' />").appendTo(widget);
 		tabSheetContainer = JQuery.select("<div>").addClass("tab-content").appendTo(widget);
@@ -124,4 +127,19 @@ public class TabSheetRenderer extends BaseComponentRenderer {
 		parentWidget.append(rendered);
 	}
 	
+	@Override
+	public void detach() {
+		super.detach();
+		for (Tab tab : tabSheet.getTabList()) {
+			rendererFactory.dispose(tab.getContent());
+		}
+	}
+	
+	@Override
+	public void reattach() {
+		super.reattach();
+		for (Tab tab : tabSheet.getTabList()) {
+			rendererFactory.reattach(tab.getContent());
+		}
+	}
 }
