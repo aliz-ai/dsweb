@@ -34,6 +34,7 @@ import com.doctusoft.dsw.client.comp.model.BarChartModel;
 import com.doctusoft.dsw.client.comp.model.BarChartModel.BarDirection;
 import com.doctusoft.dsw.client.comp.model.BarChartModel_;
 import com.doctusoft.dsw.client.comp.model.ChartItemClickParam;
+import com.google.common.base.Objects;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.JsArrayInteger;
@@ -41,17 +42,23 @@ import com.google.gwt.core.client.JsArrayString;
 import com.xedge.jquery.client.JQuery;
 
 public class BarChartRenderer extends BaseComponentRenderer {
-	
+
+	private static int idCounter = 1;
+
 	private final BarChartModel model;
-	
+
 	private JQuery lastPlot;
-	
-	public BarChartRenderer( BarChartModel model ) {
-		super( JQuery.select( "<div id=\"" + model.getId() + "\"></div>" ), model );
+
+	private String chartId;
+
+	public BarChartRenderer( final BarChartModel model ) {
+		super( JQuery.select( "<div id=\"" + Objects.firstNonNull(model.getId(), "bar_chart_" + idCounter++) + "\"></div>" ), model );
 		this.model = model;
+
+		initializeId();
 		initializeComponent();
 		new ListChangeListener( Bindings.obs( model ).get( BarChartModel_._barChartItems) ) {
-			
+
 			@Override
 			protected void changed() {
 				if (lastPlot != null ) {
@@ -59,11 +66,19 @@ public class BarChartRenderer extends BaseComponentRenderer {
 				}
 				initializeComponent();
 			}
-			
+
 		};
-		
+
 	}
-	
+
+	/**
+	 * Rerender plot container if the model does not have id
+	 */
+	private void initializeId() {
+		chartId = Objects.firstNonNull(model.getId(), "bar_chart_" + idCounter++);
+		widget.attr("id", chartId);
+	}
+
 	private void initializeComponent( ) {
 		JsArrayString ticks = JavaScriptObject.createArray().cast();
 		ObservableList<BarChartItemModel> barChartItems = model.getBarChartItems();
@@ -80,11 +95,11 @@ public class BarChartRenderer extends BaseComponentRenderer {
 		for (String label : model.getSeriesTitles()) {
 			addLabelToArray( series, label );
 		}
-		initBarChartRendererNative(  widget, ticks, jsValuesArray, series, model.getTitle(), BarDirection.HORIZONTAL.equals( model.getBarDirection() ), model.isShowTooltip(), model.getId());
-		
+		initBarChartRendererNative(  widget, ticks, jsValuesArray, series, model.getTitle(), BarDirection.HORIZONTAL.equals( model.getBarDirection() ), model.isShowTooltip(), chartId);
+
 	}
-	
-	private JsArray<JavaScriptObject> buildValuesArray(List<BarChartItemModel> items){
+
+	private JsArray<JavaScriptObject> buildValuesArray(final List<BarChartItemModel> items){
 		JsArray<JavaScriptObject> outerArray = JavaScriptObject.createArray().cast();
 		for (BarChartItemModel item : items) {
 			List<Integer> itemValues = item.getValues();
@@ -99,8 +114,8 @@ public class BarChartRenderer extends BaseComponentRenderer {
 		}
 		return outerArray;
 	}
-	
-	private JsArray<JavaScriptObject> buildValuesArrayHorizontal(List<BarChartItemModel> items){
+
+	private JsArray<JavaScriptObject> buildValuesArrayHorizontal(final List<BarChartItemModel> items){
 		JsArray<JavaScriptObject> outerArray = JavaScriptObject.createArray().cast();
 		for (int i = 0; i< items.size(); i++) {
 			List<Integer> itemValues = items.get( i ).getValues();
@@ -118,39 +133,39 @@ public class BarChartRenderer extends BaseComponentRenderer {
 		}
 		return outerArray;
 	}
-	
-	private native void addLabelToArray(JsArray<JavaScriptObject> elements, String labelName)/*-{
+
+	private native void addLabelToArray(final JsArray<JavaScriptObject> elements, final String labelName)/*-{
 		var elementToAdd = {
 			label : labelName
 		}
 		elements.push(elementToAdd);
 		return
 	}-*/;
-	
-	private native JsArrayInteger pushStrToIntegerArray(JsArrayInteger array, String str)/*-{
+
+	private native JsArrayInteger pushStrToIntegerArray(final JsArrayInteger array, final String str)/*-{
 		array.push(str);
 		return array;
 	}-*/;
-	
-	private void rowClicked(int itemIndex, int subIndex){
+
+	private void rowClicked(final int itemIndex, final int subIndex){
 		model.getRowClickedEvent().fire( new ChartItemClickParam( itemIndex, subIndex ) );
 	}
-	
-	private void setLastPlot(JQuery plot){
+
+	private void setLastPlot(final JQuery plot){
 		this.lastPlot = plot;
 	}
-	
-	private native JsArray<JavaScriptObject> createArrayFromEntry(String name, int value)/*-{
+
+	private native JsArray<JavaScriptObject> createArrayFromEntry(final String name, final int value)/*-{
 		return [name, value];
 	}-*/;
-	
-	private native void destroyLastPlot(JavaScriptObject lastPlot)/*-{
+
+	private native void destroyLastPlot(final JavaScriptObject lastPlot)/*-{
 		lastPlot.destroy();
 	}-*/;
-	
-	private native void initBarChartRendererNative(JQuery widget, JsArrayString tickNames, JsArray<JavaScriptObject> values, JsArray<JavaScriptObject> seriesTitles,  String title, boolean isHorizontal, boolean showTooltip, String id) /*-{
+
+	private native void initBarChartRendererNative(final JQuery widget, final JsArrayString tickNames, final JsArray<JavaScriptObject> values, final JsArray<JavaScriptObject> seriesTitles,  final String title, final boolean isHorizontal, final boolean showTooltip, final String id) /*-{
 		var that = this;
-		
+
 		setTimeout(function() {
 				// Can specify a custom tick Array.
 		    // Ticks should match up one for each y value (category) in the series.
@@ -158,7 +173,7 @@ public class BarChartRenderer extends BaseComponentRenderer {
 		    var yAxis = createYAxisObject(isHorizontal);
 		    var xAxis = createXAxis(isHorizontal, tickNames);
 		    var rendererOptions = buildRendererOptions(isHorizontal);
-		     
+
 		    var plot1 = $wnd.$.jqplot(id, values, {
 				title : title,
 		        // The "seriesDefaults" option is an options object that will
@@ -181,17 +196,17 @@ public class BarChartRenderer extends BaseComponentRenderer {
 		            yaxis: yAxis
 		        }
 		    });
-			
+
 			that.@com.doctusoft.dsw.client.gwt.BarChartRenderer::setLastPlot(Lcom/xedge/jquery/client/JQuery;)(plot1);
-			
+
 		}, 0);
-		
+
 		function buildRendererOptions(isHorizontal){
 			var rendererOptions = new Object();
 			rendererOptions.barDirection = isHorizontal ? 'horizontal' : 'vertical';
 			return rendererOptions;
 		}
-		
+
 		function createXAxis(isHorizontal, ticks){
 			 var xAxis = {};
 			 if (!isHorizontal) {
@@ -200,7 +215,7 @@ public class BarChartRenderer extends BaseComponentRenderer {
 			 }
 			 return xAxis;
 		}
-		
+
 		function createYAxisObject(horizontal){
 			var horizontalValue = {
 				renderer: $wnd.$.jqplot.CategoryAxisRenderer
@@ -212,14 +227,14 @@ public class BarChartRenderer extends BaseComponentRenderer {
 				return verticalValue;
 			}
 		}
-		
+
 		function tooltipContentEditor(str, seriesIndex, pointIndex, plot) {
 		    // display series_label, x-axis_tick, y-axis value
 		    return plot.series[seriesIndex]["label"] + ", " + plot.data[seriesIndex][pointIndex];
 		}
-		
+
 		var that = this;
-		
+
 		// CLICK CODE START
 		widget.unbind('jqplotDataClick');
         widget.bind('jqplotDataClick',
